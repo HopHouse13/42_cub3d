@@ -1,0 +1,22 @@
+- 1 seul argument : <map_name>.cub
+
+- voir lib math , MinilibX
+
+- gestion fenetres : ->miniature ->autre fenetre dessus
+
+- 4 textures obligatoire diff selon l'orientation (nord, sud, ouest, est)
+	-> 2 couleurs diff pour le sol et le plafond
+
+- fleches gauche/droite -> rotation (sur lui meme)
+
+- w,a,s,d -> deplacement perso
+
+- ESC ou click sur croix rouge -> ferme la fenettre t quitte le prog
+
+- fichier.cub 
+
+	-> 0 vide (sol)
+	-> 1 murs
+	-> N, S, E, W point de depart + orientation
+
+	Si error -> fermeture du prog + "Error\n" + mess d'explication
