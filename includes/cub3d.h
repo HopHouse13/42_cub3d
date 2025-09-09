@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/09 15:27:18 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/09/09 15:36:26 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@
 # include <stdlib.h>
 
 
+
+
 // parsing
-
-
 int	main(int argc, char** argv);
+
+
 
 #endif
