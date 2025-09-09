@@ -3,22 +3,22 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pab <pab@student.42.fr>                    +#+  +:+       +#+         #
+#    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/09/08 16:55:40 by pab              ###   ########.fr        #
+#    Updated: 2025/09/09 13:07:53 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= cub3d
 SRCS_DIR	= sources
 OBJ_DIR 	= obj_$(NAME)
-SRCS		= 
+SRCS		= sources/main.c
 
 OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)
 CC			= cc
 RM			= rm -rf
-CFLAGS		= -Wall -Werror -Wextra -ggdb -I/ includes
+CFLAGS		= -Wall -Werror -Wextra -ggdb -I./includes
 
 $(OBJ_DIR)/%.o : $(SRCS_DIR)/%.c
 			@mkdir -p $(@D)
@@ -40,4 +40,4 @@ fclean:		clean
 
 re:			fclean 	all
 
-.PHONY: all clean fclean rez
+.PHONY: all clean fclean re
