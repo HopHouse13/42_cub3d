@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
+#    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/09/09 13:07:53 by pbret            ###   ########.fr        #
+#    Updated: 2025/09/09 19:29:22 by tjacquel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= cub3d
+NAME		= cub3D
 SRCS_DIR	= sources
 OBJ_DIR 	= obj_$(NAME)
 SRCS		= sources/main.c
@@ -23,11 +23,11 @@ CFLAGS		= -Wall -Werror -Wextra -ggdb -I./includes
 $(OBJ_DIR)/%.o : $(SRCS_DIR)/%.c
 			@mkdir -p $(@D)
 			@$(CC) -g $(CFLAGS) -c $< -o $@
-			
+
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-			@$(CC) $(OBJS) -o $(NAME) -g 
+			@$(CC) $(OBJS) -o $(NAME) -g
 			@echo "\033[32m""Compilation of $(NAME) completed!""\033[0m"
 
 clean:
