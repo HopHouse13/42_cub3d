@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/09 15:27:18 by tjacquel         ###   ########.fr       */
+/*   Created: 2024/06/12 16:09:52 by tjacquel          #+#    #+#             */
+/*   Updated: 2024/06/12 18:08:19 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "libft.h"
 
-# include "../libft/libft.h"
+void	ft_lstadd_front(t_list **lst, t_list *new)
+{
+	if (lst == NULL || new == NULL)
+		return ;
+	new->next = *lst;
+	*lst = new;
+}
 
-# include <math.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
+// int	main(void)
+// {
+// 	t_list	*lst;
+// 	t_list	*new;
 
-
-// parsing
-
-
-int	main(int argc, char** argv);
-
-#endif
+// 	lst = ft_lstnew("bwlbcdb");
+// 	new = ft_lstnew("hbdccb");
+// 	ft_lstadd_front(&lst, new);
+// 	ft_putendl_fd(lst->content, 1);
+// 	ft_putendl_fd(lst->next->content, 1);
+// 	return (0);
+// }

@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_printf_txt_functions.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/09 15:27:18 by tjacquel         ###   ########.fr       */
+/*   Created: 2024/09/20 18:08:15 by tjacquel          #+#    #+#             */
+/*   Updated: 2024/09/21 17:14:13 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "ft_printf.h"
 
-# include "../libft/libft.h"
+int	ft_putcharf(int c)
+{
+	write(1, &c, 1);
+	return (1);
+}
 
-# include <math.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
+int	ft_putstrf(char *str)
+{
+	int	i;
 
-
-// parsing
-
-
-int	main(int argc, char** argv);
-
-#endif
+	if (!str)
+		return (ft_putstrf("(null)"));
+	i = 0;
+	while (str[i])
+	{
+		ft_putchar_fd(str[i], 1);
+		i++;
+	}
+	return (i);
+}

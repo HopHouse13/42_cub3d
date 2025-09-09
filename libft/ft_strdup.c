@@ -1,30 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/09 15:27:18 by tjacquel         ###   ########.fr       */
+/*   Created: 2024/06/10 15:04:42 by tjacquel          #+#    #+#             */
+/*   Updated: 2024/06/12 14:04:05 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "libft.h"
 
-# include "../libft/libft.h"
+static char	*ft_strcpy(char *dest, const char *src)
+{
+	unsigned int	i;
 
-# include <math.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
 
+char	*ft_strdup(const char *s)
+{
+	unsigned int	s_len;
+	char			*dup;
 
-// parsing
-
-
-int	main(int argc, char** argv);
-
-#endif
+	s_len = ft_strlen(s);
+	dup = malloc(sizeof(char) * (s_len + 1));
+	if (dup == NULL)
+		return (NULL);
+	return (ft_strcpy(dup, s));
+}

@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/09 15:27:18 by tjacquel         ###   ########.fr       */
+/*   Created: 2024/09/19 17:12:05 by tjacquel          #+#    #+#             */
+/*   Updated: 2025/01/08 20:39:35 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-# include "../libft/libft.h"
+# include "libft.h"
+# include <stdarg.h>
 
-# include <math.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
-
-
-// parsing
-
-
-int	main(int argc, char** argv);
+int	ft_printf(const char *str, ...);
+int	ft_putcharf(int c);
+int	ft_putstrf(char *str);
+int	ft_putnbrf(int n);
+int	ft_putunbrf(unsigned int n);
+int	ft_puthexadecimal_lowercase(unsigned long n);
+int	ft_puthexadecimal_uppercase(unsigned long n);
+int	ft_putaddress(void *ptr);
 
 #endif

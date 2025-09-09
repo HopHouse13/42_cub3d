@@ -59,5 +59,9 @@
   "github.copilot.enable": {
     "*": false
 },
-"github.copilot.editor.enableCodeActions": false
+"github.copilot.editor.enableCodeActions": false,
+"files.associations": {
+	"unistd.h": "c",
+	"string.h": "c"
+}
 }
