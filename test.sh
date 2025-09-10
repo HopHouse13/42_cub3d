@@ -1,0 +1,3 @@
+command=cat
+
+$command Makefile
