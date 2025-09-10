@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   check_elem.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 12:27:42 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/10 15:40:03 by tjacquel         ###   ########.fr       */
+/*   Created: 2025/09/10 15:43:41 by tjacquel          #+#    #+#             */
+/*   Updated: 2025/09/10 15:47:34 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
-int	main(int argc, char **argv)
+void	check_elem(char *argv)
 {
-	// struct globale
-	if (argc != 2)
-		return (printf("invalid\n"), 1);
-	printf("valid\n");
-	parsing(argv[1]);
-	return (0);
+	// che
+	printf("ok\n");
 }
