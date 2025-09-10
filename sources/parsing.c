@@ -1,32 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/10 12:51:15 by tjacquel         ###   ########.fr       */
+/*   Created: 2025/09/10 12:33:57 by tjacquel          #+#    #+#             */
+/*   Updated: 2025/09/10 13:13:24 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#include "../includes/cub3d.h"
 
-# include "../libft/libft.h"
+// static void	check_filename(argv)
+// {
+// 	int	i;
 
-# include <math.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
+// 	i = 0;
+
+// }
+
+void	check_file(char *argv)
+{
+	(void) argv;
+	int	n;
+
+	n = ft_strlen(argv) - 4;
+	if (!ft_strncmp(argv, ".cub", ft_strlen(argv) - 4))
+		printf("bon format\n");
+	else
+		printf("mauvais format\n");
+	// check_filename(argv);
 
 
-// parsing
-void	check_file(char *argv);
-
-//main
-int	main(int argc, char** argv);
-
-
-#endif
+}
