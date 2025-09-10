@@ -6,7 +6,7 @@
 #    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 17:50:01 by tjacquel          #+#    #+#              #
-#    Updated: 2025/01/08 21:23:19 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/09/10 13:33:12 by tjacquel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,20 +29,20 @@ BONUS_OBJS = ${BONUS_SRCS:.c=.o}
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	ar -rcs ${NAME} ${OBJS}
+	@ar -rcs ${NAME} ${OBJS}
 
 %.o: %.c
-	${CC} ${CFLAGS} ${HEADER} -c -o $@ $<
+	@${CC} ${CFLAGS} ${HEADER} -c -o $@ $<
 
 clean:
-	rm -f ${OBJS} ${BONUS_OBJS}
+	@rm -f ${OBJS} ${BONUS_OBJS}
 
 fclean : clean
-	rm -f ${NAME}
+	@rm -f ${NAME}
 
 re: fclean all
 
 bonus: all ${BONUS_OBJS}
-	ar -rcs ${NAME} ${BONUS_OBJS}
+	@ar -rcs ${NAME} ${BONUS_OBJS}
 
 .PHONY: all clean fclean re bonus
