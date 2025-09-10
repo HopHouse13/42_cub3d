@@ -6,14 +6,15 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/10 17:59:02 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/09/10 19:32:57 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../libft/libft.h"
+# include "../lib/libft/libft.h"
+# include "../lib/get_next_line/get_next_line.h"
 
 # include <math.h>
 # include <stdio.h>

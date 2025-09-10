@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:42:52 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/10 15:43:12 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/09/10 19:32:52 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static bool	valid_ext(const char *s1, const char *s2, size_t n)
 	size_t	i;
 
 	i = 0;
+	printf("s1: %s\n", s1);
 	while (s1[n] && s2[i])
 	{
 		if (s1[n] != s2[i])
@@ -33,7 +34,13 @@ void	check_filename(char *argv)
 
 	n = ft_strlen(argv);
 	if (n <= 4)
+	{
+		printf("Filename too short\n");
 		exit(1); // fonction sortie mess
+	}
 	if (!valid_ext(argv, ".cub", n - 4))
+	{
+		printf("Invalid extension name\n");
 		exit(1); // fonction sortie mess
+	}
 }

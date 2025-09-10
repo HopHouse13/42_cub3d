@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 17:46:20 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/10 13:28:09 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/09/10 19:14:06 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,5 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
-
-// later functions
-
-int		ft_printf(const char *s, ...);
 
 #endif
