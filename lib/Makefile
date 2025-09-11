@@ -6,11 +6,12 @@
 #    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/10 19:12:33 by tjacquel          #+#    #+#              #
-#    Updated: 2025/09/10 19:44:02 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/09/11 14:24:04 by tjacquel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= lib.a
+# a supprimer ce makefile
 
 LIBFT	= libft/ft_atoi.c\
 		libft/ft_bzero.c\
