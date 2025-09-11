@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
+#    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/09/11 16:10:04 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/09/11 17:22:37 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,9 +19,12 @@ SRCS_PARSING = \
 	parsing/check_filename.c \
 	parsing/check_elem.c \
 
+SRC_UTILS = \
+	utilities/init_data.c
+
 # SRCS_EXEC = exec/
 
-SRCS_FILES	= main.c $(SRCS_PARSING) $(SRCS_EXEC)
+SRCS_FILES	= main.c $(SRCS_PARSING) $(SRCS_EXEC) $(SRC_UTILS)
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 
