@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:04:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/10 18:55:46 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/09/11 15:01:01 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ char	*get_next_line(int fd)
 	{
 		free(stash);
 		stash = NULL;
-		return (NULL);
+		return (NULL);	
 	}
 	stash = gnl_update_stash(stash);
 	return (line);
