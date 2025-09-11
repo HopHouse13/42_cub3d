@@ -21,9 +21,19 @@ void	check_elem(char *argv)
 
 	line = NULL;
 	// fd -1; // pas sur que se soit utile 
+	char* line;
+
+	line = NULL;
+	// fd -1; // pas sur que se soit utile 
 	fd = open("./maps/invalid_maps/bad_elem1.cub", O_RDONLY);
 	if (fd < 0)
+	if (fd < 0)
 		{printf("message pprobleme d'ouverture du .cub\n"), exit(1);}
+	while ((line = get_next_line(fd)))
+	{
+		printf("%s", line);
+		free(line);
+	}
 	while ((line = get_next_line(fd)))
 	{
 		printf("%s", line);
