@@ -6,7 +6,7 @@
 #    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/09/10 19:43:01 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/09/11 16:10:04 by tjacquel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,43 +26,48 @@ SRCS_FILES	= main.c $(SRCS_PARSING) $(SRCS_EXEC)
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 
 
-OBJS		= $(SRCS:$(SRCS_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJS		= $(SRCS:$(SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
 CC			= cc
 RM			= rm -rf
-CFLAGS		= -Wall -Werror -Wextra -ggdb -I./includes
+CFLAGS		= -Wall -Werror -Wextra
 
-# Headers & libraries
-LIB_DIR = ./lib
-LIB = $(LIB_DIR)/lib.a
-LIBH = -I $(LIB_DIR)
+LIBFT_DIR = ./lib/libft
+LIBFT = $(LIBFT_DIR)/libft.a
 
-# LIBFT_DIR = ./lib/libft
-# LIBFT = $(LIBFT_DIR)/libft.a
-# LIBFTH = -I $(LIBFT_DIR)
+GNL_DIR = ./lib/get_next_line
+GNL = $(GNL_DIR)/get_next_line.a
 
-$(OBJ_DIR)/%.o : $(SRCS_DIR)/%.c
+INCLUDES = -I./includes -I$(LIBFT_DIR) -I$(GNL_DIR)
+
+
+# Pattern rule for object files
+$(OBJ_DIR)/%.o : $(SRCS_DIR)%.c
 			@mkdir -p $(@D)
-# 			@$(CC) -g $(CFLAGS) $(LIBFTH) -c $< -o $@
-			@$(CC) -g $(CFLAGS) $(LIBH) -c $< -o $@
+			@$(CC) -g $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 
 all:		$(NAME)
 
-$(LIB):
-			@make -sC $(LIB_DIR)
+$(LIBFT):
+			@make -sC $(LIBFT_DIR)
 
-$(NAME):	$(LIB) $(OBJS)
-			@$(CC) $(OBJS) $(LIB) -o $(NAME) -g
+$(GNL):
+			@make -sC $(GNL_DIR) > /dev/null
+
+$(NAME):	$(LIBFT) $(GNL) $(OBJS)
+			@ $(CC) $(OBJS) $(LIBFT) $(GNL) -o $(NAME) -g
 			@echo "\033[32m""Compilation of $(NAME) completed!""\033[0m"
 
 clean:
 			@$(RM) $(OBJ_DIR)
-			@make -sC $(LIB_DIR) clean
+			@make -sC $(LIBFT_DIR) clean
+			@make -sC $(GNL_DIR) clean
 			@echo "\033[36m""Directory $(OBJ_DIR) deleted.""\033[0m"
 
 fclean:		clean
 			@$(RM) $(NAME)
-			@make -sC $(LIB_DIR) fclean
+			@make -sC $(LIBFT_DIR) fclean
+			@make -sC $(GNL_DIR) fclean
 			@echo "\033[36m""Executable $(NAME) deleted.""\033[0m"
 
 re:			fclean 	all
