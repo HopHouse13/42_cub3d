@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/11 13:41:36 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/11 20:04:28 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,34 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <fcntl.h>
 
 typedef struct	s_elements
 {
 	char*	path[4]; // 0 NO, 1 EA, 2 SO, 3 WE
-	int		F_value[3]; // init a -1 car 0 valeur accepte
-	int		C_value[3];
-}			t_elements;
+	int		f_value[3]; // init a -1 car 0 valeur accepte
+	int		c_value[3];
+	bool	start_line;
+	int		e_counter;
+}			t_elem;
 
+typedef struct	s_data
+{
+	t_elem	elem;
+}			t_data;
 
 // parsing
-void	parsing(char *argv);
+void	parsing(t_data *data, char *argv);
 void	check_filename(char *argv);
-void	check_elem(char *argv);
+void	check_elem(t_data *data, char *file_map);
+
+// utilities
+void	init_data(t_data *data);
+void	print_data(t_data *data);
+void	print_elem(t_elem *elem);
+void	init_elem(t_elem *elem);
+
+
 
 
 //main
