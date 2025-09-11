@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/10 19:32:57 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/09/11 13:41:36 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,7 @@
 
 typedef struct	s_elements
 {
-	char*	NO_path; // verifier si le char* = NULL avant de le remplir
-	char*	SO_path;
-	char*	EA_path;
-	char*	WE_path;
-	// char*	path[4]; // path[0] = NO_path, path[1] = SO_path, etc.
+	char*	path[4]; // 0 NO, 1 EA, 2 SO, 3 WE
 	int		F_value[3]; // init a -1 car 0 valeur accepte
 	int		C_value[3];
 }			t_elements;
