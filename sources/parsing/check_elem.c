@@ -12,31 +12,33 @@
 
 #include "../../includes/cub3d.h"
 
-// boucle
-// lexture gnl
-void	check_elem(char *argv)
+/*static void	check_line(char *line)
+{
+	size_t	i;
+
+	i = -1;
+	while (line[++i])
+	{
+		if (line[i] == ' ')
+			continue ;
+		key_getter()
+	}
+}*/
+
+void	check_elem(char *file_map)
 {
 	int	fd;
 	char* line;
 
 	line = NULL;
 	// fd -1; // pas sur que se soit utile 
-	char* line;
-
-	line = NULL;
-	// fd -1; // pas sur que se soit utile 
-	fd = open("./maps/invalid_maps/bad_elem1.cub", O_RDONLY);
-	if (fd < 0)
+	fd = open(file_map, O_RDONLY);
 	if (fd < 0)
 		{printf("message pprobleme d'ouverture du .cub\n"), exit(1);}
 	while ((line = get_next_line(fd)))
 	{
-		printf("%s", line);
-		free(line);
-	}
-	while ((line = get_next_line(fd)))
-	{
-		printf("%s", line);
+		// printf("%s", line);
+		// check_line(line);
 		free(line);
 	}
 }
