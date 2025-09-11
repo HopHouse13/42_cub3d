@@ -18,8 +18,8 @@ void	check_elem(char *argv)
 {
 	printf("Into check_elem\n");
 	int	fd;
-	
-	fd -1; // pas sur que se soit utile 
+
+	fd -1; // pas sur que se soit utile
 	fd = open("./maps/invalid_maps/bad_elem1.cub", O_RDONLY);
 	if (!fd)
 		{printf("message pprobleme d'ouverture du .cub\n"), exit(1);}
