@@ -6,14 +6,15 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 18:20:17 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/11 18:54:59 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/12 16:40:59 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+#include <stdio.h>
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
+	printf("S1 -> %s\nS2 -> %s\nvalue n -> %zd\n", s1, s2, n);
 	size_t	i;
 
 	 if (n == 0)

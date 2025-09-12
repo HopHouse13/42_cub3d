@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/11 20:04:28 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/12 15:28:49 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <fcntl.h>
+
+typedef enum	e_key
+{
+	NO,
+	EA,
+	SO,
+	WE,
+	F,
+	C,
+}				t_key;
 
 typedef struct	s_elements
 {
@@ -48,9 +58,6 @@ void	init_data(t_data *data);
 void	print_data(t_data *data);
 void	print_elem(t_elem *elem);
 void	init_elem(t_elem *elem);
-
-
-
 
 //main
 int	main(int argc, char** argv);
