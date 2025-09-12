@@ -12,53 +12,74 @@
 
 #include "../../includes/cub3d.h"
 
-//static void color_getter(t_data *data, int *i, char key_id)
+static void	check_rest_of_line(char **line)
+{
+	while(**line && **line != '\n')
+	{
+		if (**line != ' ')
+		{
+			printf("je suis sorti a `%c` du reste de la ligne `%s`\n", **line, *line);
+			exit (1);
+		}
+		(*line)++;
+	}
+}
+
+//static void color_getter(t_data *data, char **line, int key_id)
 //{
-//	if(key)
+//	//unsigned int		n;
+
+//	//printf("color_getter line = `%s`", *line);
+
+//	//n = 0;
+//	//while (*line[n] && *line[n] != ' ' && *line[n] != '\n')
+//	//	n++;
+//	//printf("n = %d\n", n);
+//	//data->elem.path[key_id] = ft_strndup(*line, n);
+
+//	//*line += n;
+
+//	//printf("data->elem.path[%d] = %s", key_id, data->elem.path[key_id]);
+
 //}
 
-//static void path_getter(t_data *data, int *i, int key_id)
-//{
-//	if (key_id == -1)
-//		return ;
 
-//	data->elem.path[key_id] = ;
+static void path_getter(t_data *data, char **line, int key_id)
+{
+	unsigned int	n;
+	char*			temp_line;
 
-//}
+	printf("path_getter line = `%s`", *line);
+	temp_line = *line;
 
-//static int key_finder(t_data *data, char *str, int *i)
-//{
+	n = 0;
+	while (**line && **line != ' ' && **line != '\n')
+	{
+		(*line)++;
+		n++;
+	}
+	printf("n = %d\n", n);
 
-
-//	/*if (str == "NO") 				//PSEUDOcode et pas PROTO
-//		path_getter(data, i, 0);
-//	if (str == "EA")
-//		path_getter(data, i, 1);
-//	if (str == "SO")
-//		path_getter(data, i, 2);
-//	if (str == "WE")
-//		path_getter(data, i, 3);
-
-//	if (str == 'C')
-//		color_getter(data, i, 'C');
-//	if (str == 'F')
-//		color_getter(data, i, 'F');
-//	else
-//		exit (1); // aModif*/
-//}
-// static void	init_tab_keys(void)
-// {
-
-// }
+	data->elem.path[key_id] = ft_strndup(temp_line, n);
 
 
-static bool	key_finder(char *line, t_key id_key)
+	printf("data->elem.path[%d] = %s\n", key_id, data->elem.path[key_id]);
+
+}
+
+static bool	key_finder(char **line, t_key id_key)
 {
 	static const char	*tab_keys[6] = {"NO ", "EA ", "SO ", "WE ", "F ", "C "};
 
-	if ((id_key < F && !ft_strncmp(line, tab_keys[id_key], 3))
-		|| (id_key > WE && !ft_strncmp(line, tab_keys[id_key], 2)))
+	if ((id_key < F && !ft_strncmp(*line, tab_keys[id_key], 3))
+		|| (id_key > WE && !ft_strncmp(*line, tab_keys[id_key], 2)))
+	{
+		if (id_key < F)
+			*line += 3;
+		else
+			*line += 2;
 		return (true);
+	}
 	return (false);
 }
 
@@ -66,19 +87,26 @@ static void	check_line(t_data *data, char *line)
 {
 	t_key	id_key;
 
-	while (*line && *line == ' ')
+	while (*line && *line == ' ') // les premiers espaces
 		line++;
 	printf("\n\n\n>>>>>> VALUE_%c\n", *line);
 	fflush(stdout);
 	id_key = 0;
 	while (id_key <= 5)
 	{
-		if (key_finder(line, id_key))
+		if (key_finder(&line, id_key))
 		{
 			printf("found key number %d\n-------------------------\n", id_key);
 			fflush(stdout);
 			data->elem.e_counter++;
-			// path_getter(data, id_key);
+			while (*line && *line == ' ')
+				line++;
+			if (id_key < F)
+				path_getter(data, &line, id_key);
+			//else
+			//	color_getter(data, &line, id_key);
+			printf("rest of the line after getter function : `%s`", line);
+			check_rest_of_line(&line);
 			return ;
 		}
 		id_key++;
@@ -102,10 +130,23 @@ void	check_elem(t_data *data, char *file_map)
 		check_line(data, line);
 		free(line);
 		if (data->elem.e_counter == 6)
+		{
+			while ((line = get_next_line(fd)))
+				free(line);
 			break ;
+		}
 	}
 	if (data->elem.e_counter < 6)
 		exit (1);
 	// check_path(data);
 	// check_color(data);
 }
+
+// TO DO - 
+// COLOR_GETTER
+// LIGNES VIDES (*avec ou sans espaces)
+// check le path (check_path) - sil est valide, sil existe, si les droits sont bons etc.
+// check la couleur (check_color) - si c'est bien [0-255]
+// check_map
+// gestion des free de tout  (des strndup et du gnl)
+// message d'erreur et free checker ce quil y a free etc.

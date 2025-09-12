@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/12 15:28:49 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/12 18:25:43 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,5 @@ void	init_data(t_data *data);
 void	print_data(t_data *data);
 void	print_elem(t_elem *elem);
 void	init_elem(t_elem *elem);
-
-//main
-int	main(int argc, char** argv);
-
 
 #endif

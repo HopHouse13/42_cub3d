@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/09 18:20:17 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/12 18:54:25 by pbret            ###   ########.fr       */
+/*   Created: 2024/06/10 15:04:42 by tjacquel          #+#    #+#             */
+/*   Updated: 2025/09/12 19:17:54 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+static char	*ft_strncpy(char *dest, const char *src, unsigned int n)
 {
-	size_t	i;
+	unsigned int	i;
 
-	 if (n == 0)
-	 	return (0);
 	i = 0;
-	while (s1[i] && s1[i] == s2[i] && i < (n - 1))
+	while (src[i] && i < n)
+	{
+		dest[i] = src[i];
 		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_strndup(const char *s, unsigned int n)
+{
+	char			*dup;
+
+	dup = malloc(sizeof(char) * (n + 1));
+	if (dup == NULL)
+		return (NULL);
+	return (ft_strncpy(dup, s, n));
 }
