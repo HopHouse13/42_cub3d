@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 18:20:17 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/12 16:40:59 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/12 17:23:35 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include <stdio.h>
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	printf("S1 -> %s\nS2 -> %s\nvalue n -> %zd\n", s1, s2, n);
+	printf("S1 -> %sS2 -> %s\nvalue n -> %zd\n\n", s1, s2, n);
+	fflush(stdout);
 	size_t	i;
 
 	 if (n == 0)

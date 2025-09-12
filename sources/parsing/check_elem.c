@@ -21,9 +21,9 @@
 //{
 //	if (key_id == -1)
 //		return ;
-	
+
 //	data->elem.path[key_id] = ;
-		
+
 //}
 
 //static int key_finder(t_data *data, char *str, int *i)
@@ -46,23 +46,17 @@
 //	else
 //		exit (1); // aModif*/
 //}
-static void	init_tab_keys(void)
-{
+// static void	init_tab_keys(void)
+// {
 
-}
+// }
 
-static bool key_finder(char *line, t_key id_key)
+
+static bool	key_finder(char *line, t_key id_key)
 {
-	char	*tab_keys[6];
-	
-	//init_tab_keys(&tab_keys[6]);
-	tab_keys[0] = "NO ";
-	tab_keys[1] = "EA ";
-	tab_keys[2] = "SO ";
-	tab_keys[3] = "WE ";
-	tab_keys[4] = "F ";
-	tab_keys[5] = "C ";
-	if ((id_key < F && !ft_strncmp(line, tab_keys[id_key], 3)) 
+	static const char	*tab_keys[6] = {"NO ", "EA ", "SO ", "WE ", "F ", "C "};
+
+	if ((id_key < F && !ft_strncmp(line, tab_keys[id_key], 3))
 		|| (id_key > WE && !ft_strncmp(line, tab_keys[id_key], 2)))
 		return (true);
 	return (false);
@@ -73,14 +67,16 @@ static void	check_line(t_data *data, char *line)
 	t_key	id_key;
 
 	while (*line && *line == ' ')
-		*line++;
+		line++;
 	printf("\n\n\n>>>>>> VALUE_%c\n", *line);
+	fflush(stdout);
 	id_key = 0;
 	while (id_key <= 5)
 	{
 		if (key_finder(line, id_key))
 		{
-			printf("found key number %d\n", id_key);
+			printf("found key number %d\n-------------------------\n", id_key);
+			fflush(stdout);
 			data->elem.e_counter++;
 			// path_getter(data, id_key);
 			return ;
