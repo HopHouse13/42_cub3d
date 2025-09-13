@@ -1,4 +1,4 @@
-F 1 , 11 , 111    ,
+F 1 , 11, 111    ,
              NO ./path_to_the_north_texture
 WE ./path_to_the_west_texture
 SO ./path_to_the_south_texture
