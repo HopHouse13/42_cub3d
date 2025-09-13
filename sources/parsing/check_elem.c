@@ -111,63 +111,6 @@ static void	check_rest_of_line(char **line)
 //	}
 //}
 
-// gestion des caracteres entre les digits; passage sur la totalite de la line; seule condition avoir une seule ','entre chaque digits.
-static int	handle_between_value(char **line)
-{
-	int	i;
-	int comma;
-
-	i = 0;
-	comma = 0;
-	while ((*line)[i] && ft_isdigit((*line)[i]))
-		i++;
-	printf("carac d'arret -> [%c]\n", (*line)[i]);
-	if ((*line)[i] == ',')
-		comma++;
-	(*line)[i] = '\0';
-	i++; // pour passer au carac suivant non '\0'  que l'on vient de mettre.
-	while ((*line)[i] && !ft_isdigit((*line)[i]))
-	{
-		if ((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n')
-			{printf("je sors parce que jai trouve le char `%c`\n", (*line)[i]); exit (1);}
-		else if ((*line)[i] == ',')
-			comma++;
-		i++;
-	}
-	printf("value_comma : %d\n", comma);
-	if (comma < 1)
-		{printf("deux nombres entre deux virgule\n"); exit (1);}
-	else if (comma > 1)
-		{printf("manque un nombre entre deux virgule\n"); exit (1);}
-	return (i);
-}
-
-static void	color_getter(t_data *data, char **line, t_key id_key)
-{
-	int	i;
-	int	value_color;
-	int	value_avance;
-
-	i = 0;
-	while (i < 3)
-	{
-		value_avance = handle_between_value(line);
-		value_color = ft_atoi(*line);
-		if (id_key == F && data->elem.f_value[i] == -1 && value_color != -1)// check si double et si er ror du atoi (-1)
-			data->elem.f_value[i] = value_color;
-		else if (id_key == C && data->elem.c_value[i] == -1 && value_color != -1)
-			data->elem.c_value[i] = value_color;
-		else
-			{printf("doublon ceiling couleur\n"); exit(1);}
-		printf("value_color = {%d}\n", value_color);
-		(*line) += value_avance;
-		if (**line == '\n')
-			return ;
-		printf("carac du nouveau depart {%c}\n", **line);
-		i++;
-	}
-}
-
 //static void	color_getter(t_data *data, char **line, t_key id_key)
 //{
 //	// faudrait essayer de faire differemment je pense parce que virtuellement les fonctions
@@ -183,6 +126,124 @@ static void	color_getter(t_data *data, char **line, t_key id_key)
 //	}
 //}
 
+// -------------------------------------------------------------------------------------------------------------------
+
+//static int	handle_between_value(char **line)
+//{
+//	int	i;
+//	int comma;
+
+//	i = 0;
+//	comma = 0;
+//	while ((*line)[i] && ft_isdigit((*line)[i]))
+//		i++;
+//	if ((*line)[i] == ',')
+//		comma++;
+//	printf("carac d'arret -> [%c]\n", (*line)[i]);
+//	(*line)[i] = '\0';
+//	i++; // pour passer au carac suivant non '\0'  que l'on vient de mettre.
+//	while ((*line)[i] && !ft_isdigit((*line)[i]))
+//	{
+//		if ((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n')
+//			{printf("je sors parce que jai trouve le char `%c`\n", (*line)[i]); exit (1);}
+//		else if ((*line)[i] == ',')
+//			comma++;	
+//		i++;
+//	}
+//	printf("value_comma : %d\n", comma);
+//	if (!(*line)[i])
+//		return (-1);
+//	if (comma < 1)
+//		{printf("deux nombres entre deux virgule\n"); exit (1);}
+//	else if (comma > 1)
+//		{printf("manque un nombre entre deux virgule\n"); exit (1);}
+//	return (i);
+//}
+
+//static void	color_getter(t_data *data, char **line, t_key id_key)
+//{
+//	int	i;
+//	int	value_color;
+//	int	value_avance;
+
+//	i = 0;
+//	while (i < 3)
+//	{
+//		value_avance = handle_between_value(line);
+//		if (value_avance == -1)
+//		{
+//			(*line) += value_avance + 1;// pour finir la line au '\0'
+//			return ;
+//		}
+//		value_color = ft_atoi(*line);
+//		if (id_key == F && data->elem.f_value[i] == -1 && value_color != -1)// check si double et si er ror du atoi (-1)
+//			data->elem.f_value[i] = value_color;
+//		else if (id_key == C && data->elem.c_value[i] == -1 && value_color != -1)
+//			data->elem.c_value[i] = value_color;
+//		else
+//			{printf("doublon ceiling couleur ou error lors du atoi(limites)\n"); exit(1);}
+//		printf("value_color = {%d}\n", value_color);
+//		(*line) += value_avance;
+//		if (**line == '\n')
+//			return ;
+//		printf("carac du nouveau depart {%c}\n", **line);
+//		i++;
+//	}
+//}
+
+// gestion des caracteres entre les digits; passage sur la totalite de la line; 2 conditions de sorties:
+// - avoir une seule ',' entre chaque digits
+// - trouver un autre char que [,][ ][\n] et [digits]
+static void	handle_between_value(char **line)
+{
+	int	i;
+	int comma;
+
+	i = 0;
+	comma = 0;
+	while ((*line)[i] && ft_isdigit((*line)[i]))
+		i++;
+	while ((*line)[i] && !ft_isdigit((*line)[i]))
+	{
+		if ((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n')
+			{printf("je sors parce que jai trouve le char `%c`\n", (*line)[i]); exit (1);}
+		else if ((*line)[i] == ',')
+			comma++;	
+		i++;
+	}
+	printf("value_comma : %d\n", comma);
+	if (comma < 1)
+		{printf("deux nombres entre deux virgule\n"); exit (1);}
+	else if (comma > 1)
+		{printf("manque un nombre entre deux virgule\n"); exit (1);}
+	return (i);
+}
+
+static void	color_getter(t_data *data, char **line, t_key id_key)
+{
+	int	i;
+	int	value_color;
+
+	handle_between_value(line);
+	i = 0;
+	while (i < 3)
+	{
+		while ()
+		value_color = ft_atoi(*line);
+		if (id_key == F && data->elem.f_value[i] == -1 && value_color != -1)// check si double et si er ror du atoi (-1)
+			data->elem.f_value[i] = value_color;
+		else if (id_key == C && data->elem.c_value[i] == -1 && value_color != -1)
+			data->elem.c_value[i] = value_color;
+		else
+			{printf("doublon ceiling couleur ou error lors du atoi(limites)\n"); exit(1);}
+		printf("value_color = {%d}\n", value_color);
+		(*line) += value_avance;
+		if (**line == '\n')
+			return ;
+		printf("carac du nouveau depart {%c}\n", **line);
+		i++;
+	}
+}
 
 static void path_getter(t_data *data, char **line, t_key id_key)
 {
