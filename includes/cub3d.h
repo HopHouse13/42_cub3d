@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/12 18:25:43 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/14 21:05:20 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,22 @@ typedef struct	s_data
 	t_elem	elem;
 }			t_data;
 
-// parsing
+/// PARSING ///
 void	parsing(t_data *data, char *argv);
-void	check_filename(char *argv);
-void	check_elem(t_data *data, char *file_map);
+void	check_filename(t_data *data, char *argv);
+void	check_param(t_data *data, char *file_map);
 
-// utilities
+/// UTILITIES ///
+
+// handle_exit
+void	exit_door(t_data *data, char *str);
+
+// init_data
 void	init_data(t_data *data);
+void	init_elem(t_elem *elem);
+
+// print_debug
 void	print_data(t_data *data);
 void	print_elem(t_elem *elem);
-void	init_elem(t_elem *elem);
 
 #endif

@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_elem.c                                      :+:      :+:    :+:   */
+/*   check_param.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:43:41 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/10 15:47:34 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/09/15 00:44:20 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-static void	check_rest_of_line(char **line)
+static void	check_rest_of_line(t_data *data, char **line)
 {
 	while(**line && **line != '\n')
 	{
 		if (**line != ' ')
-		{
-			printf("je suis sorti a `%c` du reste de la ligne `%s`\n", **line, *line);
-			exit (1);
-		}
+			exit_door(data, "je suis sorti a `%c` du reste de la ligne `%s`");
 		(*line)++;
 	}
 }
@@ -128,103 +125,6 @@ static void	check_rest_of_line(char **line)
 
 // ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ FT_TOTO ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ
 
-//static int	handle_between_value(char **line)
-//{
-//	int	i;
-//	int comma;
-
-//	i = 0;
-//	comma = 0;
-//	while ((*line)[i] && ft_isdigit((*line)[i]))
-//		i++;
-//	if ((*line)[i] == ',')
-//		comma++;
-//	printf("carac d'arret -> [%c]\n", (*line)[i]);
-//	(*line)[i] = '\0';
-//	i++; // pour passer au carac suivant non '\0'  que l'on vient de mettre.
-//	while ((*line)[i] && !ft_isdigit((*line)[i]))
-//	{
-//		if ((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n')
-//			{printf("je sors parce que jai trouve le char `%c`\n", (*line)[i]); exit (1);}
-//		else if ((*line)[i] == ',')
-//			comma++;	
-//		i++;
-//	}
-//	printf("value_comma : %d\n", comma);
-//	if (!(*line)[i])
-//		return (-1);
-//	if (comma < 1)
-//		{printf("deux nombres entre deux virgule\n"); exit (1);}
-//	else if (comma > 1)
-//		{printf("manque un nombre entre deux virgule\n"); exit (1);}
-//	return (i);
-//}
-
-//static void	color_getter(t_data *data, char **line, t_key id_key)
-//{
-//	int	i;
-//	int	value_color;
-//	int	value_avance;
-
-//	i = 0;
-//	while (i < 3)
-//	{
-//		value_avance = handle_between_value(line);
-//		if (value_avance == -1)
-//		{
-//			(*line) += value_avance + 1;// pour finir la line au '\0'
-//			return ;
-//		}
-//		value_color = ft_atoi(*line);
-//		if (id_key == F && data->elem.f_value[i] == -1 && value_color != -1)// check si double et si er ror du atoi (-1)
-//			data->elem.f_value[i] = value_color;
-//		else if (id_key == C && data->elem.c_value[i] == -1 && value_color != -1)
-//			data->elem.c_value[i] = value_color;
-//		else
-//			{printf("doublon ceiling couleur ou error lors du atoi(limites)\n"); exit(1);}
-//		printf("value_color = {%d}\n", value_color);
-//		(*line) += value_avance;
-//		if (**line == '\n')
-//			return ;
-//		printf("carac du nouveau depart {%c}\n", **line);
-//		i++;
-//	}
-//}
-
-// gestion des caracteres entre les digits; passage sur la totalite de la line; 2 conditions de sorties:
-// - avoir une seule ',' entre chaque digits
-// - trouver un autre char que [,][ ][\n] et [digits]
-//static int	handle_between_value(char **line, int count_move)
-//{
-//	int	i;
-//	int comma;
-
-//	i = 0;
-//	comma = 0;
-//	while ((*line)[i] && ft_isdigit((*line)[i]))
-//		i++;
-//	if ((*line)[i] == ',')
-//		comma++;
-//	else if ((*line)[i] != ' ' && (*line)[i] != '\n')
-//		{printf("je sors parce que jai trouve le char `%c` apres les digits\n", (*line)[i]); exit (1);}
-//	(*line)[i++] = '\0'; // on remplace par '\0'et on avance de 1
-//	while ((*line)[i] && !ft_isdigit((*line)[i]))
-//	{	
-//		if ((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n')
-//			{printf("je sors parce que jai trouve le char `%c`\n", (*line)[i]); exit (1);}
-//		if ((*line)[i] == ',')
-//			comma++;
-//		i++;
-//	}
-//	printf("value_comma : %d\n", comma);
-//	printf("count_move : %d\n", count_move);
-//	if (comma < 1 && count_move < 2)
-//		{printf("manque 1 virgule entre 2 valeurs\n"); exit (1);}
-//	else if (comma > 1 && count_move < 2)
-//		{printf("manque 1 valeur entre 2 virgule\n"); exit (1);}
-//	return (i);
-//}
-
 // fonction de deplacement, controle de la conformitee et transmettre les infos
 // Fonctionne par sequence: une sequence = valeur + l'entre deux d'apres
 // line [F 1, 22, t 333] -> sequence 1 [1, ]; sequence 2 [22, t ]; sequence 3 [333]
@@ -234,8 +134,7 @@ static void	check_rest_of_line(char **line)
 // 3 [se deplacer jusqu'au prochain digit tout en controlant la conformitee]
 // 4 [placer '\0' a la fin de la serie de digits pour l'atoi]
 // Rappel : aucun pointeur est deplacer ici.
-
-static int	handle_between_value(char **line, int nb_color_found)
+static int	handle_between_value(t_data *data, char **line, int nb_color_found)
 {
 	int	i;
 	int comma;
@@ -250,7 +149,7 @@ static int	handle_between_value(char **line, int nb_color_found)
 	{	
 		if (((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n') // les 2 premieres sequences ->  char autorises [,][ ][\n]
 			|| (nb_color_found > 1 && (*line)[i] != ' ' && (*line)[i] != '\n')) // [nb_color_found > 1] -> on est a la 3eme et derniere sequence; char autorise [ ]
-			{printf("je sors parce que jai trouve le char `%c`\n", (*line)[i]); exit (1);}
+			exit_door(data, "je sors parce que jai trouve le char `%c`");
 		else if ((*line)[i] == ',')
 			comma++;
 		i++;
@@ -258,9 +157,9 @@ static int	handle_between_value(char **line, int nb_color_found)
 	printf("value_comma : %d\n", comma);
 	printf("nb_color_found : %d\n", nb_color_found);
 	if (comma < 1 && nb_color_found < 2) // il faut exatement une virgule entre les sequences; faut ignorer ce controle pour la derniere sequence
-		{printf("manque 1 virgule entre 2 valeurs\n"); exit (1);}
+		exit_door(data, "manque 1 virgule entre 2 valeurs");
 	else if (comma > 1 && nb_color_found < 2)
-		{printf("manque 1 valeur entre 2 virgule\n"); exit (1);}
+		exit_door(data, "manque 1 valeur entre 2 virgule");
 	(*line)[tmp_end] = '\0'; // remplacement du char apresla serie de digits par '\0'
 	return (i); // retourne l'indexe ou je trouve le prochain digit
 }
@@ -272,18 +171,18 @@ static void	color_getter(t_data *data, char **line, t_key id_key)
 	int	tmp_end;
 
 	if (!ft_isdigit(**line)) // je dois commencer avec un digit car complexe de l'integrer dans le process std
-		{printf("1er char non digit\n"); exit (1);}
+		exit_door(data, "1er char non digit");
 	i = 0;
 	while (i < 3)
 	{
-		tmp_end = handle_between_value(line, i);// retourne le nb de deplacement pour aller jusqu'a la prochaine digit
+		tmp_end = handle_between_value(data, line, i);// retourne le nb de deplacement pour aller jusqu'a la prochaine digit
 		value_color = ft_atoi(*line);
 		if (id_key == F && data->elem.f_value[i] == -1) // check si double. si atoi renvoit -1 -> verificatoin plus tard
 			data->elem.f_value[i] = value_color;
 		else if (id_key == C && data->elem.c_value[i] == -1)
 			data->elem.c_value[i] = value_color;
 		else
-			{printf("doublon ceiling couleur ou error lors du atoi(limites)\n"); exit(1);}
+			exit_door(data, "doublon ceiling couleur ou error lors du atoi(limites)");
 		printf("value_color = {%d}\n\n", value_color);
 		(*line) += tmp_end; // apres le atoi, deplacement du pointeur vers le debut de la prochaine serie de digits
 		printf("carac du nouveau depart {%c}\n", **line);
@@ -308,10 +207,7 @@ static void path_getter(t_data *data, char **line, t_key id_key)
 	if (!data->elem.path[id_key]) // protection pour eviter les doublons
 		data->elem.path[id_key] = ft_strndup(tmp_line, n);
 	else
-	{
-		printf("doublon path\n");
-		exit(1);
-	}
+		exit_door(data, "doublon path");
 	printf("data->elem.path[%d] = %s\n", id_key, data->elem.path[id_key]);
 }
 
@@ -337,7 +233,9 @@ static void	handle_line(t_data *data, char *line)
 
 	while (*line && *line == ' ') // les premiers espaces
 		line++;
-	printf("\n\n\n>>>>>> VALUE_%c\n", *line);
+	printf("\n>>>>>> VALUE_%c\n", *line);
+	if (*line == '\n' || *line == '\0') // passe la line suivante si la line est remplit que d'[ ] et un [\n]
+		return ;
 	id_key = 0;
 	while (id_key <= 5)
 	{
@@ -352,53 +250,43 @@ static void	handle_line(t_data *data, char *line)
 			else
 				color_getter(data, &line, id_key);
 			printf("rest of the line after getter function : `%s`", line);
-			check_rest_of_line(&line);
+			check_rest_of_line(data, &line);
 			return ;
 		}
 		id_key++;
 	}
-	if (data->elem.e_counter < 6)
-	{
-		printf ("pas assez d'elements pour initialiser la map handle_line()\n");
-		exit (1);
-	}
-	// exit (1); // sans le if statement au dessus, on exit forcement si ya pas assez d'element pour initialiser la carte
+	exit_door(data, "pas trouve de key");
 }
 
-void	check_elem(t_data *data, char *file_map)
+void	check_param(t_data *data, char *file_map)
 {
-	int	fd;
-	char* line;
-	(void) data;
+	int		fd;
+	char	*line;
 
-	line = NULL;
 	fd = open(file_map, O_RDONLY);
 	if (fd < 0)
-		{printf("message probleme d'ouverture du .cub\n"), exit(1);}
-	while ((line = get_next_line(fd)))
+		exit_door(data, "message probleme d'ouverture du .cub");
+	while ((line = get_next_line(fd)) && data->elem.e_counter < 6) // si les 6 parametres ont ete trouves, on passe a la suite
 	{
-		// printf("%s", line);
+		printf("\n||||| NOUVELLE LINE |||||\nPRINT LINE : [%s]\n", line);
 		handle_line(data, line);
 		free(line);
 		if (data->elem.e_counter == 6)
 			break ;
 	}
+	if (data->elem.e_counter < 6)
+		exit_door(data, "Parametres incomplets");
 	printf ("\n\n||||| Elem values after data->elem.e_counter == 6 |||||\n\n");
 	print_elem(&data->elem);
-	if (data->elem.e_counter < 6)
-	{
-		printf ("pas assez d'elements pour initialiser la map check_elem()\n");
-		exit (1);
-	}
-	// check_path(data);
+	//check_path(data);
 	// check_color(data);
 }
 
 // TO DO -
-// COLOR_GETTER
-// LIGNES VIDES (*avec ou sans espaces)
+// COLOR_GETTER ✅
+// LIGNES VIDES (*avec ou sans espaces) ✅
 // check le path (check_path) - sil est valide, sil existe, si les droits sont bons etc.
 // check la couleur (check_color) - si c'est bien [0-255]
 // check_map
 // gestion des free de tout  (des strndup et du gnl)
-// message d'erreur et free checker ce quil y a free etc.
+// message d'erreur ✅ et free checker ce quil y a free etc.

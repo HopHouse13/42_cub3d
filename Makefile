@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
+#    By: pab <pab@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/09/12 17:25:11 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/09/14 21:37:59 by pab              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,12 +15,14 @@ SRCS_DIR	= sources/
 OBJ_DIR 	= obj_$(NAME)
 
 SRCS_PARSING = \
-	parsing/parsing.c \
 	parsing/check_filename.c \
-	parsing/check_elem.c \
+	parsing/check_param.c \
+	parsing/parsing.c
 
 SRC_UTILS = \
-	utilities/init_data.c
+	utilities/handle_exit.c \
+	utilities/init_data.c \
+	utilities/print_debug.c
 
 # SRCS_EXEC = exec/
 
