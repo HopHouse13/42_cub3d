@@ -1,38 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_data.c                                        :+:      :+:    :+:   */
+/*   handle_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 16:56:31 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/14 20:39:44 by pab              ###   ########.fr       */
+/*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
+/*   Updated: 2025/09/14 21:39:32 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void	init_elem(t_elem *elem)
+void	exit_door(t_data *data, char *str)
 {
-	int	i;
-
-	i = 0;
-	while(i < 3)
-	{
-		elem->f_value[i] = -1;
-		elem->c_value[i] = -1;
-		i++;
-	}
-	i = 0;
-	while (i < 4)
-		elem->path[i++] = NULL;
-	elem->start_line = false;
-	elem->e_counter = 0;
+	printf("Error\n%s\n", str);
+	//free();
+	(void)data; // aSupp
 }
-
-void	init_data(t_data *data)
-{
-	init_elem(&data->elem);
-}
-
-
