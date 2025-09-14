@@ -225,7 +225,17 @@ static void	check_rest_of_line(char **line)
 //	return (i);
 //}
 
-static int	handle_between_value(char **line, int count_move)
+// fonction de deplacement, controle de la conformitee et transmettre les infos
+// Fonctionne par sequence: une sequence = valeur + l'entre deux d'apres
+// line [F 1, 22, t 333] -> sequence 1 [1, ]; sequence 2 [22, t ]; sequence 3 [333]
+// Etape pour chaque sequence: 
+// 1 [comptabiliser nb digits]
+// 2 [stocker la len des digits]
+// 3 [se deplacer jusqu'au prochain digit tout en controlant la conformitee]
+// 4 [placer '\0' a la fin de la serie de digits pour l'atoi]
+// Rappel : aucun pointeur est deplacer ici.
+
+static int	handle_between_value(char **line, int nb_color_found)
 {
 	int	i;
 	int comma;
@@ -235,47 +245,47 @@ static int	handle_between_value(char **line, int count_move)
 	comma = 0;
 	while ((*line)[i] && ft_isdigit((*line)[i]))
 		i++;
-	tmp_end = i;
-	while ((*line)[i] && !ft_isdigit((*line)[i]))
+	tmp_end = i; // stock la position de fin de serie des digits
+	while ((*line)[i] && !ft_isdigit((*line)[i])) // gestion des char entre deux series de digits
 	{	
-		if ((count_move > 1 && (*line)[i] != ' ' && (*line)[i] != '\n')
-			|| ((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n'))
+		if (((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n') // les 2 premieres sequences ->  char autorises [,][ ][\n]
+			|| (nb_color_found > 1 && (*line)[i] != ' ' && (*line)[i] != '\n')) // [nb_color_found > 1] -> on est a la 3eme et derniere sequence; char autorise [ ]
 			{printf("je sors parce que jai trouve le char `%c`\n", (*line)[i]); exit (1);}
 		else if ((*line)[i] == ',')
 			comma++;
 		i++;
 	}
 	printf("value_comma : %d\n", comma);
-	printf("count_move : %d\n", count_move);
-	if (comma < 1 && count_move < 2)
+	printf("nb_color_found : %d\n", nb_color_found);
+	if (comma < 1 && nb_color_found < 2) // il faut exatement une virgule entre les sequences; faut ignorer ce controle pour la derniere sequence
 		{printf("manque 1 virgule entre 2 valeurs\n"); exit (1);}
-	else if (comma > 1 && count_move < 2)
+	else if (comma > 1 && nb_color_found < 2)
 		{printf("manque 1 valeur entre 2 virgule\n"); exit (1);}
-	(*line)[tmp_end] = '\0'; // on remplace par '\0'
-	return (i);
+	(*line)[tmp_end] = '\0'; // remplacement du char apresla serie de digits par '\0'
+	return (i); // retourne l'indexe ou je trouve le prochain digit
 }
 
 static void	color_getter(t_data *data, char **line, t_key id_key)
 {
 	int	i;
 	int	value_color;
-	int	value_avance;
+	int	tmp_end;
 
-	if (!ft_isdigit(**line)) //je dois commencer avec un digit car complexe de l'integrer dans le process std
+	if (!ft_isdigit(**line)) // je dois commencer avec un digit car complexe de l'integrer dans le process std
 		{printf("1er char non digit\n"); exit (1);}
 	i = 0;
 	while (i < 3)
 	{
-		value_avance = handle_between_value(line, i);
+		tmp_end = handle_between_value(line, i);// retourne le nb de deplacement pour aller jusqu'a la prochaine digit
 		value_color = ft_atoi(*line);
-		if (id_key == F && data->elem.f_value[i] == -1)// check si double. atoi renvoit -1 -> verificatoin apres.	
+		if (id_key == F && data->elem.f_value[i] == -1) // check si double. si atoi renvoit -1 -> verificatoin plus tard
 			data->elem.f_value[i] = value_color;
 		else if (id_key == C && data->elem.c_value[i] == -1)
 			data->elem.c_value[i] = value_color;
 		else
 			{printf("doublon ceiling couleur ou error lors du atoi(limites)\n"); exit(1);}
-		printf("value_color = {%d}\n", value_color);
-		(*line) += value_avance;
+		printf("value_color = {%d}\n\n", value_color);
+		(*line) += tmp_end; // apres le atoi, deplacement du pointeur vers le debut de la prochaine serie de digits
 		printf("carac du nouveau depart {%c}\n", **line);
 		i++;
 	}
@@ -321,7 +331,7 @@ static bool	key_finder(char **line, t_key id_key)
 	return (false);
 }
 
-static void	check_line(t_data *data, char *line)
+static void	handle_line(t_data *data, char *line)
 {
 	t_key	id_key;
 
@@ -349,7 +359,7 @@ static void	check_line(t_data *data, char *line)
 	}
 	if (data->elem.e_counter < 6)
 	{
-		printf ("pas assez d'elements pour initialiser la map check_line()\n");
+		printf ("pas assez d'elements pour initialiser la map handle_line()\n");
 		exit (1);
 	}
 	// exit (1); // sans le if statement au dessus, on exit forcement si ya pas assez d'element pour initialiser la carte
@@ -368,7 +378,7 @@ void	check_elem(t_data *data, char *file_map)
 	while ((line = get_next_line(fd)))
 	{
 		// printf("%s", line);
-		check_line(data, line);
+		handle_line(data, line);
 		free(line);
 		if (data->elem.e_counter == 6)
 			break ;
