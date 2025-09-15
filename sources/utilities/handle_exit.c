@@ -6,7 +6,7 @@
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/09/15 01:37:33 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/15 04:23:22 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	exit_door(t_data *data, char *str)
 {
 	printf("Error\n%s\n", str);
+	if (data->fd_file >= 0)
+		close(data->fd_file);
 	//free();
-	(void)data; // aSupp
 	exit (2);
 }

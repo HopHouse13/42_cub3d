@@ -6,7 +6,7 @@
 #    By: pab <pab@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/09/14 21:37:59 by pab              ###   ########.fr        #
+#    Updated: 2025/09/15 04:24:48 by pab              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,9 @@ OBJ_DIR 	= obj_$(NAME)
 SRCS_PARSING = \
 	parsing/check_filename.c \
 	parsing/check_param.c \
-	parsing/parsing.c
+	parsing/parsing.c \
+	parsing/map.c
+	
 
 SRC_UTILS = \
 	utilities/handle_exit.c \

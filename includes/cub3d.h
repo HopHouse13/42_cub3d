@@ -6,7 +6,7 @@
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/14 21:05:20 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/15 04:25:43 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,33 @@ typedef enum	e_key
 	C,
 }				t_key;
 
+typedef struct	s_map
+{
+	char 		**map;
+}				t_map;
+
 typedef struct	s_elements
 {
-	char*	path[4]; // 0 NO, 1 EA, 2 SO, 3 WE
-	int		f_value[3]; // init a -1 car 0 valeur accepte
-	int		c_value[3];
-	bool	start_line;
-	int		e_counter;
-}			t_elem;
+	char*		path[4]; // 0 NO, 1 EA, 2 SO, 3 WE
+	int			f_value[3]; // init a -1 car 0 valeur accepte
+	int			c_value[3];
+	bool		start_line;
+	int			e_counter;
+}				t_elem;
 
 typedef struct	s_data
 {
-	t_elem	elem;
+	t_map		map;
+	t_elem		elem;
+	int			fd_file;
 }			t_data;
 
 /// PARSING ///
 void	parsing(t_data *data, char *argv);
 void	check_filename(t_data *data, char *argv);
 void	check_param(t_data *data, char *file_map);
+
+void	check_map(t_data *data);
 
 /// UTILITIES ///
 
