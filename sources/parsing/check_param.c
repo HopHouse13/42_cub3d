@@ -6,11 +6,53 @@
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:43:41 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/15 00:44:20 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/15 02:43:37 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+static void check_color(t_data *data)
+{printf("\n||||| CHECK COLORS VALUES |||||\n");
+	int	i;
+
+	i = -1;
+	while (++i < 3)
+	{
+		if (data->elem.f_value[i] > 255 || data->elem.f_value[i] < 0) // peux etre egale a -1 si une valeurs depaasse les limites de INT (retour atoi)
+			exit_door(data, "color value hors limits");
+	}
+	i = -1;
+	while (++i < 3)
+	{
+		if (data->elem.c_value[i] > 255 || data->elem.c_value[i] < 0)
+			exit_door(data, "color value hors limits");
+	}
+	printf("valeurs couleurs valides\n");
+}
+
+static void check_path(t_data *data)
+{printf("\n||||| CHECK RIGHTS PATH |||||\n");
+	int		i;
+	int		tmp_fd;
+	int		tmp_read;
+	char	tmp_buf[1]; // pas sur que ca passe la norme
+
+	i = -1;
+	while(++i < 4)
+	{
+		tmp_fd = open(data->elem.path[i], O_RDONLY);
+		printf("value tmp_fd [%d]\n", tmp_fd);
+		if (tmp_fd == -1)
+			exit_door(data, "error lors de l'ouverture du fichier texture");
+		tmp_read = read(tmp_fd, tmp_buf, 1);
+		printf("value tmp_read [%d]\n", tmp_read);
+		if (tmp_read == -1) // si le path est un repertoire, le fd va etre initialise mais nous ne pourons pas lire le dossier -> read retourne -1 si il n'arrive pas a lire
+			exit_door(data, "error lors de la lecture du fichier texture");
+		close(tmp_fd); // si besoin des fd pour l'exec, on pourra les stocker dans une struct ici. Au lieu de les fermer.
+	}
+	printf("Fichiers textures valides\n");
+}
 
 static void	check_rest_of_line(t_data *data, char **line)
 {
@@ -21,6 +63,7 @@ static void	check_rest_of_line(t_data *data, char **line)
 		(*line)++;
 	}
 }
+// ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ FT_TOTO ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ
 
 //static void	floor_color(t_data *data, char **line)
 //{
@@ -149,7 +192,7 @@ static int	handle_between_value(t_data *data, char **line, int nb_color_found)
 	{	
 		if (((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n') // les 2 premieres sequences ->  char autorises [,][ ][\n]
 			|| (nb_color_found > 1 && (*line)[i] != ' ' && (*line)[i] != '\n')) // [nb_color_found > 1] -> on est a la 3eme et derniere sequence; char autorise [ ]
-			exit_door(data, "je sors parce que jai trouve le char `%c`");
+			exit_door(data, "je sors parce que jai trouve un char invalide");
 		else if ((*line)[i] == ',')
 			comma++;
 		i++;
@@ -233,7 +276,6 @@ static void	handle_line(t_data *data, char *line)
 
 	while (*line && *line == ' ') // les premiers espaces
 		line++;
-	printf("\n>>>>>> VALUE_%c\n", *line);
 	if (*line == '\n' || *line == '\0') // passe la line suivante si la line est remplit que d'[ ] et un [\n]
 		return ;
 	id_key = 0;
@@ -278,15 +320,16 @@ void	check_param(t_data *data, char *file_map)
 		exit_door(data, "Parametres incomplets");
 	printf ("\n\n||||| Elem values after data->elem.e_counter == 6 |||||\n\n");
 	print_elem(&data->elem);
-	//check_path(data);
-	// check_color(data);
+	check_path(data);
+	check_color(data);
 }
+
 
 // TO DO -
 // COLOR_GETTER ✅
 // LIGNES VIDES (*avec ou sans espaces) ✅
-// check le path (check_path) - sil est valide, sil existe, si les droits sont bons etc.
-// check la couleur (check_color) - si c'est bien [0-255]
+// check le path (check_path) - sil est valide, sil existe, si les droits sont bons etc. ✅
+// check la couleur (check_color) - si c'est bien [0-255] ✅
 // check_map
 // gestion des free de tout  (des strndup et du gnl)
 // message d'erreur ✅ et free checker ce quil y a free etc.
