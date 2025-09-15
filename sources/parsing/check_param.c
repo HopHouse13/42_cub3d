@@ -6,7 +6,7 @@
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:43:41 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/15 04:19:43 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/15 14:05:38 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,20 +300,18 @@ static void	handle_line(t_data *data, char *line)
 	exit_door(data, "pas trouve de key");
 }
 
-void	check_param(t_data *data, char *file_map)
+void	check_param(t_data *data, char *mapfile)
 {
 	char	*line;
 
-	data->fd_file = open(file_map, O_RDONLY);
+	data->fd_file = open(mapfile, O_RDONLY);
 	if (data->fd_file < 0)
 		exit_door(data, "message probleme d'ouverture du .cub");
-	while ((line = get_next_line(data->fd_file)) && data->elem.e_counter < 6) // si les 6 parametres ont ete trouves, on passe a la suite
+	while (data->elem.e_counter < 6 && (line = get_next_line(data->fd_file))) // si les 6 parametres ont ete trouves, on passe a la suite
 	{
 		printf("\n||||| NOUVELLE LINE |||||\nPRINT LINE : [%s]\n", line);
 		handle_line(data, line);
 		free(line);
-		if (data->elem.e_counter == 6)
-			break ;
 	}
 	if (data->elem.e_counter < 6)
 		exit_door(data, "Parametres incomplets");
