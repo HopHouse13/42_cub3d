@@ -6,7 +6,7 @@
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/15 04:25:43 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/15 18:41:07 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	parsing(t_data *data, char *argv);
 void	check_filename(t_data *data, char *argv);
 void	check_param(t_data *data, char *file_map);
 
-void	check_map(t_data *data);
+void	check_map(t_data *data, char *mapfile);
 
 /// UTILITIES ///
 
@@ -74,5 +74,6 @@ void	init_elem(t_elem *elem);
 // print_debug
 void	print_data(t_data *data);
 void	print_elem(t_elem *elem);
+void	print_map(char **map);
 
 #endif
