@@ -6,7 +6,7 @@
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:56:31 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/14 20:39:44 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/15 04:21:54 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	init_elem(t_elem *elem)
 
 void	init_data(t_data *data)
 {
+	data->fd_file = -1;
 	init_elem(&data->elem);
 }
 

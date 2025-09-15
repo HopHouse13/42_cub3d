@@ -6,7 +6,7 @@
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:43:41 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/15 02:43:37 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/15 04:19:43 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,13 +302,12 @@ static void	handle_line(t_data *data, char *line)
 
 void	check_param(t_data *data, char *file_map)
 {
-	int		fd;
 	char	*line;
 
-	fd = open(file_map, O_RDONLY);
-	if (fd < 0)
+	data->fd_file = open(file_map, O_RDONLY);
+	if (data->fd_file < 0)
 		exit_door(data, "message probleme d'ouverture du .cub");
-	while ((line = get_next_line(fd)) && data->elem.e_counter < 6) // si les 6 parametres ont ete trouves, on passe a la suite
+	while ((line = get_next_line(data->fd_file)) && data->elem.e_counter < 6) // si les 6 parametres ont ete trouves, on passe a la suite
 	{
 		printf("\n||||| NOUVELLE LINE |||||\nPRINT LINE : [%s]\n", line);
 		handle_line(data, line);
