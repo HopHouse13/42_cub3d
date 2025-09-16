@@ -1,4 +1,15 @@
-// map du sujet
+F   1,  22, 255
+           NO ./path_to_the_north_texture
+WE ./path_to_the_west_texture
+
+SO ./path_to_the_south_texture
+
+
+C 4,55,232
+EA ./path_to_the_east_texture
+
+
+
 
         1111111111111111111111111
         1000000000110000000000001

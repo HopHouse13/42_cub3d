@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 12:33:57 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/10 15:50:46 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:06:08 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void	parsing(char *argv)
+void	parsing(t_data *data, char *mapfile)
 {
-	check_filename(argv);
-	printf("check_filename valid\n");
-	check_elem(argv);
-	// check_map(argv);
+	check_filename(data, mapfile);
+	check_param(data, mapfile);
+	check_map(data, mapfile);
 
 }
