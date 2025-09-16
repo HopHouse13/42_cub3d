@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_param.c                                      :+:      :+:    :+:   */
+/*   check_elem.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -236,7 +236,6 @@ static void	color_getter(t_data *data, char **line, t_key id_key)
 static void path_getter(t_data *data, char **line, t_key id_key)
 {
 	printf("path_getter line = `%s`", *line);
-
 	unsigned int	n;
 	char*			tmp_line;
 
@@ -300,7 +299,7 @@ static void	handle_line(t_data *data, char *line)
 	exit_door(data, "pas trouve de key");
 }
 
-void	check_param(t_data *data, char *mapfile)
+void	check_elem(t_data *data, char *mapfile)
 {
 	char	*line;
 

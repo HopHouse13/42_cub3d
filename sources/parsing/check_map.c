@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/09/15 20:06:58 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/16 12:11:55 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,14 @@ void	make_copy(t_data *data, char *mapfile)
 	int		i;
 	char	*line;
 	
-	i = 0;
+	i = 1; // la premiere chaine de char est deja remplit en amont, lorsque le debut de la map est trouvee
 	count_line = count_map(data, mapfile);
-	while( ++i < count_line && (line = get_next_line(data->fd_file)))
+	while((line = get_next_line(data->fd_file)) && i < count_line)
 	{
-		data->map.map[i] = strdup(line);
+		data->map.map[i++] = strdup(line);
 		free(line);
 	}
-	data->map.map[++i] = NULL;
+	data->map.map[i] = NULL;
 	print_map(data->map.map);
 }
 
