@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:56:31 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/15 04:21:54 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/16 18:55:50 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	init_elem(t_elem *elem)
 void	init_data(t_data *data)
 {
 	data->fd_file = -1;
+	data->map.tab_map = NULL;
 	init_elem(&data->elem);
 }
 

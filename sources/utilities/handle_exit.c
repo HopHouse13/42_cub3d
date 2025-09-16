@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/09/16 16:22:07 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/16 18:54:33 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	exit_door(t_data *data, char *str, bool	flag)
 	if (flag)
 		printf("Error\n");
 	printf("%s\n", str);
+	
 	if (data->fd_file >= 0)
 		close(data->fd_file);
 	free_elem(data);

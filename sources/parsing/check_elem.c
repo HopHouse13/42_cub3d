@@ -59,7 +59,7 @@ static void	check_rest_of_line(t_data *data, char **line)
 	while(**line && **line != '\n')
 	{
 		if (**line != ' ')
-			exit_door(data, "je suis sorti a `%c` du reste de la ligne `%s`", ERROR);
+			exit_door(data, "caractere(s) apres les paths ou les color_valeurs", ERROR);
 		(*line)++;
 	}
 }
@@ -290,7 +290,6 @@ static void	handle_line(t_data *data, char *line)
 				path_getter(data, &line, id_key);
 			else
 				color_getter(data, &line, id_key);
-			printf("rest of the line after getter function : `%s`", line);
 			check_rest_of_line(data, &line);
 			return ;
 		}
