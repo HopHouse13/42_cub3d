@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/16 12:20:46 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/16 16:22:12 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # include <stdbool.h>
 # include <fcntl.h>
 
+# define ERROR 1 // pour le flag exit_door
+# define RIGHT 0
+
 typedef enum	e_key
 {
 	NO,
@@ -36,7 +39,7 @@ typedef enum	e_key
 
 typedef struct	s_map
 {
-	char 		**map;
+	char 		**tab_map;
 }				t_map;
 
 typedef struct	s_elements
@@ -65,7 +68,7 @@ void	check_map(t_data *data, char *mapfile);
 /// UTILITIES ///
 
 // handle_exit
-void	exit_door(t_data *data, char *str);
+void	exit_door(t_data *data, char *str, bool flag);
 
 // init_data
 void	init_data(t_data *data);
