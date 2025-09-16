@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:27:42 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/16 12:54:16 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/16 15:45:19 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ int	main(int argc, char **argv)
 	init_data(&data);
 	print_data(&data);
 	parsing(&data, argv[1]);
-	exit_door(&data, "CUB3D SE FERME\n");
+	exit_door(&data, "CUB3D SE FERME\n", RIGHT);
 	return (0);
 }
