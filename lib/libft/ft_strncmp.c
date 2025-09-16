@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_txt_functions.c                          :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/20 18:08:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2024/09/21 17:14:13 by tjacquel         ###   ########.fr       */
+/*   Created: 2024/06/09 18:20:17 by tjacquel          #+#    #+#             */
+/*   Updated: 2025/09/12 18:54:25 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_putcharf(int c)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	write(1, &c, 1);
-	return (1);
-}
+	size_t	i;
 
-int	ft_putstrf(char *str)
-{
-	int	i;
-
-	if (!str)
-		return (ft_putstrf("(null)"));
+	 if (n == 0)
+	 	return (0);
 	i = 0;
-	while (str[i])
-	{
-		ft_putchar_fd(str[i], 1);
+	while (s1[i] && s1[i] == s2[i] && i < (n - 1))
 		i++;
-	}
-	return (i);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

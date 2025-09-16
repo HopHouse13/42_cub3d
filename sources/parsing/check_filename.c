@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_filename.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:42:52 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/10 15:43:12 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:05:11 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ static bool	valid_ext(const char *s1, const char *s2, size_t n)
 	return (true);
 }
 
-void	check_filename(char *argv)
+void	check_filename(t_data *data, char *mapfile)
 {
 	size_t	n;
 
-	n = ft_strlen(argv);
+	n = ft_strlen(mapfile);
 	if (n <= 4)
-		exit(1); // fonction sortie mess
-	if (!valid_ext(argv, ".cub", n - 4))
-		exit(1); // fonction sortie mess
+		exit_door(data, "Filename too short");
+
+	if (!valid_ext(mapfile, ".cub", n - 4))
+		exit_door(data, "Invalid extension name");
 }

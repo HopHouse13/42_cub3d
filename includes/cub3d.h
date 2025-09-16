@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/10 17:59:02 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/09/15 18:41:07 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../libft/libft.h"
+# include "../lib/libft/libft.h"
+# include "../lib/get_next_line/get_next_line.h"
 
 # include <math.h>
 # include <stdio.h>
@@ -21,27 +22,58 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <fcntl.h>
+
+typedef enum	e_key
+{
+	NO,
+	EA,
+	SO,
+	WE,
+	F,
+	C,
+}				t_key;
+
+typedef struct	s_map
+{
+	char 		**map;
+}				t_map;
 
 typedef struct	s_elements
 {
-	char*	NO_path; // verifier si le char* = NULL avant de le remplir
-	char*	SO_path;
-	char*	EA_path;
-	char*	WE_path;
-	// char*	path[4]; // path[0] = NO_path, path[1] = SO_path, etc.
-	int		F_value[3]; // init a -1 car 0 valeur accepte
-	int		C_value[3];
-}			t_elements;
+	char*		path[4]; // 0 NO, 1 EA, 2 SO, 3 WE
+	int			f_value[3]; // init a -1 car 0 valeur accepte
+	int			c_value[3];
+	bool		start_line;
+	int			e_counter;
+}				t_elem;
 
+typedef struct	s_data
+{
+	t_map		map;
+	t_elem		elem;
+	int			fd_file;
+}			t_data;
 
-// parsing
-void	parsing(char *argv);
-void	check_filename(char *argv);
-void	check_elem(char *argv);
+/// PARSING ///
+void	parsing(t_data *data, char *argv);
+void	check_filename(t_data *data, char *argv);
+void	check_param(t_data *data, char *file_map);
 
+void	check_map(t_data *data, char *mapfile);
 
-//main
-int	main(int argc, char** argv);
+/// UTILITIES ///
 
+// handle_exit
+void	exit_door(t_data *data, char *str);
+
+// init_data
+void	init_data(t_data *data);
+void	init_elem(t_elem *elem);
+
+// print_debug
+void	print_data(t_data *data);
+void	print_elem(t_elem *elem);
+void	print_map(char **map);
 
 #endif

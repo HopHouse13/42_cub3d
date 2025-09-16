@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_elem.c                                      :+:      :+:    :+:   */
+/*   handle_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/10 15:43:41 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/10 15:47:34 by tjacquel         ###   ########.fr       */
+/*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
+/*   Updated: 2025/09/15 04:23:22 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void	check_elem(char *argv)
+void	exit_door(t_data *data, char *str)
 {
-	// che
-	printf("ok\n");
+	printf("Error\n%s\n", str);
+	if (data->fd_file >= 0)
+		close(data->fd_file);
+	//free();
+	exit (2);
 }

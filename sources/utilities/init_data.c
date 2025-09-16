@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 12:27:42 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/14 21:03:23 by pab              ###   ########.fr       */
+/*   Created: 2025/09/11 16:56:31 by pbret             #+#    #+#             */
+/*   Updated: 2025/09/15 04:21:54 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
-int	main(int argc, char **argv)
+void	init_elem(t_elem *elem)
 {
-	t_data	data;
-	
-	if (argc != 2)
-		return (printf("error\ninvalid number of parameters\n"));
-	init_data(&data);
-	print_data(&data);
-	parsing(&data, argv[1]);
-	return (0);
+	int	i;
+
+	i = 0;
+	while(i < 3)
+	{
+		elem->f_value[i] = -1;
+		elem->c_value[i] = -1;
+		i++;
+	}
+	i = 0;
+	while (i < 4)
+		elem->path[i++] = NULL;
+	elem->start_line = false;
+	elem->e_counter = 0;
 }
+
+void	init_data(t_data *data)
+{
+	data->fd_file = -1;
+	init_elem(&data->elem);
+}
+
+
