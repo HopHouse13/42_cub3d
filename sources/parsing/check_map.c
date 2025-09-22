@@ -3,112 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/09/16 17:39:41 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/22 21:10:38 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-// idee:
-// j'avance jusqu'a la ligne non vide apres les 6 paramas
-// je check si elle est confirme a la premiere ligne de la map -> sinon exit
-// je la stock
-// je compte combien de lignes est compose la map (avec celle quw je viens de lire) JAI LE NOMBRE DE LIGNE DE LA MAP
-// Je close le fd
-// je reouvre un nouvel fd
-// et je parcours le fichier jusqu'a ligne de debut de map (strcmp)
-// je malloc le double tab_map
-// je reparcours le fichier en dup chaque ligne dans mon doubel tab_map (il est 5h35 du mat je go dodo)
-
-static void	return_start(t_data *data, char * mapfile)
+static bool	is_invalid_outline(char **map, char c, int i, int j)
 {
-	char	*line;
-	
-	data->fd_file = open(mapfile, O_RDONLY); // reouvre le file au debut
-	if (data->fd_file < 0) // pas utile vu qu'on sait qu'il est ouvrable mais utile si table des FD saturee
-		exit_door(data, "message probleme d'ouverture du .cub", ERROR);	
-	while((line = get_next_line(data->fd_file)) // avance jusqu'a la ligne du start de la map en comparant [start] a [line]
-			&& (ft_strlen(line) != ft_strlen(data->map.tab_map[0])
-			|| ft_strncmp(data->map.tab_map[0], line, ft_strlen(data->map.tab_map[0]))))
-		free(line);
-	free(line);
-}
+	bool	flag;
 
-static bool	is_empty(char * line)
-{
-	int	i;
-
-	i = -1;
-	while (line[++i])
+	flag = false;
+	if (c == 0 || c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
-		if (line[i] != ' ' && line[i] != '\n')
-			return (false);
+		if (i - 1 >= 0 && map[i - 1][j] != '0' && map[i - 1][j] != '1')
+			flag = true;
+		if (map[i + 1][j] && map[i + 1][j] != '0' && map[i + 1][j] != '1')
+			flag = true;
+		if (j - 1 >= 0 && map[i][j - 1] != '0' && map[i][j - 1] != '1')
+			flag = true;
+		if (map[i][j + 1] && map[i][j + 1] != '0' && map[i][j + 1] != '1')
+			flag = true;
 	}
-	return (true);
+	return (flag);
 }
-
-static char	*init_map(t_data *data)
+static bool	is_invalid_char(char c)
 {
-	int		count_line;
-	char	*line;
-	char	*start;
-	
-	count_line = 0;
-	while((line = get_next_line(data->fd_file)) && is_empty(line)) // avance jusqu'a la prochiane ligne non vide
-		free(line);
-	if (!line)
-		exit_door(data, "map inexistante", ERROR);
-	start = ft_strdup(line); // copie la ligne du start de la map
-	free(line);
-	count_line++; // incrementele compteur de ligne pour malloc le double_taa map car nous avons trouver le start de la map
-	while((line = get_next_line(data->fd_file)) && ++count_line) // avance ligne par ligne jusqu'a la fin du file en incrementant count_line
-		free(line);
-	close(data->fd_file);
-	data->map.tab_map = malloc(sizeof(char *) * (count_line + 1)); // initialise dinamiquement le double_tab map
-	if (!data->map.tab_map)
-		exit_door(data, "erreur lors de l'init. de la map", ERROR);
-	return (start); // le retourne start de la map
-}
-
-void	make_copy(t_data *data, char *mapfile)
-{
-	int		i;
-	char	*line;
-	char	*start;
-	
-	i = 1;
-	start = init_map(data); // retourne un char * qui est la premiere ligne de la map
-	data->map.tab_map[0] = start; // j'ai pas besoin de free start??? parce que l'adresse du pointeur est copie dans data->map.tab_map qui est free
-	return_start(data, mapfile);
-	while((line = get_next_line(data->fd_file)))
-	{
-		data->map.tab_map[i++] = strdup(line); // duplique chaque ligne dans le double_tab map jusqu'a la fin du file
-		free(line);
-	}
-	data->map.tab_map[i] = NULL; // met a NULL le dernier pointeur de la chaine de pointeur
-	print_map(data->map.tab_map);
+	if (c != '1' && c != '0' && c != 'N' && c != 'S' && c != 'E' && c != 'W'
+		&& c != ' ' && c != '\n')
+		return (true);
+	return (false);
 }
 
 void	check_map(t_data *data, char *mapfile)
 {
-	//int	i;
-	//int	j;
+	int		i;
+	int		j;
+	char	**tmp_map;
 	
 	make_copy(data, mapfile);
-	//i = -1;
-	//while(data->map.tab_map[++i])
-	//{
-	//	j = -1;
-	//	while(data->map.tab_map[i][++j])
-	//	{
-			
-	//	}
-	//}
+	tmp_map = data->map.tab_map;
+	i = -1;
+	while(tmp_map[++i])
+	{
+		if (is_empty(tmp_map[i])) // pour gerer les ligne vides dans la map
+			exit_door(data, "ligne vide dans la map", ERROR);
+		j = -1;
+		while(tmp_map[i][++j])
+		{
+			if (tmp_map[i][j] == '\n' && i == data->map.count_line - 1) // pour gerer la derniere ligne vide de la map (si il y a)
+				exit_door(data, "ligne vide dans la map", ERROR);
+			if (is_invalid_char(tmp_map[i][j]))
+				exit_door(data, "caracte invalide", ERROR);
+			if (is_invalid_outline(tmp_map, tmp_map[i][j], i, j))
+				exit_door(data, "open map", ERROR);
+		}
+	}
+	//printf("indexe j [%d]\n", j);
+	printf("||||| FIN DU PARCING DE LA MAP |||||\n");
 }
 
 // only [0] [1] ([N] [S] [E] [W]) [\n]
-// si [0] [N] [S] [E] [W]
-
+// si [0] [N] [S] [E] [W] sont bien entoure soit de [0] ou [1]
+// si la map a la totalitee de ses lignes non vide. (un espace est non vide. A confirmer avec toto)
