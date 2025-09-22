@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
+#    By: pab <pab@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/09/16 12:20:46 by pbret            ###   ########.fr        #
+#    Updated: 2025/09/22 15:07:08 by pab              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SRCS_PARSING = \
 	parsing/check_filename.c \
 	parsing/check_elem.c \
 	parsing/parsing.c \
-	parsing/check_map.c
+	parsing/check_map.c \
+	parsing/copy_map.c
 
 SRC_UTILS = \
 	utilities/handle_exit.c \

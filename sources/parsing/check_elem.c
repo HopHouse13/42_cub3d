@@ -276,7 +276,7 @@ static void	handle_line(t_data *data, char *line)
 	while (*line && *line == ' ') // les premiers espaces
 		line++;
 	if (*line == '\n' || *line == '\0') // passe la line suivante si la line est remplit que d'[ ] et un [\n]
-		return ;
+		return ; // a definir clairement si une ligne avec uniquement des ' ' est vide ou non. IMPORTANT POUR LE PARSING DE LA MAP
 	id_key = 0;
 	while (id_key <= 5)
 	{

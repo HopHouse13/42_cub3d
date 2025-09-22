@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/16 16:22:12 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/22 17:07:14 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef enum	e_key
 typedef struct	s_map
 {
 	char 		**tab_map;
+	int			count_line;
 }				t_map;
 
 typedef struct	s_elements
@@ -64,6 +65,8 @@ void	check_filename(t_data *data, char *argv);
 void	check_elem(t_data *data, char *file_map);
 
 void	check_map(t_data *data, char *mapfile);
+void	make_copy(t_data *data, char *mapfile);
+bool	is_empty(char *line);
 
 /// UTILITIES ///
 
