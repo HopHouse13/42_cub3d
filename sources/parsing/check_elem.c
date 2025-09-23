@@ -117,7 +117,7 @@ static void	check_rest_of_line(t_data *data, char **line)
 //	i = 0;
 
 //	while (i < 3)
-//	{
+//	{static
 //		tmp_line = *line;
 //		n = 0;
 //		while (**line && **line != ',' && **line != '\n')
@@ -307,6 +307,7 @@ void	check_elem(t_data *data, char *mapfile)
 		exit_door(data, "message probleme d'ouverture du .cub", ERROR);
 	while (data->elem.e_counter < 6 && (line = get_next_line(data->fd_file))) // si les 6 parametres ont ete trouves, on passe a la suite
 	{
+		if (line)
 		printf("\n||||| NOUVELLE LINE |||||\nPRINT LINE : [%s]\n", line);
 		handle_line(data, line);
 		free(line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/22 17:07:14 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/23 13:32:09 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,22 @@ typedef enum	e_key
 	C,
 }				t_key;
 
+typedef struct	s_vec
+{
+	float		x;
+	float		y;
+}				t_vec;
+
+typedef struct	s_player
+{
+	t_vec		pos;
+	char		ori;
+}				t_player;
+
 typedef struct	s_map
 {
 	char 		**tab_map;
-	int			count_line;
+	int			nb_line;
 }				t_map;
 
 typedef struct	s_elements
@@ -56,6 +68,7 @@ typedef struct	s_data
 {
 	t_map		map;
 	t_elem		elem;
+	t_player	player;
 	int			fd_file;
 }			t_data;
 
