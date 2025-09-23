@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/23 13:32:09 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/23 19:14:31 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ typedef enum	e_key
 	C,
 }				t_key;
 
+typedef enum	e_error
+{
+	OK,
+	E_KEY,
+	E_DOUBLE,
+}				t_error;
+
 typedef struct	s_vec
 {
 	float		x;
@@ -62,6 +69,7 @@ typedef struct	s_elements
 	int			c_value[3];
 	bool		start_line;
 	int			e_counter;
+	t_error		err_id;
 }				t_elem;
 
 typedef struct	s_data

@@ -63,110 +63,6 @@ static void	check_rest_of_line(t_data *data, char **line)
 		(*line)++;
 	}
 }
-// ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ FT_TOTO ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ
-
-//static void	floor_color(t_data *data, char **line)
-//{
-//	unsigned int	n;
-//	char			*tmp_line;
-//	// char			*tmp_color;
-//	int				i;
-
-//	i = 0;
-//	while (i < 3)
-//	{
-//		tmp_line = *line;
-//		n = 0;
-//		while (**line && **line != ',' && **line != '\n') // attention le comportement me parait bizarre quand plsrs ',' par exemple F 250,,225,40
-//		{
-//			if (!ft_isdigit(**line) && **line != ' ') // si le char n'est pas un espace ou pas un chiffre
-//			{
-//				printf ("je sors parce que jai trouve le char `%c`\n", **line);
-//				exit (1);
-//			}
-//			(*line)++;
-//			n++;
-//		}
-//		// tmp_color = ft_strndup(tmp_line, n);
-//		// printf ("tmp_color = %s\n", tmp_color);
-//		// int color = ft_atoi(tmp_color);
-//		// printf ("color = %d\n", color);
-
-//		// if (color < 0)
-//		// 	exit (1);
-//		if (data->elem.f_value[i] == -1)
-//			data->elem.f_value[i] = ft_atoi(ft_strndup(tmp_line, n)); // ne permet pas de verifier si le malloc de ft_strndup fail (return NULL) ou si ft_atoi renvoie une valeur de retour erreur (-1 si endehors du scope d'un int)
-//		else
-//		{
-//			printf ("doublon floor couleur\n");
-//			exit(1);
-//		}
-//		if (**line == ',' && i != 2) // je veux etre certain de pas skip un ',' en fin de RGB par exemple F 250,225,175
-//			(*line)++;
-//		i++;
-//	}
-//}
-
-//static void	ceiling_color(t_data *data, char **line)
-//{
-//	unsigned int	n;
-//	char			*tmp_line;
-//	char			*tmp_color;
-//	int				i;
-
-//	i = 0;
-
-//	while (i < 3)
-//	{static
-//		tmp_line = *line;
-//		n = 0;
-//		while (**line && **line != ',' && **line != '\n')
-//		{
-//			if (!ft_isdigit(**line) && **line != ' ') // exit lorsque on rencontre un '-' (moins)
-//			{
-//				printf ("je sors parce que jai trouve le char `%c`\n", **line);
-//				exit (1);
-//			}
-//			(*line)++;
-//			n++;
-//		}
-//		tmp_color = ft_strndup(tmp_line, n);
-//		printf ("tmp_color = %s\n", tmp_color);
-//		int color = ft_atoi(tmp_color);
-//		printf ("color = %d\n", color);
-//		if (color < 0) // pour moi pas utile car les valeurs forcement positive (vu qu'on exit pour '-')
-//			exit (1);
-//		if (data->elem.c_value[i] == -1)
-//			data->elem.c_value[i] = color;
-//		else
-//		{
-//			printf ("doublon ceiling couleur\n");
-//			exit(1);
-//		}
-//		if (**line == ',' && i != 2)
-//			(*line)++;
-//		// else
-//		// 	exit (1);
-//		i++;
-//	}
-//}
-
-//static void	color_getter(t_data *data, char **line, t_key id_key)
-//{
-//	// faudrait essayer de faire differemment je pense parce que virtuellement les fonctions
-//	// floor_color() et ceiling_color() sont les memes fonctions
-//	if (id_key == F)
-//		return ;//floor_color(data, line);
-//	else if (id_key == C)
-//		ceiling_color(data, line);
-//	else
-//	{
-//		printf("exit color_getter()\n");
-//		exit (1);
-//	}
-//}
-
-// ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ FT_TOTO ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ-ˆ
 
 // fonction de deplacement, controle de la conformitee et transmettre les infos
 // Fonctionne par sequence: une sequence = valeur + l'entre deux d'apres
@@ -276,7 +172,7 @@ static void	handle_line(t_data *data, char *line)
 	while (*line && *line == ' ') // les premiers espaces
 		line++;
 	if (*line == '\n' || *line == '\0') // passe la line suivante si la line est remplit que d'[ ] et un [\n]
-		return ; // a definir clairement si une ligne avec uniquement des ' ' est vide ou non. IMPORTANT POUR LE PARSING DE LA MAP
+		return ;
 	id_key = 0;
 	while (id_key <= 5)
 	{
@@ -307,7 +203,6 @@ void	check_elem(t_data *data, char *mapfile)
 		exit_door(data, "message probleme d'ouverture du .cub", ERROR);
 	while (data->elem.e_counter < 6 && (line = get_next_line(data->fd_file))) // si les 6 parametres ont ete trouves, on passe a la suite
 	{
-		if (line)
 		printf("\n||||| NOUVELLE LINE |||||\nPRINT LINE : [%s]\n", line);
 		handle_line(data, line);
 		free(line);
