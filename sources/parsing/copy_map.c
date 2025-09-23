@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/09/22 17:10:11 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/23 18:23:42 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ static char	*init_map(t_data *data)
 		exit_door(data, "map inexistante", ERROR);
 	start = ft_strdup(line); // copie la ligne du start de la map
 	free(line);
-	data->map.count_line++; // incrementele compteur de ligne pour malloc le double_taa map car nous avons trouver le start de la map
-	while((line = get_next_line(data->fd_file)) && ++data->map.count_line) // avance ligne par ligne jusqu'a la fin du file en incrementant count_line
+	data->map.nb_line++; // incrementele compteur de ligne pour malloc le double_taa map car nous avons trouver le start de la map
+	while((line = get_next_line(data->fd_file)) && ++data->map.nb_line) // avance ligne par ligne jusqu'a la fin du file en incrementant nb_line
 		free(line);
 	close(data->fd_file);
-	data->map.tab_map = malloc(sizeof(char *) * (data->map.count_line + 1)); // initialise dinamiquement le double_tab map
+	data->map.tab_map = malloc(sizeof(char *) * (data->map.nb_line + 1)); // initialise dinamiquement le double_tab map
 	if (!data->map.tab_map)
 		exit_door(data, "erreur lors de l'init. de la map", ERROR);
 	return (start); // le retourne start de la map
@@ -82,7 +82,7 @@ void	make_copy(t_data *data, char *mapfile)
 	return_start(data, mapfile);
 	while((line = get_next_line(data->fd_file)))
 	{
-		data->map.tab_map[i++] = strdup(line); // duplique chaque ligne dans le double_tab map jusqu'a la fin du file
+		data->map.tab_map[i++] = ft_strdup(line); // duplique chaque ligne dans le double_tab map jusqu'a la fin du file
 		free(line);
 	}
 	data->map.tab_map[i] = NULL; // met a NULL le dernier pointeur de la chaine de pointeur
