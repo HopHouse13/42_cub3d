@@ -6,7 +6,7 @@
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/25 19:07:52 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/25 20:58:58 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,16 @@
 typedef enum	e_error
 {
 	OK,
-	E_FILENAME,
-	E_DOUBLE,
+	E_FILENAME, // invalide name file
+	E_NO_KEY, // pas trouve de cle d'elem sur la ligne
+	E_ALLOC, // probleme lors d'un malloc
+	E_LINE_FT, // invalid format de la ligne (garbage char)
+	E_DUP_PATH, // doublon de cle de path
+	E_DUP_COLOR, // doublon de cle de couleur
+	E_PATH, // impossibilite d' ouvrire le path
+	E_READ_PATH, // error lors de la lecture du fichier texture (repertoire)	
+	E_RGB_FT, // format du RGB invalide
+	E_VALUE_COLOR, // error value color
 	E_UNKNOWN,
 }				t_error;
 
@@ -75,7 +83,6 @@ typedef struct	s_data
 	t_elem		elem;
 	t_player	player;
 	int			fd_file;
-	t_error		err_id;
 	char		*err_msg[E_UNKNOWN + 1];
 }			t_data;
 

@@ -6,7 +6,7 @@
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/09/25 19:00:03 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/25 19:17:48 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	return_start(t_data *data, char * mapfile)
 	
 	data->fd_file = open(mapfile, O_RDONLY); // reouvre le file au debut
 	if (data->fd_file < 0) // pas utile vu qu'on sait qu'il est ouvrable mais utile si table des FD saturee
-		exit_door(data, "message probleme d'ouverture du .cub", );	
+		exit_door(data);	
 	while((line = get_next_line(data->fd_file)) // avance jusqu'a la ligne du start de la map en comparant [start] a [line]
 			&& (ft_strlen(line) != ft_strlen(data->map.tab_map[0])
 			|| ft_strncmp(data->map.tab_map[0], line, ft_strlen(data->map.tab_map[0]))))
@@ -57,7 +57,7 @@ static char	*init_map(t_data *data)
 	while((line = get_next_line(data->fd_file)) && is_empty(line)) // avance jusqu'a la prochiane ligne non vide
 		free(line);
 	if (!line)
-		exit_door(data, "map inexistante", );
+		exit_door(data);
 	start = ft_strdup(line); // copie la ligne du start de la map
 	free(line);
 	data->map.nb_line++; // incrementele compteur de ligne pour malloc le double_taa map car nous avons trouver le start de la map
@@ -66,7 +66,7 @@ static char	*init_map(t_data *data)
 	close(data->fd_file);
 	data->map.tab_map = malloc(sizeof(char *) * (data->map.nb_line + 1)); // initialise dinamiquement le double_tab map
 	if (!data->map.tab_map)
-		exit_door(data, "erreur lors de l'init. de la map", );
+		exit_door(data);
 	return (start); // le retourne start de la map
 }
 
