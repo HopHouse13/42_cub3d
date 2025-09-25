@@ -20,13 +20,13 @@ static void check_color(t_data *data)
 	while (++i < 3)
 	{
 		if (data->elem.f_value[i] > 255 || data->elem.f_value[i] < 0) // peux etre egale a -1 si une valeurs depasse les limites de INT (retour atoi)
-			exit_door(data, "color value hors limits");
+			exit_door(data, E_VALUE_COLOR);
 	}
 	i = -1;
 	while (++i < 3)
 	{
 		if (data->elem.c_value[i] > 255 || data->elem.c_value[i] < 0)
-			exit_door(data, "color value hors limits");
+			exit_door(data, E_VALUE_COLOR);
 	}
 	printf("valeurs couleurs valides\n");
 }
@@ -44,24 +44,25 @@ static void check_path(t_data *data)
 		tmp_fd = open(data->elem.path[i], O_RDONLY);
 		printf("value tmp_fd [%d]\n", tmp_fd);
 		if (tmp_fd == -1)
-			exit_door(data, "error lors de l'ouverture du fichier texture");
+			exit_door(data, E_PATH);
 		tmp_read = read(tmp_fd, tmp_buf, 1);
 		printf("value tmp_read [%d]\n", tmp_read);
 		if (tmp_read == -1) // si le path est un repertoire, le fd va etre initialise mais nous ne pourons pas lire le dossier -> read retourne -1 si il n'arrive pas a lire
-			exit_door(data, "error lors de la lecture du fichier texture");
+			exit_door(data, E_READ_PATH);
 		close(tmp_fd); // si besoin des fd pour l'exec, on pourra les stocker dans une struct ici. Au lieu de les fermer.
 	}
 	printf("Fichiers textures valides\n");
 }
 
-static void	check_rest_of_line(t_data *data, char **line)
+static t_error	check_rest_of_line(t_data *data, char **line)
 {
 	while(**line && **line != '\n')
 	{
 		if (**line != ' ')
-			exit_door(data, "caractere(s) apres les paths ou les color_valeurs");
+			return (E_LINE_FT);
 		(*line)++;
 	}
+	return (OK);
 }
 
 // fonction de deplacement, controle de la conformitee et transmettre les infos
@@ -73,61 +74,64 @@ static void	check_rest_of_line(t_data *data, char **line)
 // 3 [se deplacer jusqu'au prochain digit tout en controlant la conformitee]
 // 4 [placer '\0' a la fin de la serie de digits pour l'atoi]
 // Rappel : aucun pointeur est deplacer ici.
-static int	handle_between_value(t_data *data, char **line, int nb_color_found)
+static t_error	between_value(t_data *data, char **line, int nb_color, int *end)
 {
 	int	i;
 	int comma;
-	int	tmp_end;
 
 	i = 0;
 	comma = 0;
 	while ((*line)[i] && ft_isdigit((*line)[i]))
 		i++;
-	tmp_end = i; // stock la position de fin de serie des digits
+	*end = i; // stock la position de fin de serie des digits
 	while ((*line)[i] && !ft_isdigit((*line)[i])) // gestion des char entre deux series de digits
 	{	
 		if (((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n') // les 2 premieres sequences ->  char autorises [,][ ][\n]
-			|| (nb_color_found > 1 && (*line)[i] != ' ' && (*line)[i] != '\n')) // [nb_color_found > 1] -> on est a la 3eme et derniere sequence; char autorise [ ]
-			exit_door(data, "je sors parce que jai trouve un char invalide");
+			|| (nb_color > 1 && (*line)[i] != ' ' && (*line)[i] != '\n')) // [nb_color > 1] -> on est a la 3eme et derniere sequence; char autorise [ ]
+			return (E_RGB_FT);
 		else if ((*line)[i] == ',')
 			comma++;
 		i++;
 	}
 	printf("value_comma : %d\n", comma);
-	printf("nb_color_found : %d\n", nb_color_found);
-	if (comma != 1 && nb_color_found < 2) // il faut exatement une virgule entre les sequences; faut ignorer ce controle pour la derniere sequence
-		exit_door(data, "format RGB invalid");
-	(*line)[tmp_end] = '\0'; // remplacement du char apresla serie de digits par '\0'
-	return (i); // retourne l'indexe ou je trouve le prochain digit
+	printf("nb_color : %d\n", nb_color);
+	if (comma != 1 && nb_color < 2) // il faut exatement une virgule entre les sequences; faut ignorer ce controle pour la derniere sequence
+		return (E_RGB_FT);
+	(*line)[*end] = '\0'; // remplacement du char apresla serie de digits par '\0'
+	return (OK); // retourne l'indexe ou je trouve le prochain digit
 }
 
-static void	color_getter(t_data *data, char **line, t_key id_key)
+static t_error	color_getter(t_data *data, char **line, t_key key_id)
 {
 	int	i;
 	int	value_color;
 	int	tmp_end;
+	int	err_id;
 
 	if (!ft_isdigit(**line)) // je dois commencer avec un digit car complexe de l'integrer dans le process std
-		exit_door(data, "1er char non digit");
+		return (E_RGB_FT);
 	i = 0;
 	while (i < 3)
 	{
-		tmp_end = handle_between_value(data, line, i);// retourne le nb de deplacement pour aller jusqu'a la prochaine digit
+		err_id = between_value(data, line, i, &tmp_end);// retourne le nb de deplacement pour aller jusqu'a la prochaine digit
+		if (err_id != OK)
+			return (err_id);
 		value_color = ft_atoi(*line);
-		if (id_key == F && data->elem.f_value[i] == -1) // check si double. si atoi renvoit -1 -> verificatoin plus tard
+		if (key_id == F && data->elem.f_value[i] == -1) // check si double. / si atoi renvoit -1 -> verificatoin plus tard
 			data->elem.f_value[i] = value_color;
-		else if (id_key == C && data->elem.c_value[i] == -1)
+		else if (key_id == C && data->elem.c_value[i] == -1)
 			data->elem.c_value[i] = value_color;
 		else
-			exit_door(data, "doublon couleur ou error lors du atoi(limites)");
-		printf("value_color = {%d}\n\n", value_color);
+			return (E_DUP_COLOR);
+		//printf("value_color = {%d}\n\n", value_color);
 		(*line) += tmp_end; // apres le atoi, deplacement du pointeur vers le debut de la prochaine serie de digits
-		printf("carac du nouveau depart {%c}\n", **line);
+		//printf("carac du nouveau depart {%c}\n", **line);
 		i++;
 	}
+	return (OK);
 }
 
-static void path_getter(t_data *data, char **line, t_key id_key)
+static t_error path_getter(t_data *data, char **line, t_key key_id)
 {
 	printf("path_getter line = `%s`", *line);
 	unsigned int	n;
@@ -140,25 +144,39 @@ static void path_getter(t_data *data, char **line, t_key id_key)
 		(*line)++;
 		n++;
 	}
-	if (!data->elem.path[id_key]) // protection pour eviter les doublons
+	if (!data->elem.path[key_id]) // protection pour eviter les doublons
 	{
-		data->elem.path[id_key] = ft_strndup(tmp_line, n);
-		if (!data->elem.path[id_key])
-			exit_door(data, "malloc ft_strdup stoker le path");
+		data->elem.path[key_id] = ft_strndup(tmp_line, n);
+		if (!data->elem.path[key_id])
+			return (E_ALLOC);
 	}
 	else
-		exit_door(data, "doublon path");
-	printf("data->elem.path[%d] = %s\n", id_key, data->elem.path[id_key]);
+		return (E_DUP_PATH);
+	return (OK);
+	printf("data->elem.path[%d] = %s\n", key_id, data->elem.path[key_id]);
 }
 
-static bool	key_finder(char **line, t_key id_key)
+static t_error	handle_get_elem(t_data *data, char *line, t_key key_id)
+{
+	t_error	err_id;
+
+	while (*line && *line == ' ')
+		line++;
+	if (key_id < F)
+		err_id = path_getter(data, &line, key_id);
+	else
+		err_id = color_getter(data, &line, key_id);
+	return (err_id);
+}
+
+static bool	key_finder(char **line, t_key key_id)
 {
 	static const char	*tab_keys[6] = {"NO ", "EA ", "SO ", "WE ", "F ", "C "};
 
-	if ((id_key < F && !ft_strncmp(*line, tab_keys[id_key], 3))
-		|| (id_key > WE && !ft_strncmp(*line, tab_keys[id_key], 2)))
+	if ((key_id < F && !ft_strncmp(*line, tab_keys[key_id], 3))
+		|| (key_id > WE && !ft_strncmp(*line, tab_keys[key_id], 2)))
 	{
-		if (id_key < F)
+		if (key_id < F)
 			*line += 3;
 		else
 			*line += 2;
@@ -167,39 +185,36 @@ static bool	key_finder(char **line, t_key id_key)
 	return (false);
 }
 
-static void	handle_line(t_data *data, char *line)
+static t_error	handle_line(t_data *data, char *line)
 {
-	t_key	id_key;
+	t_key	key_id;
 
 	while (*line && *line == ' ') // les premiers espaces
 		line++;
 	if (*line == '\n' || *line == '\0') // passe la line suivante si la line est remplit que d'[ ] et un [\n]
-		return ;
-	id_key = 0;
-	while (id_key <= 5)
+		return (OK);
+	key_id = NO;
+	while (key_id <= C)
 	{
-		if (key_finder(&line, id_key))
+		if (key_finder(&line, key_id))
 		{
-			printf("found key number %d\n-------------------------\n", id_key);
+			printf("found key number %d\n-------------------------\n", key_id);
 			data->elem.e_counter++;
-			while (*line && *line == ' ')
-				line++;
-			if (id_key < F)
-				path_getter(data, &line, id_key);
-			else
-				color_getter(data, &line, id_key);
-			check_rest_of_line(data, &line);
-			return ;
+			key_id = handle_get_elem(data, line, key_id);
+			if (key_id == OK)
+				key_id = check_rest_of_line(data, &line);
+			return (key_id);
 		}
-		id_key++;
+		key_id++;
 	}
-	exit_door(data, "pas trouve de key");
+	return (E_NO_KEY);
 }
 
 void	check_elem(t_data *data, char *mapfile)
 {
 	char *line;
-	
+	t_error	err_id;
+
 	data->fd_file = open(mapfile, O_RDONLY);
 	if (data->fd_file < 0)
 		exit_door(data, "message probleme d'ouverture du .cub");
@@ -209,10 +224,10 @@ void	check_elem(t_data *data, char *mapfile)
 		if (!line)
 			exit_door(data, "GNL");
 		printf("\n||||| NOUVELLE LINE |||||\nNEW LINE : [%s]\n", line);
-		handle_line(data, line);
+		err_id = handle_line(data, line);
 		free(line);
-		if(data->err_id > OK)
-			exit_door(data, );
+		if(err_id > OK)
+			exit_door(data, err_id);
 	}
 	if (data->elem.e_counter < 6)
 		exit_door(data, "Parametres incomplets");

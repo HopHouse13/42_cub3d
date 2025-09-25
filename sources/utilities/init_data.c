@@ -6,7 +6,7 @@
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:56:31 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/25 19:07:08 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/25 19:24:44 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	init_err_msgs(char *err_msg)
 void	init_data(t_data *data)
 {
 	data->fd_file = -1;
-	data->err_id = OK;
 	init_err_msgs(data->err_msg);
 	// struct_map
 	data->map.tab_map = NULL;

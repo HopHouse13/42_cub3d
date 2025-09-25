@@ -6,7 +6,7 @@
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/09/25 18:57:33 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/25 19:20:34 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ static void	free_elem(t_data *data)
 	int	i;
 
 	i = 0;
-	while (data->elem.path[i] && i < 4) // il n'y a pas de chaine de caracte de fin ('\0') mais nous savons qu'il exatement 4 chaines a liberer
+	while (data->elem.path[i] && i < 4) // il n'y a pas de chaine de char de fin ('\0') mais nous savons qu'il exatement 4 chaines a liberer
 		free(data->elem.path[i++]);
 }
 
 void	exit_door(t_data *data, t_error err_id)
 {
-	if (err_id)
+	if (err_id < 0)
+		err_id = E_UNKNOWN;
+	if (err_id > 0)
 		printf("Error\n");
 	printf("%s\n", data->err_msg[err_id]);
 	
