@@ -70,7 +70,7 @@
 		pas de ligne vide
 		la map doit etre en un seul bloc
 	 -> une fois que les 6 elem sont identifier, tous ce qui suit est considere comme la map:
-		si autre carac que N, S, E, W, 0, 1 ERROR
+		si autre carac que N, S, E, W, 0, 1 
 
 	Si error -> fermeture du prog + "Error\n" + mess d'explication
 

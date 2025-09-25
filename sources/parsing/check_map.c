@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/09/23 15:23:20 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/25 19:01:28 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,13 @@ void	check_map(t_data *data, char *mapfile)
 		while (map[i][++j])
 		{
 			if (!valid_char(map[i][j]))
-				exit_door(data, "caracte invalide", ERROR);
+				exit_door(data, "caracte invalide");
 			if (!get_player(data, map[i][j], i, j))
-				exit_door(data, "doublon du player", ERROR);
+				exit_door(data, "doublon du player");
 			if (map[i][j] == '\n' && (j == 0 || i == data->map.nb_line -1)) // pour gerer la derniere ligne vide de la map (si il y a) et une ligne vide en cours de map
-				exit_door(data, "ligne vide dans la map", ERROR);
+				exit_door(data, "ligne vide dans la map");
 			if (!valid_outline(map, map[i][j], i, j))
-				exit_door(data, "open map", ERROR);
+				exit_door(data, "open map");
 		}
 	}
 	printf("Vecteurs du player x[%f] y[%f]\nOrientation du player [%c]\n", data->player.pos.x, data->player.pos.y, data->player.ori);
