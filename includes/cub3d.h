@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/23 19:14:31 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/25 19:07:52 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,13 @@
 # include <stdbool.h>
 # include <fcntl.h>
 
-# define ERROR 1 // pour le flag exit_door
-# define RIGHT 0
+typedef enum	e_error
+{
+	OK,
+	E_FILENAME,
+	E_DOUBLE,
+	E_UNKNOWN,
+}				t_error;
 
 typedef enum	e_key
 {
@@ -36,13 +41,6 @@ typedef enum	e_key
 	F,
 	C,
 }				t_key;
-
-typedef enum	e_error
-{
-	OK,
-	E_KEY,
-	E_DOUBLE,
-}				t_error;
 
 typedef struct	s_vec
 {
@@ -64,12 +62,11 @@ typedef struct	s_map
 
 typedef struct	s_elements
 {
-	char*		path[4]; // 0 NO, 1 EA, 2 SO, 3 WE
+	char		*path[4]; // 0 NO, 1 EA, 2 SO, 3 WE
 	int			f_value[3]; // init a -1 car 0 valeur accepte
 	int			c_value[3];
 	bool		start_line;
 	int			e_counter;
-	t_error		err_id;
 }				t_elem;
 
 typedef struct	s_data
@@ -78,6 +75,8 @@ typedef struct	s_data
 	t_elem		elem;
 	t_player	player;
 	int			fd_file;
+	t_error		err_id;
+	char		*err_msg[E_UNKNOWN + 1];
 }			t_data;
 
 /// PARSING ///
@@ -92,7 +91,7 @@ bool	is_empty(char *line);
 /// UTILITIES ///
 
 // handle_exit
-void	exit_door(t_data *data, char *str, bool flag);
+void	exit_door(t_data *data, t_error err_id);
 
 // init_data
 void	init_data(t_data *data);

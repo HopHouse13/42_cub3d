@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/09/16 18:54:33 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/25 18:57:33 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,13 @@ static void	free_elem(t_data *data)
 		free(data->elem.path[i++]);
 }
 
-void	exit_door(t_data *data, char *str, bool	flag)
+void	exit_door(t_data *data, t_error err_id)
 {
-	if (flag)
+	if (err_id)
 		printf("Error\n");
-	printf("%s\n", str);
+	printf("%s\n", data->err_msg[err_id]);
+	
+
 	
 	if (data->fd_file >= 0)
 		close(data->fd_file);
