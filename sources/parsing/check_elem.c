@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_param.c                                      :+:      :+:    :+:   */
+/*   check_elem.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -19,14 +19,14 @@ static void check_color(t_data *data)
 	i = -1;
 	while (++i < 3)
 	{
-		if (data->elem.f_value[i] > 255 || data->elem.f_value[i] < 0) // peux etre egale a -1 si une valeurs depaasse les limites de INT (retour atoi)
-			exit_door(data, "color value hors limits");
+		if (data->elem.f_value[i] > 255 || data->elem.f_value[i] < 0) // peux etre egale a -1 si une valeurs depasse les limites de INT (retour atoi)
+			exit_door(data, "color value hors limits", ERROR);
 	}
 	i = -1;
 	while (++i < 3)
 	{
 		if (data->elem.c_value[i] > 255 || data->elem.c_value[i] < 0)
-			exit_door(data, "color value hors limits");
+			exit_door(data, "color value hors limits", ERROR);
 	}
 	printf("valeurs couleurs valides\n");
 }
@@ -44,11 +44,11 @@ static void check_path(t_data *data)
 		tmp_fd = open(data->elem.path[i], O_RDONLY);
 		printf("value tmp_fd [%d]\n", tmp_fd);
 		if (tmp_fd == -1)
-			exit_door(data, "error lors de l'ouverture du fichier texture");
+			exit_door(data, "error lors de l'ouverture du fichier texture", ERROR);
 		tmp_read = read(tmp_fd, tmp_buf, 1);
 		printf("value tmp_read [%d]\n", tmp_read);
 		if (tmp_read == -1) // si le path est un repertoire, le fd va etre initialise mais nous ne pourons pas lire le dossier -> read retourne -1 si il n'arrive pas a lire
-			exit_door(data, "error lors de la lecture du fichier texture");
+			exit_door(data, "error lors de la lecture du fichier texture", ERROR);
 		close(tmp_fd); // si besoin des fd pour l'exec, on pourra les stocker dans une struct ici. Au lieu de les fermer.
 	}
 	printf("Fichiers textures valides\n");
@@ -59,7 +59,7 @@ static void	check_rest_of_line(t_data *data, char **line)
 	while(**line && **line != '\n')
 	{
 		if (**line != ' ')
-			exit_door(data, "je suis sorti a `%c` du reste de la ligne `%s`");
+			exit_door(data, "caractere(s) apres les paths ou les color_valeurs", ERROR);
 		(*line)++;
 	}
 }
@@ -101,7 +101,7 @@ static void	check_rest_of_line(t_data *data, char **line)
 //			printf ("doublon floor couleur\n");
 //			exit(1);
 //		}
-//		if (**line == ',' && i != 2) // je veux etre certain de pas skip un ',' en fin de RGB par exemple F 250,225,175,
+//		if (**line == ',' && i != 2) // je veux etre certain de pas skip un ',' en fin de RGB par exemple F 250,225,175
 //			(*line)++;
 //		i++;
 //	}
@@ -192,7 +192,7 @@ static int	handle_between_value(t_data *data, char **line, int nb_color_found)
 	{	
 		if (((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n') // les 2 premieres sequences ->  char autorises [,][ ][\n]
 			|| (nb_color_found > 1 && (*line)[i] != ' ' && (*line)[i] != '\n')) // [nb_color_found > 1] -> on est a la 3eme et derniere sequence; char autorise [ ]
-			exit_door(data, "je sors parce que jai trouve un char invalide");
+			exit_door(data, "je sors parce que jai trouve un char invalide", ERROR);
 		else if ((*line)[i] == ',')
 			comma++;
 		i++;
@@ -200,9 +200,9 @@ static int	handle_between_value(t_data *data, char **line, int nb_color_found)
 	printf("value_comma : %d\n", comma);
 	printf("nb_color_found : %d\n", nb_color_found);
 	if (comma < 1 && nb_color_found < 2) // il faut exatement une virgule entre les sequences; faut ignorer ce controle pour la derniere sequence
-		exit_door(data, "manque 1 virgule entre 2 valeurs");
+		exit_door(data, "manque 1 virgule entre 2 valeurs", ERROR);
 	else if (comma > 1 && nb_color_found < 2)
-		exit_door(data, "manque 1 valeur entre 2 virgule");
+		exit_door(data, "manque 1 valeur entre 2 virgule", ERROR);
 	(*line)[tmp_end] = '\0'; // remplacement du char apresla serie de digits par '\0'
 	return (i); // retourne l'indexe ou je trouve le prochain digit
 }
@@ -214,7 +214,7 @@ static void	color_getter(t_data *data, char **line, t_key id_key)
 	int	tmp_end;
 
 	if (!ft_isdigit(**line)) // je dois commencer avec un digit car complexe de l'integrer dans le process std
-		exit_door(data, "1er char non digit");
+		exit_door(data, "1er char non digit", ERROR);
 	i = 0;
 	while (i < 3)
 	{
@@ -225,7 +225,7 @@ static void	color_getter(t_data *data, char **line, t_key id_key)
 		else if (id_key == C && data->elem.c_value[i] == -1)
 			data->elem.c_value[i] = value_color;
 		else
-			exit_door(data, "doublon ceiling couleur ou error lors du atoi(limites)");
+			exit_door(data, "doublon couleur ou error lors du atoi(limites)", ERROR);
 		printf("value_color = {%d}\n\n", value_color);
 		(*line) += tmp_end; // apres le atoi, deplacement du pointeur vers le debut de la prochaine serie de digits
 		printf("carac du nouveau depart {%c}\n", **line);
@@ -236,7 +236,6 @@ static void	color_getter(t_data *data, char **line, t_key id_key)
 static void path_getter(t_data *data, char **line, t_key id_key)
 {
 	printf("path_getter line = `%s`", *line);
-
 	unsigned int	n;
 	char*			tmp_line;
 
@@ -250,7 +249,7 @@ static void path_getter(t_data *data, char **line, t_key id_key)
 	if (!data->elem.path[id_key]) // protection pour eviter les doublons
 		data->elem.path[id_key] = ft_strndup(tmp_line, n);
 	else
-		exit_door(data, "doublon path");
+		exit_door(data, "doublon path", ERROR);
 	printf("data->elem.path[%d] = %s\n", id_key, data->elem.path[id_key]);
 }
 
@@ -291,22 +290,21 @@ static void	handle_line(t_data *data, char *line)
 				path_getter(data, &line, id_key);
 			else
 				color_getter(data, &line, id_key);
-			printf("rest of the line after getter function : `%s`", line);
 			check_rest_of_line(data, &line);
 			return ;
 		}
 		id_key++;
 	}
-	exit_door(data, "pas trouve de key");
+	exit_door(data, "pas trouve de key", ERROR);
 }
 
-void	check_param(t_data *data, char *mapfile)
+void	check_elem(t_data *data, char *mapfile)
 {
 	char	*line;
 
 	data->fd_file = open(mapfile, O_RDONLY);
 	if (data->fd_file < 0)
-		exit_door(data, "message probleme d'ouverture du .cub");
+		exit_door(data, "message probleme d'ouverture du .cub", ERROR);
 	while (data->elem.e_counter < 6 && (line = get_next_line(data->fd_file))) // si les 6 parametres ont ete trouves, on passe a la suite
 	{
 		printf("\n||||| NOUVELLE LINE |||||\nPRINT LINE : [%s]\n", line);
@@ -314,13 +312,39 @@ void	check_param(t_data *data, char *mapfile)
 		free(line);
 	}
 	if (data->elem.e_counter < 6)
-		exit_door(data, "Parametres incomplets");
+		exit_door(data, "Parametres incomplets", ERROR);
 	printf ("\n\n||||| Elem values after data->elem.e_counter == 6 |||||\n\n");
 	print_elem(&data->elem);
 	check_path(data);
 	check_color(data);
 }
 
+//void	check_elem(t_data *data, char *mapfile)
+//{
+//	char	*line;
+
+//	data->fd_file = open(mapfile, O_RDONLY);
+//	if (data->fd_file < 0)
+//		exit_door(data, "message probleme d'ouverture du .cub", ERROR);
+//	while (data->elem.e_counter < 6) // si les 6 parametres ont ete trouves, on passe a la suite
+//	{
+//		printf("\n||||| NOUVELLE LINE |||||\nPRINT LINE : [%s]\n", line);
+//		line = get_next_line(data->fd_file);
+//		if (!line)
+//			exit_door(data, "error malloc gnl", ERROR);
+//		if (*line == '\0' && data->elem.e_counter < 6)
+//		{
+//			free(line);
+//			exit_door(data, "Parametres incomplets", ERROR);
+//		}
+//		handle_line(data, line);
+//		free(line);
+//	}
+//	printf ("\n\n||||| Elem values after data->elem.e_counter == 6 |||||\n\n");
+//	print_elem(&data->elem);
+//	check_path(data);
+//	check_color(data);
+//}
 
 // TO DO -
 // COLOR_GETTER ✅

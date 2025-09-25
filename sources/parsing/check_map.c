@@ -3,108 +3,96 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/09/15 20:06:58 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/23 15:23:20 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-// idee:
-// j'avance jusqu'a la ligne non vide apres les 6 paramas
-// je check si elle est confirme a la premiere ligne de la map -> sinon exit
-// je la stock
-// je compte combien de lignes est compose la map (avec celle quw je viens de lire) JAI LE NOMBRE DE LIGNE DE LA MAP
-// Je close le fd
-// je reouvre un nouvel fd
-// et je parcours le fichier jusqu'a ligne de debut de map (strcmp)
-// je malloc le double tab_map
-// je reparcours le fichier en dup chaque ligne dans mon doubel tab_map (il est 5h35 du mat je go dodo)
-
-static bool	is_empty(char * line)
+static bool	opening_char(char c)
 {
-	int	i;
+	if (c == ' ' || c == '\n')
+		return (true);
+	return (false);
+}
 
-	i = -1;
-	while (line[++i])
+static bool	valid_outline(char **map, char c, int i, int j)
+{
+	bool	flag;
+
+	flag = true;
+	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
-		if (line[i] != ' ' && line[i] != '\n')
+		if (!map[i - 1][j] || (map[i - 1][j] && opening_char(map[i - 1][j])))
+			flag = false;
+		if (!map[i + 1][j] || (map[i + 1][j] && opening_char(map[i + 1][j])))
+			flag = false;
+		if (!map[i][j - 1] || (map[i][j - 1] && opening_char(map[i][j - 1])))
+			flag = false;
+		if (!map[i][j + 1] || (map[i][j + 1] && opening_char(map[i][j + 1])))
+			flag = false;
+	}
+	return (flag);
+}
+
+static bool	valid_char(char c)
+{
+	if (c != '1' && c != '0' && c != 'N' && c != 'S' && c != 'E' && c != 'W' 
+		&& c != ' ' && c != '\n')
+		return (false);
+	return (true);
+}
+
+static bool	get_player(t_data *data, char c, int i, int j)
+{
+	static bool	found_one = false;
+
+	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+	{
+		if (found_one)
 			return (false);
+		else
+		{
+			found_one = true;
+			data->player.ori = c;
+			data->player.pos.x = i;
+			data->player.pos.y = j;
+		}
 	}
 	return (true);
 }
 
-static int	count_map(t_data *data, char *mapfile)
-{
-	int		count_line;
-	char	*line;
-	char	*start;
-	
-	count_line = 0;
-	while((line = get_next_line(data->fd_file)) && is_empty(line))
-		free(line);
-	if (!line)
-		exit_door(data, "map inexistante");
-		
-	start = ft_strdup(line);
-	free(line);
-	count_line++;
-	
-	while((line = get_next_line(data->fd_file)) && ++count_line)
-		free(line);
-	close(data->fd_file);
-	
-	data->map.map = malloc(sizeof(char *) * (count_line + 1));
-	if (!data->map.map)
-		exit_door(data, "erreur lors de l'init. de la map");
-	
-	data->fd_file = open(mapfile, O_RDONLY);
-	if (data->fd_file < 0) // pas utile vu qu'on sait qu'il est ouvrable
-		exit_door(data, "message probleme d'ouverture du .cub");
-		
-	while((line = get_next_line(data->fd_file))
-			&& (ft_strlen(line) != ft_strlen(start)
-			|| ft_strncmp(start, line, ft_strlen(start))))
-		free(line);
-	free(line);
-	data->map.map[0] = ft_strdup(start);
-	free(start);
-	return (count_line);
-}
-
-void	make_copy(t_data *data, char *mapfile)
-{
-	int		count_line;
-	int		i;
-	char	*line;
-	
-	i = 0;
-	count_line = count_map(data, mapfile);
-	while( ++i < count_line && (line = get_next_line(data->fd_file)))
-	{
-		data->map.map[i] = strdup(line);
-		free(line);
-	}
-	data->map.map[++i] = NULL;
-	print_map(data->map.map);
-}
-
 void	check_map(t_data *data, char *mapfile)
 {
-	//int	i;
-	//int	j;
-	
+	int		i;
+	int		j;
+	char	**map;
+
 	make_copy(data, mapfile);
-	//i = -1;
-	//while(data->map.map[++i])
-	//{
-	//	j = -1;
-	//	while(data->map.map[i][++j])
-	//	{
-			
-	//	}
-	//}
+	map = data->map.tab_map;
+	i = -1;
+	while (map[++i])
+	{
+		j = -1;
+		while (map[i][++j])
+		{
+			if (!valid_char(map[i][j]))
+				exit_door(data, "caracte invalide", ERROR);
+			if (!get_player(data, map[i][j], i, j))
+				exit_door(data, "doublon du player", ERROR);
+			if (map[i][j] == '\n' && (j == 0 || i == data->map.nb_line -1)) // pour gerer la derniere ligne vide de la map (si il y a) et une ligne vide en cours de map
+				exit_door(data, "ligne vide dans la map", ERROR);
+			if (!valid_outline(map, map[i][j], i, j))
+				exit_door(data, "open map", ERROR);
+		}
+	}
+	printf("Vecteurs du player x[%f] y[%f]\nOrientation du player [%c]\n", data->player.pos.x, data->player.pos.y, data->player.ori);
+	printf("||||| FIN DU PARCING DE LA MAP |||||\n");
 }
 
+// only [0] [1] ([N] [S] [E] [W]) [\n]
+// si [0] [N] [S] [E] [W] sont bien entoure soit de [0] ou [1]
+// si la map a la totalitee de ses lignes non vide. (un espace est non vide. A confirmer avec toto)

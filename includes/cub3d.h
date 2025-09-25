@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/15 18:41:07 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/23 19:14:31 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # include <stdbool.h>
 # include <fcntl.h>
 
+# define ERROR 1 // pour le flag exit_door
+# define RIGHT 0
+
 typedef enum	e_key
 {
 	NO,
@@ -34,9 +37,29 @@ typedef enum	e_key
 	C,
 }				t_key;
 
+typedef enum	e_error
+{
+	OK,
+	E_KEY,
+	E_DOUBLE,
+}				t_error;
+
+typedef struct	s_vec
+{
+	float		x;
+	float		y;
+}				t_vec;
+
+typedef struct	s_player
+{
+	t_vec		pos;
+	char		ori;
+}				t_player;
+
 typedef struct	s_map
 {
-	char 		**map;
+	char 		**tab_map;
+	int			nb_line;
 }				t_map;
 
 typedef struct	s_elements
@@ -46,26 +69,30 @@ typedef struct	s_elements
 	int			c_value[3];
 	bool		start_line;
 	int			e_counter;
+	t_error		err_id;
 }				t_elem;
 
 typedef struct	s_data
 {
 	t_map		map;
 	t_elem		elem;
+	t_player	player;
 	int			fd_file;
 }			t_data;
 
 /// PARSING ///
 void	parsing(t_data *data, char *argv);
 void	check_filename(t_data *data, char *argv);
-void	check_param(t_data *data, char *file_map);
+void	check_elem(t_data *data, char *file_map);
 
 void	check_map(t_data *data, char *mapfile);
+void	make_copy(t_data *data, char *mapfile);
+bool	is_empty(char *line);
 
 /// UTILITIES ///
 
 // handle_exit
-void	exit_door(t_data *data, char *str);
+void	exit_door(t_data *data, char *str, bool flag);
 
 // init_data
 void	init_data(t_data *data);
