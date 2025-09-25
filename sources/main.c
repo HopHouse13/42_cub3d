@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:27:42 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/14 21:03:23 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/16 15:45:19 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ int	main(int argc, char **argv)
 	t_data	data;
 	
 	if (argc != 2)
-		return (printf("error\ninvalid number of parameters\n"));
+		return (printf("Error\ninvalid number of parameters\n"));
 	init_data(&data);
 	print_data(&data);
 	parsing(&data, argv[1]);
+	exit_door(&data, "CUB3D SE FERME\n", RIGHT);
 	return (0);
 }
