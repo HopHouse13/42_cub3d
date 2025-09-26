@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/09/25 19:17:48 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/26 14:10:57 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,22 @@
 // je malloc le double tab_map
 // je reparcours le fichier en dup chaque ligne dans mon doubel tab_map (il est 5h35 du mat je go dodo)
 
-static void	return_start(t_data *data, char * mapfile)
+static void	refind_start_map(t_data *data, char *mapfile)
 {
 	char	*line;
-	
+
 	data->fd_file = open(mapfile, O_RDONLY); // reouvre le file au debut
 	if (data->fd_file < 0) // pas utile vu qu'on sait qu'il est ouvrable mais utile si table des FD saturee
-		exit_door(data);	
-	while((line = get_next_line(data->fd_file)) // avance jusqu'a la ligne du start de la map en comparant [start] a [line]
-			&& (ft_strlen(line) != ft_strlen(data->map.tab_map[0])
-			|| ft_strncmp(data->map.tab_map[0], line, ft_strlen(data->map.tab_map[0]))))
+		exit_door(data, E_OPEN_FILE);
+	line = get_next_line(data->fd_file);
+	if (!line)
+		exit_door(data, E_ALLOC);
+	while(ft_strlen(line) != ft_strlen(data->map.tab_map[0])
+			|| ft_strncmp(data->map.tab_map[0], line, ft_strlen(data->map.tab_map[0])))
+	{
 		free(line);
+		line = get_next_line(data->fd_file);
+	}
 	free(line);
 }
 
@@ -53,20 +58,33 @@ static char	*init_map(t_data *data)
 {
 	char	*line;
 	char	*start;
-	
-	while((line = get_next_line(data->fd_file)) && is_empty(line)) // avance jusqu'a la prochiane ligne non vide
+
+	while(1) // j'aime pas dutout faire ca
+	{
+		line = get_next_line(data->fd_file);
+		if (!line)
+			exit_door(data, E_ALLOC);
+		if(line == NULL)
+			exit_door(data, E_EMPTY_MAP);
+		else if (!is_empty(line)) // avance jusqu'a la prochiane ligne non vide
+			break ;
 		free(line);
-	if (!line)
-		exit_door(data);
+	}
 	start = ft_strdup(line); // copie la ligne du start de la map
-	free(line);
-	data->map.nb_line++; // incrementele compteur de ligne pour malloc le double_taa map car nous avons trouver le start de la map
-	while((line = get_next_line(data->fd_file)) && ++data->map.nb_line) // avance ligne par ligne jusqu'a la fin du file en incrementant nb_line
+	if (!start)
+		exit_door(data, E_ALLOC);
+	while(line != NULL) // avance ligne par ligne jusqu'a la fin du file en incrementant nb_line
+	{
+		++data->map.nb_line;
 		free(line);
+		line = get_next_line(data->fd_file);
+		//if (!line)
+		//	exit_door(data, E_ALLOC);
+	}
 	close(data->fd_file);
 	data->map.tab_map = malloc(sizeof(char *) * (data->map.nb_line + 1)); // initialise dinamiquement le double_tab map
 	if (!data->map.tab_map)
-		exit_door(data);
+		exit_door(data, E_ALLOC);
 	return (start); // le retourne start de la map
 }
 
@@ -74,16 +92,20 @@ void	make_copy(t_data *data, char *mapfile)
 {
 	int		i;
 	char	*line;
-	char	*start;
-	
+
+	data->map.tab_map[0] = init_map(data); // retourne un char * qui est la premiere ligne de la map
+	refind_start_map(data, mapfile);
 	i = 1;
-	start = init_map(data); // retourne un char * qui est la premiere ligne de la map
-	data->map.tab_map[0] = start; // j'ai pas besoin de free start??? parce que l'adresse du pointeur est copie dans data->map.tab_map qui est free
-	return_start(data, mapfile);
-	while((line = get_next_line(data->fd_file)))
+	while(i < data->map.nb_line)
 	{
-		data->map.tab_map[i++] = ft_strdup(line); // duplique chaque ligne dans le double_tab map jusqu'a la fin du file
+		line = get_next_line(data->fd_file);
+		if (!line)
+			exit_door(data, E_ALLOC);
+		data->map.tab_map[i] = ft_strdup(line); // duplique chaque ligne dans le double_tab map jusqu'a la fin du file
 		free(line);
+		if (!data->map.tab_map[i])
+			exit_door(data, E_ALLOC);
+		i++;
 	}
 	data->map.tab_map[i] = NULL; // met a NULL le dernier pointeur de la chaine de pointeur
 	print_map(data->map.tab_map);
