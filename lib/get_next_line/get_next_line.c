@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:04:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/25 15:42:24 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/26 17:14:16 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,14 @@ char	*gnl_update_stash(char *string)
 	return (new_stash);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, bool exit_door)
 {
 	static char	*stash;
 	char		*line;
 	char		*buffer;
 
+	if(exit_door && stash)
+		free(stash);
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));

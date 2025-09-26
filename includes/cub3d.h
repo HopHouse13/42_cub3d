@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/26 13:35:51 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/26 17:17:45 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,28 @@
 
 typedef enum	e_error
 {
-	OK, // 0
-	E_FILENAME, // 1 invalide name file
-	E_OPEN_FILE, // 2 impossibilite d'ouverture du file.cub (droits)
-	E_READ_FILE, // 3 erreur lors de la lecture du fichier par GNL
-	E_MISS_PARAM, // 4 parametres manquants pour initialiser la map
-	E_NO_KEY, // 5 pas trouve de cle d'elem sur la ligne
-	E_ALLOC, // 6 probleme lors d'un malloc
-	E_LINE_FT, // 7 invalid format de la ligne (garbage char)
-	E_DUP_PATH, // 8 doublon de cle de path
-	E_DUP_COLOR, // 9 doublon de cle de couleur
-	E_PATH, // 10 impossibilite d' ouvrire le path
-	E_READ_PATH, // 11 error lors de la lecture du fichier texture (repertoire)	
-	E_RGB_FT, // 12 format du RGB invalide
-	E_VALUE_COLOR, // 13 error value color
-	E_EMPTY_MAP, // 14 map vide
-	E_INV_CHAR_MAP, // 15 si le char analyse n'est pas un char autorise sur la map
-	E_DUP_PLAYER, // 16 doublon player sur la map
-	E_EMPTY_LINE, // 17 ligne vide dans la map
-	E_OPEN_MAP, // 18 map ouverte
-	E_UNKNOWN,// 19
+	OK, // 0 Cub3D executed successfully✅
+	E_FILENAME, // 1 Invalid file name✅
+	E_OPEN_FILE, // 2 Unable to open .cub file✅
+	E_READ_FILE, // 3 Error reading the .cub file❌
+	E_MISS_PARAM, // 4 Missing parameters❌
+	E_NO_KEY, // 5 Unknown or missing element key in line✅
+	E_ALLOC, // 6 Memory allocation failed❌
+	E_LINE_FT, // 7 Invalid line format✅
+	E_DUP_PATH, // 8 Duplicate texture path definition✅
+	E_DUP_COLOR, // 9 Duplicate color definition✅
+	E_PATH, // 10 Unable to open texture file✅
+	E_READ_PATH, // 11 Error reading texture file✅
+	E_RGB_FT, // 12 Invalid RGB format❌ -> si derniere valeur supp ->> pas d'erreur
+	E_VALUE_COLOR, // 13 Invalid color value✅
+	E_EMPTY_MAP, // 14 Map is empty❌ -> mauvais message d'erreur du a la non distinction d'une erreur d'alloc et la fin du file 
+	E_INV_CHAR_MAP, // 15 Invalid character found in map✅
+	E_DUP_PLAYER, // 16 Multiple player start positions found❌ -> probleme sur la gestion des players (ne controle pas si il ya au moins 1 et "Invalid read of size 1" quand une player est en dernier char d'une ligne)
+	E_EMPTY_LINE, // 17 Empty line inside map✅
+	E_OPEN_MAP, // 18 Map is not enclosed✅
+	E_UNKNOWN,// 19 Unknown error occurred
 }				t_error;
-
+// ✅ ❌
 typedef enum	e_key
 {
 	NO,
@@ -91,7 +91,7 @@ typedef struct	s_data
 	t_elem		elem;
 	t_player	player;
 	int			fd_file;
-	char		*err_msg[E_UNKNOWN + 1];
+	char		*err_msg[E_UNKNOWN];
 }			t_data;
 
 /// PARSING ///
