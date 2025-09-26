@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/09/25 19:01:28 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/26 14:12:11 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ static bool	get_player(t_data *data, char c, int i, int j)
 		{
 			found_one = true;
 			data->player.ori = c;
-			data->player.pos.x = i;
-			data->player.pos.y = j;
+			data->player.position.x = i;
+			data->player.position.y = j;
 		}
 	}
 	return (true);
@@ -80,16 +80,16 @@ void	check_map(t_data *data, char *mapfile)
 		while (map[i][++j])
 		{
 			if (!valid_char(map[i][j]))
-				exit_door(data, "caracte invalide");
+				exit_door(data, E_INV_CHAR_MAP);
 			if (!get_player(data, map[i][j], i, j))
-				exit_door(data, "doublon du player");
+				exit_door(data, E_DUP_PLAYER);
 			if (map[i][j] == '\n' && (j == 0 || i == data->map.nb_line -1)) // pour gerer la derniere ligne vide de la map (si il y a) et une ligne vide en cours de map
-				exit_door(data, "ligne vide dans la map");
+				exit_door(data, E_EMPTY_LINE);
 			if (!valid_outline(map, map[i][j], i, j))
-				exit_door(data, "open map");
+				exit_door(data, E_OPEN_MAP);
 		}
 	}
-	printf("Vecteurs du player x[%f] y[%f]\nOrientation du player [%c]\n", data->player.pos.x, data->player.pos.y, data->player.ori);
+	printf("Vecteurs du player x[%f] y[%f]\nOrientation du player [%c]\n", data->player.position.x, data->player.position.y, data->player.ori);
 	printf("||||| FIN DU PARCING DE LA MAP |||||\n");
 }
 

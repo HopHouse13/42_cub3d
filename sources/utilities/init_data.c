@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:56:31 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/25 19:24:44 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/26 12:59:49 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	init_elem(t_elem *elem)
 	elem->e_counter = 0;
 }
 
-void	init_err_msgs(char *err_msg)
+void	init_err_msgs(t_data *data)
 {
-	err_msg[OK] = "Cub3D s'est correctement exectue";
+	data->err_msg[OK] = "Cub3D s'est correctement exectue";
 	
 }
 
@@ -40,14 +40,14 @@ void	init_err_msgs(char *err_msg)
 void	init_data(t_data *data)
 {
 	data->fd_file = -1;
-	init_err_msgs(data->err_msg);
+	init_err_msgs(data);
 	// struct_map
 	data->map.tab_map = NULL;
 	data->map.nb_line = 0;
 	// struct_play
 	data->player.ori = '\0';
-	data->player.pos.x = 0.0;
-	data->player.pos.y = 0.0;
+	data->player.position.x = 0.0;
+	data->player.position.y = 0.0;
 	// struct elem
 	init_elem(&data->elem);
 }

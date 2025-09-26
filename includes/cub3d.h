@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/25 20:58:58 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/26 13:35:51 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,26 @@
 
 typedef enum	e_error
 {
-	OK,
-	E_FILENAME, // invalide name file
-	E_NO_KEY, // pas trouve de cle d'elem sur la ligne
-	E_ALLOC, // probleme lors d'un malloc
-	E_LINE_FT, // invalid format de la ligne (garbage char)
-	E_DUP_PATH, // doublon de cle de path
-	E_DUP_COLOR, // doublon de cle de couleur
-	E_PATH, // impossibilite d' ouvrire le path
-	E_READ_PATH, // error lors de la lecture du fichier texture (repertoire)	
-	E_RGB_FT, // format du RGB invalide
-	E_VALUE_COLOR, // error value color
-	E_UNKNOWN,
+	OK, // 0
+	E_FILENAME, // 1 invalide name file
+	E_OPEN_FILE, // 2 impossibilite d'ouverture du file.cub (droits)
+	E_READ_FILE, // 3 erreur lors de la lecture du fichier par GNL
+	E_MISS_PARAM, // 4 parametres manquants pour initialiser la map
+	E_NO_KEY, // 5 pas trouve de cle d'elem sur la ligne
+	E_ALLOC, // 6 probleme lors d'un malloc
+	E_LINE_FT, // 7 invalid format de la ligne (garbage char)
+	E_DUP_PATH, // 8 doublon de cle de path
+	E_DUP_COLOR, // 9 doublon de cle de couleur
+	E_PATH, // 10 impossibilite d' ouvrire le path
+	E_READ_PATH, // 11 error lors de la lecture du fichier texture (repertoire)	
+	E_RGB_FT, // 12 format du RGB invalide
+	E_VALUE_COLOR, // 13 error value color
+	E_EMPTY_MAP, // 14 map vide
+	E_INV_CHAR_MAP, // 15 si le char analyse n'est pas un char autorise sur la map
+	E_DUP_PLAYER, // 16 doublon player sur la map
+	E_EMPTY_LINE, // 17 ligne vide dans la map
+	E_OPEN_MAP, // 18 map ouverte
+	E_UNKNOWN,// 19
 }				t_error;
 
 typedef enum	e_key
@@ -58,7 +66,7 @@ typedef struct	s_vec
 
 typedef struct	s_player
 {
-	t_vec		pos;
+	t_vec		position;
 	char		ori;
 }				t_player;
 
