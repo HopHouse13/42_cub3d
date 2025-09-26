@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/09/26 14:10:57 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/26 17:22:38 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ static void	refind_start_map(t_data *data, char *mapfile)
 	data->fd_file = open(mapfile, O_RDONLY); // reouvre le file au debut
 	if (data->fd_file < 0) // pas utile vu qu'on sait qu'il est ouvrable mais utile si table des FD saturee
 		exit_door(data, E_OPEN_FILE);
-	line = get_next_line(data->fd_file);
+	line = get_next_line(data->fd_file, false);
 	if (!line)
 		exit_door(data, E_ALLOC);
 	while(ft_strlen(line) != ft_strlen(data->map.tab_map[0])
 			|| ft_strncmp(data->map.tab_map[0], line, ft_strlen(data->map.tab_map[0])))
 	{
 		free(line);
-		line = get_next_line(data->fd_file);
+		line = get_next_line(data->fd_file, false);
 	}
 	free(line);
 }
-
-bool	is_empty(char *line) // non static car utilisation dans check_map
+// non static car utilisation dans check_map
+bool	is_empty(char *line)
 {
 	int	i;
 
@@ -61,7 +61,7 @@ static char	*init_map(t_data *data)
 
 	while(1) // j'aime pas dutout faire ca
 	{
-		line = get_next_line(data->fd_file);
+		line = get_next_line(data->fd_file, false);
 		if (!line)
 			exit_door(data, E_ALLOC);
 		if(line == NULL)
@@ -77,7 +77,7 @@ static char	*init_map(t_data *data)
 	{
 		++data->map.nb_line;
 		free(line);
-		line = get_next_line(data->fd_file);
+		line = get_next_line(data->fd_file, false);
 		//if (!line)
 		//	exit_door(data, E_ALLOC);
 	}
@@ -98,7 +98,7 @@ void	make_copy(t_data *data, char *mapfile)
 	i = 1;
 	while(i < data->map.nb_line)
 	{
-		line = get_next_line(data->fd_file);
+		line = get_next_line(data->fd_file, false);
 		if (!line)
 			exit_door(data, E_ALLOC);
 		data->map.tab_map[i] = ft_strdup(line); // duplique chaque ligne dans le double_tab map jusqu'a la fin du file

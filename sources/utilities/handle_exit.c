@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/09/25 19:20:34 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/26 16:47:42 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,31 @@ static void	free_elem(t_data *data)
 {
 	int	i;
 
-	i = 0;
-	while (data->elem.path[i] && i < 4) // il n'y a pas de chaine de char de fin ('\0') mais nous savons qu'il exatement 4 chaines a liberer
-		free(data->elem.path[i++]);
+	i = -1;
+	while (++i < 4) // il n'y a pas de chaine de char de fin ('\0') mais nous savons qu'il exatement 4 chaines a liberer
+	{
+		if (data->elem.path[i])
+			free(data->elem.path[i]);
+	}
+}
+
+
+static void freee(t_data *data)
+{
+	if (data->fd_file >= 0)
+		close(data->fd_file);
+	get_next_line(-1, true);
+	free_elem(data);
+	free_map(data);
+	exit (2);
 }
 
 void	exit_door(t_data *data, t_error err_id)
-{
+{printf("||||| EXIT_DOOR |||||\n");
 	if (err_id < 0)
 		err_id = E_UNKNOWN;
 	if (err_id > 0)
 		printf("Error\n");
 	printf("%s\n", data->err_msg[err_id]);
-	
-
-	
-	if (data->fd_file >= 0)
-		close(data->fd_file);
-	free_elem(data);
-	free_map(data);
-	exit (2);
+	freee(data);
 }

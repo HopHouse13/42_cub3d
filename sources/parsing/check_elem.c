@@ -221,11 +221,11 @@ void	check_elem(t_data *data, char *mapfile)
 		exit_door(data, E_OPEN_FILE);
 	while (data->elem.e_counter < 6) // si les 6 parametres ont ete trouves, on passe a la suite
 	{
-		line = get_next_line(data->fd_file);
+		line = get_next_line(data->fd_file, false);
 		if (!line) // erreur malloc
 			exit_door(data, E_READ_FILE);
-		else if (*line == '\0') // fin de file
-			exit_door(data, E_MISS_PARAM);
+		//else if (*line == '\0') // fin de file
+		//	exit_door(data, E_MISS_PARAM);
 		printf("\n||||| NOUVELLE LINE |||||\nNEW LINE : [%s]\n", line);
 		err_id = handle_line(data, line);
 		free(line);

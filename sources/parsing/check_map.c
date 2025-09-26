@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/09/26 14:12:11 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/26 16:58:24 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static bool	get_player(t_data *data, char c, int i, int j)
 }
 
 void	check_map(t_data *data, char *mapfile)
-{
+{printf("||||| CHECK_MAP |||||\n");
 	int		i;
 	int		j;
 	char	**map;
