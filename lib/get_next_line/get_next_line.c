@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 18:04:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/26 17:14:16 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/27 13:48:25 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*gnl_read_line(int fd, char *string, char *buffer)
+char	*gnl_read_line(int fd, char *string, char *buffer, t_error *err_id)
 {
 	char	*tmp;
 	int		bytes_read;
@@ -27,11 +27,11 @@ char	*gnl_read_line(int fd, char *string, char *buffer)
 			break ;
 		buffer[bytes_read] = '\0';
 		if (string == NULL)
-			string = gnl_strdup("");
+			string = gnl_strdup("", err_id);
 		if (string == NULL)
 			return (NULL);
 		tmp = string;
-		string = gnl_strjoin(tmp, buffer);
+		string = gnl_strjoin(tmp, buffer, err_id);
 		free (tmp);
 		if (!string)
 			return (NULL);
@@ -41,7 +41,7 @@ char	*gnl_read_line(int fd, char *string, char *buffer)
 	return (string);
 }
 
-char	*gnl_extract_line(char *string)
+char	*gnl_extract_line(char *string, t_error *err_id)
 {
 	char	*line;
 	int		i;
@@ -54,6 +54,7 @@ char	*gnl_extract_line(char *string)
 	line = malloc((i + 1 + (string[i] == '\n')) * sizeof(char));
 	if (!line)
 	{
+		*err_id = E_ALLOC;
 		free (string);
 		return (NULL);
 	}
@@ -69,7 +70,7 @@ char	*gnl_extract_line(char *string)
 	return (line);
 }
 
-char	*gnl_update_stash(char *string)
+char	*gnl_update_stash(char *string, t_error *err_id)
 {
 	char	*new_stash;
 	int		i;
@@ -85,7 +86,10 @@ char	*gnl_update_stash(char *string)
 	}
 	new_stash = malloc((gnl_strlen(string) - i) * sizeof(char));
 	if (!new_stash)
+	{
+		*err_id = E_ALLOC;
 		return (NULL);
+	}
 	i++;
 	j = 0;
 	while (string[i] != '\0')
@@ -95,7 +99,7 @@ char	*gnl_update_stash(char *string)
 	return (new_stash);
 }
 
-char	*get_next_line(int fd, bool exit_door)
+char	*get_next_line(int fd, t_error *err_id, bool exit_door)
 {
 	static char	*stash;
 	char		*line;
@@ -107,19 +111,22 @@ char	*get_next_line(int fd, bool exit_door)
 		return (NULL);
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
+	{
+		*err_id = E_ALLOC;
 		return (NULL);
-	stash = gnl_read_line(fd, stash, buffer);
+	}
+	stash = gnl_read_line(fd, stash, buffer, err_id);
 	free(buffer);
 	if (!stash)
 		return (NULL);
-	line = gnl_extract_line(stash);
+	line = gnl_extract_line(stash, err_id);
 	if (!line)
 	{
 		free(stash);
 		stash = NULL;
 		return (NULL);
 	}
-	stash = gnl_update_stash(stash);
+	stash = gnl_update_stash(stash, err_id);
 	return (line);
 }
 

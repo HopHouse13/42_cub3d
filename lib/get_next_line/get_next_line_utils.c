@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 15:49:14 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/10 18:55:46 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/09/27 13:49:39 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	gnl_strlen(const char *s)
 	return (i);
 }
 
-char	*gnl_strdup(const char *s)
+char	*gnl_strdup(const char *s, t_error *err_id)
 {
 	int		i;
 	int		s_len;
@@ -33,7 +33,10 @@ char	*gnl_strdup(const char *s)
 	s_len = gnl_strlen(s);
 	dup = malloc(sizeof(char) * (s_len + 1));
 	if (dup == NULL)
+	{
+		*err_id = E_ALLOC;
 		return (NULL);
+	}
 	i = 0;
 	while (s[i])
 	{
@@ -44,7 +47,7 @@ char	*gnl_strdup(const char *s)
 	return (dup);
 }
 
-char	*gnl_strjoin(const char *s1, const char *s2)
+char	*gnl_strjoin(const char *s1, const char *s2, t_error *err_id)
 {
 	char	*dest;
 	size_t	i;
@@ -54,7 +57,10 @@ char	*gnl_strjoin(const char *s1, const char *s2)
 	dest_len = gnl_strlen(s1) + gnl_strlen(s2);
 	dest = malloc(sizeof(char) * (dest_len + 1));
 	if (dest == NULL)
+	{
+		*err_id = E_ALLOC;
 		return (NULL);
+	}
 	i = 0;
 	while (s1[i])
 	{
