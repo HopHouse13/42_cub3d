@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/09/26 16:47:42 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/27 16:05:53 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,11 @@ static void	free_elem(t_data *data)
 
 static void freee(t_data *data)
 {
+	t_error	err_id;
+
 	if (data->fd_file >= 0)
 		close(data->fd_file);
-	get_next_line(-1, true);
+	get_next_line(-1, &err_id, true);
 	free_elem(data);
 	free_map(data);
 	exit (2);
