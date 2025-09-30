@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utilities.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/24 15:49:14 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/27 13:49:39 by pab              ###   ########.fr       */
+/*   Created: 2025/09/30 14:01:54 by pbret             #+#    #+#             */
+/*   Updated: 2025/09/30 19:12:36 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-
-int	gnl_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
+#include "../../includes/cub3d.h"
 
 char	*gnl_strdup(const char *s, t_error *err_id)
 {
@@ -30,7 +20,7 @@ char	*gnl_strdup(const char *s, t_error *err_id)
 
 	if (s == NULL)
 		return (NULL);
-	s_len = gnl_strlen(s);
+	s_len = ft_strlen(s);
 	dup = malloc(sizeof(char) * (s_len + 1));
 	if (dup == NULL)
 	{
@@ -54,41 +44,19 @@ char	*gnl_strjoin(const char *s1, const char *s2, t_error *err_id)
 	size_t	j;
 	size_t	dest_len;
 
-	dest_len = gnl_strlen(s1) + gnl_strlen(s2);
+	dest_len = ft_strlen(s1) + ft_strlen(s2);
 	dest = malloc(sizeof(char) * (dest_len + 1));
 	if (dest == NULL)
 	{
 		*err_id = E_ALLOC;
 		return (NULL);
 	}
-	i = 0;
-	while (s1[i])
-	{
+	i = -1;
+	while (s1[++i])
 		dest[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j])
-	{
+	j = -1;
+	while (s2[++j])
 		dest[i + j] = s2[j];
-		j++;
-	}
 	dest[i + j] = '\0';
 	return (dest);
-}
-
-char	*gnl_strchr(const char *s, int c)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == (char)c)
-			return ((char *)(&s[i]));
-		i++;
-	}
-	if (s[i] == (char)c)
-		return ((char *)(&s[i]));
-	return (NULL);
 }
