@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/27 16:07:05 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/30 18:14:45 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define CUB3D_H
 
 # include "../lib/libft/libft.h"
-# include "../lib/get_next_line/get_next_line.h"
 # include "error.h"
 
 # include <math.h>
@@ -88,6 +87,11 @@ void	exit_door(t_data *data, t_error err_id);
 // init_data
 void	init_data(t_data *data);
 void	init_elem(t_elem *elem);
+
+// GNL
+char	*get_next_line(int fd, t_error *err_id, bool exit_door);
+char	*gnl_strdup(const char *s, t_error *err_id);
+char	*gnl_strjoin(const char *s1, const char *s2, t_error *err_id);
 
 // print_debug
 void	print_data(t_data *data);

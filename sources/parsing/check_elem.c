@@ -216,6 +216,7 @@ void	check_elem(t_data *data, char *mapfile)
 	char *line;
 	t_error	err_id;
 
+	err_id = OK; // initialise la variable a ok par defaut
 	data->fd_file = open(mapfile, O_RDONLY);
 	if (data->fd_file < 0)
 		exit_door(data, E_OPEN_FILE);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/26 18:04:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/27 13:48:25 by pab              ###   ########.fr       */
+/*   Created: 2025/09/30 13:52:04 by pbret             #+#    #+#             */
+/*   Updated: 2025/09/30 18:23:57 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../../includes/cub3d.h"
 
-char	*gnl_read_line(int fd, char *string, char *buffer, t_error *err_id)
+static char	*gnl_read_line(int fd, char *string, char *buffer, t_error *err_id)
 {
 	char	*tmp;
 	int		bytes_read;
@@ -20,7 +20,7 @@ char	*gnl_read_line(int fd, char *string, char *buffer, t_error *err_id)
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		bytes_read = read(fd, buffer, 42);
 		if (bytes_read == -1)
 			return (free(string), NULL);
 		if (bytes_read == 0)
@@ -35,13 +35,13 @@ char	*gnl_read_line(int fd, char *string, char *buffer, t_error *err_id)
 		free (tmp);
 		if (!string)
 			return (NULL);
-		if (gnl_strchr(buffer, '\n'))
+		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
 	return (string);
 }
 
-char	*gnl_extract_line(char *string, t_error *err_id)
+static char	*gnl_extract_line(char *string, t_error *err_id)
 {
 	char	*line;
 	int		i;
@@ -70,7 +70,7 @@ char	*gnl_extract_line(char *string, t_error *err_id)
 	return (line);
 }
 
-char	*gnl_update_stash(char *string, t_error *err_id)
+static char	*gnl_update_stash(char *string, t_error *err_id)
 {
 	char	*new_stash;
 	int		i;
@@ -84,7 +84,7 @@ char	*gnl_update_stash(char *string, t_error *err_id)
 		free(string);
 		return (NULL);
 	}
-	new_stash = malloc((gnl_strlen(string) - i) * sizeof(char));
+	new_stash = malloc((ft_strlen(string) - i) * sizeof(char));
 	if (!new_stash)
 	{
 		*err_id = E_ALLOC;
@@ -107,9 +107,9 @@ char	*get_next_line(int fd, t_error *err_id, bool exit_door)
 
 	if(exit_door && stash)
 		free(stash);
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0)
 		return (NULL);
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buffer = malloc(sizeof(char) * (42 + 1));
 	if (!buffer)
 	{
 		*err_id = E_ALLOC;
@@ -129,27 +129,3 @@ char	*get_next_line(int fd, t_error *err_id, bool exit_door)
 	stash = gnl_update_stash(stash, err_id);
 	return (line);
 }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	int		fd;
-// 	char	*str;
-
-// 	fd = open("file.txt", O_RDONLY);
-// 	if (fd < 0)
-// 	{
-// 		perror("Error opening file");
-// 		return (1);
-// 	}
-// 	while ((str = get_next_line(fd)) != NULL)
-// 	{
-// 		printf("%s", str);
-// 		free(str);
-// 	}
-// 	//printf("\n");
-// 	close (fd);
-// 	free(str);
-// 	return (0);
-// }

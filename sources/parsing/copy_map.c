@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/09/27 16:03:58 by pab              ###   ########.fr       */
+/*   Updated: 2025/09/30 19:07:57 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,20 @@ static void	refind_start_map(t_data *data, char *mapfile, t_error *err_id)
 	data->fd_file = open(mapfile, O_RDONLY); // reouvre le file au debut
 	if (data->fd_file < 0) // pas utile vu qu'on sait qu'il est ouvrable mais utile si table des FD saturee
 		exit_door(data, E_OPEN_FILE);
-	while (1)
+	while (true)
 	{
 		line = get_next_line(data->fd_file, err_id, false);
 		if (*err_id == E_ALLOC)
 			exit_door(data, *err_id);
 		if (!line)
 			exit_door(data, E_UNKNOWN);
-		if (ft_strlen(line) != ft_strlen(data->map.tab_map[0])
-			|| ft_strncmp(data->map.tab_map[0], line, ft_strlen(data->map.tab_map[0])))
+		if (!ft_strncmp(data->map.tab_map[0], line, ft_strlen(data->map.tab_map[0])))
 			break ;
 		free(line);
 	}
+	free(line);
 }
+
 // non static car utilisation dans check_map
 bool	is_empty(char *line)
 {
@@ -60,7 +61,7 @@ static char	*init_map(t_data *data, t_error *err_id)
 {
 	char	*line;
 	char	*start;
-
+	
 	while(true) // j'aime pas dutout faire ca
 	{
 		line = get_next_line(data->fd_file, err_id, false);
@@ -75,7 +76,7 @@ static char	*init_map(t_data *data, t_error *err_id)
 	start = ft_strdup(line); // copie la ligne du start de la map
 	if (!start)
 		exit_door(data, E_ALLOC);
-	while(!line) // avance ligne par ligne jusqu'a la fin du file en incrementant nb_line
+	while(line) // avance ligne par ligne jusqu'a la fin du file en incrementant nb_line
 	{
 		++data->map.nb_line;
 		free(line);
@@ -96,6 +97,7 @@ void	make_copy(t_data *data, char *mapfile)
 	char	*line;
 	t_error	err_id;
 	
+	err_id = OK; // value de non erreur
 	data->map.tab_map[0] = init_map(data, &err_id); // retourne un char * qui est la premiere ligne de la map
 	refind_start_map(data, mapfile, &err_id);
 	i = 1;
