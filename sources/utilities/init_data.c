@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:56:31 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/01 17:07:20 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/01 21:04:54 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	init_err_msgs(t_data *data)
 	data->err_msg[E_DUP_PLAYER] = "Multiple player start positions found";
 	data->err_msg[E_EMPTY_LINE] = "Empty line inside map";
 	data->err_msg[E_OPEN_MAP] = "Map is not enclosed";
+	data->err_msg[E_NO_PLAYER] = "No player on the map";
 	data->err_msg[E_UNKNOWN] = "Unknown error occurred";
 	//data->err_msg[] = "";
 }
