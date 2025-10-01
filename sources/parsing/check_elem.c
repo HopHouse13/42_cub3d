@@ -160,6 +160,7 @@ static t_error	handle_get_elem(t_data *data, char **line, t_key key_id)
 {
 	t_error	err_id;
 
+	err_id = OK;
 	while (**line && **line == ' ')
 		(*line)++;
 	if (key_id < F)
@@ -190,6 +191,7 @@ static t_error	handle_line(t_data *data, char *line)
 	t_key	key_id;
 	t_error	err_id;
 
+	err_id = OK;
 	while (*line && *line == ' ') // les premiers espaces
 		line++;
 	if (*line == '\n' || *line == '\0') // passe la line suivante si la line est remplit que d'[ ] et un [\n]
@@ -213,7 +215,7 @@ static t_error	handle_line(t_data *data, char *line)
 
 void	check_elem(t_data *data, char *mapfile)
 {
-	char *line;
+	char 	*line;
 	t_error	err_id;
 
 	err_id = OK; // initialise la variable a ok par defaut
