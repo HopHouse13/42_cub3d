@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:51:25 by pab               #+#    #+#             */
-/*   Updated: 2025/09/27 16:01:34 by pab              ###   ########.fr       */
+/*   Updated: 2025/10/01 21:02:04 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ typedef enum	e_error
 	E_DUP_PLAYER, // 16 Multiple player start positions found❌ -> probleme sur la gestion des players (ne controle pas si il ya au moins 1 et "Invalid read of size 1" quand une player est en dernier char d'une ligne)
 	E_EMPTY_LINE, // 17 Empty line inside map✅
 	E_OPEN_MAP, // 18 Map is not enclosed✅
-	E_UNKNOWN,// 19 Unknown error occurred
+	E_NO_PLAYER, // 19 No player
+	E_UNKNOWN,// 12 Unknown error occurred
 }				t_error;
 // ✅ ❌
 
