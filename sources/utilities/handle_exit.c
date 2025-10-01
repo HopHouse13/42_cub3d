@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/09/27 16:05:53 by pab              ###   ########.fr       */
+/*   Updated: 2025/10/01 15:03:21 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ static void freee(t_data *data)
 
 void	exit_door(t_data *data, t_error err_id)
 {printf("||||| EXIT_DOOR |||||\n");
-	if (err_id < 0)
+	if (err_id < OK)
 		err_id = E_UNKNOWN;
-	if (err_id > 0)
+	if (err_id > OK)
 		printf("Error\n");
 	printf("%s\n", data->err_msg[err_id]);
 	freee(data);
