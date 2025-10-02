@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 15:04:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/12 19:17:54 by pbret            ###   ########.fr       */
+/*   Updated: 2025/09/25 16:48:19 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*ft_strncpy(char *dest, const char *src, unsigned int n)
 
 char	*ft_strndup(const char *s, unsigned int n)
 {
-	char			*dup;
+	char	*dup;
 
 	dup = malloc(sizeof(char) * (n + 1));
 	if (dup == NULL)

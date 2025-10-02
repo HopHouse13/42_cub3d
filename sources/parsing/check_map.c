@@ -6,33 +6,37 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/09/23 15:23:20 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/01 21:02:22 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-static bool	opening_char(char c)
+static bool	open_cell(t_data *data, char **map, int i, int j)
 {
-	if (c == ' ' || c == '\n')
+	if (i < 0 || i >= data->map.nb_line || !map[i]
+		|| j < 0 || (size_t)j >= ft_strlen(map[i]))
+		return (true);
+	if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != 'N'
+		&& map[i][j] != 'E' && map[i][j] != 'S' && map[i][j] != 'W')
 		return (true);
 	return (false);
 }
 
-static bool	valid_outline(char **map, char c, int i, int j)
+static bool	valid_outline(t_data *data, char **map, char c, int i, int j)
 {
 	bool	flag;
 
 	flag = true;
 	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
-		if (!map[i - 1][j] || (map[i - 1][j] && opening_char(map[i - 1][j])))
+		if (open_cell(data, map, i -1, j))
 			flag = false;
-		if (!map[i + 1][j] || (map[i + 1][j] && opening_char(map[i + 1][j])))
+		if (open_cell(data, map, i +1, j))
 			flag = false;
-		if (!map[i][j - 1] || (map[i][j - 1] && opening_char(map[i][j - 1])))
+		if (open_cell(data, map, i, j -1))
 			flag = false;
-		if (!map[i][j + 1] || (map[i][j + 1] && opening_char(map[i][j + 1])))
+		if (open_cell(data, map, i, j +1))
 			flag = false;
 	}
 	return (flag);
@@ -58,15 +62,15 @@ static bool	get_player(t_data *data, char c, int i, int j)
 		{
 			found_one = true;
 			data->player.ori = c;
-			data->player.pos.x = i;
-			data->player.pos.y = j;
+			data->player.position.x = i;
+			data->player.position.y = j;
 		}
 	}
 	return (true);
 }
 
 void	check_map(t_data *data, char *mapfile)
-{
+{printf("||||| CHECK_MAP |||||\n");
 	int		i;
 	int		j;
 	char	**map;
@@ -80,16 +84,18 @@ void	check_map(t_data *data, char *mapfile)
 		while (map[i][++j])
 		{
 			if (!valid_char(map[i][j]))
-				exit_door(data, "caracte invalide", ERROR);
+				exit_door(data, E_INV_CHAR_MAP);
+			if (!valid_outline(data, map, map[i][j], i, j))
+				exit_door(data, E_OPEN_MAP);
 			if (!get_player(data, map[i][j], i, j))
-				exit_door(data, "doublon du player", ERROR);
+				exit_door(data, E_DUP_PLAYER);
 			if (map[i][j] == '\n' && (j == 0 || i == data->map.nb_line -1)) // pour gerer la derniere ligne vide de la map (si il y a) et une ligne vide en cours de map
-				exit_door(data, "ligne vide dans la map", ERROR);
-			if (!valid_outline(map, map[i][j], i, j))
-				exit_door(data, "open map", ERROR);
+				exit_door(data, E_EMPTY_LINE);
 		}
 	}
-	printf("Vecteurs du player x[%f] y[%f]\nOrientation du player [%c]\n", data->player.pos.x, data->player.pos.y, data->player.ori);
+	if (data->player.ori == '\0')
+		exit_door(data, E_NO_PLAYER);
+	printf("Vecteurs du player x[%f] y[%f]\nOrientation du player [%c]\n", data->player.position.x, data->player.position.y, data->player.ori);
 	printf("||||| FIN DU PARCING DE LA MAP |||||\n");
 }
 

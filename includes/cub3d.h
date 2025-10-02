@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/23 19:14:31 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/01 17:07:34 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_H
 
 # include "../lib/libft/libft.h"
-# include "../lib/get_next_line/get_next_line.h"
+# include "error.h"
 
 # include <math.h>
 # include <stdio.h>
@@ -23,9 +23,6 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <fcntl.h>
-
-# define ERROR 1 // pour le flag exit_door
-# define RIGHT 0
 
 typedef enum	e_key
 {
@@ -37,13 +34,6 @@ typedef enum	e_key
 	C,
 }				t_key;
 
-typedef enum	e_error
-{
-	OK,
-	E_KEY,
-	E_DOUBLE,
-}				t_error;
-
 typedef struct	s_vec
 {
 	float		x;
@@ -52,7 +42,7 @@ typedef struct	s_vec
 
 typedef struct	s_player
 {
-	t_vec		pos;
+	t_vec		position;
 	char		ori;
 }				t_player;
 
@@ -64,12 +54,11 @@ typedef struct	s_map
 
 typedef struct	s_elements
 {
-	char*		path[4]; // 0 NO, 1 EA, 2 SO, 3 WE
+	char		*path[4]; // 0 NO, 1 EA, 2 SO, 3 WE
 	int			f_value[3]; // init a -1 car 0 valeur accepte
 	int			c_value[3];
 	bool		start_line;
 	int			e_counter;
-	t_error		err_id;
 }				t_elem;
 
 typedef struct	s_data
@@ -78,6 +67,7 @@ typedef struct	s_data
 	t_elem		elem;
 	t_player	player;
 	int			fd_file;
+	char		*err_msg[E_UNKNOWN + 1];
 }			t_data;
 
 /// PARSING ///
@@ -92,11 +82,16 @@ bool	is_empty(char *line);
 /// UTILITIES ///
 
 // handle_exit
-void	exit_door(t_data *data, char *str, bool flag);
+void	exit_door(t_data *data, t_error err_id);
 
 // init_data
 void	init_data(t_data *data);
 void	init_elem(t_elem *elem);
+
+// GNL
+char	*get_next_line(int fd, t_error *err_id, bool exit_door);
+char	*gnl_strdup(const char *s, t_error *err_id);
+char	*gnl_strjoin(const char *s1, const char *s2, t_error *err_id);
 
 // print_debug
 void	print_data(t_data *data);
