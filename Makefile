@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
+#    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/02 15:35:11 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/10/02 18:31:31 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,9 @@ SRCS_EXEC = exec/ray_game_mechanics.c \
 	exec/ray_init_stuff.c \
 	exec/ray_mlx_stuff.c \
 	exec/ray_render_stuff.c \
-	exec/ray_utils.c \
-	exec/ray_game_mechanics.c \
 	exec/ray_render_utils.c \
+	exec/ray_utils.c \
+	exec/raycaster.c \
 
 
 SRCS_FILES	= main.c $(SRCS_PARSING) $(SRCS_EXEC) $(SRC_UTILS)
@@ -43,7 +43,7 @@ SRCS_FILES	= main.c $(SRCS_PARSING) $(SRCS_EXEC) $(SRC_UTILS)
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 
 OBJS		= $(SRCS:$(SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
-CC			 = cc
+CC			= cc
 RM			= rm -rf
 CFLAGS		= -Wall -Werror -Wextra
 
@@ -55,7 +55,7 @@ INCLUDES = -I./includes -I$(LIBFT_DIR) -I$(MLX_DIR)
 # MinilibX settings
 MLX_DIR = ./minilibx-linux
 MLX_LIB = $(MLX_DIR)/libmlx.a
-MLX_FLAGS = -Lminilibx-linux -lmlx -lXext -lX11 -lm
+MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 
 
 # Pattern rule for object files
@@ -69,9 +69,11 @@ all:		$(NAME)
 $(LIBFT):
 			@make -sC $(LIBFT_DIR)
 
-
-$(NAME):	$(LIBFT) $(OBJS)
-			@ $(CC) $(OBJS) $(LIBFT) -o $(NAME) -g
+$(MLX_LIB):
+			@make -sC $(MLX_DIR)
+			
+$(NAME):	$(LIBFT) $(MLX_LIB) $(OBJS)
+			@ $(CC) $(OBJS) $(LIBFT) $(MLX_LIB) $(MLX_FLAGS) -o $(NAME) -g
 			@echo "\033[32m""Compilation of $(NAME) completed!""\033[0m"
 
 clean:
@@ -82,6 +84,8 @@ clean:
 fclean:		clean
 			@$(RM) $(NAME)
 			@make -sC $(LIBFT_DIR) fclean
+			@rm $(MLX_LIB)
+			@rm $(MLX_DIR)/libmlx_Linux.a
 			@echo "\033[36m""Executable $(NAME) deleted.""\033[0m"
 
 re:			fclean 	all
