@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_render_stuff.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/02 15:39:51 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:54:06 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ void	raycasting_loop(t_mlx_data *data, t_player_data *player)
 	// int w = 16;
 	FILE	*fp;
 	// int dda = 0;
-if (player->print_debug)
+//if (player->print_debug)
 	// {
 	// 	print_ray_info(player, x, fp);
 	// 	fprintf(fp, "		Ray[%d]->startX =		%.4f		startY =		%.4f\n", x, startX, startY);
@@ -354,34 +354,6 @@ if (player->print_debug)
 }
 
 
-// void	render_background(t_mlx_data *data, t_player_data *player)
-// {
-// 	(void) player;
-// 	render_rect(&data->background_img, (t_rect){0, 0, WNDW_W, (WNDW_H / 2), RGB_SKY});
-// 	render_rect(&data->background_img, (t_rect){0, WNDW_H / 2, WNDW_W, (WNDW_H / 2), RGB_FLR});
-
-
-
-
-// }
-
-// void	render_background(t_img *background_img, int color)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = 0;
-// 	while (i < WNDW_H)
-// 	{
-// 		j = 0;
-// 		while (j < WNDW_W)
-// 		{
-// 			img_pix_put(background_img, j++, i, color);
-// 		}
-// 		++i;
-// 	}
-// }
-
 
 int	render_loop(t_player_data *player)
 {
@@ -404,25 +376,18 @@ int	render_loop(t_player_data *player)
 	if (player->game_init)
 		print_updated_pos(player);
 	handle_move(player);
-	// clear_image(player->mlx_data_pointer);
 
-	// clear_all_img_buffers(player);
 
 
 	// for (y = 0; y < 8; y++)
 	// {
 	// 	for (x = 0; x < 8; x++)
-	// 	`{
+	// 	{
 	// 		render_tile(player->mlx_data_pointer, char_to_tile(player->mlx_data_pointer->map.grid[y][x]), x, y);
 	// 	}
 	// }
 
 	// render_background(player->mlx_data_pointer, player);
-
-	// mlx_put_image_to_window(player->mlx_data_pointer->mlx_pointer, player->mlx_data_pointer->mlx_window,
-	// 	player->mlx_data_pointer->bckgr_txtr[1], 0, 0);
-	// mlx_put_image_to_window(player->mlx_data_pointer->mlx_pointer, player->mlx_data_pointer->mlx_window,
-	// 	player->mlx_data_pointer->bckgr_txtr[0], 0, WNDW_H / 2);
 
 	if (player->kbrd.key_m == true)
 		render_map(player->mlx_data_pointer, player);
@@ -447,8 +412,6 @@ int	render_loop(t_player_data *player)
 			player->mlx_data_pointer->map_img.mlx_img, 0, 0);}
 
 
-	// mlx_put_image_to_window(player->mlx_data_pointer->mlx_pointer, player->mlx_data_pointer->mlx_window,
-	// 							player->mlx_data_pointer->ray_image, 0, 0);
 
 	return (0);
 }
@@ -470,17 +433,15 @@ bool	render(t_mlx_data *data, t_player_data *player)
 		free(data->mlx_pointer);
 		return (printf("Window creation failed\n"), false);
 	}
-	init_textures(data);
+	//init_textures(data);
 
 	init_images(data);
-	// render_background(player->mlx_data_pointer, player);
 
 
 	mlx_loop_hook(data->mlx_pointer, render_loop, player);
 	mlx_hook(data->mlx_window, KeyPress, KeyPressMask, key_press_hook, player);
 	mlx_hook(data->mlx_window, KeyRelease, KeyReleaseMask, key_release_hook, player);
 	mlx_hook(data->mlx_window, DestroyNotify, NoEventMask, close_window, data);
-	// mlx_key_hook(data->mlx_window, key_hook, player);
 	mlx_loop(data->mlx_pointer);
 
 	return (true);

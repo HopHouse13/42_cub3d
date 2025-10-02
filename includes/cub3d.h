@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/02 16:04:50 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:49:01 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <string.h>
+# include "mlx.h"
 
 # define TILE_SIZE 64
 # define PLAYER_SIZE 8
@@ -43,15 +44,15 @@
 // # define RGB_FLR 0x927A8B
 # define RGB_FLR 0xC08786
 
-# define P_FLOOR "textures/green_texture.xpm"
-# define P_WALL "textures/red_texture.xpm"
-# define P_EP "textures/yellowE_texture.xpm"
-# define P_SP "textures/yellowS_texture.xpm"
-# define P_WP "textures/yellowW_texture.xpm"
-# define P_NP "textures/yellowN_texture.xpm"
-# define P_EXTRA "textures/blue_texture.xpm"
-# define P_GRASS "textures/floor_texture.xpm"
-# define P_SKY "textures/sky_texture.xpm"
+# define P_FLOOR "../textures/green_texture.xpm"
+# define P_WALL "../textures/red_texture.xpm"
+# define P_EP "../textures/yellowE_texture.xpm"
+# define P_SP "../textures/yellowS_texture.xpm"
+# define P_WP "../textures/yellowW_texture.xpm"
+# define P_NP "../textures/yellowN_texture.xpm"
+# define P_EXTRA "../textures/blue_texture.xpm"
+# define P_GRASS "../textures/floor_texture.xpm"
+# define P_SKY "../textures/sky_texture.xpm"
 
 # define FOV 66
 
@@ -207,8 +208,6 @@ typedef struct s_rect
 /* ************************************** RAYCASTER STRUCTS END ********************************** */
 
 
-
-
 typedef enum	e_key
 {
 	NO,
@@ -296,12 +295,9 @@ void		init_images(t_mlx_data *data);
 
 // mlx_stuff
 int			close_window(t_mlx_data *data);
-// void		clear_ray_image(t_mlx_data *data);
 void		clear_img(t_img *img, int width, int height);
 void		clear_img_fast(t_img *img, int width, int height);
 void		clear_all_img_buffers(t_player_data *player);
-
-
 
 
 
@@ -310,8 +306,6 @@ void		render_map(t_mlx_data *data, t_player_data *player);
 bool		render(t_mlx_data *data, t_player_data *player);
 
 // game_stuff
-int			key_hook(int keycode, t_player_data *player);
-void		toggle_minimap(t_mlx_data *data, t_player_data *player);
 int			key_press_hook(int keysym, t_player_data *data);
 int			key_release_hook(int keysym, t_player_data *player);
 void		handle_move(t_player_data *player);
@@ -321,12 +315,9 @@ void		print_updated_pos(t_player_data *player);
 
 
 
-
-
-
 // utils
 t_tile		char_to_tile(char c);
-void		print_map_ray(t_map *map);
+void		print_map_ray(t_map_ray *map);
 double		date_in_s(void);
 double		date_in_ms(void);
 
