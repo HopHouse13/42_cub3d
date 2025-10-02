@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
+#    By: pab <pab@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 17:50:01 by tjacquel          #+#    #+#              #
-#    Updated: 2025/09/12 19:16:23 by pbret            ###   ########.fr        #
+#    Updated: 2025/09/25 15:29:25 by pab              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ BONUS_SRCS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
 		ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c
 
 CFLAGS = -Wall -Wextra -Werror
-HEADER = -I libft.h
+HEADER = -I.
 CC = cc
 RM = rm -rf
 MKDIR = mkdir -p

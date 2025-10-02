@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/26 18:04:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/23 18:14:33 by pbret            ###   ########.fr       */
+/*   Created: 2025/09/30 13:52:04 by pbret             #+#    #+#             */
+/*   Updated: 2025/09/30 18:23:57 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../../includes/cub3d.h"
 
-char	*gnl_read_line(int fd, char *string, char *buffer)
+static char	*gnl_read_line(int fd, char *string, char *buffer, t_error *err_id)
 {
 	char	*tmp;
 	int		bytes_read;
@@ -20,28 +20,28 @@ char	*gnl_read_line(int fd, char *string, char *buffer)
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		bytes_read = read(fd, buffer, 42);
 		if (bytes_read == -1)
 			return (free(string), NULL);
 		if (bytes_read == 0)
 			break ;
 		buffer[bytes_read] = '\0';
 		if (string == NULL)
-			string = gnl_strdup("");
+			string = gnl_strdup("", err_id);
 		if (string == NULL)
 			return (NULL);
 		tmp = string;
-		string = gnl_strjoin(tmp, buffer);
+		string = gnl_strjoin(tmp, buffer, err_id);
 		free (tmp);
 		if (!string)
 			return (NULL);
-		if (gnl_strchr(buffer, '\n'))
+		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
 	return (string);
 }
 
-char	*gnl_extract_line(char *string)
+static char	*gnl_extract_line(char *string, t_error *err_id)
 {
 	char	*line;
 	int		i;
@@ -54,6 +54,7 @@ char	*gnl_extract_line(char *string)
 	line = malloc((i + 1 + (string[i] == '\n')) * sizeof(char));
 	if (!line)
 	{
+		*err_id = E_ALLOC;
 		free (string);
 		return (NULL);
 	}
@@ -69,7 +70,7 @@ char	*gnl_extract_line(char *string)
 	return (line);
 }
 
-char	*gnl_update_stash(char *string)
+static char	*gnl_update_stash(char *string, t_error *err_id)
 {
 	char	*new_stash;
 	int		i;
@@ -83,9 +84,12 @@ char	*gnl_update_stash(char *string)
 		free(string);
 		return (NULL);
 	}
-	new_stash = malloc((gnl_strlen(string) - i) * sizeof(char));
+	new_stash = malloc((ft_strlen(string) - i) * sizeof(char));
 	if (!new_stash)
+	{
+		*err_id = E_ALLOC;
 		return (NULL);
+	}
 	i++;
 	j = 0;
 	while (string[i] != '\0')
@@ -95,52 +99,33 @@ char	*gnl_update_stash(char *string)
 	return (new_stash);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, t_error *err_id, bool exit_door)
 {
 	static char	*stash;
 	char		*line;
 	char		*buffer;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if(exit_door && stash)
+		free(stash);
+	if (fd < 0)
 		return (NULL);
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buffer = malloc(sizeof(char) * (42 + 1));
 	if (!buffer)
+	{
+		*err_id = E_ALLOC;
 		return (NULL);
-	stash = gnl_read_line(fd, stash, buffer);
+	}
+	stash = gnl_read_line(fd, stash, buffer, err_id);
 	free(buffer);
 	if (!stash)
 		return (NULL);
-	line = gnl_extract_line(stash);
+	line = gnl_extract_line(stash, err_id);
 	if (!line)
 	{
 		free(stash);
 		stash = NULL;
 		return (NULL);
 	}
-	stash = gnl_update_stash(stash);
+	stash = gnl_update_stash(stash, err_id);
 	return (line);
 }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	int		fd;
-// 	char	*str;
-
-// 	fd = open("file.txt", O_RDONLY);
-// 	if (fd < 0)
-// 	{
-// 		perror("Error opening file");
-// 		return (1);
-// 	}
-// 	while ((str = get_next_line(fd)) != NULL)
-// 	{
-// 		printf("%s", str);
-// 		free(str);
-// 	}
-// 	//printf("\n");
-// 	close (fd);
-// 	free(str);
-// 	return (0);
-// }
