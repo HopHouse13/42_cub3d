@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/02 19:49:01 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/03 16:03:14 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,6 @@ typedef struct s_rect
 	int			height;
 	int			color;
 }				t_rect;
-
 /* ************************************** RAYCASTER STRUCTS END ********************************** */
 
 
@@ -283,7 +282,6 @@ void	print_elem(t_elem *elem);
 void	print_map(char **map);
 
 /* ************************************** RAYCASTER FCTIONS ********************************** */
-
 // init_stuff
 int			exec_launch(void);
 void		init_textures(t_mlx_data *data);
@@ -296,8 +294,8 @@ void		init_images(t_mlx_data *data);
 // mlx_stuff
 int			close_window(t_mlx_data *data);
 void		clear_img(t_img *img, int width, int height);
-void		clear_img_fast(t_img *img, int width, int height);
-void		clear_all_img_buffers(t_player_data *player);
+void		cleanup_mlx(t_mlx_data *data);
+
 
 
 
