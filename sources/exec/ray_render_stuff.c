@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_render_stuff.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/02 19:54:06 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/03 16:02:05 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -443,6 +443,9 @@ bool	render(t_mlx_data *data, t_player_data *player)
 	mlx_hook(data->mlx_window, KeyRelease, KeyReleaseMask, key_release_hook, player);
 	mlx_hook(data->mlx_window, DestroyNotify, NoEventMask, close_window, data);
 	mlx_loop(data->mlx_pointer);
+
+	cleanup_mlx(data);
+
 
 	return (true);
 }
