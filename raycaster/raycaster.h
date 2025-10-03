@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:10:58 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/30 22:02:39 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/03 19:13:01 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ typedef struct s_rect
 
 // init_stuff
 void		init_textures(t_mlx_data *data);
-void		init_data(t_mlx_data *data);
+void		init_cub_data(t_mlx_data *data);
 int			init_player(t_player_data *player, t_mlx_data *data);
 void		init_images(t_mlx_data *data);
 

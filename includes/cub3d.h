@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/03 16:03:14 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/03 19:55:29 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,14 +128,6 @@ typedef struct s_mlx_data
 	// t_elements	*elts;
 }			t_mlx_data;
 
-typedef struct s_wall
-{
-	bool		west;
-	bool		east;
-	bool		north;
-	bool		south;
-}				t_wall;
-
 typedef struct s_coord
 {
 	double	x;
@@ -158,7 +150,7 @@ typedef struct s_player_data
 	double		frameTime;
 	double		cameraX;
 
-	// more like ray data
+	// more like ray cub
 	double		rayDirX;
 	double		rayDirY;
 	int			mapX;
@@ -179,7 +171,6 @@ typedef struct s_player_data
 	bool		print_debug;	// debug
 	bool		game_init;		// debug
 
-	t_wall		w_side;
 
 	t_key_inpt	kbrd;
 
@@ -225,8 +216,23 @@ typedef struct	s_vec
 
 typedef struct	s_player
 {
-	t_vec		position;
-	char		ori;
+	t_vec		pos;
+	t_vec		dir;
+	t_vec		plane;
+
+	char		facing;
+	
+	double		start_time;
+	double		time;			// a voir si on peut passer cette variable en local
+	double		old_time;		// a voir si on peut passer cette variable en local
+	double		frame_time;		// a voir si on peut passer cette variable en local
+	
+	double		camera_x;		// a voir si on peut passer cette variable en local
+
+	double		rot_speed;
+	double		move_speed;		// struct ray ou player?
+	
+	
 }				t_player;
 
 typedef struct	s_map
@@ -244,31 +250,31 @@ typedef struct	s_elements
 	int			e_counter;
 }				t_elem;
 
-typedef struct	s_data
+typedef struct	s_cub
 {
 	t_map		map;
 	t_elem		elem;
 	t_player	player;
 	int			fd_file;
 	char		*err_msg[E_UNKNOWN + 1];
-}			t_data;
+}			t_cub;
 
 /// PARSING ///
-void	parsing(t_data *data, char *argv);
-void	check_filename(t_data *data, char *argv);
-void	check_elem(t_data *data, char *file_map);
+void	parsing(t_cub *cub, char *argv);
+void	check_filename(t_cub *cub, char *argv);
+void	check_elem(t_cub *cub, char *file_map);
 
-void	check_map(t_data *data, char *mapfile);
-void	make_copy(t_data *data, char *mapfile);
+void	check_map(t_cub *cub, char *mapfile);
+void	make_copy(t_cub *cub, char *mapfile);
 bool	is_empty(char *line);
 
 /// UTILITIES ///
 
 // handle_exit
-void	exit_door(t_data *data, t_error err_id);
+void	exit_door(t_cub *cub, t_error err_id);
 
-// init_data
-void	init_data(t_data *data);
+// init_cub_data
+void	init_cub_data(t_cub *cub);
 void	init_elem(t_elem *elem);
 
 // GNL
@@ -277,7 +283,7 @@ char	*gnl_strdup(const char *s, t_error *err_id);
 char	*gnl_strjoin(const char *s1, const char *s2, t_error *err_id);
 
 // print_debug
-void	print_data(t_data *data);
+void	print_cub_data(t_cub *cub);
 void	print_elem(t_elem *elem);
 void	print_map(char **map);
 

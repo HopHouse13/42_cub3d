@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/03 17:30:25 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/03 19:55:07 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ void	which_starting_direction(t_player_data *player, char facing)
 		player->planeX = 0;
 		player->planeY = 0.66;
 	}
-
 	if (facing == 'N')
 	{
 		player->dirX = 0;
@@ -129,7 +128,6 @@ void	which_starting_direction(t_player_data *player, char facing)
 		player->planeX = 0.66;
 		player->planeY = 0;
 	}
-
 	if (facing == 'S')
 	{
 		player->dirX = 0;
@@ -180,11 +178,6 @@ int	init_player(t_player_data *player, t_mlx_data *data)
 	player->kbrd.key_left = false;
 	player->kbrd.key_right = false;
 	player->kbrd.key_m = true;
-
-	player->w_side.east = false;
-	player->w_side.west = false;
-	player->w_side.north = false;
-	player->w_side.south = false;
 
 	player->side = 0;
 
