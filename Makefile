@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
+#    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/02 21:33:38 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/10/03 17:11:44 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,15 +78,14 @@ $(NAME):	$(LIBFT) $(MLX_LIB) $(OBJS)
 
 clean:
 			@$(RM) $(OBJ_DIR)
+			@echo "\033[36m""Directory $(OBJ_DIR) deleted.""\033[0m"
 			@make -sC $(LIBFT_DIR) clean
 			@make -sC $(MLX_DIR) clean
-			@echo "\033[36m""Directory $(OBJ_DIR) deleted.""\033[0m"
 
 fclean:		clean
 			@$(RM) $(NAME)
-			@make -sC $(LIBFT_DIR) fclean
-# 			@make clean -sC $(MLX_DIR)
 			@echo "\033[36m""Executable $(NAME) deleted.""\033[0m"
+			@make -sC $(LIBFT_DIR) fclean
 
 re:			fclean 	all
 

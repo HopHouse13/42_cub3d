@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_mlx_stuff.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:10:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/03 16:03:59 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:31:42 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,11 @@ int	close_window(t_mlx_data *data)
 void	cleanup_mlx(t_mlx_data *data)
 {
 	// Destroy textures
-	for (int i = 0; i < 7; i++)
-		mlx_destroy_image(data->mlx_pointer, data->textures[i]);
-	mlx_destroy_image(data->mlx_pointer, data->bckgr_txtr[0]);
-	mlx_destroy_image(data->mlx_pointer, data->bckgr_txtr[1]);
+
+	//for (int i = 0; i < 7; i++)
+	//	mlx_destroy_image(data->mlx_pointer, data->textures[i]);
+	//mlx_destroy_image(data->mlx_pointer, data->bckgr_txtr[0]);
+	//mlx_destroy_image(data->mlx_pointer, data->bckgr_txtr[1]);
 
 	// Destroy image buffers
 	// mlx_destroy_image(data->mlx_pointer, data->map_img.mlx_img);
