@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:39:16 by pab               #+#    #+#             */
-/*   Updated: 2025/09/30 18:57:18 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/03 19:12:14 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ void	print_elem(t_elem *elem)
 	printf("elem->e_counter = %d\n", elem->e_counter);
 }
 
-void	print_data(t_data *data)
+void	print_cub_data(t_cub *cub)
 {
 	printf("----- DATA -----\n\n");
-	print_elem(&data->elem);
+	print_elem(&cub->elem);
 	//print_map;
 	printf("\n----------------\n\n");
 
