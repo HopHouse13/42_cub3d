@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/03 19:06:12 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/06 16:52:25 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static void	free_map(t_cub *cub)
 {
 	int	i;
 
-	if (!cub->map.tab_map)
+	if (!cub->map.grid)
 		return;
 	i = 0;
-	while (cub->map.tab_map[i])
-		free(cub->map.tab_map[i++]);
-	free(cub->map.tab_map);
+	while (cub->map.grid[i])
+		free(cub->map.grid[i++]);
+	free(cub->map.grid);
 }
 
 static void	free_elem(t_cub *cub)

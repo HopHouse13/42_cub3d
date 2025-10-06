@@ -3,59 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   ray_mlx_stuff.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:10:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/03 17:31:42 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/06 19:35:08 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-static void	destroy_images(t_mlx_data *data)
+static void	destroy_images(t_cub *cub)
 {
-		mlx_destroy_image(data->mlx_pointer, data->map_img.mlx_img);
-		// mlx_destroy_image(data->mlx_pointer, data->background_img.mlx_img);
-		mlx_destroy_image(data->mlx_pointer, data->game_img.mlx_img);
+		mlx_destroy_image(cub->mlx_pointer, cub->map_img.mlx_img);
+		// mlx_destroy_image(cub->mlx_pointer, cub->background_img.mlx_img);
+		mlx_destroy_image(cub->mlx_pointer, cub->game_img.mlx_img);
 
 }
 
-int	close_window(t_mlx_data *data)
+int	close_window(t_cub *cub)
 {
 	//for (int i = 0; i < 7; i++)
-	//	mlx_destroy_image(data->mlx_pointer, data->textures[i]);
+	//	mlx_destroy_image(cub->mlx_pointer, cub->textures[i]);
 
 
-	// destroy_images(data);
-	// mlx_destroy_window(data->mlx_pointer, data->mlx_window);
-	// mlx_destroy_display(data->mlx_pointer);
-	// free(data->mlx_pointer);
+	// destroy_images(cub);
+	// mlx_destroy_window(cub->mlx_pointer, cub->mlx_window);
+	// mlx_destroy_display(cub->mlx_pointer);
+	// free(cub->mlx_pointer);
 	// exit(1);
 	//return(1);
 
-	mlx_loop_end(data->mlx_pointer);
+	mlx_loop_end(cub->mlx_pointer);
 	return (0);
 }
 
-void	cleanup_mlx(t_mlx_data *data)
+void	cleanup_mlx(t_cub *cub)
 {
 	// Destroy textures
 
 	//for (int i = 0; i < 7; i++)
-	//	mlx_destroy_image(data->mlx_pointer, data->textures[i]);
-	//mlx_destroy_image(data->mlx_pointer, data->bckgr_txtr[0]);
-	//mlx_destroy_image(data->mlx_pointer, data->bckgr_txtr[1]);
+	//	mlx_destroy_image(cub->mlx_pointer, cub->textures[i]);
+	//mlx_destroy_image(cub->mlx_pointer, cub->bckgr_txtr[0]);
+	//mlx_destroy_image(cub->mlx_pointer, cub->bckgr_txtr[1]);
 
 	// Destroy image buffers
-	// mlx_destroy_image(data->mlx_pointer, data->map_img.mlx_img);
-	// mlx_destroy_image(data->mlx_pointer, data->game_img.mlx_img);
-	destroy_images(data);
+	// mlx_destroy_image(cub->mlx_pointer, cub->map_img.mlx_img);
+	// mlx_destroy_image(cub->mlx_pointer, cub->game_img.mlx_img);
+	destroy_images(cub);
 
 
 	// Destroy window and display
-	mlx_destroy_window(data->mlx_pointer, data->mlx_window);
-	mlx_destroy_display(data->mlx_pointer);
-	free(data->mlx_pointer);
+	mlx_destroy_window(cub->mlx_pointer, cub->mlx_window);
+	mlx_destroy_display(cub->mlx_pointer);
+	free(cub->mlx_pointer);
 }
 
 void	clear_img(t_img *img, int width, int height)

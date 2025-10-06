@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/02 19:48:38 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/06 19:22:50 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,66 +14,63 @@
 
 
 
-int	key_press_hook(int keysym, t_player_data *player)
+int	key_press_hook(int keysym, t_cub *cub)
 {
 	if (keysym == XK_Escape)
-		close_window(player->mlx_data_pointer);
+		close_window(cub);
 	if (keysym == XK_w) // keycode ==
-		player->kbrd.key_w = true;
+		cub->player.kbrd.key_w = true;
 	if (keysym == XK_s)
-		player->kbrd.key_s = true;
+		cub->player.kbrd.key_s = true;
 	if (keysym == XK_a)
-		player->kbrd.key_a = true;
+		cub->player.kbrd.key_a = true;
 	if (keysym == XK_d)
-		player->kbrd.key_d = true;
+		cub->player.kbrd.key_d = true;
 	if (keysym == XK_Left)
-		player->kbrd.key_left = true;
+		cub->player.kbrd.key_left = true;
 	if (keysym == XK_Right)
-		player->kbrd.key_right = true;
+		cub->player.kbrd.key_right = true;
 	return (0);
 }
 
-int	key_release_hook(int keysym, t_player_data *player)
+int	key_release_hook(int keysym, t_cub *cub)
 {
 
 	if (keysym == XK_m)
 	{
-		if (player->kbrd.key_m == false)
+		if (cub->player.kbrd.key_m == false)
 		{
-			player->kbrd.key_m = true;
-			printf("player->kbrd.key_m = %d \n", player->kbrd.key_m);
+			cub->player.kbrd.key_m = true;
+			printf("cub->player.kbrd.key_m = %d \n", cub->player.kbrd.key_m);
 		}
 		else
 		{
-			player->kbrd.key_m = false;
-			printf("player->kbrd.key_m = %d \n", player->kbrd.key_m);
+			cub->player.kbrd.key_m = false;
+			printf("cub->player.kbrd.key_m = %d \n", cub->player.kbrd.key_m);
 		}
 	}
 	if (keysym == XK_w)
-		player->kbrd.key_w = false;
+		cub->player.kbrd.key_w = false;
 	if (keysym == XK_s)
-		player->kbrd.key_s = false;
+		cub->player.kbrd.key_s = false;
 	if (keysym == XK_a)
-		player->kbrd.key_a = false;
+		cub->player.kbrd.key_a = false;
 	if (keysym == XK_d)
-		player->kbrd.key_d = false;
+		cub->player.kbrd.key_d = false;
 	if (keysym == XK_Left)
-		player->kbrd.key_left = false;
+		cub->player.kbrd.key_left = false;
 	if (keysym == XK_Right)
-		player->kbrd.key_right = false;
+		cub->player.kbrd.key_right = false;
 	return (0);
 }
 
-int	exec_launch(void)
+int	exec_launch(t_cub *cub)
 {
-	t_mlx_data		data;
-	t_player_data	player;
-
-	init_data_ray(&data);
-	if (!init_player(&player, &data))
+	init_exec_data(cub);
+	if (!init_player(cub, &(cub->player)))
 		return (1);
-	print_map_ray(&(data.map));
-	if (!render(&data, &player))
+	print_map_ray(&(cub->map));
+	if (!render(cub))
 		return (1);
 	return (0);
 }

@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ray_init_stuff.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/03 19:55:07 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/06 20:12:23 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void	init_images(t_mlx_data *data)
+void	init_images(t_cub *cub)
 {
 	// init minimap image
-	data->map_img.mlx_img = mlx_new_image(data->mlx_pointer, data->window_width, data->window_height);
-	data->map_img.addr = mlx_get_data_addr(data->map_img.mlx_img, &data->map_img.bpp, &data->map_img.line_len, &data->map_img.endian);
+	cub->map_img.mlx_img = mlx_new_image(cub->mlx_pointer, cub->window_width, cub->window_height);
+	cub->map_img.addr = mlx_get_data_addr(cub->map_img.mlx_img, &cub->map_img.bpp, &cub->map_img.line_len, &cub->map_img.endian);
 
 	// // init background image
-	// data->background_img.mlx_img = mlx_new_image(data->mlx_pointer, WNDW_W, WNDW_H);
-	// data->background_img.addr = mlx_get_data_addr(data->background_img.mlx_img, &data->background_img.bpp, &data->background_img.line_len, &data->background_img.endian);
+	// cub->background_img.mlx_img = mlx_new_image(cub->mlx_pointer, WNDW_W, WNDW_H);
+	// cub->background_img.addr = mlx_get_data_addr(cub->background_img.mlx_img, &cub->background_img.bpp, &cub->background_img.line_len, &cub->background_img.endian);
 
 	// init game images
-	data->game_img.mlx_img = mlx_new_image(data->mlx_pointer, WNDW_W, WNDW_H);
-	data->game_img.addr = mlx_get_data_addr(data->game_img.mlx_img, &data->game_img.bpp, &data->game_img.line_len, &data->game_img.endian);
+	cub->game_img.mlx_img = mlx_new_image(cub->mlx_pointer, WNDW_W, WNDW_H);
+	cub->game_img.addr = mlx_get_data_addr(cub->game_img.mlx_img, &cub->game_img.bpp, &cub->game_img.line_len, &cub->game_img.endian);
 
 
 }
@@ -71,105 +71,105 @@ void	init_images(t_mlx_data *data)
 //	}
 //}
 
-static void	init_map(t_map_ray *map)
+static void	init_map(t_map *map)
 {
-	char temp_map[8][8] = {
-		{'1','1','1','1','1','0','0','0'},
-		{'1','0','1','0','1','0','0','0'},
-		{'1','0','1','0','0','1','1','1'},
-		{'1','0','1','0','W','0','0','1'},
-		{'1','0','0','0','0','0','0','1'},
-		{'1','1','0','C','0','0','1','1'},
-		{'1','0','0','0','0','1','0','1'},
-		{'1','1','1','1','1','1','1','1'}
-	};
+	size_t	i_rows;
+	size_t	j_cols;
+	size_t	max_cols;
 
-	// Copy the array
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
-			map->grid[i][j] = temp_map[i][j];
-		}
+	i_rows = 0;
+	max_cols = 0;
+	while (i_rows < map->rows)
+	{
+		j_cols = ft_strlen(map->grid[i_rows]) - 1;
+		if (max_cols < j_cols)
+			max_cols = j_cols;
+		i_rows++;
 	}
-	map->cols = 8;
-	map->rows = 8;
+	map->cols = max_cols;
 }
 
-void	init_data_ray(t_mlx_data *data)
+void	init_exec_data(t_cub *cub)
 {
-	init_map(&(data->map));
-	data->img_width = 0;
-	data->img_height = 0;
-	data->moves = 0;
-	data->window_width = (data->map).cols * TILE_SIZE;
-	data->window_height = (data->map).rows * TILE_SIZE;
-	data->display_map = true;
+	init_map(&(cub->map));
+	cub->img_width = 0;
+	cub->img_height = 0;
+	cub->moves = 0;
+	cub->window_width = (cub->map).cols * TILE_SIZE;
+	cub->window_height = (cub->map).rows * TILE_SIZE;
+	cub->map.display_map = true;
 }
 
-void	which_starting_direction(t_player_data *player, char facing)
+static void	which_starting_direction(t_player *player, char facing)
 {
 	if (facing == 'W')
 	{
-		player->dirX = -1;
-		player->dirY = 0;
-		player->planeX = 0;
-		player->planeY = -0.66;
+		player->dir.x = -1;
+		player->dir.y = 0;
+		player->plane.x = 0;
+		player->plane.y = -0.66;
 	}
 	if (facing == 'E')
 	{
-		player->dirX = 1;
-		player->dirY = 0;
-		player->planeX = 0;
-		player->planeY = 0.66;
+		player->dir.x = 1;
+		player->dir.y = 0;
+		player->plane.x = 0;
+		player->plane.y = 0.66;
 	}
 	if (facing == 'N')
 	{
-		player->dirX = 0;
-		player->dirY = -1;
-		player->planeX = 0.66;
-		player->planeY = 0;
+		player->dir.x = 0;
+		player->dir.y = -1;
+		player->plane.x = 0.66;
+		player->plane.y = 0;
 	}
 	if (facing == 'S')
 	{
-		player->dirX = 0;
-		player->dirY = 1;
-		player->planeX = -0.66;
-		player->planeY = 0;
+		player->dir.x = 0;
+		player->dir.y = 1;
+		player->plane.x = -0.66;
+		player->plane.y = 0;
 	}
 }
 
-int	init_player(t_player_data *player, t_mlx_data *data)
+int	init_player(t_cub *cub, t_player *player)
 {
-	int	init_pos = 0;
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++)
-		{
-			if (data->map.grid[i][j] == 'E' || data->map.grid[i][j] == 'W'
-				|| data->map.grid[i][j] == 'S' || data->map.grid[i][j] == 'N')
-			{
-				if (init_pos != 0)
-					return (printf("Multiple starting position\n"), 0);
-				player->posX = j + 0.5;
-				player->posY = i + 0.5;
-				which_starting_direction(player, data->map.grid[i][j]);
-				init_pos++;
+	// int	init_pos = 0;
+	// for (int i = 0; i < 8; i++) {
+	// 	for (int j = 0; j < 8; j++)
+	// 	{
+	// 		if (cub->map.grid[i][j] == 'E' || cub->map.grid[i][j] == 'W'
+	// 			|| cub->map.grid[i][j] == 'S' || cub->map.grid[i][j] == 'N')
+	// 		{
+	// 			if (init_pos != 0)
+	// 				return (printf("Multiple starting position\n"), 0);
+	// 			player->pos.x = j + 0.5;
+	// 			player->pos.y = i + 0.5;
+	// 			which_starting_direction(player, cub->map.grid[i][j]);
+	// 			init_pos++;
 
-			}
-		}
-	}
-	// player->dirX = -1;
-	// player->dirY = 0;
-	// player->planeX = 0;
-	// player->planeY = 0.66;
+	// 		}
+	// 	}
+	// }
+
+	player->pos.x += 0.5;
+	player->pos.y += 0.5;
+	which_starting_direction(player, cub->elem.facing);
+
+	// player->dir.x = -1;
+	// player->dir.y = 0;
+	// player->plane.x = 0;
+	// player->plane.y = 0.66;
 	player->start_time = date_in_ms();
 	player->time = 0;
 	player->old_time = 0;
-	player->frameTime = 0;
-	player->mlx_data_pointer = data;
+	player->frame_time = 0;
+	// player->mlx_data_pointer = data;
+	player->camera_x = 0;
 
-	player->rotSpeed = 0;
-	player->moveSpeed = 0;
+	player->rot_speed = 0;
+	player->move_speed = 0;
 
-	player->perpWallDist = 0;
 
 	player->kbrd.key_w = false;
 	player->kbrd.key_s = false;
@@ -179,16 +179,31 @@ int	init_player(t_player_data *player, t_mlx_data *data)
 	player->kbrd.key_right = false;
 	player->kbrd.key_m = true;
 
-	player->side = 0;
-
-	player->print_debug = true;
-	player->game_init = true;
-
 	return (1);
 
-
-
 }
+
+void	init_ray_data(t_ray *ray)
+{
+	ray->ray_dir.x = 0;
+	ray->ray_dir.y = 0;
+	ray->map.x = 0;
+	ray->map.y = 0;
+	ray->side_dist.x = 0;
+	ray->side_dist.y = 0;
+	ray->delta_dist.x = 0;
+	ray->delta_dist.y = 0;
+	ray->step.x = 0;
+	ray->step.y = 0;
+	ray->perp_wall_dist = 0;
+	ray-> hit = 0;
+	ray-> side = 0;
+
+	ray->print_debug = true;
+	ray->game_init = true;
+}
+
+
 
 
 
