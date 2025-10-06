@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:39:16 by pab               #+#    #+#             */
-/*   Updated: 2025/10/03 19:12:14 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/06 19:11:27 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	print_elem(t_elem *elem)
 	i = -1;
 	while (++i < 4)
 		printf("elem->path[%d] = %s\n", i, elem->path[i]);
+	printf("elem->facing = %c\n", elem->facing);
 	printf("elem->start_line = %d\n", elem->start_line);
 	printf("elem->e_counter = %d\n", elem->e_counter);
 }

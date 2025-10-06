@@ -26,6 +26,7 @@ void	init_elem(t_elem *elem)
 	i = 0;
 	while (i < 4)
 		elem->path[i++] = NULL;
+	elem->facing = 0;
 	elem->start_line = false;
 	elem->e_counter = 0;
 }
@@ -61,8 +62,9 @@ void	init_cub_data(t_cub *cub)
 	cub->fd_file = -1;
 	init_err_msgs(cub);
 	// struct_map
-	cub->map.tab_map = NULL;
-	cub->map.nb_line = 0;
+	cub->map.grid = NULL;
+	cub->map.rows = 0;
+	cub->map.cols = 0;
 	// struct_play
 	cub->player.facing = '\0';
 	cub->player.pos.x = 0.0;

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/02 15:52:06 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/06 19:16:54 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,18 @@ t_tile	char_to_tile(char c)
 	return E_FLOOR; // Default fallback
 }
 
-void	print_map_ray(t_map_ray *map)
+void	print_map_ray(t_map *map)
 {
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
-			printf("%c ", map->grid[i][j]);
-		}
-		printf("\n");
-	}
+	// for (size_t i_rows = 0; i_rows < map->rows; i_rows++) {
+	// 	for (size_t j_cols = 0; j_cols < map->cols; j_cols++) {
+	// 		printf("%c ", map->grid[(int)i_rows][(int)j_cols]);
+	// 	}
+	// 	printf("\n");
+	// }
+	print_map(map->grid);
+	printf("map->rows = %zd\n", map->rows);
+	printf("map->cols = %zd\n", map->cols);
+	printf("map->display_map = %d\n", map->display_map);
+
+
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/03 19:55:29 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/06 20:05:33 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,9 +210,12 @@ typedef enum	e_key
 
 typedef struct	s_vec
 {
-	float		x;
-	float		y;
+	double		x;
+	double		y;
 }				t_vec;
+
+
+
 
 typedef struct	s_player
 {
@@ -221,24 +224,30 @@ typedef struct	s_player
 	t_vec		plane;
 
 	char		facing;
-	
+
 	double		start_time;
 	double		time;			// a voir si on peut passer cette variable en local
 	double		old_time;		// a voir si on peut passer cette variable en local
 	double		frame_time;		// a voir si on peut passer cette variable en local
-	
+
 	double		camera_x;		// a voir si on peut passer cette variable en local
 
 	double		rot_speed;
 	double		move_speed;		// struct ray ou player?
-	
-	
+
+	t_key_inpt	kbrd;
+
+
+
+
 }				t_player;
 
 typedef struct	s_map
 {
-	char 		**tab_map;
-	int			nb_line;
+	char 		**grid;
+	size_t		rows;
+	size_t		cols;
+	bool		display_map;
 }				t_map;
 
 typedef struct	s_elements
@@ -246,18 +255,49 @@ typedef struct	s_elements
 	char		*path[4]; // 0 NO, 1 EA, 2 SO, 3 WE
 	int			f_value[3]; // init a -1 car 0 valeur accepte
 	int			c_value[3];
+	char		facing;
 	bool		start_line;
 	int			e_counter;
 }				t_elem;
 
 typedef struct	s_cub
 {
+	void		*mlx_pointer;
+	void		*mlx_window;
+	void		*textures[7];
+	int			img_height;
+	int			img_width;
+	int			moves;
+
+	int			window_height;
+	int			window_width;
+
 	t_map		map;
 	t_elem		elem;
 	t_player	player;
+
+	t_img		map_img;
+	t_img		game_img;
+
+
 	int			fd_file;
 	char		*err_msg[E_UNKNOWN + 1];
 }			t_cub;
+
+typedef struct s_ray
+{
+	t_vec		map;
+	t_vec		ray_dir;
+	t_vec		delta_dist;
+	t_vec		side_dist;
+	t_vec		step;
+	double		perp_wall_dist;
+	int			hit;
+	int			side;
+
+	bool		print_debug;	// debug
+	bool		game_init;		// debug
+}			t_ray;
 
 /// PARSING ///
 void	parsing(t_cub *cub, char *argv);
@@ -289,39 +329,41 @@ void	print_map(char **map);
 
 /* ************************************** RAYCASTER FCTIONS ********************************** */
 // init_stuff
-int			exec_launch(void);
-void		init_textures(t_mlx_data *data);
-void		init_data_ray(t_mlx_data *data);
-int			init_player(t_player_data *player, t_mlx_data *data);
-void		init_images(t_mlx_data *data);
+int			exec_launch(t_cub *cub);
+// void		init_textures(t_mlx_data *data);
+void		init_exec_data(t_cub *cub);
+int			init_player(t_cub *cub, t_player *player);
+void		init_images(t_cub *cub);
+void		init_ray_data(t_ray *ray);
+
 
 
 
 // mlx_stuff
-int			close_window(t_mlx_data *data);
+int			close_window(t_cub *cub);
 void		clear_img(t_img *img, int width, int height);
-void		cleanup_mlx(t_mlx_data *data);
+void		cleanup_mlx(t_cub *cub);
 
 
 
 
 // render_stuff
-void		render_map(t_mlx_data *data, t_player_data *player);
-bool		render(t_mlx_data *data, t_player_data *player);
+void		render_map(t_cub *cub, t_player *player);
+bool		render(t_cub *cub);
 
 // game_stuff
-int			key_press_hook(int keysym, t_player_data *data);
-int			key_release_hook(int keysym, t_player_data *player);
-void		handle_move(t_player_data *player);
-void		print_ray_info(t_player_data *player, int x, FILE *fp);
-void		print_updated_pos(t_player_data *player);
+int			key_press_hook(int keysym, t_cub *cub);
+int			key_release_hook(int keysym, t_cub *cub);
+void		handle_move(t_cub *cub, t_player *player, t_ray *ray);
+void		print_ray_info(t_ray *ray, int x, FILE *fp);
+void		print_updated_pos(t_player *player, t_ray *ray);
 
 
 
 
 // utils
 t_tile		char_to_tile(char c);
-void		print_map_ray(t_map_ray *map);
+void		print_map_ray(t_map *map);
 double		date_in_s(void);
 double		date_in_ms(void);
 

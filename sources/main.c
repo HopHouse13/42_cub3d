@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:27:42 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/03 19:13:01 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/06 19:21:02 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	main(int argc, char **argv)
 	init_cub_data(&cub);
 	print_cub_data(&cub);
 	parsing(&cub, argv[1]);
-	exec_launch();
+	exec_launch(&cub);
 	exit_door(&cub, OK);
+	printf("on passe pas par la\n");
 	return (0);
 }

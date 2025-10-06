@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/10/03 19:06:12 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/06 17:21:40 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 // Je close le fd
 // je reouvre un nouvel fd
 // et je parcours le fichier jusqu'a ligne de debut de map (strcmp)
-// je malloc le double tab_map
-// je reparcours le fichier en dup chaque ligne dans mon doubel tab_map (il est 5h35 du mat je go dodo)
+// je malloc le double grid
+// je reparcours le fichier en dup chaque ligne dans mon doubel grid (il est 5h35 du mat je go dodo)
 
 static void	refind_start_map(t_cub *cub, char *mapfile, t_error *err_id)
 {
@@ -36,7 +36,7 @@ static void	refind_start_map(t_cub *cub, char *mapfile, t_error *err_id)
 			exit_door(cub, *err_id);
 		if (!line)
 			exit_door(cub, E_UNKNOWN);
-		if (!ft_strncmp(cub->map.tab_map[0], line, ft_strlen(cub->map.tab_map[0])))
+		if (!ft_strncmp(cub->map.grid[0], line, ft_strlen(cub->map.grid[0])))
 			break ;
 		free(line);
 	}
@@ -61,7 +61,7 @@ static char	*init_map(t_cub *cub, t_error *err_id)
 {
 	char	*line;
 	char	*start;
-	
+
 	while(true) // j'aime pas dutout faire ca
 	{
 		line = get_next_line(cub->fd_file, err_id, false);
@@ -76,44 +76,44 @@ static char	*init_map(t_cub *cub, t_error *err_id)
 	start = ft_strdup(line); // copie la ligne du start de la map
 	if (!start)
 		exit_door(cub, E_ALLOC);
-	while(line) // avance ligne par ligne jusqu'a la fin du file en incrementant nb_line
+	while(line) // avance ligne par ligne jusqu'a la fin du file en incrementant rows
 	{
-		++cub->map.nb_line;
+		++cub->map.rows;
 		free(line);
 		line = get_next_line(cub->fd_file, err_id, false);
 		if (*err_id == E_ALLOC)
 			exit_door(cub, *err_id);
 	}
 	close(cub->fd_file);
-	cub->map.tab_map = malloc(sizeof(char *) * (cub->map.nb_line + 1)); // initialise dinamiquement le double_tab map
-	if (!cub->map.tab_map)
+	cub->map.grid = malloc(sizeof(char *) * (cub->map.rows + 1)); // initialise dynamiquement le double_tab map
+	if (!cub->map.grid)
 		exit_door(cub, E_ALLOC);
 	return (start); // le retourne start de la map
 }
 
 void	make_copy(t_cub *cub, char *mapfile)
 {
-	int		i;
-	char	*line;
+	size_t		i;
+	char		*line;
 	t_error	err_id;
-	
+
 	err_id = OK; // value de non erreur
-	cub->map.tab_map[0] = init_map(cub, &err_id); // retourne un char * qui est la premiere ligne de la map
+	cub->map.grid[0] = init_map(cub, &err_id); // retourne un char * qui est la premiere ligne de la map
 	refind_start_map(cub, mapfile, &err_id);
 	i = 1;
-	while(i < cub->map.nb_line)
+	while(i < cub->map.rows)
 	{
 		line = get_next_line(cub->fd_file, &err_id, false);
 		if (err_id == E_ALLOC)
 			exit_door(cub, err_id);
 		if (!line) // normalement
 			break;
-		cub->map.tab_map[i] = ft_strdup(line); // duplique chaque ligne dans le double_tab map jusqu'a la fin du file
+		cub->map.grid[i] = ft_strdup(line); // duplique chaque ligne dans le double_tab map jusqu'a la fin du file
 		free(line);
-		if (!cub->map.tab_map[i])
+		if (!cub->map.grid[i])
 			exit_door(cub, E_ALLOC);
 		i++;
 	}
-	cub->map.tab_map[i] = NULL; // met a NULL le dernier pointeur de la chaine de pointeur
-	print_map(cub->map.tab_map);
+	cub->map.grid[i] = NULL; // met a NULL le dernier pointeur de la chaine de pointeur
+	print_map(cub->map.grid);
 }
