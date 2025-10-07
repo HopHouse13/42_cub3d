@@ -1,0 +1,10 @@
+NO ./textures/cub_of_jo.xpm
+SO ./textures/north.xpm
+WE ./textures/cub.xpm
+EA ./textures/cub.xpm
+
+F 220,100,0
+C 225,30,0
+
+        1111111111111111111111111
+       1111111111111111111111111

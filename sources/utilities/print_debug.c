@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:39:16 by pab               #+#    #+#             */
-/*   Updated: 2025/09/30 18:57:18 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/06 19:11:27 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,15 @@ void	print_elem(t_elem *elem)
 	i = -1;
 	while (++i < 4)
 		printf("elem->path[%d] = %s\n", i, elem->path[i]);
+	printf("elem->facing = %c\n", elem->facing);
 	printf("elem->start_line = %d\n", elem->start_line);
 	printf("elem->e_counter = %d\n", elem->e_counter);
 }
 
-void	print_data(t_data *data)
+void	print_cub_data(t_cub *cub)
 {
 	printf("----- DATA -----\n\n");
-	print_elem(&data->elem);
+	print_elem(&cub->elem);
 	//print_map;
 	printf("\n----------------\n\n");
 
