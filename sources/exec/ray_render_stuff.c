@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_render_stuff.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/07 18:52:46 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/07 19:31:29 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,18 @@ void	render_2Dray(t_cub *cub, t_player *player, t_ray *ray, int x, FILE *fp) // 
 	// 	fprintf(fp, "		Ray[%d]->start.x =		%.4f		start.y =		%.4f\n", x, start.x, start.y);
 	// 	fprintf(fp, "		Ray[%d]->wall_hit.x =		%.4f		wall_hit.y =		%.4f\n\n", x, wall_hit.x, wall_hit.y);
 	// }
-	
+
+	start.x = ((start.x * TILE_SIZE) / 5);
+	start.y = ((start.y * TILE_SIZE) / 5);
+	wall_hit.x = ((wall_hit.x * TILE_SIZE) / 5);
+	wall_hit.y = ((wall_hit.y * TILE_SIZE) / 5);
+
+
 
 	// Draw the ray to the exact wall hit position
 	draw_ray_line(cub,
-		start.x * TILE_SIZE, start.y * TILE_SIZE,
-		wall_hit.x * TILE_SIZE, wall_hit.y * TILE_SIZE);
+		start.x, start.y,
+		wall_hit.x, wall_hit.y);
 	// draw_ray_line(cub, start_screen_x, start_screen_y, end_screen_x, end_screen_y);
 
 }
@@ -130,17 +136,17 @@ void	render_cubes(t_cub *cub, t_ray *ray, int x)
 
 	if (ray->side) // le mur est un cote (est-ouest)
 	{
-		if (ray->step.y == 1) // WEST facing wall -- on regarde a l'est
+		if (ray->step.y == 1) // WEST facing wall -- on regarde a l'est		// ca c'est le sud au final (face nord du mur // on regarde au sud)
 			color = RGB_BLUE;
 		else
-			color = RGB_RED; // EAST facing wall -- on regarde a l'ouest
+			color = RGB_RED; // EAST facing wall -- on regarde a l'ouest	// ca c'est le nord au final (face sud du mur // on regarde au nord)
 	}
 	else // le mur n'est pas un cote (est-ouest)
 	{
 		if (ray->step.x == 1) // NORTH facing wall -- on regarde au sud
-			color = RGB_GRN;
+			color = RGB_GRN; 												// ca c'est l'est au final (face ouest du mur // on regarde a l'est)
 		else
-			color = RGB_YLW; // SOUTH facing wall -- on regarde au nord
+			color = RGB_YLW; // SOUTH facing wall -- on regarde au nord		// ca c'est l'ouest au final (face est du mur // on regarde a l'ouest)
 	}
 	verLine(cub, x, drawStart, drawEnd, color);
 
@@ -165,13 +171,13 @@ void	render_map(t_cub *cub, t_player *player)
 		{
 			if (cub->map.grid[y][x] == '\n')
 				continue ;
-			int screen_x = x * TILE_SIZE;
-			int screen_y = y * TILE_SIZE;
+			int screen_x = x * TILE_SIZE / 5;
+			int screen_y = y * TILE_SIZE / 5;
 			if (char_to_tile(cub->map.grid[y][x]) == E_WALL)
-				render_sqr(&cub->map_img, (t_sqr){screen_x, screen_y,  TILE_SIZE, RGB_RED});
+				render_sqr(&cub->map_img, (t_sqr){screen_x, screen_y, TILE_SIZE / 5, RGB_RED});
 
 			else
-				render_sqr(&cub->map_img, (t_sqr){screen_x, screen_y,  TILE_SIZE, 0x0000067});			// render_tile(cub, char_to_tile(cub->map.grid[y][x]), x, y);
+				render_sqr(&cub->map_img, (t_sqr){screen_x, screen_y, TILE_SIZE/ 5, 0x0000067});			// render_tile(cub, char_to_tile(cub->map.grid[y][x]), x, y);
 		}
 	}
 
@@ -380,7 +386,7 @@ int	render_loop(t_cub *cub)
 			cub->game_img.mlx_img, 0, 0);
 	if (cub->player.kbrd.key_m == true)
 		{mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
-			cub->map_img.mlx_img, 0, 0);}
+			cub->map_img.mlx_img, 10, 10);}
 
 
 

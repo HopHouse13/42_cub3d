@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/07 17:09:17 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/07 19:48:11 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@
 
 # define WNDW_W 1920
 # define WNDW_H 1080
+# define MINIMAP_H (WNDW_H / 5)
+# define MINIMAP_W (WNDW_W / 5)
+
+# define COLLISION_OFFSET 0.5
 
 # define RGB_WHT 0xFFFFFF
 # define RGB_RED 0xdb4437
