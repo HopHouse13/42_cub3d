@@ -2,3 +2,4 @@
 *.o
 *.a
 cub3D
+output.txt
