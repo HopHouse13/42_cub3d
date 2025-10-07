@@ -17,15 +17,10 @@ void	init_elem(t_elem *elem)
 	int	i;
 
 	i = 0;
-	while (i < 3)
-	{
-		elem->f_value[i] = -1;
-		elem->c_value[i] = -1;
-		i++;
-	}
-	i = 0;
 	while (i < 4)
 		elem->path[i++] = NULL;
+	elem->f_value = -1;
+	elem->c_value = -1;
 	elem->facing = 0;
 	elem->start_line = false;
 	elem->e_counter = 0;
