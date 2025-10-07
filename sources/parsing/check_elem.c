@@ -82,6 +82,8 @@ static t_error	between_value(char **line, int nb_color_found, int *new_start)
 
 	i = 0;
 	comma = 0;
+	if (!ft_isdigit(**line)) // je dois commencer avec un digit car complexe de l'integrer dans le process std
+		return (E_RGB_FT);
 	while ((*line)[i] && ft_isdigit((*line)[i]))
 		i++;
 	tmp_end = i; // stock la position de fin de serie des digits
@@ -96,7 +98,7 @@ static t_error	between_value(char **line, int nb_color_found, int *new_start)
 	}
 	if (comma != 1 && nb_color_found < 2) // il faut exatement une virgule entre les sequences; faut ignorer ce controle pour la derniere sequence
 		return (E_RGB_FT);
-	(*line)[tmp_end] = '\0'; // remplacement du char apresla serie de digits par '\0'
+	(*line)[tmp_end] = '\0'; // remplacement du char apres la serie de digits par '\0'
 	*new_start = i;
 	return (OK); // retourne l'indexe ou je trouve le prochain digit
 }
@@ -107,15 +109,16 @@ static t_error	color_getter(t_cub *cub, char **line, t_key key_id)
 	int	value_color;
 	int	new_start;
 	int	err_id;
+	//int color_f[3];
+	//int color_c[3];
 
-	if (!ft_isdigit(**line)) // je dois commencer avec un digit car complexe de l'integrer dans le process std
-		return (E_RGB_FT);
 	i = 0;
 	while (i < 3)
 	{
 		err_id = between_value(line, i, &new_start);// retourne le nb de deplacement pour aller jusqu'a la prochaine digit
 		if (err_id != OK)
 			return (err_id);
+		printf(">>>>>>>>>>>>>>>>>>>>>>>>>line [%s]\n", *line);
 		value_color = ft_atoi(*line);
 		if (key_id == F && cub->elem.f_value[i] == -1) // check si double. / si atoi renvoit -1 -> verificatoin plus tard
 			cub->elem.f_value[i] = value_color;
@@ -130,6 +133,42 @@ static t_error	color_getter(t_cub *cub, char **line, t_key key_id)
 	}
 	return (OK);
 }
+//void	colors_conversion(t_cub *cub, int *color_f, int *color_c)
+//{
+
+//}
+
+//static t_error	color_getter(t_cub *cub, char **line, t_key key_id)
+//{
+//	int	i;
+//	int	value_color;
+//	int	new_start;
+//	int	err_id;
+//	int color_f[3];
+//	int color_c[3];
+
+//	i = 0;
+//	while (i < 3)
+//	{
+//		err_id = between_value(line, i, &new_start);// retourne le nb de deplacement pour aller jusqu'a la prochaine digit
+//		if (err_id != OK)
+//			return (err_id);
+//		printf(">>>>>>>>>>>>>>>>>>>>>>>>>line [%s]\n", *line);
+//		value_color = ft_atoi(*line);
+//		if (key_id == F && cub->elem.f_value[i] == -1) // check si double. / si atoi renvoit -1 -> verificatoin plus tard
+//			color_f[i] = value_color;
+//		else if (key_id == C && cub->elem.c_value[i] == -1)
+//			color_c[i] = value_color;
+//		else
+//			return (E_DUP_COLOR);
+//		printf(">>>value_color = {%d}\n\n", value_color);
+//		(*line) += new_start; // apres le atoi, deplacement du pointeur vers le debut de la prochaine serie de digits
+//		printf(">>>carac du nouveau depart {%c}\n", **line);
+//		i++;
+//	}
+//	colors_conversion(cub, color_f, color_c);
+//	return (OK);
+//}
 
 static t_error path_getter(t_cub *cub, char **line, t_key key_id)
 {

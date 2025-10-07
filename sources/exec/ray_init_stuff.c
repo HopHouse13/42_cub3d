@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_init_stuff.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/06 20:12:23 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/07 16:14:28 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,9 @@ static void	init_map(t_map *map)
 	max_cols = 0;
 	while (i_rows < map->rows)
 	{
-		j_cols = ft_strlen(map->grid[i_rows]) - 1;
+		j_cols = ft_strlen(map->grid[i_rows]);
+		if (map->grid[i_rows][j_cols - 1] == '\n')
+			j_cols-- ;
 		if (max_cols < j_cols)
 			max_cols = j_cols;
 		i_rows++;
@@ -98,6 +100,7 @@ void	init_exec_data(t_cub *cub)
 	cub->window_width = (cub->map).cols * TILE_SIZE;
 	cub->window_height = (cub->map).rows * TILE_SIZE;
 	cub->map.display_map = true;
+	cub->print_debug_cub = true;
 }
 
 static void	which_starting_direction(t_player *player, char facing)
@@ -134,32 +137,11 @@ static void	which_starting_direction(t_player *player, char facing)
 
 int	init_player(t_cub *cub, t_player *player)
 {
-	// int	init_pos = 0;
-	// for (int i = 0; i < 8; i++) {
-	// 	for (int j = 0; j < 8; j++)
-	// 	{
-	// 		if (cub->map.grid[i][j] == 'E' || cub->map.grid[i][j] == 'W'
-	// 			|| cub->map.grid[i][j] == 'S' || cub->map.grid[i][j] == 'N')
-	// 		{
-	// 			if (init_pos != 0)
-	// 				return (printf("Multiple starting position\n"), 0);
-	// 			player->pos.x = j + 0.5;
-	// 			player->pos.y = i + 0.5;
-	// 			which_starting_direction(player, cub->map.grid[i][j]);
-	// 			init_pos++;
-
-	// 		}
-	// 	}
-	// }
 
 	player->pos.x += 0.5;
 	player->pos.y += 0.5;
 	which_starting_direction(player, cub->elem.facing);
 
-	// player->dir.x = -1;
-	// player->dir.y = 0;
-	// player->plane.x = 0;
-	// player->plane.y = 0.66;
 	player->start_time = date_in_ms();
 	player->time = 0;
 	player->old_time = 0;
