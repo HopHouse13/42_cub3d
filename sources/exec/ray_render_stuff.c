@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_render_stuff.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/06 20:05:49 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/07 18:52:46 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,7 @@ void	render_2Dray(t_cub *cub, t_player *player, t_ray *ray, int x, FILE *fp) // 
 	// 	fprintf(fp, "		Ray[%d]->start.x =		%.4f		start.y =		%.4f\n", x, start.x, start.y);
 	// 	fprintf(fp, "		Ray[%d]->wall_hit.x =		%.4f		wall_hit.y =		%.4f\n\n", x, wall_hit.x, wall_hit.y);
 	// }
-	// int start_screen_x, start_screen_y, end_screen_x, end_screen_y;
-	// convert_to_screen_coords(start.x, start.y, &start_screen_x, &start_screen_y);
-	// convert_to_screen_coords(wall_hit.x, wall_hit.y, &end_screen_x, &end_screen_y);
+	
 
 	// Draw the ray to the exact wall hit position
 	draw_ray_line(cub,
@@ -97,7 +95,7 @@ void	verLine(t_cub *cub, int x, int drawStart, int drawEnd, int color)
 {
 	int	y = 0;
 
-	while (y < drawStart)
+	while (y < drawStart) // put SKY background
 	{
 		img_pix_put(&cub->game_img, x, y, RGB_SKY);
 		y++;
@@ -158,19 +156,22 @@ void	render_cubes(t_cub *cub, t_ray *ray, int x)
 void	render_map(t_cub *cub, t_player *player)
 {
 	(void) player;
-	int x, y;
+	size_t x, y;
 
-	for (y = 0; y < 8; y++)
+	for (y = 0; y < cub->map.rows; y++)
 	{
-		for (x = 0; x < 8; x++)
+		size_t	row_len = ft_strlen(cub->map.grid[y]);
+		for (x = 0; x < row_len; x++) // modif de condition avoir la taille de la ligne pour chaque ligne. car la map peut avoir des lignes de dimensions differentes.
 		{
+			if (cub->map.grid[y][x] == '\n')
+				continue ;
 			int screen_x = x * TILE_SIZE;
 			int screen_y = y * TILE_SIZE;
 			if (char_to_tile(cub->map.grid[y][x]) == E_WALL)
 				render_sqr(&cub->map_img, (t_sqr){screen_x, screen_y,  TILE_SIZE, RGB_RED});
 
 			else
-				render_sqr(&cub->map_img, (t_sqr){screen_x, screen_y,  TILE_SIZE, 0x000000});			// render_tile(cub, char_to_tile(cub->map.grid[y][x]), x, y);
+				render_sqr(&cub->map_img, (t_sqr){screen_x, screen_y,  TILE_SIZE, 0x0000067});			// render_tile(cub, char_to_tile(cub->map.grid[y][x]), x, y);
 		}
 	}
 
@@ -185,13 +186,8 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 	int	w = WNDW_W;
 	// int w = 16;
 	FILE	*fp;
-	// int dda = 0;
-	//if (ray->print_debug)
-	// {
-	// 	print_ray_info(ray, x, fp);
-	// 	fprintf(fp, "		Ray[%d]->start.x =		%.4f		start.y =		%.4f\n", x, start.x, start.y);
-	// 	fprintf(fp, "		Ray[%d]->wall_hit.x =		%.4f		wall_hit.y =		%.4f\n\n", x, wall_hit.x, wall_hit.y);
-	// }
+	//int dda = 0;
+
 	if (ray->print_debug)
 	{
 		fp = fopen("output.txt", "w");
@@ -265,7 +261,7 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 
 
 		// DDA - Digital Differential Analyzer
-		// dda = 0;	// pour les prints de debug
+		//int dda = 0;	// pour les prints de debug
 		while (ray->hit == 0)
 		{
 			//jump to next map sqr, either in x-direction, or in y-direction
@@ -309,8 +305,8 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 
 		if (player->kbrd.key_m == true)
 		{
-			if (ray->print_debug)
-				print_ray_info(ray, x, fp);
+			//if (ray->print_debug)
+			//	print_ray_info(ray, x, fp);
 
 		// 	// render_map(cub, player);
 			render_2Dray(cub, player, ray, x, fp);
@@ -320,6 +316,7 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 	if (ray->print_debug)
 		fclose(fp);
 	ray->print_debug = false;
+	cub->print_debug_cub = false;
 
 }
 
@@ -393,7 +390,6 @@ int	render_loop(t_cub *cub)
 
 bool	render(t_cub *cub)
 {
-
 	cub->mlx_pointer = mlx_init();
 	if (!cub->mlx_pointer)
 		return (printf("MLX initialization failed\n"), false);
