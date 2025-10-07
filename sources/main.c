@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:27:42 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/25 19:23:23 by pab              ###   ########.fr       */
+/*   Updated: 2025/10/06 19:21:02 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 int	main(int argc, char **argv)
 {
-	t_data	data;
-	
+	t_cub	cub;
+
 	if (argc != 2)
 		return (printf("Error\ninvalid number of parameters\n"));
-	init_data(&data);
-	print_data(&data);
-	parsing(&data, argv[1]);
-	exit_door(&data, OK);
+	init_cub_data(&cub);
+	print_cub_data(&cub);
+	parsing(&cub, argv[1]);
+	exec_launch(&cub);
+	exit_door(&cub, OK);
+	printf("on passe pas par la\n");
 	return (0);
 }
