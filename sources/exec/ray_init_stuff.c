@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_init_stuff.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/08 17:43:08 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/08 20:25:49 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,42 +33,29 @@ void	init_images(t_cub *cub)
 
 void	init_textures(t_cub *cub)
 {
-
 	size_t		i;
-	const char	*textures_path[] = {P_FLOOR, P_WALL, P_EP, P_SP, P_WP, P_NP, P_EXTRA};
-	const char	*floor_ceiling_txtre_path[] = {P_GRASS, P_SKY};
+	int			width;
+	int			height;
 
-//	i = 0;
-//	while (i < 2)
-//	{
-//		cub->bckgr_txtr[i] = mlx_xpm_file_to_image(cub->mlx_pointer,
-//			(char *)floor_ceiling_txtre_path[i], &cub->img_width, &cub->img_height);
-//		if (!cub->bckgr_txtr[i])
-//		{
-//			printf("Error initializing the textures\n");
-//			close_window(cub);
-//		}
-//		i++;
-//	}
+	// i = -1;
+	// while (++i < 4)
+	// 	txtr[i] = NULL;
 
 	i = 0;
-	while (i < 7)
+	while (i < 4)
 	{
-		cub->textures[i] = NULL;
-		i++;
-	}
-	i = 0;
-	while (i < 7)
-	{
-		cub->textures[i] = mlx_xpm_file_to_image(cub->mlx_pointer,
-				(char *)textures_path[i], &cub->img_width, &cub->img_height);
-		if (!cub->textures[i])
+		cub->txtr[i].mlx_img = mlx_xpm_file_to_image(cub->mlx_pointer, cub->elem.path[i], &width, &height);
+		if (!cub->txtr[i].mlx_img)
 		{
 			printf("Error initializing the textures\n");
 			close_window(cub);
 		}
+		cub->txtr[i].width = width;
+		cub->txtr[i].height = height;
+		cub->txtr[i].addr = mlx_get_data_addr(cub->txtr[i].mlx_img, &cub->txtr[i].bpp, &cub->txtr[i].line_len, &cub->txtr[i].endian);
 		i++;
 	}
+
 }
 
 static void	init_map(t_map *map)
@@ -167,6 +154,8 @@ int	init_player(t_cub *cub, t_player *player)
 	player->kbrd.key_right = false;
 	player->kbrd.key_m = true;
 
+	player->game_init = true;
+
 	return (1);
 
 }
@@ -188,7 +177,6 @@ void	init_ray_data(t_ray *ray)
 	ray-> side = 0;
 
 	ray->print_debug = true;
-	ray->game_init = true;
 }
 
 

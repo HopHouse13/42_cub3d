@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/07 19:31:29 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/08 20:26:13 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,49 +334,22 @@ int	render_loop(t_cub *cub)
 
 	init_ray_data(&ray);
 
-	// (void) player;
-	// int x, y;
-	// int	w = cub->map.max_col;
-	// int	w = cub->window_width;
-
-	// printf ("cub->player.pos.x = %.4f\n", cub->player.pos.x);
-	// printf ("cub->player.pos.y = %.4f\n", cub->player.pos.y);
 	cub->player.old_time = cub->player.time;
 	cub->player.time = date_in_ms() - cub->player.start_time;
 	cub->player.frame_time = (cub->player.time - cub->player.old_time) / 1000.0;
-	// printf("cub->player.old_time = %.2f		cub->player.time = %.2f		cub->player.frame_time = %.2f	FPS = %.2f\n", cub->player.old_time, cub->player.time, cub->player.frame_time, 1.0 / cub->player.frame_time);
-
 	cub->player.move_speed = cub->player.frame_time * 5.0;
 	cub->player.rot_speed  = cub->player.frame_time * 3.0;
 
-	// if (ray.game_init)
-	// 	print_updated_pos(&(cub->player), &ray);
+	if (cub->player.game_init)
+		print_updated_pos(&(cub->player));
+
+
 	handle_move(cub, &(cub->player), &ray);
-
-
-
-	// for (y = 0; y < 8; y++)
-	// {
-	// 	for (x = 0; x < 8; x++)
-	// 	{
-	// 		render_tile(cub, char_to_tile(cub->map.grid[y][x]), x, y);
-	// 	}
-	// }
-
-	// render_background(cub, player);
 
 	if (cub->player.kbrd.key_m == true)
 		render_map(cub, &(cub->player));
 
-
 	raycasting_loop(cub, &(cub->player), &ray);
-
-	// if (player->kbrd.key_m == true)
-	// 	render_map(cub, player);
-
-
-
-	// mlx_clear_window(cub->mlx_pointer, cub->mlx_window);
 
 
 	// mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
@@ -400,24 +373,24 @@ bool	render(t_cub *cub)
 		return (printf("MLX initialization failed\n"), false);
 
 	cub->mlx_window = mlx_new_window(cub->mlx_pointer, WNDW_W,
-			WNDW_H, "raycaster");
-	// cub->mlx_window = mlx_new_window(cub->mlx_pointer, WNDW_W,
-	// 		WNDW_H, "raycaster");
+			WNDW_H, "cubD3TROIT");
+
 	if (!cub->mlx_window)
 	{
 		mlx_destroy_display(cub->mlx_pointer);
 		free(cub->mlx_pointer);
 		return (printf("Window creation failed\n"), false);
 	}
-	//init_textures(cub);
-
+	init_textures(cub);
 	init_images(cub);
 
+	// print_txtr_struct((cub->txtr));
 
-	mlx_loop_hook(cub->mlx_pointer, render_loop, cub);
-	mlx_hook(cub->mlx_window, KeyPress, KeyPressMask, key_press_hook, cub);
-	mlx_hook(cub->mlx_window, KeyRelease, KeyReleaseMask, key_release_hook, cub);
-	mlx_hook(cub->mlx_window, DestroyNotify, NoEventMask, mlx_loop_end, cub->mlx_pointer);
+
+	mlx_loop_hook(cub->mlx_pointer, &render_loop, cub);
+	mlx_hook(cub->mlx_window, KeyPress, KeyPressMask, &key_press_hook, cub);
+	mlx_hook(cub->mlx_window, KeyRelease, KeyReleaseMask, &key_release_hook, cub);
+	mlx_hook(cub->mlx_window, DestroyNotify, NoEventMask, &mlx_loop_end, cub->mlx_pointer);
 	mlx_loop(cub->mlx_pointer);
 
 	cleanup_mlx(cub);

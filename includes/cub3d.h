@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/08 16:31:34 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/08 20:22:46 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,13 +161,12 @@ typedef struct	s_player
 
 	double		camera_x;		// a voir si on peut passer cette variable en local
 
-	double		rot_speed;
-	double		move_speed;		// struct ray ou player?
+	double		rot_speed;		// a passer en macro fixe ?
+	double		move_speed;		// struct ray ou player? // ou plutot  a passer en macro fixe ?
+
+	bool		game_init;		// debug
 
 	t_key_inpt	kbrd;
-
-
-
 
 }				t_player;
 
@@ -191,10 +190,23 @@ typedef struct	s_elements
 	int			e_counter;
 }				t_elem;
 
+typedef struct s_txtr
+{
+	void		*mlx_img;
+	char		*addr;
+	int			bpp; /* bits per pixel */
+	int			line_len;
+	int			endian;
+	int			width;
+	int			height;
+}			t_txtr;
+
+
 typedef struct	s_cub
 {
 	void		*mlx_pointer;
 	void		*mlx_window;
+	t_txtr		txtr[4];
 	void		*textures[7];
 	int			img_height;
 	int			img_width;
@@ -214,7 +226,7 @@ typedef struct	s_cub
 	int			fd_file;
 	char		*err_msg[E_UNKNOWN + 1];
 
-	bool		print_debug_cub;
+	bool		print_debug_cub; // debug
 }			t_cub;
 
 typedef struct s_ray
@@ -229,7 +241,6 @@ typedef struct s_ray
 	int			side;
 
 	bool		print_debug;	// debug
-	bool		game_init;		// debug
 }			t_ray;
 
 /// PARSING ///
@@ -263,7 +274,7 @@ void	print_map(char **map);
 /* ************************************** RAYCASTER FCTIONS ********************************** */
 // init_stuff
 int			exec_launch(t_cub *cub);
-// void		init_textures(t_mlx_data *data);
+void		init_textures(t_cub *cub);
 void		init_exec_data(t_cub *cub);
 int			init_player(t_cub *cub, t_player *player);
 void		init_images(t_cub *cub);
@@ -289,7 +300,7 @@ int			key_press_hook(int keysym, t_cub *cub);
 int			key_release_hook(int keysym, t_cub *cub);
 void		handle_move(t_cub *cub, t_player *player, t_ray *ray);
 void		print_ray_info(t_ray *ray, int x, FILE *fp);
-void		print_updated_pos(t_player *player, t_ray *ray);
+void		print_updated_pos(t_player *player);
 
 
 
@@ -299,6 +310,8 @@ t_tile		char_to_tile(char c);
 void		print_map_ray(t_map *map);
 double		date_in_s(void);
 double		date_in_ms(void);
+void		print_txtr_struct(t_txtr **txtr);
+
 
 // render utils
 void		img_pix_put(t_img *img, int x, int y, int color);

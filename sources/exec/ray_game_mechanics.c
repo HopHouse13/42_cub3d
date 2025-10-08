@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 19:10:39 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/08 16:43:13 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:59:59 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@ void	print_ray_info(t_ray *ray, int x, FILE *fp)
 
 }
 
-void	print_updated_pos(t_player *player, t_ray *ray)
+void	print_updated_pos(t_player *player)
 {
-	printf("/* ----------------------------    print_updated_pos    -------------------------*/\n");
+	if (player->game_init)
+		printf("/* ----------------------------   print_game_init_pos   -------------------------*/\n");
+	else
+		printf("/* ----------------------------    print_updated_pos    -------------------------*/\n");
 	printf ("player->pos.x = %.4f\n", player->pos.x);
 	printf ("player->pos.y = %.4f\n", player->pos.y);
 	printf ("player->plane.x = %.4f\n", player->plane.x);
@@ -40,8 +43,8 @@ void	print_updated_pos(t_player *player, t_ray *ray)
 	printf ("player->rot_speed = %.4f\n", player->rot_speed);
 	printf("/* ------------------------------------------------------------------------------*/\n\n");
 
-	if (ray->game_init)
-		ray->game_init = false;
+	if (player->game_init)
+		player->game_init = false;
 
 }
 
@@ -59,7 +62,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		if (player->pos.y + player->dir.y * player->move_speed >= 1 && player->pos.y + player->dir.x * player->move_speed < cub->map.rows
 			&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
 			player->pos.y += player->dir.y * player->move_speed;
-		print_updated_pos(player, ray);
+		print_updated_pos(player);
 		ray->print_debug = true;
 
 	}
@@ -76,7 +79,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		if (player->pos.y - player->dir.y * player->move_speed >= 1 && player->pos.y - player->dir.x * player->move_speed < cub->map.rows
 				&& cub->map.grid[(int)(player->pos.y - strafeY)][(int)player->pos.x] != '1')
 			player->pos.y -= player->dir.y * player->move_speed;
-		print_updated_pos(player, ray);
+		print_updated_pos(player);
 		ray->print_debug = true;
 
 
@@ -95,7 +98,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		if (player->pos.y + strafeY >= 1 && player->pos.y + strafeY < cub->map.rows
 				&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
 			player->pos.y += player->dir.x * player->move_speed;
-		print_updated_pos(player, ray);
+		print_updated_pos(player);
 		ray->print_debug = true;
 
 	}
@@ -117,7 +120,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		if (player->pos.y + strafeY >= 1 && player->pos.y + strafeY < cub->map.rows
 				&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
 			player->pos.y += moveY;
-		print_updated_pos(player, ray);
+		print_updated_pos(player);
 		ray->print_debug = true;
 
 	}
@@ -133,7 +136,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		double	oldPlaneX = player->plane.x;
 		player->plane.x = player->plane.x * cos( - player->rot_speed) - player->plane.y * sin( - player->rot_speed);
 		player->plane.y = oldPlaneX * sin(- player->rot_speed) + player->plane.y * cos(- player->rot_speed);
-		print_updated_pos(player, ray);
+		print_updated_pos(player);
 		ray->print_debug = true;
 
 	}
@@ -150,7 +153,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		double	oldPlaneX = player->plane.x;
 		player->plane.x = player->plane.x * cos(player->rot_speed) - player->plane.y * sin(player->rot_speed);
 		player->plane.y = oldPlaneX * sin(player->rot_speed) + player->plane.y * cos(player->rot_speed);
-		print_updated_pos(player, ray);
+		print_updated_pos(player);
 		ray->print_debug = true;
 
 	}
