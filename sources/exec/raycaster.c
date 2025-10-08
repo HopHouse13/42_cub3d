@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/06 19:22:50 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:50:11 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	exec_launch(t_cub *cub)
 	if (!init_player(cub, &(cub->player)))
 		return (1);
 	print_map_ray(&(cub->map));
+	print_elem(&(cub->elem));
 	if (!render(cub))
 		return (1);
 	return (0);
