@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/08 15:54:12 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:43:25 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	init_exec_data(t_cub *cub)
 	cub->img_width = 0;
 	cub->img_height = 0;
 	cub->moves = 0;
-	cub->window_width = (cub->map).cols * TILE_SIZE / 5;
+	cub->window_width = (cub->map).max_col * TILE_SIZE / 5;
 	cub->window_height = (cub->map).rows * TILE_SIZE / 5;
 	cub->map.display_map = true;
 	cub->print_debug_cub = true;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_game_mechanics.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 19:10:39 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/07 20:40:01 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:43:13 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		double strafeX = COLLISION_OFFSET * player->dir.x + player->dir.x * player->move_speed;
 		double strafeY = COLLISION_OFFSET * player->dir.y + player->dir.y * player->move_speed;
 
-		if (player->pos.x + player->dir.x * player->move_speed >= 1 && player->pos.x + player->dir.x * player->move_speed < cub->map.cols
+		if (player->pos.x + player->dir.x * player->move_speed >= 1 && player->pos.x + player->dir.x * player->move_speed < cub->map.max_col
 			&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x + strafeX)] != '1')
 			player->pos.x += player->dir.x * player->move_speed;
 		if (player->pos.y + player->dir.y * player->move_speed >= 1 && player->pos.y + player->dir.x * player->move_speed < cub->map.rows
@@ -70,7 +70,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		double strafeX = COLLISION_OFFSET * player->dir.x + player->dir.x * player->move_speed;
 		double strafeY = COLLISION_OFFSET * player->dir.y + player->dir.y * player->move_speed;
 
-		if (player->pos.x - player->dir.x * player->move_speed >= 1 && player->pos.x - player->dir.x * player->move_speed < cub->map.cols
+		if (player->pos.x - player->dir.x * player->move_speed >= 1 && player->pos.x - player->dir.x * player->move_speed < cub->map.max_col
 				&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x - strafeX)] != '1')
 			player->pos.x -= player->dir.x * player->move_speed;
 		if (player->pos.y - player->dir.y * player->move_speed >= 1 && player->pos.y - player->dir.x * player->move_speed < cub->map.rows
