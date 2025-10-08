@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 19:10:39 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/08 16:11:22 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/07 20:40:01 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,14 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 	if (player->kbrd.key_w)
 	{
 		printf ("W pressed \n" );
+		double strafeX = COLLISION_OFFSET * player->dir.x + player->dir.x * player->move_speed;
+		double strafeY = COLLISION_OFFSET * player->dir.y + player->dir.y * player->move_speed;
 
-
-		if (player->pos.x + player->dir.x * player->move_speed >= 1 && player->pos.x + player->dir.x * player->move_speed < cub->map.max_col
-			&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x + player->dir.x * player->move_speed)] != '1')
+		if (player->pos.x + player->dir.x * player->move_speed >= 1 && player->pos.x + player->dir.x * player->move_speed < cub->map.cols
+			&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x + strafeX)] != '1')
 			player->pos.x += player->dir.x * player->move_speed;
 		if (player->pos.y + player->dir.y * player->move_speed >= 1 && player->pos.y + player->dir.x * player->move_speed < cub->map.rows
-			&& cub->map.grid[(int)(player->pos.y + player->dir.y * player->move_speed)][(int)player->pos.x] != '1')
+			&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
 			player->pos.y += player->dir.y * player->move_speed;
 		print_updated_pos(player, ray);
 		ray->print_debug = true;
@@ -66,12 +67,14 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 	if (player->kbrd.key_s)
 	{
 		printf ("S pressed \n" );
+		double strafeX = COLLISION_OFFSET * player->dir.x + player->dir.x * player->move_speed;
+		double strafeY = COLLISION_OFFSET * player->dir.y + player->dir.y * player->move_speed;
 
-		if (player->pos.x - player->dir.x * player->move_speed >= 1 && player->pos.x - player->dir.x * player->move_speed < cub->map.max_col
-				&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x - player->dir.x * player->move_speed)] != '1')
+		if (player->pos.x - player->dir.x * player->move_speed >= 1 && player->pos.x - player->dir.x * player->move_speed < cub->map.cols
+				&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x - strafeX)] != '1')
 			player->pos.x -= player->dir.x * player->move_speed;
 		if (player->pos.y - player->dir.y * player->move_speed >= 1 && player->pos.y - player->dir.x * player->move_speed < cub->map.rows
-				&& cub->map.grid[(int)(player->pos.y - player->dir.y * player->move_speed)][(int)player->pos.x] != '1')
+				&& cub->map.grid[(int)(player->pos.y - strafeY)][(int)player->pos.x] != '1')
 			player->pos.y -= player->dir.y * player->move_speed;
 		print_updated_pos(player, ray);
 		ray->print_debug = true;
@@ -80,18 +83,18 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 	}
 	if (player->kbrd.key_d)
 	{
-		printf ("A pressed \n" );
+		printf ("D pressed \n" );
 
 		// Move perpendicular to the right: use (dir.y, -dir.x)
-		double strafeX = -player->dir.y * player->move_speed;
-		double strafeY = player->dir.x * player->move_speed;
+		double strafeX = (COLLISION_OFFSET * -player->dir.y) + (-player->dir.y * player->move_speed);
+		double strafeY = COLLISION_OFFSET * player->dir.x + player->dir.x * player->move_speed;
 
 		if (player->pos.x + strafeX >= 1 && player->pos.x + strafeX < cub->map.max_col
 				&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x + strafeX)] != '1')
-			player->pos.x += strafeX;
+			player->pos.x += -player->dir.y * player->move_speed;
 		if (player->pos.y + strafeY >= 1 && player->pos.y + strafeY < cub->map.rows
 				&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
-			player->pos.y += strafeY;
+			player->pos.y += player->dir.x * player->move_speed;
 		print_updated_pos(player, ray);
 		ray->print_debug = true;
 
@@ -100,17 +103,20 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 	if (player->kbrd.key_a)
 	{
 		// Move perpendicular to the left: use (-dir.y, dir.x)
-		printf ("S pressed \n" );
+		printf ("A pressed \n" );
 
-		double strafeX = player->dir.y * player->move_speed;
-		double strafeY = -player->dir.x * player->move_speed;
+		double moveX = player->dir.y * player->move_speed;
+		double moveY = -player->dir.x * player->move_speed;
+
+		double strafeX = COLLISION_OFFSET * player->dir.y + moveX;
+		double strafeY = COLLISION_OFFSET * -player->dir.x + moveY;
 
 		if (player->pos.x + strafeX >= 1 && player->pos.x + strafeX < cub->map.max_col
 				&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x + strafeX)] != '1')
-			player->pos.x += strafeX;
+			player->pos.x += moveX;
 		if (player->pos.y + strafeY >= 1 && player->pos.y + strafeY < cub->map.rows
 				&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
-			player->pos.y += strafeY;
+			player->pos.y += moveY;
 		print_updated_pos(player, ray);
 		ray->print_debug = true;
 

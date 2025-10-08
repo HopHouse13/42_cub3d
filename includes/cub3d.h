@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
 /*   Updated: 2025/10/08 16:31:34 by pbret            ###   ########.fr       */
@@ -34,6 +34,10 @@
 
 # define WNDW_W 1920
 # define WNDW_H 1080
+# define MINIMAP_H (WNDW_H / 5)
+# define MINIMAP_W (WNDW_W / 5)
+
+# define COLLISION_OFFSET 0.0
 
 # define RGB_WHT 0xFFFFFF
 # define RGB_RED 0xdb4437
@@ -53,8 +57,21 @@
 # define P_EXTRA "../textures/blue_texture.xpm"
 # define P_GRASS "../textures/floor_texture.xpm"
 # define P_SKY "../textures/sky_texture.xpm"
+# define P_EW "../textures/green_east_txture.xpm"
+# define P_WW "../textures/yellow_west_txture.xpm"
+# define P_SW "../textures/blue_south_txture.xpm"
+# define P_NW "../textures/red_north_txture.xpm"
+
+
+
 
 # define FOV 66
+#  if FOV <= 0 || FOV >= 180
+#   error "FOV must be between 0 and 180 degrees (exclusive)"
+#  endif
+
+# define FOV_RAD (FOV * M_PI / 180.0)
+# define PLANE_MAG (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0)
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
