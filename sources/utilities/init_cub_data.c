@@ -17,15 +17,16 @@ void	init_elem(t_elem *elem)
 	int	i;
 
 	i = 0;
-	while (i < 3)
-	{
-		elem->f_value[i] = -1;
-		elem->c_value[i] = -1;
-		i++;
-	}
-	i = 0;
 	while (i < 4)
 		elem->path[i++] = NULL;
+	i = 0;
+	while (i < 3)
+	{
+		elem->f_values[i] = -1;
+		elem->c_values[i++] = -1;
+	}
+	elem->f_color = -1;
+	elem->c_color = -1;
 	elem->facing = 0;
 	elem->start_line = false;
 	elem->e_counter = 0;
@@ -64,9 +65,8 @@ void	init_cub_data(t_cub *cub)
 	// struct_map
 	cub->map.grid = NULL;
 	cub->map.rows = 0;
-	cub->map.cols = 0;
+	cub->map.max_col = 0;
 	// struct_play
-	cub->player.facing = '\0';
 	cub->player.pos.x = 0.0;
 	cub->player.pos.y = 0.0;
 	// struct elem
