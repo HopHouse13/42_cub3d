@@ -12,27 +12,33 @@
 
 #include "../../includes/cub3d.h"
 
-static void check_color(t_cub *cub)
-{printf("\n||||| CHECK COLORS VALUES |||||\n");
+static t_error check_color(t_cub *cub)
+{//printf("\n||||| CHECK COLORS VALUES |||||\n");
 	int	i;
-
-	i = -1;
-	while (++i < 3)
+	i = 0;
+	if (cub->elem.f_values[0])
 	{
-		if (cub->elem.f_value[i] > 255 || cub->elem.f_value[i] < 0) // peux etre egale a -1 si une valeurs depasse les limites de INT (retour atoi)
-			exit_door(cub, E_VALUE_COLOR);
+		while (i < 3)
+		{
+			if (cub->elem.f_values[i] > 255 || cub->elem.f_values[i] < 0) // peux etre egale a -1 si une valeurs depasse les limites de INT (retour atoi)
+				return (E_VALUE_COLOR);
+			i++;
+		}
 	}
-	i = -1;
-	while (++i < 3)
+	if (cub->elem.c_values[0])
 	{
-		if (cub->elem.c_value[i] > 255 || cub->elem.c_value[i] < 0)
-			exit_door(cub, E_VALUE_COLOR);
+		while (++i < 3)
+		{
+			if (cub->elem.c_values[i] > 255 || cub->elem.c_values[i] < 0)
+				return (E_VALUE_COLOR);
+			i++;
+		}
 	}
-	printf("valeurs couleurs valides\n");
+	return (OK);
 }
 
 static t_error	check_path(char *path)
-{printf("\n||||| CHECK RIGHTS PATH |||||\n");
+{//printf("\n||||| CHECK RIGHTS PATH |||||\n");
 	int		tmp_fd;
 	int		tmp_read;
 	char	tmp_buf[1]; // pas sur que ca passe la norme
@@ -75,8 +81,7 @@ static t_error	between_value(char **line, int nb_color_found, int *new_start)
 
 	i = 0;
 	comma = 0;
-	if (!ft_isdigit(**line)) // je dois commencer avec un digit car complexe de l'integrer dans le process std
-		return (E_RGB_FT);
+
 	while ((*line)[i] && ft_isdigit((*line)[i]))
 		i++;
 	tmp_end = i; // stock la position de fin de serie des digits
@@ -96,109 +101,58 @@ static t_error	between_value(char **line, int nb_color_found, int *new_start)
 	return (OK); // retourne l'indexe ou je trouve le prochain digit
 }
 
-//static t_error	handle_colors(t_cub *cub, char **line, t_key key_id)
-//{
-//	int	i;
-//	int	value_color;
-//	int	new_start;
-//	int	err_id;
-//	//int color_f[3];
-//	//int color_c[3];
-
-//	i = 0;
-//	while (i < 3)
-//	{
-//		err_id = between_value(line, i, &new_start);// retourne le nb de deplacement pour aller jusqu'a la prochaine digit
-//		if (err_id != OK)
-//			return (err_id);
-//		printf(">>>>>>>>>>>>>>>>>>>>>>>>>line [%s]\n", *line);
-//		value_color = ft_atoi(*line);
-//		if (key_id == F && cub->elem.f_value[i] == -1) // check si double. / si atoi renvoit -1 -> verificatoin plus tard
-//			cub->elem.f_value[i] = value_color;
-//		else if (key_id == C && cub->elem.c_value[i] == -1)
-//			cub->elem.c_value[i] = value_color;
-//		else
-//			return (E_DUP_COLOR);
-//		printf(">>>value_color = {%d}\n\n", value_color);
-//		(*line) += new_start; // apres le atoi, deplacement du pointeur vers le debut de la prochaine serie de digits
-//		printf(">>>carac du nouveau depart {%c}\n", **line);
-//		i++;
-//	}
-//	return (OK);
-//}
-static void	color_conversion(t_cub *cub, int *color_f, int *color_c)
+static void	color_conversion(t_cub *cub)
 {
-	if (color_f[1])
-	cub->elem.f_value = (((color_f[1] & 0xFF) << 16)
-							| ((color_f[2] & 0xFF) << 8)
-							| (color_f[3] & 0xFF));
-	cub->elem.c_value = (((color_c[1] & 0xFF) << 16)
-							| ((color_c[2] & 0xFF) << 8)
-							| (color_c[3] & 0xFF));
+	if (cub->elem.f_values[0])
+	{
+	cub->elem.f_color = (((cub->elem.f_values[0] & 0xFF) << 16)
+							| ((cub->elem.f_values[1] & 0xFF) << 8)
+							| (cub->elem.f_values[2] & 0xFF));
+	}
+	if (cub->elem.c_values[0])
+	{
+	cub->elem.c_color = (((cub->elem.c_values[0] & 0xFF) << 16)
+							| ((cub->elem.c_values[1] & 0xFF) << 8)
+							| (cub->elem.c_values[2] & 0xFF));
+	}
+	return ;
 }
 
-static t_error	get_color(char **line, int *color_f, int *color_c, t_key key_id)
+static t_error	handle_colors(t_cub *cub, char **line, t_key key_id)
 {
 	int			i;
 	int			value_color;
 	int			new_start;
 	int			err_id;
 
-	i = 0;
-	while (i < 3)
+	if (!ft_isdigit(**line)) // je dois commencer avec un digit car complexe de l'integrer dans le process std
+		return (E_RGB_FT);
+	i = -1;
+	while (++i < 3)
 	{
 		err_id = between_value(line, i, &new_start);// retourne le nb de deplacement pour aller jusqu'a la prochaine digit
 		if (err_id != OK)
 			return (err_id);
+		//printf("sous chaine valeur [%s]\n", *line);
 		value_color = ft_atoi(*line);
-		if (key_id == F && color_f[i] == -1) // check si double. / si atoi renvoit -1 -> verificatoin plus tard
-			color_f[i] = value_color;
-		else if (key_id == C && color_c[i] == -1)
-			color_c[i] = value_color;
+		if (key_id == F && cub->elem.f_values[i] == -1) // check si double. / si atoi renvoit -1 -> verificatoin plus tard
+			cub->elem.f_values[i] = value_color;
+		else if (key_id == C && cub->elem.c_values[i] == -1)
+			cub->elem.c_values[i] = value_color;
 		else
 			return (E_DUP_COLOR);
 		(*line) += new_start; // apres le atoi, deplacement du pointeur vers le debut de la prochaine serie de digits
-		i++;
 	}
-	return (OK);
-}
-
-static t_error	handle_colors(t_cub *cub, char **line, t_key key_id)
-{
-	//int			i;
-	//int			value_color;
-	//int			new_start;
-	//int			err_id;
-	static int	color_f[3] = {-1, -1, -1}; 
-	static int	color_c[3] = {-1, -1, -1};
-
-	//i = 0;
-	//while (i < 3)
-	//{
-	//	err_id = between_value(line, i, &new_start);// retourne le nb de deplacement pour aller jusqu'a la prochaine digit
-	//	if (err_id != OK)
-	//		return (err_id);
-	//	value_color = ft_atoi(*line);
-	//	if (key_id == F && color_f[i] == -1) // check si double. / si atoi renvoit -1 -> verificatoin plus tard
-	//		color_f[i] = value_color;
-	//	else if (key_id == C && color_c[i] == -1)
-	//		color_c[i] = value_color;
-	//	else
-	//		return (E_DUP_COLOR);
-	//	(*line) += new_start; // apres le atoi, deplacement du pointeur vers le debut de la prochaine serie de digits
-	//	i++;
-	//}
-	get_color(line, color_f, color_c, key_id);
-	if (color_f[1] )
-static void check_color(t_cub *cub)
-
-	color_conversion(cub, color_f, color_c);
+	err_id = check_color(cub);
+	if (err_id != OK)
+		return (err_id);
+	color_conversion(cub);
 	return (OK);
 }
 
 static t_error handle_paths(t_cub *cub, char **line, t_key key_id)
 {
-	printf("handle_paths line = `%s`", *line);
+	//printf("handle_paths line = `%s`", *line);
 	unsigned int	n;
 	char*			tmp_line;
 
@@ -217,7 +171,6 @@ static t_error handle_paths(t_cub *cub, char **line, t_key key_id)
 	}
 	else
 		return (E_DUP_PATH);
-	printf("cub->elem.path[%d] = %s\n", key_id, cub->elem.path[key_id]);
 	return (check_path(cub->elem.path[key_id]));
 }
 
@@ -266,7 +219,7 @@ static t_error	handle_line(t_cub *cub, char *line)
 	{
 		if (key_finder(&line, key_id))
 		{
-			printf("found key number %d\n-------------------------\n", key_id);
+			//printf("found key number %d\n-------------------------\n", key_id);
 			cub->elem.e_counter++;
 			err_id = handle_get_elem(cub, &line, key_id);
 			if (err_id == OK)
@@ -294,15 +247,15 @@ void	check_elem(t_cub *cub, char *mapfile)
 			exit_door(cub, err_id);
 		if (!line) // fin de file
 			exit_door(cub, E_MISS_PARAM);
-		printf("\n||||| NOUVELLE LINE |||||\nNEW LINE : [%s]\n", line);
+		//printf("\n||||| NOUVELLE LINE |||||\nNEW LINE : [%s]\n", line);
 		err_id = handle_line(cub, line);
 		free(line);
-		printf("value_err_id : [%d]\n", err_id);
+		//printf("value_err_id : [%d]\n", err_id);
 		if(err_id > OK)
 			exit_door(cub, err_id);
 	}
-	printf ("\n\n||||| Elem values after cub->elem.e_counter == 6 |||||\n\n");
-	print_elem(&cub->elem);
+	//printf ("\n\n||||| Elem values after cub->elem.e_counter == 6 |||||\n\n");
+	//print_elem(&cub->elem);
 	check_color(cub);
 }
 
