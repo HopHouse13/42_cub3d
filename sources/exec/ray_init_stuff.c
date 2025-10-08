@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_init_stuff.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/08 16:43:25 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:43:08 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,45 +31,45 @@ void	init_images(t_cub *cub)
 
 
 
-//void	init_textures(t_mlx_data *data)
-//{
+void	init_textures(t_cub *cub)
+{
 
-//	size_t		i;
-//	const char	*textures_path[] = {P_FLOOR, P_WALL, P_EP, P_SP, P_WP, P_NP, P_EXTRA};
-//	const char	*floor_ceiling_txtre_path[] = {P_GRASS, P_SKY};
+	size_t		i;
+	const char	*textures_path[] = {P_FLOOR, P_WALL, P_EP, P_SP, P_WP, P_NP, P_EXTRA};
+	const char	*floor_ceiling_txtre_path[] = {P_GRASS, P_SKY};
 
 //	i = 0;
 //	while (i < 2)
 //	{
-//		data->bckgr_txtr[i] = mlx_xpm_file_to_image(data->mlx_pointer,
-//			(char *)floor_ceiling_txtre_path[i], &data->img_width, &data->img_height);
-//		if (!data->bckgr_txtr[i])
+//		cub->bckgr_txtr[i] = mlx_xpm_file_to_image(cub->mlx_pointer,
+//			(char *)floor_ceiling_txtre_path[i], &cub->img_width, &cub->img_height);
+//		if (!cub->bckgr_txtr[i])
 //		{
 //			printf("Error initializing the textures\n");
-//			close_window(data);
+//			close_window(cub);
 //		}
 //		i++;
 //	}
 
-//	i = 0;
-//	while (i < 7)
-//	{
-//		data->textures[i] = NULL;
-//		i++;
-//	}
-//	i = 0;
-//	while (i < 7)
-//	{
-//		data->textures[i] = mlx_xpm_file_to_image(data->mlx_pointer,
-//				(char *)textures_path[i], &data->img_width, &data->img_height);
-//		if (!data->textures[i])
-//		{
-//			printf("Error initializing the textures\n");
-//			close_window(data);
-//		}
-//		i++;
-//	}
-//}
+	i = 0;
+	while (i < 7)
+	{
+		cub->textures[i] = NULL;
+		i++;
+	}
+	i = 0;
+	while (i < 7)
+	{
+		cub->textures[i] = mlx_xpm_file_to_image(cub->mlx_pointer,
+				(char *)textures_path[i], &cub->img_width, &cub->img_height);
+		if (!cub->textures[i])
+		{
+			printf("Error initializing the textures\n");
+			close_window(cub);
+		}
+		i++;
+	}
+}
 
 static void	init_map(t_map *map)
 {
@@ -105,8 +105,6 @@ void	init_exec_data(t_cub *cub)
 
 static void	which_starting_direction(t_player *player, char facing)
 {
-
-
 	if (facing == 'W')
 	{
 		player->dir.x = -1;
@@ -154,7 +152,7 @@ int	init_player(t_cub *cub, t_player *player)
 	player->time = 0;
 	player->old_time = 0;
 	player->frame_time = 0;
-	// player->mlx_data_pointer = data;
+	// player->cub_ptr = cub;
 	player->camera_x = 0;
 
 	player->rot_speed = 0;
