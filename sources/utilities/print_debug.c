@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:39:16 by pab               #+#    #+#             */
-/*   Updated: 2025/10/06 19:11:27 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:50:09 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	print_map(char **map)
 {
 	int i;
 
-	printf("\n||||| MAP |||||\n");
+	printf("||||| MAP |||||\n");
 	i = 0;
 	while (map[i])
 		printf("%s", map[i++]);
@@ -29,10 +29,12 @@ void	print_elem(t_elem *elem)
 
 	i = -1;
 	while(++i < 3)
-		printf("elem->f_value[%d] = %d\n", i, elem->f_value[i]);
+		printf("elem->f_values[%d] = %d\n", i, elem->f_values[i]);
+	printf("elem->f_color = %d\n",elem->f_color);
 	i = -1;
 	while(++i < 3)
-		printf("elem->c_value[%d] = %d\n", i, elem->c_value[i]);
+		printf("elem->c_values[%d] = %d\n", i, elem->c_values[i]);
+	printf("elem->c_color = %d\n", elem->c_color);
 	i = -1;
 	while (++i < 4)
 		printf("elem->path[%d] = %s\n", i, elem->path[i]);

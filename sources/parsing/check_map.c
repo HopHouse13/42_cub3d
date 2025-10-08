@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/06 19:21:29 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:28:22 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static bool	get_player(t_cub *cub, char c, size_t i, size_t j)
 		else
 		{
 			found_one = true;
-			cub->player.facing = c;
 			cub->elem.facing = c;
 			cub->player.pos.x = j;
 			cub->player.pos.y = i;
@@ -71,7 +70,7 @@ static bool	get_player(t_cub *cub, char c, size_t i, size_t j)
 }
 
 void	check_map(t_cub *cub, char *mapfile)
-{printf("||||| CHECK_MAP |||||\n");
+{//printf("||||| CHECK_MAP |||||\n");
 	size_t		i;
 	size_t		j;
 	char	**map;
@@ -92,12 +91,15 @@ void	check_map(t_cub *cub, char *mapfile)
 				exit_door(cub, E_DUP_PLAYER);
 			if (map[i][j] == '\n' && (j == 0 || i == cub->map.rows -1)) // pour gerer la derniere ligne vide de la map (si il y a) et une ligne vide en cours de map
 				exit_door(cub, E_EMPTY_LINE);
+			if (j > cub->map.max_col)
+				cub->map.max_col = j;
 		}
 	}
-	if (cub->player.facing == '\0')
+	if (cub->elem.facing == '\0')
 		exit_door(cub, E_NO_PLAYER);
-	printf("Coordonees du player x[%.4ff] y[%.4ff]\nOrientation du player [%c]\n", cub->player.pos.x, cub->player.pos.y, cub->player.facing);
-	printf("||||| FIN DU PARSING DE LA MAP |||||\n");
+	printf("value MAX_COL [%zd]\n", cub->map.max_col);
+	//printf("Coordonees du player x[%.4ff] y[%.4ff]\nOrientation du player [%c]\n", cub->player.pos.x, cub->player.pos.y, cub->elem.facing);
+	//printf("||||| FIN DU PARSING DE LA MAP |||||\n");
 }
 
 // only [0] [1] ([N] [S] [E] [W]) [\n]
