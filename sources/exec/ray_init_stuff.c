@@ -88,7 +88,7 @@ static void	init_map(t_map *map)
 			max_cols = j_cols;
 		i_rows++;
 	}
-	map->cols = max_cols;
+	map->max_col = max_cols;
 }
 
 void	init_exec_data(t_cub *cub)
