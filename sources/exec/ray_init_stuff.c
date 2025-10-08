@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/07 19:17:44 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:54:12 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,32 +105,40 @@ void	init_exec_data(t_cub *cub)
 
 static void	which_starting_direction(t_player *player, char facing)
 {
+
+
 	if (facing == 'W')
 	{
 		player->dir.x = -1;
 		player->dir.y = 0;
 		player->plane.x = 0;
-		player->plane.y = -0.66;
+		// player->plane.y = -0.66;
+		player->plane.y = -PLANE_MAG;
+
 	}
 	if (facing == 'E')
 	{
 		player->dir.x = 1;
 		player->dir.y = 0;
 		player->plane.x = 0;
-		player->plane.y = 0.66;
+		// player->plane.y = 0.66;
+		player->plane.y = PLANE_MAG;
+
 	}
 	if (facing == 'N')
 	{
 		player->dir.x = 0;
 		player->dir.y = -1;
-		player->plane.x = 0.66;
+		// player->plane.x = 0.66;
+		player->plane.x = PLANE_MAG;
 		player->plane.y = 0;
 	}
 	if (facing == 'S')
 	{
 		player->dir.x = 0;
 		player->dir.y = 1;
-		player->plane.x = -0.66;
+		// player->plane.x = -0.66;
+		player->plane.x = -PLANE_MAG;
 		player->plane.y = 0;
 	}
 }
