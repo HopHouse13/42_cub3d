@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/08 15:00:42 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/08 16:11:48 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ typedef struct	s_map
 {
 	char 		**grid;
 	size_t		rows;
-	size_t		cols; // max_cols
+	size_t		max_col;
 	bool		display_map;
 }				t_map;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_game_mechanics.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 19:10:39 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/06 19:01:11 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:11:22 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		printf ("W pressed \n" );
 
 
-		if (player->pos.x + player->dir.x * player->move_speed >= 1 && player->pos.x + player->dir.x * player->move_speed < cub->map.cols
+		if (player->pos.x + player->dir.x * player->move_speed >= 1 && player->pos.x + player->dir.x * player->move_speed < cub->map.max_col
 			&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x + player->dir.x * player->move_speed)] != '1')
 			player->pos.x += player->dir.x * player->move_speed;
 		if (player->pos.y + player->dir.y * player->move_speed >= 1 && player->pos.y + player->dir.x * player->move_speed < cub->map.rows
@@ -67,7 +67,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 	{
 		printf ("S pressed \n" );
 
-		if (player->pos.x - player->dir.x * player->move_speed >= 1 && player->pos.x - player->dir.x * player->move_speed < cub->map.cols
+		if (player->pos.x - player->dir.x * player->move_speed >= 1 && player->pos.x - player->dir.x * player->move_speed < cub->map.max_col
 				&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x - player->dir.x * player->move_speed)] != '1')
 			player->pos.x -= player->dir.x * player->move_speed;
 		if (player->pos.y - player->dir.y * player->move_speed >= 1 && player->pos.y - player->dir.x * player->move_speed < cub->map.rows
@@ -86,7 +86,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		double strafeX = -player->dir.y * player->move_speed;
 		double strafeY = player->dir.x * player->move_speed;
 
-		if (player->pos.x + strafeX >= 1 && player->pos.x + strafeX < cub->map.cols
+		if (player->pos.x + strafeX >= 1 && player->pos.x + strafeX < cub->map.max_col
 				&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x + strafeX)] != '1')
 			player->pos.x += strafeX;
 		if (player->pos.y + strafeY >= 1 && player->pos.y + strafeY < cub->map.rows
@@ -105,7 +105,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		double strafeX = player->dir.y * player->move_speed;
 		double strafeY = -player->dir.x * player->move_speed;
 
-		if (player->pos.x + strafeX >= 1 && player->pos.x + strafeX < cub->map.cols
+		if (player->pos.x + strafeX >= 1 && player->pos.x + strafeX < cub->map.max_col
 				&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x + strafeX)] != '1')
 			player->pos.x += strafeX;
 		if (player->pos.y + strafeY >= 1 && player->pos.y + strafeY < cub->map.rows

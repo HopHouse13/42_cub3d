@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/08 15:54:57 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/08 16:11:22 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ void	render_map(t_cub *cub, t_player *player)
 void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 {
 
-	// int	w = cub->map.cols;
+	// int	w = cub->map.max_col;
 	int	w = WNDW_W;
 	// int w = 16;
 	FILE	*fp;
@@ -330,7 +330,7 @@ int	render_loop(t_cub *cub)
 
 	// (void) player;
 	// int x, y;
-	// int	w = cub->map.cols;
+	// int	w = cub->map.max_col;
 	// int	w = cub->window_width;
 
 	// printf ("cub->player.pos.x = %.4f\n", cub->player.pos.x);

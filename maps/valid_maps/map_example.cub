@@ -3,8 +3,8 @@ WE ./path_to_the_west_texture
    
 SO ./path_to_the_south_texture
 
-F 17,  22, 30
-C 4, 55, 60
+F 17, 232, 30
+C 4, 55, 163
 
 EA ./path_to_the_east_texture
 

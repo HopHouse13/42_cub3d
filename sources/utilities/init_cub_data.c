@@ -65,7 +65,7 @@ void	init_cub_data(t_cub *cub)
 	// struct_map
 	cub->map.grid = NULL;
 	cub->map.rows = 0;
-	cub->map.cols = 0;
+	cub->map.max_col = 0;
 	// struct_play
 	cub->player.facing = '\0';
 	cub->player.pos.x = 0.0;
