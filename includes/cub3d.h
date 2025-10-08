@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/07 19:08:14 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/08 15:00:42 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,9 +165,11 @@ typedef struct	s_map
 typedef struct	s_elements
 {
 	char		*path[4]; // 0 NO, 1 EA, 2 SO, 3 WE
-	int			f_value;
-	int			c_value;
-	char		facing;
+	int			f_values[3];
+	int			c_values[3];
+	int			f_color;
+	int			c_color;
+	char		facing; //dir
 	bool		start_line;
 	int			e_counter;
 }				t_elem;

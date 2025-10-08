@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/07 18:52:46 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/08 15:54:57 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ void	verLine(t_cub *cub, int x, int drawStart, int drawEnd, int color)
 
 void	render_cubes(t_cub *cub, t_ray *ray, int x)
 {
-
 	int color = RGB_RED;
 	int	lineHeight = (int)(WNDW_H / ray->perp_wall_dist);
 

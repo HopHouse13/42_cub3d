@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/06 19:21:29 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:43:35 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static bool	get_player(t_cub *cub, char c, size_t i, size_t j)
 }
 
 void	check_map(t_cub *cub, char *mapfile)
-{printf("||||| CHECK_MAP |||||\n");
+{//printf("||||| CHECK_MAP |||||\n");
 	size_t		i;
 	size_t		j;
 	char	**map;
@@ -96,8 +96,8 @@ void	check_map(t_cub *cub, char *mapfile)
 	}
 	if (cub->player.facing == '\0')
 		exit_door(cub, E_NO_PLAYER);
-	printf("Coordonees du player x[%.4ff] y[%.4ff]\nOrientation du player [%c]\n", cub->player.pos.x, cub->player.pos.y, cub->player.facing);
-	printf("||||| FIN DU PARSING DE LA MAP |||||\n");
+	//printf("Coordonees du player x[%.4ff] y[%.4ff]\nOrientation du player [%c]\n", cub->player.pos.x, cub->player.pos.y, cub->player.facing);
+	//printf("||||| FIN DU PARSING DE LA MAP |||||\n");
 }
 
 // only [0] [1] ([N] [S] [E] [W]) [\n]

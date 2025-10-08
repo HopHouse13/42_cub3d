@@ -19,8 +19,14 @@ void	init_elem(t_elem *elem)
 	i = 0;
 	while (i < 4)
 		elem->path[i++] = NULL;
-	elem->f_value = -1;
-	elem->c_value = -1;
+	i = 0;
+	while (i < 3)
+	{
+		elem->f_values[i] = -1;
+		elem->c_values[i++] = -1;
+	}
+	elem->f_color = -1;
+	elem->c_color = -1;
 	elem->facing = 0;
 	elem->start_line = false;
 	elem->e_counter = 0;
