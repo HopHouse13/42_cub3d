@@ -103,13 +103,13 @@ void	verLine(t_cub *cub, int x, int drawStart, int drawEnd, int color)
 
 	while (y < drawStart) // put SKY background
 	{
-		img_pix_put(&cub->game_img, x, y, RGB_SKY);
+		img_pix_put(&cub->game_img, x, y, cub->elem.c_color);
 		y++;
 	}
 	y = drawEnd;
 	while (y < WNDW_H)
 	{
-		img_pix_put(&cub->game_img, x, y, RGB_FLR);
+		img_pix_put(&cub->game_img, x, y, cub->elem.f_color);
 		y++;
 	}
 	while (drawStart < drawEnd)
@@ -123,7 +123,6 @@ void	verLine(t_cub *cub, int x, int drawStart, int drawEnd, int color)
 
 void	render_cubes(t_cub *cub, t_ray *ray, int x)
 {
-
 	int color = RGB_RED;
 	int	lineHeight = (int)(WNDW_H / ray->perp_wall_dist);
 
@@ -188,7 +187,7 @@ void	render_map(t_cub *cub, t_player *player)
 void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 {
 
-	// int	w = cub->map.cols;
+	// int	w = cub->map.max_col;
 	int	w = WNDW_W;
 	// int w = 16;
 	FILE	*fp;
@@ -337,7 +336,7 @@ int	render_loop(t_cub *cub)
 
 	// (void) player;
 	// int x, y;
-	// int	w = cub->map.cols;
+	// int	w = cub->map.max_col;
 	// int	w = cub->window_width;
 
 	// printf ("cub->player.pos.x = %.4f\n", cub->player.pos.x);

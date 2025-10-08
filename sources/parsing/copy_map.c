@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   copy_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/10/06 17:21:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:44:18 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,5 @@ void	make_copy(t_cub *cub, char *mapfile)
 		i++;
 	}
 	cub->map.grid[i] = NULL; // met a NULL le dernier pointeur de la chaine de pointeur
-	print_map(cub->map.grid);
+	//print_map(cub->map.grid);
 }
