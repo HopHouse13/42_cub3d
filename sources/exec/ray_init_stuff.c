@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/07 16:14:28 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/08 16:11:22 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	init_map(t_map *map)
 			max_cols = j_cols;
 		i_rows++;
 	}
-	map->cols = max_cols;
+	map->max_col = max_cols;
 }
 
 void	init_exec_data(t_cub *cub)
@@ -97,7 +97,7 @@ void	init_exec_data(t_cub *cub)
 	cub->img_width = 0;
 	cub->img_height = 0;
 	cub->moves = 0;
-	cub->window_width = (cub->map).cols * TILE_SIZE;
+	cub->window_width = (cub->map).max_col * TILE_SIZE;
 	cub->window_height = (cub->map).rows * TILE_SIZE;
 	cub->map.display_map = true;
 	cub->print_debug_cub = true;

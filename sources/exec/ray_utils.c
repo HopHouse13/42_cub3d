@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/06 19:16:54 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:11:22 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ t_tile	char_to_tile(char c)
 void	print_map_ray(t_map *map)
 {
 	// for (size_t i_rows = 0; i_rows < map->rows; i_rows++) {
-	// 	for (size_t j_cols = 0; j_cols < map->cols; j_cols++) {
+	// 	for (size_t j_cols = 0; j_cols < map->max_col; j_cols++) {
 	// 		printf("%c ", map->grid[(int)i_rows][(int)j_cols]);
 	// 	}
 	// 	printf("\n");
 	// }
 	print_map(map->grid);
 	printf("map->rows = %zd\n", map->rows);
-	printf("map->cols = %zd\n", map->cols);
+	printf("map->max_col = %zd\n", map->max_col);
 	printf("map->display_map = %d\n", map->display_map);
 
 

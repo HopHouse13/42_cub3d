@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/08 15:43:35 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/08 16:14:20 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,13 @@ void	check_map(t_cub *cub, char *mapfile)
 				exit_door(cub, E_DUP_PLAYER);
 			if (map[i][j] == '\n' && (j == 0 || i == cub->map.rows -1)) // pour gerer la derniere ligne vide de la map (si il y a) et une ligne vide en cours de map
 				exit_door(cub, E_EMPTY_LINE);
+			if (j > cub->map.max_col)
+				cub->map.max_col = j;
 		}
 	}
 	if (cub->player.facing == '\0')
 		exit_door(cub, E_NO_PLAYER);
+	printf("value MAX_COL [%zd]\n", cub->map.max_col);
 	//printf("Coordonees du player x[%.4ff] y[%.4ff]\nOrientation du player [%c]\n", cub->player.pos.x, cub->player.pos.y, cub->player.facing);
 	//printf("||||| FIN DU PARSING DE LA MAP |||||\n");
 }
