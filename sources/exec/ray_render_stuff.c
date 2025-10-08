@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/08 16:11:22 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/08 16:22:36 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,13 @@ void	verLine(t_cub *cub, int x, int drawStart, int drawEnd, int color)
 
 	while (y < drawStart) // put SKY background
 	{
-		img_pix_put(&cub->game_img, x, y, RGB_SKY);
+		img_pix_put(&cub->game_img, x, y, cub->elem.c_color);
 		y++;
 	}
 	y = drawEnd;
 	while (y < WNDW_H)
 	{
-		img_pix_put(&cub->game_img, x, y, RGB_FLR);
+		img_pix_put(&cub->game_img, x, y, cub->elem.f_color);
 		y++;
 	}
 	while (drawStart < drawEnd)
