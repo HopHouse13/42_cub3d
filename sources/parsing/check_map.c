@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/08 16:14:20 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/08 16:28:22 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static bool	get_player(t_cub *cub, char c, size_t i, size_t j)
 		else
 		{
 			found_one = true;
-			cub->player.facing = c;
 			cub->elem.facing = c;
 			cub->player.pos.x = j;
 			cub->player.pos.y = i;
@@ -96,10 +95,10 @@ void	check_map(t_cub *cub, char *mapfile)
 				cub->map.max_col = j;
 		}
 	}
-	if (cub->player.facing == '\0')
+	if (cub->elem.facing == '\0')
 		exit_door(cub, E_NO_PLAYER);
 	printf("value MAX_COL [%zd]\n", cub->map.max_col);
-	//printf("Coordonees du player x[%.4ff] y[%.4ff]\nOrientation du player [%c]\n", cub->player.pos.x, cub->player.pos.y, cub->player.facing);
+	//printf("Coordonees du player x[%.4ff] y[%.4ff]\nOrientation du player [%c]\n", cub->player.pos.x, cub->player.pos.y, cub->elem.facing);
 	//printf("||||| FIN DU PARSING DE LA MAP |||||\n");
 }
 
