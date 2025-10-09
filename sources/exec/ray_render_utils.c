@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:47:58 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/09 14:58:41 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:48:48 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	img_pix_put(t_img *img, int x, int y, int color)
 {
 	char	*pixel;
 	int		i;
-	
+
 	i = img->bpp - 8;
 		pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
 	while (i >= 0)
@@ -63,7 +63,13 @@ int render_sqr(t_img *img, t_sqr sqr)
 	{
 		j = sqr.x;
 		while (j < sqr.x + sqr.side)
+		{
+			if (i == sqr.y || i == sqr.y + sqr.side - 1 ||
+				j == sqr.x || j == sqr.x + sqr.side - 1)
+				img_pix_put(img, j++, i, 0x000000);
+			else
 				img_pix_put(img, j++, i, sqr.color);
+		}
 		++i;
 	}
 	return (0);
