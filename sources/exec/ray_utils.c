@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/08 20:06:56 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:26:46 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	print_map_ray(t_map *map)
 
 }
 
-void	print_txtr_struct(t_txtr **txtr)
+void	print_txtr_struct(t_txtr *txtr)
 {
 	int	i;
 	printf("/* ----------------------------    print_txtr_struct    -------------------------*/\n");
@@ -72,8 +72,8 @@ void	print_txtr_struct(t_txtr **txtr)
 	i = 0;
 	while (i < 4)
 	{
-		printf("	txtr[%d]->mlx_img = %p, ->addr = %s, ->bpp = %d, ->line_end = %d, ->endian = %d, ->width = %d, ->height = %d\n",
-				i, txtr[i]->mlx_img, txtr[i]->addr, txtr[i]->bpp, txtr[i]->line_len, txtr[i]->endian, txtr[i]->width, txtr[i]->height);
+		printf("	txtr[%d].mlx_img = %p, .addr = %p, .bpp = %d, .line_end = %d, .endian = %d, .width = %d, .height = %d\n",
+				i, txtr[i].mlx_img, (void *)txtr[i].addr, txtr[i].bpp, txtr[i].line_len, txtr[i].endian, txtr[i].width, txtr[i].height);
 			i++;
 	}
 	printf("/* ------------------------------------------------------------------------------*/\n\n");

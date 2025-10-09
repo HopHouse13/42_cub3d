@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/08 20:22:46 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:45:52 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,6 @@ typedef struct	s_player
 	double		rot_speed;		// a passer en macro fixe ?
 	double		move_speed;		// struct ray ou player? // ou plutot  a passer en macro fixe ?
 
-	bool		game_init;		// debug
-
 	t_key_inpt	kbrd;
 
 }				t_player;
@@ -226,7 +224,9 @@ typedef struct	s_cub
 	int			fd_file;
 	char		*err_msg[E_UNKNOWN + 1];
 
+	bool		game_init;		// debug
 	bool		print_debug_cub; // debug
+	bool		render_bool;
 }			t_cub;
 
 typedef struct s_ray
@@ -240,7 +240,6 @@ typedef struct s_ray
 	int			hit;
 	int			side;
 
-	bool		print_debug;	// debug
 }			t_ray;
 
 /// PARSING ///
@@ -298,9 +297,9 @@ bool		render(t_cub *cub);
 // game_stuff
 int			key_press_hook(int keysym, t_cub *cub);
 int			key_release_hook(int keysym, t_cub *cub);
-void		handle_move(t_cub *cub, t_player *player, t_ray *ray);
+void		handle_move(t_cub *cub, t_player *player);
 void		print_ray_info(t_ray *ray, int x, FILE *fp);
-void		print_updated_pos(t_player *player);
+void		print_updated_pos(t_cub *cub, t_player *player);
 
 
 
@@ -310,7 +309,7 @@ t_tile		char_to_tile(char c);
 void		print_map_ray(t_map *map);
 double		date_in_s(void);
 double		date_in_ms(void);
-void		print_txtr_struct(t_txtr **txtr);
+void		print_txtr_struct(t_txtr *txtr);
 
 
 // render utils

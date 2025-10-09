@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 19:10:39 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/08 18:59:59 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:21:11 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	print_ray_info(t_ray *ray, int x, FILE *fp)
 
 }
 
-void	print_updated_pos(t_player *player)
+void	print_updated_pos(t_cub *cub, t_player *player)
 {
-	if (player->game_init)
+	if (cub->game_init)
 		printf("/* ----------------------------   print_game_init_pos   -------------------------*/\n");
 	else
 		printf("/* ----------------------------    print_updated_pos    -------------------------*/\n");
@@ -43,12 +43,14 @@ void	print_updated_pos(t_player *player)
 	printf ("player->rot_speed = %.4f\n", player->rot_speed);
 	printf("/* ------------------------------------------------------------------------------*/\n\n");
 
-	if (player->game_init)
-		player->game_init = false;
+	if (cub->game_init)
+		cub->game_init = false;
+	cub->print_debug_cub = true;
+
 
 }
 
-void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
+void	handle_move(t_cub *cub, t_player *player)
 {
 	if (player->kbrd.key_w)
 	{
@@ -62,9 +64,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		if (player->pos.y + player->dir.y * player->move_speed >= 1 && player->pos.y + player->dir.x * player->move_speed < cub->map.rows
 			&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
 			player->pos.y += player->dir.y * player->move_speed;
-		print_updated_pos(player);
-		ray->print_debug = true;
-
+		print_updated_pos(cub, player);
 	}
 
 	if (player->kbrd.key_s)
@@ -79,10 +79,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		if (player->pos.y - player->dir.y * player->move_speed >= 1 && player->pos.y - player->dir.x * player->move_speed < cub->map.rows
 				&& cub->map.grid[(int)(player->pos.y - strafeY)][(int)player->pos.x] != '1')
 			player->pos.y -= player->dir.y * player->move_speed;
-		print_updated_pos(player);
-		ray->print_debug = true;
-
-
+		print_updated_pos(cub, player);
 	}
 	if (player->kbrd.key_d)
 	{
@@ -98,9 +95,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		if (player->pos.y + strafeY >= 1 && player->pos.y + strafeY < cub->map.rows
 				&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
 			player->pos.y += player->dir.x * player->move_speed;
-		print_updated_pos(player);
-		ray->print_debug = true;
-
+		print_updated_pos(cub, player);
 	}
 
 	if (player->kbrd.key_a)
@@ -120,9 +115,8 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		if (player->pos.y + strafeY >= 1 && player->pos.y + strafeY < cub->map.rows
 				&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
 			player->pos.y += moveY;
-		print_updated_pos(player);
-		ray->print_debug = true;
-
+		print_updated_pos(cub, player);
+		cub->print_debug_cub = true;
 	}
 	if (player->kbrd.key_left)
 	{
@@ -136,9 +130,7 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		double	oldPlaneX = player->plane.x;
 		player->plane.x = player->plane.x * cos( - player->rot_speed) - player->plane.y * sin( - player->rot_speed);
 		player->plane.y = oldPlaneX * sin(- player->rot_speed) + player->plane.y * cos(- player->rot_speed);
-		print_updated_pos(player);
-		ray->print_debug = true;
-
+		print_updated_pos(cub, player);
 	}
 
 	if (player->kbrd.key_right)
@@ -153,9 +145,8 @@ void	handle_move(t_cub *cub, t_player *player, t_ray *ray)
 		double	oldPlaneX = player->plane.x;
 		player->plane.x = player->plane.x * cos(player->rot_speed) - player->plane.y * sin(player->rot_speed);
 		player->plane.y = oldPlaneX * sin(player->rot_speed) + player->plane.y * cos(player->rot_speed);
-		print_updated_pos(player);
-		ray->print_debug = true;
-
+		print_updated_pos(cub, player);
 	}
+
 
 }

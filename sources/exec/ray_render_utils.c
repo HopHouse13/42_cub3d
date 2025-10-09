@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:47:58 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/02 15:39:48 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/09 14:58:41 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	img_pix_put(t_img *img, int x, int y, int color)
 {
 	char	*pixel;
 	int		i;
-
+	
 	i = img->bpp - 8;
-	pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
+		pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
 	while (i >= 0)
 	{
 		/* big endian, MSB is the leftmost bit */
