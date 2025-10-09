@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/08 18:50:11 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:46:11 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ int	key_press_hook(int keysym, t_cub *cub)
 		cub->player.kbrd.key_left = true;
 	if (keysym == XK_Right)
 		cub->player.kbrd.key_right = true;
+	if (cub->player.kbrd.key_w || cub->player.kbrd.key_s || cub->player.kbrd.key_d ||
+			cub->player.kbrd.key_a || cub->player.kbrd.key_left || cub->player.kbrd.key_right)
+		cub->render_bool = true;
 	return (0);
 }
 

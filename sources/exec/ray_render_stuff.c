@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/08 20:26:13 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:11:18 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ void	render_2Dray(t_cub *cub, t_player *player, t_ray *ray, int x, FILE *fp) // 
 		wall_hit.x = player->pos.x + (wall_hit.y - player->pos.y) * ray->ray_dir.x / ray->ray_dir.y;
 	}
 
-	// if (ray->print_debug)
-	// {
-	// 	print_ray_info(ray, x, fp);
-	// 	fprintf(fp, "		Ray[%d]->start.x =		%.4f		start.y =		%.4f\n", x, start.x, start.y);
-	// 	fprintf(fp, "		Ray[%d]->wall_hit.x =		%.4f		wall_hit.y =		%.4f\n\n", x, wall_hit.x, wall_hit.y);
-	// }
+	if (cub->print_debug_cub)
+	{
+		print_ray_info(ray, x, fp);
+		fprintf(fp, "		Ray[%d]->start.x =		%.4f		start.y =		%.4f\n", x, start.x, start.y);
+		fprintf(fp, "		Ray[%d]->wall_hit.x =		%.4f		wall_hit.y =		%.4f\n\n", x, wall_hit.x, wall_hit.y);
+	}
 
 	start.x = ((start.x * TILE_SIZE) / 5);
 	start.y = ((start.y * TILE_SIZE) / 5);
@@ -137,15 +137,20 @@ void	render_cubes(t_cub *cub, t_ray *ray, int x)
 	{
 		if (ray->step.y == 1) // WEST facing wall -- on regarde a l'est		// ca c'est le sud au final (face nord du mur // on regarde au sud)
 			color = RGB_BLUE;
+					// cub->txtr[0];
+
 		else
-			color = RGB_RED; // EAST facing wall -- on regarde a l'ouest	// ca c'est le nord au final (face sud du mur // on regarde au nord)
+			color = RGB_RED;
+			// cub-txtr[2]; // EAST facing wall -- on regarde a l'ouest	// ca c'est le nord au final (face sud du mur // on regarde au nord)
 	}
 	else // le mur n'est pas un cote (est-ouest)
 	{
 		if (ray->step.x == 1) // NORTH facing wall -- on regarde au sud
-			color = RGB_GRN; 												// ca c'est l'est au final (face ouest du mur // on regarde a l'est)
+			color = RGB_GRN;  												// ca c'est l'est au final (face ouest du mur // on regarde a l'est)
+			// cub->txtr[1];
 		else
 			color = RGB_YLW; // SOUTH facing wall -- on regarde au nord		// ca c'est l'ouest au final (face est du mur // on regarde a l'ouest)
+			// cub->txtr[3];
 	}
 	verLine(cub, x, drawStart, drawEnd, color);
 
@@ -193,7 +198,7 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 	FILE	*fp;
 	//int dda = 0;
 
-	if (ray->print_debug)
+	if (cub->print_debug_cub)
 	{
 		fp = fopen("output.txt", "w");
 		if (fp == NULL)
@@ -208,6 +213,8 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 
 	for (int x = 0; x < w; x++)
 	{
+		// if (cub->print_debug_cub)
+		// 	print_ray_info(ray, x, fp);
 		//calculate ray position and direction
 		player->camera_x = 2 * x / (double)w - 1; //x-coordinate in camera space
 		ray->ray_dir.x = player->dir.x + player->plane.x * player->camera_x;
@@ -231,7 +238,7 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 			ray->delta_dist.y = 1e30;
 		else
 			ray->delta_dist.y = fabs(1 / ray->ray_dir.y);
-		// if (ray->print_debug)
+		// if (cub->print_debug_cub)
 		// {	printf("ray->delta_dist.x = %f\n", ray->delta_dist.x);
 		// 	printf("ray->delta_dist.y = %f\n", ray->delta_dist.y);}
 
@@ -258,7 +265,7 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 			ray->step.y = 1;
 			ray->side_dist.y = (ray->map.y + 1.0 - player->pos.y) * ray->delta_dist.y;
 		}
-		// if (ray->print_debug)
+		// if (cub->print_debug_cub)
 		// {
 		// 	printf("ray->side_dist.x = %f\n", ray->side_dist.x);
 		// 	printf("ray->side_dist.y = %f\n", ray->side_dist.y);
@@ -266,7 +273,7 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 
 
 		// DDA - Digital Differential Analyzer
-		//int dda = 0;	// pour les prints de debug
+		int dda = 0;	// pour les prints de debug
 		while (ray->hit == 0)
 		{
 			//jump to next map sqr, either in x-direction, or in y-direction
@@ -282,11 +289,11 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 				ray->map.y += ray->step.y;
 				ray->side = 1;
 			}
-			// if (ray->print_debug)
-			// {
-			// 	fprintf(fp, "			Ray[%d] DDA[%d]		sideDistX = %.4f		sideDistY = %.4f\n", x, dda, ray->side_dist.x, ray->side_dist.y);
-			// 	dda++;
-			// }
+			if (cub->print_debug_cub)
+			{
+				fprintf(fp, "			Ray[%d] DDA[%d]		sideDistX = %.4f		sideDistY = %.4f\n", x, dda, ray->side_dist.x, ray->side_dist.y);
+				dda++;
+			}
 			if (cub->map.grid[(int)ray->map.y][(int)ray->map.x] == '1')
 				ray->hit = 1;
 		}
@@ -298,8 +305,7 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 
 		// if (player->kbrd.key_m == true)
 		// {
-		// 	// if (ray->print_debug)
-		// 	// 	print_ray_info(ray, x, fp);
+
 
 		// 	// render_map(player->mlx_data_pointer, player);
 		// 	render_2Dray(cub, player, ray, x, fp);
@@ -310,18 +316,18 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 
 		if (player->kbrd.key_m == true)
 		{
-			//if (ray->print_debug)
-			//	print_ray_info(ray, x, fp);
+
 
 		// 	// render_map(cub, player);
 			render_2Dray(cub, player, ray, x, fp);
 		}
 
 	}
-	if (ray->print_debug)
+	if (cub->print_debug_cub)
 		fclose(fp);
-	ray->print_debug = false;
 	cub->print_debug_cub = false;
+	// cub->render_bool = false;
+
 
 }
 
@@ -329,10 +335,13 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 
 int	render_loop(t_cub *cub)
 {
-
 	t_ray	ray;
 
+	// if (cub->render_bool == false)
+	// 	return (0);
+
 	init_ray_data(&ray);
+
 
 	cub->player.old_time = cub->player.time;
 	cub->player.time = date_in_ms() - cub->player.start_time;
@@ -340,11 +349,11 @@ int	render_loop(t_cub *cub)
 	cub->player.move_speed = cub->player.frame_time * 5.0;
 	cub->player.rot_speed  = cub->player.frame_time * 3.0;
 
-	if (cub->player.game_init)
-		print_updated_pos(&(cub->player));
+	if (cub->game_init)
+		print_updated_pos(cub, &(cub->player));
 
 
-	handle_move(cub, &(cub->player), &ray);
+	handle_move(cub, &(cub->player));
 
 	if (cub->player.kbrd.key_m == true)
 		render_map(cub, &(cub->player));
@@ -359,7 +368,6 @@ int	render_loop(t_cub *cub)
 	if (cub->player.kbrd.key_m == true)
 		{mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
 			cub->map_img.mlx_img, 10, 10);}
-
 
 
 	return (0);
@@ -384,7 +392,8 @@ bool	render(t_cub *cub)
 	init_textures(cub);
 	init_images(cub);
 
-	// print_txtr_struct((cub->txtr));
+	if (cub->game_init)
+		print_txtr_struct(cub->txtr);
 
 
 	mlx_loop_hook(cub->mlx_pointer, &render_loop, cub);
