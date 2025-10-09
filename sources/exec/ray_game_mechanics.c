@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 19:10:39 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/09 15:21:11 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/09 19:44:45 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@ void	print_ray_info(t_ray *ray, int x, FILE *fp)
 {
 		fprintf(fp, "		Ray[%d]->map.x =			%.2f		map.y =				%.2f\n", x, ray->map.x, ray->map.y);
 		fprintf(fp, "		Ray[%d]->ray_dir.x =		%.4f		ray_dir.y =			%.4f\n", x, ray->ray_dir.x, ray->ray_dir.y);
-		fprintf(fp, "		Ray[%d]->delta_dist.x =		%.4f		delta_dist.y =		%.4f\n", x, ray->delta_dist.x, ray->delta_dist.y);
-		fprintf(fp, "		Ray[%d]->side_dist.x =		%.4f		side_dist.y =		%.4f\n", x, ray->side_dist.x, ray->side_dist.y);
-		fprintf(fp, "		Ray[%d]->step.x =			%.2f		step.y =			%.2f		 hit = %d, side = %d, perp_wall_dist = %.4f\n",
+		fprintf(fp, "		Ray[%d]->delta_dist.x =	%.4f		delta_dist.y =		%.4f\n", x, ray->delta_dist.x, ray->delta_dist.y);
+		fprintf(fp, "		Ray[%d]->side_dist.x =	%.4f		side_dist.y =		%.4f\n", x, ray->side_dist.x, ray->side_dist.y);
+		fprintf(fp, "		Ray[%d]->step.x =		%.2f		step.y =			%.2f		hit = %d, side = %d, perp_wall_dist = %.4f\n",
 							x, ray->step.x, ray->step.y, ray->hit, ray->side, ray->perp_wall_dist);
+		fprintf(fp, "		Ray[%d]->line_height =	%d\n", x, ray->line_height);
+		fprintf(fp, "		Ray[%d]->draw_start =	%d			draw_end =			%d\n", x, ray->draw_start, ray->draw_end);
+
+
 
 
 
@@ -41,6 +45,7 @@ void	print_updated_pos(t_cub *cub, t_player *player)
 	printf("player->old_time = %.2f		player->time = %.2f		player->frame_time = %.2f	FPS = %.2f\n", player->old_time, player->time, player->frame_time, 1.0 / player->frame_time);
 	printf ("player->move_speed = %.4f\n", player->move_speed);
 	printf ("player->rot_speed = %.4f\n", player->rot_speed);
+	printf("cub->moves = %d\n", cub->moves);
 	printf("/* ------------------------------------------------------------------------------*/\n\n");
 
 	if (cub->game_init)
@@ -64,6 +69,7 @@ void	handle_move(t_cub *cub, t_player *player)
 		if (player->pos.y + player->dir.y * player->move_speed >= 1 && player->pos.y + player->dir.x * player->move_speed < cub->map.rows
 			&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
 			player->pos.y += player->dir.y * player->move_speed;
+		cub->moves++;
 		print_updated_pos(cub, player);
 	}
 
@@ -79,7 +85,9 @@ void	handle_move(t_cub *cub, t_player *player)
 		if (player->pos.y - player->dir.y * player->move_speed >= 1 && player->pos.y - player->dir.x * player->move_speed < cub->map.rows
 				&& cub->map.grid[(int)(player->pos.y - strafeY)][(int)player->pos.x] != '1')
 			player->pos.y -= player->dir.y * player->move_speed;
+		cub->moves++;
 		print_updated_pos(cub, player);
+
 	}
 	if (player->kbrd.key_d)
 	{
@@ -95,6 +103,7 @@ void	handle_move(t_cub *cub, t_player *player)
 		if (player->pos.y + strafeY >= 1 && player->pos.y + strafeY < cub->map.rows
 				&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
 			player->pos.y += player->dir.x * player->move_speed;
+		cub->moves++;
 		print_updated_pos(cub, player);
 	}
 
@@ -115,6 +124,7 @@ void	handle_move(t_cub *cub, t_player *player)
 		if (player->pos.y + strafeY >= 1 && player->pos.y + strafeY < cub->map.rows
 				&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
 			player->pos.y += moveY;
+		cub->moves++;
 		print_updated_pos(cub, player);
 		cub->print_debug_cub = true;
 	}
@@ -130,6 +140,7 @@ void	handle_move(t_cub *cub, t_player *player)
 		double	oldPlaneX = player->plane.x;
 		player->plane.x = player->plane.x * cos( - player->rot_speed) - player->plane.y * sin( - player->rot_speed);
 		player->plane.y = oldPlaneX * sin(- player->rot_speed) + player->plane.y * cos(- player->rot_speed);
+		cub->moves++;
 		print_updated_pos(cub, player);
 	}
 
@@ -145,6 +156,7 @@ void	handle_move(t_cub *cub, t_player *player)
 		double	oldPlaneX = player->plane.x;
 		player->plane.x = player->plane.x * cos(player->rot_speed) - player->plane.y * sin(player->rot_speed);
 		player->plane.y = oldPlaneX * sin(player->rot_speed) + player->plane.y * cos(player->rot_speed);
+		cub->moves++;
 		print_updated_pos(cub, player);
 	}
 

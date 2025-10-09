@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/09 15:45:52 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/09 22:00:40 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,12 @@
 
 # define FOV_RAD (FOV * M_PI / 180.0)
 # define PLANE_MAG (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0)
+
+
+# define MAP_RATIO 5
+// #  if MAP_RATIO <= 0 || MAP_RATIO >= 10
+// #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
+// #  endif
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
@@ -206,8 +212,6 @@ typedef struct	s_cub
 	void		*mlx_window;
 	t_txtr		txtr[4];
 	void		*textures[7];
-	int			img_height;
-	int			img_width;
 	int			moves;
 
 	int			window_height;
@@ -239,6 +243,9 @@ typedef struct s_ray
 	double		perp_wall_dist;
 	int			hit;
 	int			side;
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
 
 }			t_ray;
 
@@ -317,6 +324,10 @@ void		img_pix_put(t_img *img, int x, int y, int color);
 int			render_empty_sqr(t_img *img, t_sqr sqr);
 int			render_sqr(t_img *img, t_sqr sqr);
 int			render_rect(t_img *img, t_rect rect);
+
+// render textures
+void		texture_function(t_cub *cub, t_player *player, t_ray *ray, t_txtr *txtr, int x, double wallX);
+
 
 
 /* ************************************** RAYCASTER FCTIONS END ********************************** */

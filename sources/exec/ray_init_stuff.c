@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/09 15:46:33 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/09 19:39:58 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,9 @@ static void	init_map(t_map *map)
 void	init_exec_data(t_cub *cub)
 {
 	init_map(&(cub->map));
-	cub->img_width = 0;
-	cub->img_height = 0;
 	cub->moves = 0;
-	cub->window_width = (cub->map).max_col * TILE_SIZE / 5;
-	cub->window_height = (cub->map).rows * TILE_SIZE / 5;
+	cub->window_width = (cub->map).max_col * TILE_SIZE / MAP_RATIO;
+	cub->window_height = (cub->map).rows * TILE_SIZE / MAP_RATIO;
 	cub->map.display_map = true;
 
 	cub->print_debug_cub = true;
@@ -175,8 +173,11 @@ void	init_ray_data(t_ray *ray)
 	ray->step.x = 0;
 	ray->step.y = 0;
 	ray->perp_wall_dist = 0;
-	ray-> hit = 0;
-	ray-> side = 0;
+	ray->hit = 0;
+	ray->side = 0;
+	ray->line_height = 0;
+	ray->draw_end = 0;
+	ray->draw_start = 0;
 
 }
 
