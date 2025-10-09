@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_init_stuff.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/08 16:43:25 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:57:30 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,29 +71,8 @@ void	init_images(t_cub *cub)
 //	}
 //}
 
-static void	init_map(t_map *map)
-{
-	size_t	i_rows;
-	size_t	j_cols;
-	size_t	max_cols;
-
-	i_rows = 0;
-	max_cols = 0;
-	while (i_rows < map->rows)
-	{
-		j_cols = ft_strlen(map->grid[i_rows]);
-		if (map->grid[i_rows][j_cols - 1] == '\n')
-			j_cols-- ;
-		if (max_cols < j_cols)
-			max_cols = j_cols;
-		i_rows++;
-	}
-	map->max_col = max_cols;
-}
-
 void	init_exec_data(t_cub *cub)
 {
-	init_map(&(cub->map));
 	cub->img_width = 0;
 	cub->img_height = 0;
 	cub->moves = 0;

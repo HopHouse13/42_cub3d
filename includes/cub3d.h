@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/08 16:31:34 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/09 12:45:15 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,15 +126,14 @@ typedef struct s_rect
 }				t_rect;
 /* ************************************** RAYCASTER STRUCTS END ********************************** */
 
-
 typedef enum	e_key
 {
-	NO,
-	EA,
-	SO,
-	WE,
-	F,
-	C,
+				NO,
+				EA,
+				SO,
+				WE,
+				F,
+				C,
 }				t_key;
 
 typedef struct	s_vec
@@ -143,16 +142,11 @@ typedef struct	s_vec
 	double		y;
 }				t_vec;
 
-
-
-
 typedef struct	s_player
 {
 	t_vec		pos;
 	t_vec		dir;
 	t_vec		plane;
-
-	char		facing;
 
 	double		start_time;
 	double		time;			// a voir si on peut passer cette variable en local
@@ -165,10 +159,6 @@ typedef struct	s_player
 	double		move_speed;		// struct ray ou player?
 
 	t_key_inpt	kbrd;
-
-
-
-
 }				t_player;
 
 typedef struct	s_map
@@ -191,6 +181,21 @@ typedef struct	s_elements
 	int			e_counter;
 }				t_elem;
 
+typedef struct s_ray
+{
+	t_vec		map;
+	t_vec		ray_dir;
+	t_vec		delta_dist;
+	t_vec		side_dist;
+	t_vec		step;
+	double		perp_wall_dist;
+	int			hit;
+	int			side;
+
+	bool		print_debug;	// debug
+	bool		game_init;		// debug
+}				t_ray;
+
 typedef struct	s_cub
 {
 	void		*mlx_pointer;
@@ -210,27 +215,12 @@ typedef struct	s_cub
 	t_img		map_img;
 	t_img		game_img;
 
-
 	int			fd_file;
 	char		*err_msg[E_UNKNOWN + 1];
 
-	bool		print_debug_cub;
-}			t_cub;
+	bool		print_debug_cub; // debug
+}				t_cub;
 
-typedef struct s_ray
-{
-	t_vec		map;
-	t_vec		ray_dir;
-	t_vec		delta_dist;
-	t_vec		side_dist;
-	t_vec		step;
-	double		perp_wall_dist;
-	int			hit;
-	int			side;
-
-	bool		print_debug;	// debug
-	bool		game_init;		// debug
-}			t_ray;
 
 /// PARSING ///
 void	parsing(t_cub *cub, char *argv);
@@ -246,8 +236,8 @@ bool	is_empty(char *line);
 // handle_exit
 void	exit_door(t_cub *cub, t_error err_id);
 
-// init_cub_data
-void	init_cub_data(t_cub *cub);
+// init_parsing_data
+void	init_parsing_data(t_cub *cub);
 void	init_elem(t_elem *elem);
 
 // GNL
