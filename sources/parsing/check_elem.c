@@ -12,28 +12,10 @@
 
 #include "../../includes/cub3d.h"
 
-static t_error check_color(t_cub *cub)
+static t_error check_color(int	color_value)
 {//printf("\n||||| CHECK COLORS VALUES |||||\n");
-	int	i;
-	i = 0;
-	if (cub->elem.f_values[0])
-	{
-		while (i < 3)
-		{
-			if (cub->elem.f_values[i] > 255 || cub->elem.f_values[i] < 0) // peux etre egale a -1 si une valeurs depasse les limites de INT (retour atoi)
-				return (E_VALUE_COLOR);
-			i++;
-		}
-	}
-	if (cub->elem.c_values[0])
-	{
-		while (++i < 3)
-		{
-			if (cub->elem.c_values[i] > 255 || cub->elem.c_values[i] < 0)
-				return (E_VALUE_COLOR);
-			i++;
-		}
-	}
+	if (color_value > 255 || color_value < 0)
+		return (E_VALUE_COLOR);
 	return (OK);
 }
 
@@ -84,6 +66,8 @@ static t_error	between_value(char **line, int nb_color_found, int *new_start)
 
 	while ((*line)[i] && ft_isdigit((*line)[i]))
 		i++;
+	if (i == 0 && !ft_isdigit((*line)[i]))
+		return (E_RGB_FT);
 	tmp_end = i; // stock la position de fin de serie des digits
 	while ((*line)[i] && !ft_isdigit((*line)[i])) // gestion des char entre deux series de digits
 	{	
@@ -133,26 +117,29 @@ static t_error	handle_colors(t_cub *cub, char **line, t_key key_id)
 		err_id = between_value(line, i, &new_start);// retourne le nb de deplacement pour aller jusqu'a la prochaine digit
 		if (err_id != OK)
 			return (err_id);
-		//printf("sous chaine valeur [%s]\n", *line);
+		printf("AVANT : value I [%d]\n value_F [%d][%d][%d]\n", i, cub->elem.f_values[0], cub->elem.f_values[1], cub->elem.f_values[2]);
 		value_color = ft_atoi(*line);
+		err_id = check_color(value_color);
+		if (err_id != OK)
+			return (err_id);
 		if (key_id == F && cub->elem.f_values[i] == -1) // check si double. / si atoi renvoit -1 -> verificatoin plus tard
 			cub->elem.f_values[i] = value_color;
 		else if (key_id == C && cub->elem.c_values[i] == -1)
 			cub->elem.c_values[i] = value_color;
 		else
 			return (E_DUP_COLOR);
+		printf("APRES :\n value_F [%d][%d][%d]\n", cub->elem.f_values[0], cub->elem.f_values[1], cub->elem.f_values[2]);
 		(*line) += new_start; // apres le atoi, deplacement du pointeur vers le debut de la prochaine serie de digits
 	}
-	err_id = check_color(cub);
-	if (err_id != OK)
-		return (err_id);
 	color_conversion(cub);
 	return (OK);
 }
 
+// Le pointeur de line se trouve au debut du path
+// n est le nombre de char du path pour pouvoir le dup correctement
+// 
 static t_error handle_paths(t_cub *cub, char **line, t_key key_id)
 {
-	//printf("handle_paths line = `%s`", *line);
 	unsigned int	n;
 	char*			tmp_line;
 
@@ -174,6 +161,10 @@ static t_error handle_paths(t_cub *cub, char **line, t_key key_id)
 	return (check_path(cub->elem.path[key_id]));
 }
 
+// apres avoir trouve la key, on skip les espaces
+// si la key a une valeur en dessous de 'F' -> handle_paths'
+// sinon 'handle_colors'
+// toujours avec la getion des erreurs avec 'err_id'
 static t_error	handle_get_elem(t_cub *cub, char **line, t_key key_id)
 {
 	t_error	err_id;
@@ -188,6 +179,11 @@ static t_error	handle_get_elem(t_cub *cub, char **line, t_key key_id)
 	return (err_id);
 }
 
+// init un tab avec les 6 key avec leurs valeurs de la struct ENUM
+// on compare la key trouvee avec les 6 key
+// si c'est une key de texture on avant de 3 le pointeur de line
+// si couleur -> avance de 2
+// resturn bool si oui ou non on a trouve une key
 static bool	key_finder(char **line, t_key key_id)
 {
 	static const char	*tab_keys[6] = {"NO ", "EA ", "SO ", "WE ", "F ", "C "};
@@ -204,22 +200,26 @@ static bool	key_finder(char **line, t_key key_id)
 	return (false);
 }
 
+// skip des espaces et la lignes vide
+// initialisation de key_id a la premiere valeur de l'enum (NO)
+// key trouvee avec 'key_finder', on la check et stockavec 'handle_get_elem.
+// si cette fonction renvoye une erreur, on return l'erreur.
+// si apres il y a des char invalid apres tout se processus, return l'erreur.
 static t_error	handle_line(t_cub *cub, char *line)
 {
 	t_key	key_id;
 	t_error	err_id;
 
 	err_id = OK;
-	while (*line && *line == ' ') // les premiers espaces
+	while (*line && *line == ' ')
 		line++;
-	if (*line == '\n' || *line == '\0') // passe la line suivante si la line est remplit que d'[ ] et un [\n]
+	if (*line == '\n' || *line == '\0')
 		return (OK);
 	key_id = NO;
 	while (key_id <= C)
 	{
 		if (key_finder(&line, key_id))
 		{
-			//printf("found key number %d\n-------------------------\n", key_id);
 			cub->elem.e_counter++;
 			err_id = handle_get_elem(cub, &line, key_id);
 			if (err_id == OK)
@@ -231,39 +231,30 @@ static t_error	handle_line(t_cub *cub, char *line)
 	return (E_NO_KEY);
 }
 
+// ouvre le .cub
+// loop -> lecture continue tant que pas trouve 6 elem (4 patchs + 2 colors)
+// les messages des erreurs de check_elem sont le retour de handle_line,
+// stock dans err_id.
+// si on arrive a la fin du file sans avoir avoir trouve els 6 elem -> error
 void	check_elem(t_cub *cub, char *mapfile)
 {
 	char 	*line;
 	t_error	err_id;
 
-	err_id = OK; // initialise la variable a ok par defaut
+	err_id = OK;
 	cub->fd_file = open(mapfile, O_RDONLY);
 	if (cub->fd_file < 0)
 		exit_door(cub, E_OPEN_FILE);
-	while (cub->elem.e_counter < 6) // si les 6 parametres ont ete trouves, on passe a la suite
+	while (cub->elem.e_counter < 6)
 	{
 		line = get_next_line(cub->fd_file, &err_id, false);
-		if (err_id == E_ALLOC) // erreur malloc
+		if (err_id == E_ALLOC)
 			exit_door(cub, err_id);
-		if (!line) // fin de file
+		if (!line)
 			exit_door(cub, E_MISS_PARAM);
-		//printf("\n||||| NOUVELLE LINE |||||\nNEW LINE : [%s]\n", line);
 		err_id = handle_line(cub, line);
 		free(line);
-		//printf("value_err_id : [%d]\n", err_id);
 		if(err_id > OK)
 			exit_door(cub, err_id);
 	}
-	//printf ("\n\n||||| Elem values after cub->elem.e_counter == 6 |||||\n\n");
-	//print_elem(&cub->elem);
-	check_color(cub);
 }
-
-// TO DO -
-// handle_colors ✅
-// LIGNES VIDES (*avec ou sans espaces) ✅
-// check le path (check_path) - sil est valide, sil existe, si les droits sont bons etc. ✅
-// check la couleur (check_color) - si c'est bien [0-255] ✅
-// check_map
-// gestion des free de tout  (des strndup et du gnl)
-// message d'erreur ✅ et free checker ce quil y a free etc.

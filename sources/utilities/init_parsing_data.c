@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_cub_data.c                                        :+:      :+:    :+:   */
+/*   init_parsing_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -55,13 +55,12 @@ void	init_err_msgs(t_cub *cub)
 	cub->err_msg[E_OPEN_MAP] = "Map is not enclosed";
 	cub->err_msg[E_NO_PLAYER] = "No player on the map";
 	cub->err_msg[E_UNKNOWN] = "Unknown error occurred";
-	//cub->err_msg[] = "";
 }
 
-void	init_cub_data(t_cub *cub)
+void	init_parsing_data(t_cub *cub)
 {
-	cub->fd_file = -1;
 	init_err_msgs(cub);
+	cub->fd_file = -1;
 	// struct_map
 	cub->map.grid = NULL;
 	cub->map.rows = 0;

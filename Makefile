@@ -6,7 +6,7 @@
 #    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/03 19:13:01 by pbret            ###   ########.fr        #
+#    Updated: 2025/10/09 12:45:51 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRCS_PARSING = \
 
 SRC_UTILS = \
 	utilities/handle_exit.c \
-	utilities/init_cub_data.c \
+	utilities/init_parsing_data.c \
 	utilities/get_next_line.c \
 	utilities/get_next_line_utilities.c \
 	utilities/print_debug.c
