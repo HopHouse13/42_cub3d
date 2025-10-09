@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/09 22:04:34 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/09 22:08:22 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,6 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 		// printf("ray->ray_dir.y = %f\n", ray->ray_dir.y);
 
 
-		print_txtr_struct(cub->txtr);
 		//length of ray from one x or y-side to next x or y-side --> deltaDistX || deltaDistY
 		if (ray->ray_dir.x == 0)
 			ray->delta_dist.x = 1e30;
