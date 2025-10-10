@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:37:47 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/09 21:37:13 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:29:27 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	texture_function(t_cub *cub, t_player *player, t_ray *ray, t_txtr *txtr, in
 	// if (txtr_x >= txtr->width)
 	// 	txtr_x = txtr->width - 1;
 
-	if (ray->side == 0 && ray->ray_dir.x > 0) // NORTH
+	if (ray->side == 0 && ray->ray_dir.x < 0) // NORTH
 	{
 		// if (cub->print_debug_cub)
 		// 	printf("	Ray[%d] ray->side == 0 && ray->ray_dir.x > 0\n", x);
 		txtr_x = txtr->width - txtr_x - 1;
 	}
-	if (ray->side == 1 && ray->ray_dir.y < 0) // EAST
+	if (ray->side == 1 && ray->ray_dir.y > 0) // EAST
 	{
 		// if (cub->print_debug_cub)
 		// 	printf("	Ray[%d] (ray->side == 1 && ray->ray_dir.y < 0\n", x);

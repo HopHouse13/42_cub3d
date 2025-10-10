@@ -1,0 +1,16 @@
+NO ./textures/black_n_128.xpm
+SO ./textures/black_s_128.xpm
+WE ./textures/black_w_128.xpm
+EA ./textures/black_e_128.xpm
+
+F 1,1,1
+C 1,1,1
+
+11111111
+101011
+10100111
+101W00111
+10000001
+11000011
+10000101
+11111111
