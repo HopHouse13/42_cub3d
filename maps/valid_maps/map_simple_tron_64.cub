@@ -1,7 +1,7 @@
-NO ./textures/black_square_white_horizontal_stripe_64.xpm
-SO ./textures/black_square_white_horizontal_stripe_64.xpm
-WE ./textures/black_square_white_horizontal_stripe_64.xpm
-EA ./textures/black_square_white_horizontal_stripe_64.xpm
+NO ./textures/black_txtr/black_square_white_horizontal_stripe_64.xpm
+SO ./textures/black_txtr/black_square_white_horizontal_stripe_64.xpm
+WE ./textures/black_txtr/black_square_white_horizontal_stripe_64.xpm
+EA ./textures/black_txtr/black_square_white_horizontal_stripe_64.xpm
 
 F 1,1,1
 C 1,1,1

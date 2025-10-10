@@ -1,7 +1,7 @@
-NO textures/blackSquare_neonBlue_horizontalStripe_64.xpm
-SO textures/blackSquare_neonBlue_horizontalStripe_64.xpm
-WE textures/blackSquare_neonBlue_horizontalStripe_64.xpm
-EA textures/blackSquare_neonBlue_horizontalStripe_64.xpm
+NO textures/black_txtr/blackSquare_neonBlue_horizontalStripe_64.xpm
+SO textures/black_txtr/blackSquare_neonBlue_horizontalStripe_64.xpm
+WE textures/black_txtr/blackSquare_neonBlue_horizontalStripe_64.xpm
+EA textures/black_txtr/blackSquare_neonBlue_horizontalStripe_64.xpm
 
 F 1,1,1
 C 1,1,1

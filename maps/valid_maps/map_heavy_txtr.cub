@@ -1,0 +1,16 @@
+NO ./textures/heavy_txtr/NO.xpm
+SO ./textures/heavy_txtr/SO.xpm
+WE ./textures/heavy_txtr/WE.xpm
+EA ./textures/heavy_txtr/EA.xpm
+
+F 192,135,134
+C 135,134,192
+
+11111111
+101011
+10100111
+101W00111
+10000001
+11000011
+10000101
+11111111

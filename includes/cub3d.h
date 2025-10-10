@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/09 22:00:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/10 19:40:04 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,7 +320,8 @@ void		print_txtr_struct(t_txtr *txtr);
 
 
 // render utils
-void		img_pix_put(t_img *img, int x, int y, int color);
+void		img_pxl_put(t_img *img, int x, int y, int color);
+
 int			render_empty_sqr(t_img *img, t_sqr sqr);
 int			render_sqr(t_img *img, t_sqr sqr);
 int			render_rect(t_img *img, t_rect rect);

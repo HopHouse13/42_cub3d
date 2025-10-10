@@ -45,7 +45,8 @@ static t_error	check_path(char *path)
 
 	tmp_fd = open(path, O_RDONLY);
 	if (tmp_fd == -1)
-		return (E_PATH);
+	{	printf("Error trying to open file from path %s\n", path);
+		return (E_PATH);}
 	tmp_read = read(tmp_fd, tmp_buf, 1);
 	if (tmp_read == -1) // si le path est un repertoire, le fd va etre initialise mais nous ne pourons pas lire le dossier -> read retourne -1 si il n'arrive pas a lire
 		return (E_READ_PATH);
@@ -67,7 +68,7 @@ static t_error	check_rest_of_line(char **line)
 // fonction de deplacement, controle de la conformitee et transmettre les infos
 // Fonctionne par sequence: une sequence = valeur + l'entre deux d'apres
 // line [F 1, 22, t 333] -> sequence 1 [1, ]; sequence 2 [22, t ]; sequence 3 [333]
-// Etape pour chaque sequence: 
+// Etape pour chaque sequence:
 // 1 [comptabiliser nb digits]
 // 2 [stocker la len des digits]
 // 3 [se deplacer jusqu'au prochain digit tout en controlant la conformitee]
@@ -86,7 +87,7 @@ static t_error	between_value(char **line, int nb_color_found, int *new_start)
 		i++;
 	tmp_end = i; // stock la position de fin de serie des digits
 	while ((*line)[i] && !ft_isdigit((*line)[i])) // gestion des char entre deux series de digits
-	{	
+	{
 		if (((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n') // les 2 premieres sequences ->  char autorises [,][ ][\n]
 			|| (nb_color_found > 1 && (*line)[i] != ' ' && (*line)[i] != '\n')) // [nb_color_found > 1] -> on est a la 3eme et derniere sequence; char autorise [ ]
 			return (E_RGB_FT);
