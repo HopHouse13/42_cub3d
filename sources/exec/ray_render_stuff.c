@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/09 22:08:22 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/10 19:29:44 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void draw_ray_line(t_cub *cub, int x0, int y0, int x1, int y1) // a expliciter
 	while (1)
 	{
 		if (x >= 0 && x <= cub->window_width && y>= 0 && y<= cub->window_height)
-			img_pix_put(&cub->map_img, x, y, 0xFFFF00);
+			img_pxl_put(&cub->map_img, x, y, 0xFFFF00);
 		// if (x >= 0 && x <= WNDW_W && y>= 0 && y<= WNDW_H)
-		// 	img_pix_put(&cub->game_img, x, y, 0xFFFF00);
+		// 	img_pxl_put(&cub->game_img, x, y, 0xFFFF00);
 
 
 		if (x == x1 && y == y1) break;
@@ -104,18 +104,18 @@ static void	verLine(t_cub *cub, int x, int draw_start, int draw_end)
 
 	while (y < draw_start) // put SKY background
 	{
-		img_pix_put(&cub->game_img, x, y, cub->elem.c_color);
+		img_pxl_put(&cub->game_img, x, y, cub->elem.c_color);
 		y++;
 	}
 	y = draw_end;
 	while (y < WNDW_H)
 	{
-		img_pix_put(&cub->game_img, x, y, cub->elem.f_color);
+		img_pxl_put(&cub->game_img, x, y, cub->elem.f_color);
 		y++;
 	}
 	// while (draw_start < draw_end)
 	// {
-	// 	img_pix_put(&cub->game_img, x, draw_start, color);
+	// 	img_pxl_put(&cub->game_img, x, draw_start, color);
 	// 	draw_start++;
 	// }
 
