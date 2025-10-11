@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/11 20:05:33 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/11 20:44:47 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ typedef struct	s_cub
 	t_img		game_img;
 
 	int			fd_file;
-	char		*err_msg[E_UNKNOWN + 1];
+	char		*err_msg[UNKNOWN_ERR + 1];
 
 	bool		game_init;		// debug
 	bool		print_debug_cub; // debug

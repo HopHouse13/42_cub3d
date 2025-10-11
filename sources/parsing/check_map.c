@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/11 19:35:47 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/11 20:44:02 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	valid_outline(t_cub *cub)
 					|| open_cell(cub, map, i +1, j)
 					|| open_cell(cub, map, i, j -1)
 					|| open_cell(cub, map, i, j +1))
-					exit_door(cub, E_OPEN_MAP);
+					exit_door(cub, PSG_OPEN_MAP_ERR);
 			}
 		}
 	}
@@ -66,7 +66,7 @@ static void	valid_char(t_cub *cub)
 			c = cub->map.grid[i][j];
 			if (c != '1' && c != '0' && c != 'N' && c != 'S' && c != 'E'
 				 && c != 'W' && c != ' ' && c != '\n')
-				exit_door(cub, E_INV_CHAR_MAP);
+				exit_door(cub, PSG_INV_CHAR_MAP_ERR);
 		}
 	}
 }
@@ -87,7 +87,7 @@ static void	get_player(t_cub *cub)
 			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 			{
 				if (cub->elem.facing != '\0')
-					exit_door(cub, E_DUP_PLAYER);
+					exit_door(cub, PSG_DUP_PLAYER_ERR);
 				else
 				{
 					cub->elem.facing = c;
@@ -98,7 +98,7 @@ static void	get_player(t_cub *cub)
 		}
 	}
 	if (cub->elem.facing == '\0')
-		exit_door(cub, E_NO_PLAYER);
+		exit_door(cub, PSG_NO_PLAYER_ERR);
 }
 
 void	empty_line(t_cub *cub)
@@ -114,7 +114,7 @@ void	empty_line(t_cub *cub)
 		{
 			if (cub->map.grid[i][j] == '\n'
 				&& (j == 0 || i == (int)cub->map.rows -1))
-				exit_door(cub, E_EMPTY_LINE);
+				exit_door(cub, PSG_EMPTY_LINE_ERR);
 		}
 	}
 }
@@ -150,17 +150,17 @@ void	check_map(t_cub *cub, char *mapfile)
 //		while (cub->map.grid[i][++j])
 //		{
 //			if (!valid_char(cub->map.grid[i][j]))
-//				exit_door(cub, E_INV_CHAR_MAP);
+//				exit_door(cub, PSG_INV_CHAR_MAP_ERR);
 //			if (!valid_outline(cub, cub->map.grid, cub->map.grid[i][j], i, j))
-//				exit_door(cub, E_OPEN_MAP);
+//				exit_door(cub, PSG_OPEN_MAP_ERR);
 //			if (!get_player(cub, cub->map.grid[i][j], i, j))
-//				exit_door(cub, E_DUP_PLAYER);
+//				exit_door(cub, PSG_DUP_PLAYER_ERR);
 //			if (cub->map.grid[i][j] == '\n' && (j == 0 || i == cub->map.rows -1))
-//				exit_door(cub, E_EMPTY_LINE);
+//				exit_door(cub, PSG_EMPTY_LINE_ERR);
 //			if (j > cub->map.max_col)
 //				cub->map.max_col = j;
 //		}
 //	}
 //	if (cub->elem.facing == '\0')
-//		exit_door(cub, E_NO_PLAYER);
+//		exit_door(cub, PSG_NO_PLAYER_ERR);
 //}

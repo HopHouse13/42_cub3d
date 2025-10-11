@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/11 18:02:43 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/11 20:44:47 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void freee(t_cub *cub, t_error err_id)
 void	exit_door(t_cub *cub, t_error err_id)
 {printf("||||| EXIT_DOOR |||||\n");
 	if (err_id < OK)
-		err_id = E_UNKNOWN;
+		err_id = UNKNOWN_ERR;
 	if (err_id > OK)
 		printf("Error\n");
 	printf("%s\n", cub->err_msg[err_id]);
