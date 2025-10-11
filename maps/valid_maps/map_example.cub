@@ -1,4 +1,4 @@
-    NO ./textures/heavy_txtr/NO.xpm
+    NO path_to_the_east_texture.bob
 WE ./textures/heavy_txtr/WE.xpm
 
 SO ./textures/heavy_txtr/SO.xpm
