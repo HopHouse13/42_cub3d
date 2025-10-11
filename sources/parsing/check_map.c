@@ -6,76 +6,31 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/08 16:28:22 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/11 19:35:47 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-static bool	open_cell(t_cub *cub, char **map, size_t i, size_t j)
+static bool	open_cell(t_cub *cub,char ** map, int i, int j)
 {
-	if (i < 0 || i >= cub->map.rows || !map[i]
-		|| j < 0 || (size_t)j >= ft_strlen(map[i]))
+	if (i < 0 || i >= (int)cub->map.rows || !map[i]
+		|| j < 0 || j >= (int)ft_strlen(map[i]))
 		return (true);
-	if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != 'N'
-		&& map[i][j] != 'E' && map[i][j] != 'S' && map[i][j] != 'W')
+	if (!map[i][j] 
+		|| (map[i][j] != '1' &&  map[i][j] != '0'
+		&&  map[i][j] != 'N' && map[i][j] != 'E'
+		&&  map[i][j] != 'S' && map[i][j] != 'W'))
 		return (true);
 	return (false);
 }
 
-static bool	valid_outline(t_cub *cub, char **map, char c, size_t i, size_t j)
+static void	valid_outline(t_cub *cub)
 {
-	bool	flag;
-
-	flag = true;
-	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
-	{
-		if (open_cell(cub, map, i -1, j))
-			flag = false;
-		if (open_cell(cub, map, i +1, j))
-			flag = false;
-		if (open_cell(cub, map, i, j -1))
-			flag = false;
-		if (open_cell(cub, map, i, j +1))
-			flag = false;
-	}
-	return (flag);
-}
-
-static bool	valid_char(char c)
-{
-	if (c != '1' && c != '0' && c != 'N' && c != 'S' && c != 'E' && c != 'W'
-		&& c != ' ' && c != '\n')
-		return (false);
-	return (true);
-}
-
-static bool	get_player(t_cub *cub, char c, size_t i, size_t j)
-{
-	static bool	found_one = false;
-
-	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
-	{
-		if (found_one)
-			return (false);
-		else
-		{
-			found_one = true;
-			cub->elem.facing = c;
-			cub->player.pos.x = j;
-			cub->player.pos.y = i;
-		}
-	}
-	return (true);
-}
-
-void	check_map(t_cub *cub, char *mapfile)
-{//printf("||||| CHECK_MAP |||||\n");
-	size_t		i;
-	size_t		j;
-	char	**map;
-
-	make_copy(cub, mapfile);
+	int	i;
+	int	j;
+	char **map;
+	
 	map = cub->map.grid;
 	i = -1;
 	while (map[++i])
@@ -83,25 +38,129 @@ void	check_map(t_cub *cub, char *mapfile)
 		j = -1;
 		while (map[i][++j])
 		{
-			if (!valid_char(map[i][j]))
+			if (map[i][j] == '0' || map[i][j] == 'N' || map[i][j] == 'S'
+				|| map[i][j] == 'E' || map[i][j] == 'W')
+			{
+				if (open_cell(cub, map, i -1, j) 
+					|| open_cell(cub, map, i +1, j)
+					|| open_cell(cub, map, i, j -1)
+					|| open_cell(cub, map, i, j +1))
+					exit_door(cub, E_OPEN_MAP);
+			}
+		}
+	}
+}
+
+static void	valid_char(t_cub *cub)
+{
+	int	i;
+	int	j;
+	char 	c;
+
+	i = -1;
+	while (cub->map.grid[++i])
+	{
+		j = -1;
+		while (cub->map.grid[i][++j])
+		{
+			c = cub->map.grid[i][j];
+			if (c != '1' && c != '0' && c != 'N' && c != 'S' && c != 'E'
+				 && c != 'W' && c != ' ' && c != '\n')
 				exit_door(cub, E_INV_CHAR_MAP);
-			if (!valid_outline(cub, map, map[i][j], i, j))
-				exit_door(cub, E_OPEN_MAP);
-			if (!get_player(cub, map[i][j], i, j))
-				exit_door(cub, E_DUP_PLAYER);
-			if (map[i][j] == '\n' && (j == 0 || i == cub->map.rows -1)) // pour gerer la derniere ligne vide de la map (si il y a) et une ligne vide en cours de map
-				exit_door(cub, E_EMPTY_LINE);
-			if (j > cub->map.max_col)
-				cub->map.max_col = j;
+		}
+	}
+}
+
+static void	get_player(t_cub *cub)
+{
+	int	i;
+	int	j;
+	char	c;
+	
+	i = -1;
+	while (cub->map.grid[++i])
+	{
+		j = -1;
+		while (cub->map.grid[i][++j])
+		{
+			c = cub->map.grid[i][j];
+			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+			{
+				if (cub->elem.facing != '\0')
+					exit_door(cub, E_DUP_PLAYER);
+				else
+				{
+					cub->elem.facing = c;
+					cub->player.pos.x = j;
+					cub->player.pos.y = i;
+				}
+			}
 		}
 	}
 	if (cub->elem.facing == '\0')
 		exit_door(cub, E_NO_PLAYER);
-	printf("value MAX_COL [%zd]\n", cub->map.max_col);
-	//printf("Coordonees du player x[%.4ff] y[%.4ff]\nOrientation du player [%c]\n", cub->player.pos.x, cub->player.pos.y, cub->elem.facing);
-	//printf("||||| FIN DU PARSING DE LA MAP |||||\n");
 }
 
-// only [0] [1] ([N] [S] [E] [W]) [\n]
-// si [0] [N] [S] [E] [W] sont bien entoure soit de [0] ou [1]
-// si la map a la totalitee de ses lignes non vide. (un espace est non vide. A confirmer avec toto)
+void	empty_line(t_cub *cub)
+{
+	int	i;
+	int	j;
+	
+	i = -1;
+	while (cub->map.grid[++i])
+	{
+		j = -1;
+		while (cub->map.grid[i][++j])
+		{
+			if (cub->map.grid[i][j] == '\n'
+				&& (j == 0 || i == (int)cub->map.rows -1))
+				exit_door(cub, E_EMPTY_LINE);
+		}
+	}
+}
+
+void	check_map(t_cub *cub, char *mapfile)
+{
+	make_copy(cub, mapfile);
+	valid_char(cub);
+	valid_outline(cub);
+	get_player(cub);
+	empty_line(cub);
+}
+
+// 'make_copy' copie la map dans un double tab nomme "grid"
+// Double boucle pour parcourir chaque char de "grid"
+// Pour chaque char:
+// * Check de la validation du char
+// * check que ce char soit entoure de mur (1)
+// * check qu'il y a un player et un seul et stock les informations si player.
+// * chexk si la ligne est vide ou pas
+// a la fin de la boucle j'enregiste la valeur de char qu'a la plus grande ligne
+//  (max_col)
+//void	check_map(t_cub *cub, char *mapfile)
+//{
+//	int		i;
+//	int		j;
+
+//	make_copy(cub, mapfile);
+//	i = -1;
+//	while (cub->map.grid[++i])
+//	{
+//		j = -1;
+//		while (cub->map.grid[i][++j])
+//		{
+//			if (!valid_char(cub->map.grid[i][j]))
+//				exit_door(cub, E_INV_CHAR_MAP);
+//			if (!valid_outline(cub, cub->map.grid, cub->map.grid[i][j], i, j))
+//				exit_door(cub, E_OPEN_MAP);
+//			if (!get_player(cub, cub->map.grid[i][j], i, j))
+//				exit_door(cub, E_DUP_PLAYER);
+//			if (cub->map.grid[i][j] == '\n' && (j == 0 || i == cub->map.rows -1))
+//				exit_door(cub, E_EMPTY_LINE);
+//			if (j > cub->map.max_col)
+//				cub->map.max_col = j;
+//		}
+//	}
+//	if (cub->elem.facing == '\0')
+//		exit_door(cub, E_NO_PLAYER);
+//}

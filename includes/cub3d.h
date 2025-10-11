@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/11 19:16:49 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/11 20:05:33 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,15 +113,14 @@ typedef struct s_rect
 }				t_rect;
 /* ************************************** RAYCASTER STRUCTS END ********************************** */
 
-
 typedef enum	e_key
 {
-	NO,
-	EA,
-	SO,
-	WE,
-	F,
-	C,
+				NO,
+				EA,
+				SO,
+				WE,
+				F,
+				C,
 }				t_key;
 
 typedef struct	s_vec
@@ -130,16 +129,11 @@ typedef struct	s_vec
 	double		y;
 }				t_vec;
 
-
-
-
 typedef struct	s_player
 {
 	t_vec		pos;
 	t_vec		dir;
 	t_vec		plane;
-
-	char		facing;
 
 	double		start_time;
 	double		time;			// a voir si on peut passer cette variable en local
@@ -205,7 +199,6 @@ typedef struct	s_cub
 	t_img		map_img;
 	t_img		game_img;
 
-
 	int			fd_file;
 	char		*err_msg[E_UNKNOWN + 1];
 
@@ -234,6 +227,8 @@ typedef struct s_ray
 void	parsing(t_cub *cub, char *argv);
 void	check_filename(t_cub *cub, char *argv);
 void	check_elem(t_cub *cub, char *file_map);
+t_error	handle_paths(t_cub *cub, char **line, t_key key_id);
+t_error	handle_colors(t_cub *cub, char **line, t_key key_id);
 
 void	check_map(t_cub *cub, char *mapfile);
 void	make_copy(t_cub *cub, char *mapfile);
@@ -244,8 +239,8 @@ bool	is_empty(char *line);
 // handle_exit
 void	exit_door(t_cub *cub, t_error err_id);
 
-// init_cub_data
-void	init_cub_data(t_cub *cub);
+// init_parsing_data
+void	init_parsing_data(t_cub *cub);
 void	init_elem(t_elem *elem);
 
 // GNL
