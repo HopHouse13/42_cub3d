@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/10 19:29:44 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:19:47 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ void	render_map(t_cub *cub, t_player *player)
 				continue ;
 			int screen_x = x * TILE_SIZE / MAP_RATIO;
 			int screen_y = y * TILE_SIZE / MAP_RATIO;
-			if (char_to_tile(cub->map.grid[y][x]) == E_WALL)
+			if (char_to_tile(cub->map.grid[y][x]) == TILE_WALL)
 				render_sqr(&cub->map_img, (t_sqr){screen_x, screen_y, TILE_SIZE / MAP_RATIO, RGB_RED});
 
 			else
@@ -228,8 +228,7 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 		{
 			perror("fopen");
 			close_window(cub);
-			cleanup_mlx(cub);
-			exit (1);
+			cleanup_mlx(cub, MLX_OTHER_ERR);
 		}
 	}
 
@@ -412,8 +411,9 @@ bool	render(t_cub *cub)
 		free(cub->mlx_pointer);
 		return (printf("Window creation failed\n"), false);
 	}
-	init_textures(cub);
 	init_images(cub);
+	init_textures(cub);
+	// init_images(cub);
 
 	if (cub->game_init)
 		print_txtr_struct(cub->txtr);
@@ -425,7 +425,7 @@ bool	render(t_cub *cub)
 	mlx_hook(cub->mlx_window, DestroyNotify, NoEventMask, &mlx_loop_end, cub->mlx_pointer);
 	mlx_loop(cub->mlx_pointer);
 
-	cleanup_mlx(cub);
+	cleanup_mlx(cub, OK);
 
 
 	return (true);

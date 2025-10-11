@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/09 15:26:46 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:15:50 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ double	date_in_ms(void)
 
 t_tile	char_to_tile(char c)
 {
-	if (c == '0') return E_FLOOR;
-	if (c == '1') return E_WALL;
-	if (c == 'E') return E_EP;
-	if (c == 'S') return E_SP;
-	if (c == 'W') return E_WP;
-	if (c == 'N') return E_NP;
-	if (c == 'C') return E_EXTRA;
+	if (c == '0') return TILE_FLOOR;
+	if (c == '1') return TILE_WALL;
+	if (c == 'E') return TILE_EP;
+	if (c == 'S') return TILE_SP;
+	if (c == 'W') return TILE_WP;
+	if (c == 'N') return TILE_NP;
+	if (c == 'C') return TILE_EXTRA;
 
-	return E_FLOOR; // Default fallback
+	return TILE_FLOOR; // Default fallback
 }
 
 void	print_map_ray(t_map *map)
