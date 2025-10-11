@@ -6,7 +6,7 @@
 #    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/09 12:45:51 by pbret            ###   ########.fr        #
+#    Updated: 2025/10/11 14:36:09 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ OBJ_DIR 	= obj_$(NAME)
 
 SRCS_PARSING = \
 	parsing/check_filename.c \
+	parsing/check_paths.c\
+	parsing/check_colors.c\
 	parsing/check_elem.c \
 	parsing/parsing.c \
 	parsing/check_map.c \

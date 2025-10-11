@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/09 12:45:15 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/11 15:19:19 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,8 @@ typedef struct	s_cub
 void	parsing(t_cub *cub, char *argv);
 void	check_filename(t_cub *cub, char *argv);
 void	check_elem(t_cub *cub, char *file_map);
+t_error	handle_paths(t_cub *cub, char **line, t_key key_id);
+t_error	handle_colors(t_cub *cub, char **line, t_key key_id);
 
 void	check_map(t_cub *cub, char *mapfile);
 void	make_copy(t_cub *cub, char *mapfile);
