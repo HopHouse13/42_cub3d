@@ -1,0 +1,16 @@
+WE ./textures/wolfenstein_txtr/eagle.xpm
+NO ./textures/wolfenstein_txtr/grey_stone.xpm
+EA ./textures/wolfenstein_txtr/mossy.xpm
+SO ./textures/wolfenstein_txtr/red_brick.xpm
+
+F 69, 222, 199
+C 235, 198, 52
+
+11111111
+101011
+10100111
+101W00111
+10000001
+11000011
+10000101
+11111111
