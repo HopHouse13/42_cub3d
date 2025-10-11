@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_cub_data.c                                        :+:      :+:    :+:   */
+/*   init_parsing_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -65,10 +65,10 @@ void	init_err_msgs(t_cub *cub)
 
 }
 
-void	init_cub_data(t_cub *cub)
+void	init_parsing_data(t_cub *cub)
 {
-	cub->fd_file = -1;
 	init_err_msgs(cub);
+	cub->fd_file = -1;
 	// struct_map
 	cub->map.grid = NULL;
 	cub->map.rows = 0;

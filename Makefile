@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
+#    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/09 18:40:52 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/10/11 20:08:39 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ OBJ_DIR 	= obj_$(NAME)
 
 SRCS_PARSING = \
 	parsing/check_filename.c \
+	parsing/check_paths.c\
+	parsing/check_colors.c\
 	parsing/check_elem.c \
 	parsing/parsing.c \
 	parsing/check_map.c \
@@ -24,7 +26,7 @@ SRCS_PARSING = \
 
 SRC_UTILS = \
 	utilities/handle_exit.c \
-	utilities/init_cub_data.c \
+	utilities/init_parsing_data.c \
 	utilities/get_next_line.c \
 	utilities/get_next_line_utilities.c \
 	utilities/print_debug.c
