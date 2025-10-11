@@ -1,7 +1,7 @@
-NO ./textures/blue_texture.xpm
-SO ./textures/red_texture.xpm
-WE ./textures/yellow_texture.xpm
-EA ./textures/green_texture.xpm
+NO ./textures/basic_txtr/red_north_txture.xpm
+SO ./textures/basic_txtr/blue_south_txture.xpm
+WE ./textures/basic_txtr/yellow_west_txture.xpm
+EA ./textures/basic_txtr/green_east_txture.xpm
 
 F 192,135,134
 C 135,134,192
@@ -9,7 +9,7 @@ C 135,134,192
 11111111
 101011
 10100111
-101N00111
+101W00111
 10000001
 11000011
 10000101

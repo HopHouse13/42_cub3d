@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:10:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/06 19:35:08 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/10 19:29:44 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void	destroy_images(t_cub *cub)
 		mlx_destroy_image(cub->mlx_pointer, cub->map_img.mlx_img);
 		// mlx_destroy_image(cub->mlx_pointer, cub->background_img.mlx_img);
 		mlx_destroy_image(cub->mlx_pointer, cub->game_img.mlx_img);
+		for (int i = 0; i < 4; i++)
+			mlx_destroy_image(cub->mlx_pointer, cub->txtr[i].mlx_img);
 
 }
 
@@ -69,7 +71,7 @@ void	clear_img(t_img *img, int width, int height)
 		j = 0;
 		while (j < width)
 		{
-			img_pix_put(img, j, i, 0x000000); // Black
+			img_pxl_put(img, j, i, 0x000000); // Black
 			j++;
 		}
 		i++;

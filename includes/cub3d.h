@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/08 16:31:34 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/10 19:40:04 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,12 @@
 
 # define FOV_RAD (FOV * M_PI / 180.0)
 # define PLANE_MAG (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0)
+
+
+# define MAP_RATIO 5
+// #  if MAP_RATIO <= 0 || MAP_RATIO >= 10
+// #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
+// #  endif
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
@@ -161,13 +167,10 @@ typedef struct	s_player
 
 	double		camera_x;		// a voir si on peut passer cette variable en local
 
-	double		rot_speed;
-	double		move_speed;		// struct ray ou player?
+	double		rot_speed;		// a passer en macro fixe ?
+	double		move_speed;		// struct ray ou player? // ou plutot  a passer en macro fixe ?
 
 	t_key_inpt	kbrd;
-
-
-
 
 }				t_player;
 
@@ -191,13 +194,24 @@ typedef struct	s_elements
 	int			e_counter;
 }				t_elem;
 
+typedef struct s_txtr
+{
+	void		*mlx_img;
+	char		*addr;
+	int			bpp; /* bits per pixel */
+	int			line_len;
+	int			endian;
+	int			width;
+	int			height;
+}			t_txtr;
+
+
 typedef struct	s_cub
 {
 	void		*mlx_pointer;
 	void		*mlx_window;
+	t_txtr		txtr[4];
 	void		*textures[7];
-	int			img_height;
-	int			img_width;
 	int			moves;
 
 	int			window_height;
@@ -214,7 +228,9 @@ typedef struct	s_cub
 	int			fd_file;
 	char		*err_msg[E_UNKNOWN + 1];
 
-	bool		print_debug_cub;
+	bool		game_init;		// debug
+	bool		print_debug_cub; // debug
+	bool		render_bool;
 }			t_cub;
 
 typedef struct s_ray
@@ -227,9 +243,10 @@ typedef struct s_ray
 	double		perp_wall_dist;
 	int			hit;
 	int			side;
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
 
-	bool		print_debug;	// debug
-	bool		game_init;		// debug
 }			t_ray;
 
 /// PARSING ///
@@ -263,7 +280,7 @@ void	print_map(char **map);
 /* ************************************** RAYCASTER FCTIONS ********************************** */
 // init_stuff
 int			exec_launch(t_cub *cub);
-// void		init_textures(t_mlx_data *data);
+void		init_textures(t_cub *cub);
 void		init_exec_data(t_cub *cub);
 int			init_player(t_cub *cub, t_player *player);
 void		init_images(t_cub *cub);
@@ -287,9 +304,9 @@ bool		render(t_cub *cub);
 // game_stuff
 int			key_press_hook(int keysym, t_cub *cub);
 int			key_release_hook(int keysym, t_cub *cub);
-void		handle_move(t_cub *cub, t_player *player, t_ray *ray);
+void		handle_move(t_cub *cub, t_player *player);
 void		print_ray_info(t_ray *ray, int x, FILE *fp);
-void		print_updated_pos(t_player *player, t_ray *ray);
+void		print_updated_pos(t_cub *cub, t_player *player);
 
 
 
@@ -299,12 +316,19 @@ t_tile		char_to_tile(char c);
 void		print_map_ray(t_map *map);
 double		date_in_s(void);
 double		date_in_ms(void);
+void		print_txtr_struct(t_txtr *txtr);
+
 
 // render utils
-void		img_pix_put(t_img *img, int x, int y, int color);
+void		img_pxl_put(t_img *img, int x, int y, int color);
+
 int			render_empty_sqr(t_img *img, t_sqr sqr);
 int			render_sqr(t_img *img, t_sqr sqr);
 int			render_rect(t_img *img, t_rect rect);
+
+// render textures
+void		texture_function(t_cub *cub, t_player *player, t_ray *ray, t_txtr *txtr, int x, double wallX);
+
 
 
 /* ************************************** RAYCASTER FCTIONS END ********************************** */
