@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/10 20:30:39 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:20:38 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	init_textures(t_cub *cub)
 	int			width;
 	int			height;
 
-	// i = -1;
-	// while (++i < 4)
-	// 	txtr[i] = NULL;
+	i = -1;
+	while (++i < 4)
+		cub->txtr[i].mlx_img = NULL;
 
 	i = 0;
 	while (i < 4)
@@ -47,8 +47,8 @@ void	init_textures(t_cub *cub)
 		cub->txtr[i].mlx_img = mlx_xpm_file_to_image(cub->mlx_pointer, cub->elem.path[i], &width, &height);
 		if (!cub->txtr[i].mlx_img)
 		{
-			printf("Error initializing the textures\n");
-			cleanup_mlx(cub);
+			// printf("Error initializing the textures\n");
+			cleanup_mlx(cub, MLX_TXTR_ERR);
 			close_window(cub);
 		}
 		cub->txtr[i].width = width;
