@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/09 12:57:30 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/11 20:07:12 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,68 +31,77 @@ void	init_images(t_cub *cub)
 
 
 
-//void	init_textures(t_mlx_data *data)
-//{
+void	init_textures(t_cub *cub)
+{
+	size_t		i;
+	int			width;
+	int			height;
 
-//	size_t		i;
-//	const char	*textures_path[] = {P_FLOOR, P_WALL, P_EP, P_SP, P_WP, P_NP, P_EXTRA};
-//	const char	*floor_ceiling_txtre_path[] = {P_GRASS, P_SKY};
+	i = -1;
+	while (++i < 4)
+		cub->txtr[i].mlx_img = NULL;
 
-//	i = 0;
-//	while (i < 2)
-//	{
-//		data->bckgr_txtr[i] = mlx_xpm_file_to_image(data->mlx_pointer,
-//			(char *)floor_ceiling_txtre_path[i], &data->img_width, &data->img_height);
-//		if (!data->bckgr_txtr[i])
-//		{
-//			printf("Error initializing the textures\n");
-//			close_window(data);
-//		}
-//		i++;
-//	}
+	i = 0;
+	while (i < 4)
+	{
+		cub->txtr[i].mlx_img = mlx_xpm_file_to_image(cub->mlx_pointer, cub->elem.path[i], &width, &height);
+		if (!cub->txtr[i].mlx_img)
+		{
+			// printf("Error initializing the textures\n");
+			cleanup_mlx(cub, MLX_TXTR_ERR);
+			close_window(cub);
+		}
+		cub->txtr[i].width = width;
+		cub->txtr[i].height = height;
+		cub->txtr[i].addr = mlx_get_data_addr(cub->txtr[i].mlx_img, &cub->txtr[i].bpp, &cub->txtr[i].line_len, &cub->txtr[i].endian);
+		i++;
+	}
 
-//	i = 0;
-//	while (i < 7)
-//	{
-//		data->textures[i] = NULL;
-//		i++;
-//	}
-//	i = 0;
-//	while (i < 7)
-//	{
-//		data->textures[i] = mlx_xpm_file_to_image(data->mlx_pointer,
-//				(char *)textures_path[i], &data->img_width, &data->img_height);
-//		if (!data->textures[i])
-//		{
-//			printf("Error initializing the textures\n");
-//			close_window(data);
-//		}
-//		i++;
-//	}
-//}
+}
+
+static void	init_map(t_map *map)
+{
+	size_t	i_rows;
+	size_t	j_cols;
+	size_t	max_cols;
+
+	i_rows = 0;
+	max_cols = 0;
+	while (i_rows < map->rows)
+	{
+		j_cols = ft_strlen(map->grid[i_rows]);
+		if (map->grid[i_rows][j_cols - 1] == '\n')
+			j_cols-- ;
+		if (max_cols < j_cols)
+			max_cols = j_cols;
+		i_rows++;
+	}
+	map->max_col = max_cols;
+}
 
 void	init_exec_data(t_cub *cub)
 {
-	cub->img_width = 0;
-	cub->img_height = 0;
+	init_map(&(cub->map));
 	cub->moves = 0;
-	cub->window_width = (cub->map).max_col * TILE_SIZE / 5;
-	cub->window_height = (cub->map).rows * TILE_SIZE / 5;
+	cub->window_width = (cub->map).max_col * TILE_SIZE / MAP_RATIO;
+	cub->window_height = (cub->map).rows * TILE_SIZE / MAP_RATIO;
 	cub->map.display_map = true;
+
 	cub->print_debug_cub = true;
+	cub->game_init = true;
+	cub->render_bool = true;
+
 }
 
 static void	which_starting_direction(t_player *player, char facing)
 {
-
-
 	if (facing == 'W')
 	{
 		player->dir.x = -1;
 		player->dir.y = 0;
 		player->plane.x = 0;
-		// player->plane.y = -0.66;
-		player->plane.y = -PLANE_MAG;
+		player->plane.y = -0.66;
+		// player->plane.y = -PLANE_MAG;
 
 	}
 	if (facing == 'E')
@@ -100,24 +109,24 @@ static void	which_starting_direction(t_player *player, char facing)
 		player->dir.x = 1;
 		player->dir.y = 0;
 		player->plane.x = 0;
-		// player->plane.y = 0.66;
-		player->plane.y = PLANE_MAG;
+		player->plane.y = 0.66;
+		// player->plane.y = PLANE_MAG;
 
 	}
 	if (facing == 'N')
 	{
 		player->dir.x = 0;
 		player->dir.y = -1;
-		// player->plane.x = 0.66;
-		player->plane.x = PLANE_MAG;
+		player->plane.x = 0.66;
+		// player->plane.x = PLANE_MAG;
 		player->plane.y = 0;
 	}
 	if (facing == 'S')
 	{
 		player->dir.x = 0;
 		player->dir.y = 1;
-		// player->plane.x = -0.66;
-		player->plane.x = -PLANE_MAG;
+		player->plane.x = -0.66;
+		// player->plane.x = -PLANE_MAG;
 		player->plane.y = 0;
 	}
 }
@@ -133,7 +142,7 @@ int	init_player(t_cub *cub, t_player *player)
 	player->time = 0;
 	player->old_time = 0;
 	player->frame_time = 0;
-	// player->mlx_data_pointer = data;
+	// player->cub_ptr = cub;
 	player->camera_x = 0;
 
 	player->rot_speed = 0;
@@ -165,11 +174,12 @@ void	init_ray_data(t_ray *ray)
 	ray->step.x = 0;
 	ray->step.y = 0;
 	ray->perp_wall_dist = 0;
-	ray-> hit = 0;
-	ray-> side = 0;
+	ray->hit = 0;
+	ray->side = 0;
+	ray->line_height = 0;
+	ray->draw_end = 0;
+	ray->draw_start = 0;
 
-	ray->print_debug = true;
-	ray->game_init = true;
 }
 
 

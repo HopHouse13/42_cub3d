@@ -6,7 +6,7 @@
 #    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/11 14:36:09 by pbret            ###   ########.fr        #
+#    Updated: 2025/10/11 20:08:39 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRCS_EXEC = exec/ray_game_mechanics.c \
 	exec/ray_render_utils.c \
 	exec/ray_utils.c \
 	exec/raycaster.c \
+	exec/ray_txtr_render.c \
 
 
 SRCS_FILES	= main.c $(SRCS_PARSING) $(SRCS_EXEC) $(SRC_UTILS)

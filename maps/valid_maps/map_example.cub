@@ -1,12 +1,12 @@
-    NO ./path_to_the_north_texture
-WE ./path_to_the_west_texture
+    NO ./textures/heavy_txtr/NO.xpm
+WE ./textures/heavy_txtr/WE.xpm
 
-SO ./path_to_the_south_texture
+SO ./textures/heavy_txtr/SO.xpm
 
 F 0 ,0 , 0
 C 0 ,25 ,  43
 
-EA ./path_to_the_east_texture
+EA ./textures/heavy_txtr/EA.xpm
 
 
 

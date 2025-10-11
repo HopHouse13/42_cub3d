@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/11 15:19:19 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/11 20:05:33 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,6 @@
 # define RGB_BLUE 0x4285f4
 # define RGB_YLW 0xf4b400
 # define RGB_GRN 0x0f9d58
-# define RGB_SKY 0x8786C0
-// # define RGB_FLR 0x927A8B
-# define RGB_FLR 0xC08786
-
-# define P_FLOOR "../textures/green_texture.xpm"
-# define P_WALL "../textures/red_texture.xpm"
-# define P_EP "../textures/yellowE_texture.xpm"
-# define P_SP "../textures/yellowS_texture.xpm"
-# define P_WP "../textures/yellowW_texture.xpm"
-# define P_NP "../textures/yellowN_texture.xpm"
-# define P_EXTRA "../textures/blue_texture.xpm"
-# define P_GRASS "../textures/floor_texture.xpm"
-# define P_SKY "../textures/sky_texture.xpm"
-# define P_EW "../textures/green_east_txture.xpm"
-# define P_WW "../textures/yellow_west_txture.xpm"
-# define P_SW "../textures/blue_south_txture.xpm"
-# define P_NW "../textures/red_north_txture.xpm"
-
-
 
 
 # define FOV 66
@@ -74,17 +55,23 @@
 # define PLANE_MAG (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0)
 
 
+# define MAP_RATIO 5
+// #  if MAP_RATIO <= 0 || MAP_RATIO >= 10
+// #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
+// #  endif
+
+
 /* ************************************** RAYCASTER STRUCTS ********************************** */
 
 typedef enum	e_tile
 {
-	E_FLOOR,
-	E_WALL,
-	E_EP,
-	E_SP,
-	E_WP,
-	E_NP,
-	E_EXTRA
+	TILE_FLOOR,
+	TILE_WALL,
+	TILE_EP,
+	TILE_SP,
+	TILE_WP,
+	TILE_NP,
+	TILE_EXTRA
 }			t_tile;
 
 typedef struct	s_img
@@ -155,10 +142,11 @@ typedef struct	s_player
 
 	double		camera_x;		// a voir si on peut passer cette variable en local
 
-	double		rot_speed;
-	double		move_speed;		// struct ray ou player?
+	double		rot_speed;		// a passer en macro fixe ?
+	double		move_speed;		// struct ray ou player? // ou plutot  a passer en macro fixe ?
 
 	t_key_inpt	kbrd;
+
 }				t_player;
 
 typedef struct	s_map
@@ -181,28 +169,24 @@ typedef struct	s_elements
 	int			e_counter;
 }				t_elem;
 
-typedef struct s_ray
+typedef struct s_txtr
 {
-	t_vec		map;
-	t_vec		ray_dir;
-	t_vec		delta_dist;
-	t_vec		side_dist;
-	t_vec		step;
-	double		perp_wall_dist;
-	int			hit;
-	int			side;
+	void		*mlx_img;
+	char		*addr;
+	int			bpp; /* bits per pixel */
+	int			line_len;
+	int			endian;
+	int			width;
+	int			height;
+}			t_txtr;
 
-	bool		print_debug;	// debug
-	bool		game_init;		// debug
-}				t_ray;
 
 typedef struct	s_cub
 {
 	void		*mlx_pointer;
 	void		*mlx_window;
+	t_txtr		txtr[4];
 	void		*textures[7];
-	int			img_height;
-	int			img_width;
 	int			moves;
 
 	int			window_height;
@@ -218,9 +202,26 @@ typedef struct	s_cub
 	int			fd_file;
 	char		*err_msg[E_UNKNOWN + 1];
 
+	bool		game_init;		// debug
 	bool		print_debug_cub; // debug
-}				t_cub;
+	bool		render_bool;
+}			t_cub;
 
+typedef struct s_ray
+{
+	t_vec		map;
+	t_vec		ray_dir;
+	t_vec		delta_dist;
+	t_vec		side_dist;
+	t_vec		step;
+	double		perp_wall_dist;
+	int			hit;
+	int			side;
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
+
+}			t_ray;
 
 /// PARSING ///
 void	parsing(t_cub *cub, char *argv);
@@ -255,7 +256,7 @@ void	print_map(char **map);
 /* ************************************** RAYCASTER FCTIONS ********************************** */
 // init_stuff
 int			exec_launch(t_cub *cub);
-// void		init_textures(t_mlx_data *data);
+void		init_textures(t_cub *cub);
 void		init_exec_data(t_cub *cub);
 int			init_player(t_cub *cub, t_player *player);
 void		init_images(t_cub *cub);
@@ -267,7 +268,7 @@ void		init_ray_data(t_ray *ray);
 // mlx_stuff
 int			close_window(t_cub *cub);
 void		clear_img(t_img *img, int width, int height);
-void		cleanup_mlx(t_cub *cub);
+void		cleanup_mlx(t_cub *cub, t_error mlx_err);
 
 
 
@@ -279,9 +280,9 @@ bool		render(t_cub *cub);
 // game_stuff
 int			key_press_hook(int keysym, t_cub *cub);
 int			key_release_hook(int keysym, t_cub *cub);
-void		handle_move(t_cub *cub, t_player *player, t_ray *ray);
+void		handle_move(t_cub *cub, t_player *player);
 void		print_ray_info(t_ray *ray, int x, FILE *fp);
-void		print_updated_pos(t_player *player, t_ray *ray);
+void		print_updated_pos(t_cub *cub, t_player *player);
 
 
 
@@ -291,12 +292,19 @@ t_tile		char_to_tile(char c);
 void		print_map_ray(t_map *map);
 double		date_in_s(void);
 double		date_in_ms(void);
+void		print_txtr_struct(t_txtr *txtr);
+
 
 // render utils
-void		img_pix_put(t_img *img, int x, int y, int color);
+void		img_pxl_put(t_img *img, int x, int y, int color);
+
 int			render_empty_sqr(t_img *img, t_sqr sqr);
 int			render_sqr(t_img *img, t_sqr sqr);
 int			render_rect(t_img *img, t_rect rect);
+
+// render textures
+void		texture_function(t_cub *cub, t_player *player, t_ray *ray, t_txtr *txtr, int x, double wallX);
+
 
 
 /* ************************************** RAYCASTER FCTIONS END ********************************** */

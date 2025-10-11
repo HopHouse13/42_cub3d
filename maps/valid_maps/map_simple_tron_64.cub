@@ -1,0 +1,16 @@
+NO ./textures/black_txtr/black_square_white_horizontal_stripe_64.xpm
+SO ./textures/black_txtr/black_square_white_horizontal_stripe_64.xpm
+WE ./textures/black_txtr/black_square_white_horizontal_stripe_64.xpm
+EA ./textures/black_txtr/black_square_white_horizontal_stripe_64.xpm
+
+F 1,1,1
+C 1,1,1
+
+11111111
+101011
+10100111
+101W00111
+10000001
+11000011
+10000101
+11111111
