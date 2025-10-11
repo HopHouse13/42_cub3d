@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/10 19:40:04 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:16:49 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,6 @@
 # define RGB_BLUE 0x4285f4
 # define RGB_YLW 0xf4b400
 # define RGB_GRN 0x0f9d58
-# define RGB_SKY 0x8786C0
-// # define RGB_FLR 0x927A8B
-# define RGB_FLR 0xC08786
-
-# define P_FLOOR "../textures/green_texture.xpm"
-# define P_WALL "../textures/red_texture.xpm"
-# define P_EP "../textures/yellowE_texture.xpm"
-# define P_SP "../textures/yellowS_texture.xpm"
-# define P_WP "../textures/yellowW_texture.xpm"
-# define P_NP "../textures/yellowN_texture.xpm"
-# define P_EXTRA "../textures/blue_texture.xpm"
-# define P_GRASS "../textures/floor_texture.xpm"
-# define P_SKY "../textures/sky_texture.xpm"
-# define P_EW "../textures/green_east_txture.xpm"
-# define P_WW "../textures/yellow_west_txture.xpm"
-# define P_SW "../textures/blue_south_txture.xpm"
-# define P_NW "../textures/red_north_txture.xpm"
-
-
 
 
 # define FOV 66
@@ -84,13 +65,13 @@
 
 typedef enum	e_tile
 {
-	E_FLOOR,
-	E_WALL,
-	E_EP,
-	E_SP,
-	E_WP,
-	E_NP,
-	E_EXTRA
+	TILE_FLOOR,
+	TILE_WALL,
+	TILE_EP,
+	TILE_SP,
+	TILE_WP,
+	TILE_NP,
+	TILE_EXTRA
 }			t_tile;
 
 typedef struct	s_img
@@ -292,7 +273,7 @@ void		init_ray_data(t_ray *ray);
 // mlx_stuff
 int			close_window(t_cub *cub);
 void		clear_img(t_img *img, int width, int height);
-void		cleanup_mlx(t_cub *cub);
+void		cleanup_mlx(t_cub *cub, t_error mlx_err);
 
 
 

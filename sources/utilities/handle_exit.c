@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/06 16:52:25 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/11 18:02:43 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ static void	free_elem(t_cub *cub)
 }
 
 
-static void freee(t_cub *cub)
+static void freee(t_cub *cub, t_error err_id)
 {
-	t_error	err_id;
-
 	if (cub->fd_file >= 0)
 		close(cub->fd_file);
 	get_next_line(-1, &err_id, true);
 	free_elem(cub);
 	free_map(cub);
+	if (err_id == OK)
+		return ;
 	exit (2);
 }
 
@@ -56,5 +56,5 @@ void	exit_door(t_cub *cub, t_error err_id)
 	if (err_id > OK)
 		printf("Error\n");
 	printf("%s\n", cub->err_msg[err_id]);
-	freee(cub);
+	freee(cub, err_id);
 }
