@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:10:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/10 19:29:44 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/11 19:18:46 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ static void	destroy_images(t_cub *cub)
 		// mlx_destroy_image(cub->mlx_pointer, cub->background_img.mlx_img);
 		mlx_destroy_image(cub->mlx_pointer, cub->game_img.mlx_img);
 		for (int i = 0; i < 4; i++)
-			mlx_destroy_image(cub->mlx_pointer, cub->txtr[i].mlx_img);
+		{
+			if (cub->txtr[i].mlx_img)
+				mlx_destroy_image(cub->mlx_pointer, cub->txtr[i].mlx_img);
+		}
 
 }
 
@@ -39,7 +42,7 @@ int	close_window(t_cub *cub)
 	return (0);
 }
 
-void	cleanup_mlx(t_cub *cub)
+void	cleanup_mlx(t_cub *cub, t_error mlx_err)
 {
 	// Destroy textures
 
@@ -58,6 +61,8 @@ void	cleanup_mlx(t_cub *cub)
 	mlx_destroy_window(cub->mlx_pointer, cub->mlx_window);
 	mlx_destroy_display(cub->mlx_pointer);
 	free(cub->mlx_pointer);
+	if (mlx_err != OK)
+		exit_door (cub, mlx_err);
 }
 
 void	clear_img(t_img *img, int width, int height)

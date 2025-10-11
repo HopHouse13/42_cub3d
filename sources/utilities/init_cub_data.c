@@ -56,6 +56,13 @@ void	init_err_msgs(t_cub *cub)
 	cub->err_msg[E_NO_PLAYER] = "No player on the map";
 	cub->err_msg[E_UNKNOWN] = "Unknown error occurred";
 	//cub->err_msg[] = "";
+	cub->err_msg[MLX_TXTR_ERR] = "Error initializing the textures";
+	cub->err_msg[MLX_IMG_ERR] = "PLACEHOLDER";
+	cub->err_msg[MLX_PTR_ERR] = "MLX initialization failed";
+	cub->err_msg[MLX_WDW_ERR] = "Window creation failed";
+	cub->err_msg[MLX_OTHER_ERR] = "PLACEHOLDER";
+
+
 }
 
 void	init_cub_data(t_cub *cub)
