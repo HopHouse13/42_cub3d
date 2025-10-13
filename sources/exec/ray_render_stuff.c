@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_render_stuff.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/11 19:19:47 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:35:08 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 		if (fp == NULL)
 		{
 			perror("fopen");
-			close_window(cub);
+			mlx_loop_end(cub->mlx_pointer);
 			cleanup_mlx(cub, MLX_OTHER_ERR);
 		}
 	}
