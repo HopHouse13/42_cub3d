@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/11 20:05:33 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/13 17:30:08 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@
 // #  if MAP_RATIO <= 0 || MAP_RATIO >= 10
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
+
+# define COLLISION 1
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
@@ -205,6 +207,7 @@ typedef struct	s_cub
 	bool		game_init;		// debug
 	bool		print_debug_cub; // debug
 	bool		render_bool;
+	bool		no_collision;
 }			t_cub;
 
 typedef struct s_ray
@@ -281,6 +284,7 @@ bool		render(t_cub *cub);
 int			key_press_hook(int keysym, t_cub *cub);
 int			key_release_hook(int keysym, t_cub *cub);
 void		handle_move(t_cub *cub, t_player *player);
+void		no_collision_move(t_cub *cub, t_player *player);
 void		print_ray_info(t_ray *ray, int x, FILE *fp);
 void		print_updated_pos(t_cub *cub, t_player *player);
 

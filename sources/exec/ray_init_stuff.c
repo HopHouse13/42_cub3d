@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_init_stuff.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/11 20:07:12 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/13 16:32:09 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void	init_exec_data(t_cub *cub)
 	cub->print_debug_cub = true;
 	cub->game_init = true;
 	cub->render_bool = true;
+
+	cub->no_collision = false;
 
 }
 

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 19:10:39 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/09 19:44:45 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:11:07 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,146 @@ void	print_updated_pos(t_cub *cub, t_player *player)
 	cub->print_debug_cub = true;
 
 
+}
+
+void	no_collision_move(t_cub *cub, t_player *player)
+{
+	if (player->kbrd.key_w)
+	{
+		printf ("W pressed \n" );
+		double new_x = player->pos.x + player->dir.x * player->move_speed;
+		double new_y = player->pos.y + player->dir.y * player->move_speed;
+
+		// Check X bounds and row length
+		if (new_x >= 0 && new_x <= cub->map.max_col)
+		{
+			int row = (int)player->pos.y;
+			if (row >= 0 && row <=(int)cub->map.rows && new_x <= (int)ft_strlen(cub->map.grid[row]))
+				player->pos.x = new_x;
+		}
+
+		// Check Y bounds
+		if (new_y >= 0 && new_y <=cub->map.rows)
+		{
+			int col = (int)player->pos.x;
+			int new_row = (int)new_y;
+			if (new_row >= 0 && new_row <=(int)cub->map.rows && col <= (int)ft_strlen(cub->map.grid[new_row]))
+				player->pos.y = new_y;
+		}
+
+		cub->moves++;
+		print_updated_pos(cub, player);
+	}
+
+	if (player->kbrd.key_s)
+	{
+		printf ("S pressed \n" );
+		double new_x = player->pos.x - player->dir.x * player->move_speed;
+		double new_y = player->pos.y - player->dir.y * player->move_speed;
+
+		// Check X bounds and row length
+		if (new_x >= 0 && new_x <= cub->map.max_col)
+		{
+			int row = (int)player->pos.y;
+			if (row >= 0 && row <=(int)cub->map.rows && new_x <= (int)ft_strlen(cub->map.grid[row]))
+				player->pos.x = new_x;
+		}
+
+		// Check Y bounds
+		if (new_y >= 0 && new_y <=cub->map.rows)
+		{
+			int col = (int)player->pos.x;
+			int new_row = (int)new_y;
+			if (new_row >= 0 && new_row <=(int)cub->map.rows && col <= (int)ft_strlen(cub->map.grid[new_row]))
+				player->pos.y = new_y;
+		}
+
+		cub->moves++;
+		print_updated_pos(cub, player);
+	}
+
+	if (player->kbrd.key_d)
+	{
+		printf ("D pressed \n" );
+		double new_x = player->pos.x - player->dir.y * player->move_speed;
+		double new_y = player->pos.y + player->dir.x * player->move_speed;
+
+		// Check X bounds and row length
+		if (new_x >= 0 && new_x <= cub->map.max_col)
+		{
+			int row = (int)player->pos.y;
+			if (row >= 0 && row <=(int)cub->map.rows && new_x <= (int)ft_strlen(cub->map.grid[row]))
+				player->pos.x = new_x;
+		}
+
+		// Check Y bounds
+		if (new_y >= 0 && new_y <=cub->map.rows)
+		{
+			int col = (int)player->pos.x;
+			int new_row = (int)new_y;
+			if (new_row >= 0 && new_row <=(int)cub->map.rows && col <= (int)ft_strlen(cub->map.grid[new_row]))
+				player->pos.y = new_y;
+		}
+
+		cub->moves++;
+		print_updated_pos(cub, player);
+	}
+
+	if (player->kbrd.key_a)
+	{
+		printf ("A pressed \n" );
+		double new_x = player->pos.x + player->dir.y * player->move_speed;
+		double new_y = player->pos.y - player->dir.x * player->move_speed;
+
+		// Check X bounds and row length
+		if (new_x >= 0 && new_x <= cub->map.max_col)
+		{
+			int row = (int)player->pos.y;
+			if (row >= 0 && row <=(int)cub->map.rows && new_x <= (int)ft_strlen(cub->map.grid[row]))
+				player->pos.x = new_x;
+		}
+
+		// Check Y bounds
+		if (new_y >= 0 && new_y <=cub->map.rows)
+		{
+			int col = (int)player->pos.x;
+			int new_row = (int)new_y;
+			if (new_row >= 0 && new_row <=(int)cub->map.rows && col <= (int)ft_strlen(cub->map.grid[new_row]))
+				player->pos.y = new_y;
+		}
+
+		cub->moves++;
+		print_updated_pos(cub, player);
+		cub->print_debug_cub = true;
+	}
+
+	if (player->kbrd.key_left)
+	{
+		printf ("left arrow pressed \n" );
+		double	oldDirX = player->dir.x;
+		player->dir.x = player->dir.x * cos(- player->rot_speed) - player->dir.y * sin(- player->rot_speed);
+		player->dir.y = oldDirX * sin(- player->rot_speed) + player->dir.y * cos(-player->rot_speed);
+
+		double	oldPlaneX = player->plane.x;
+		player->plane.x = player->plane.x * cos( - player->rot_speed) - player->plane.y * sin( - player->rot_speed);
+		player->plane.y = oldPlaneX * sin(- player->rot_speed) + player->plane.y * cos(- player->rot_speed);
+		cub->moves++;
+		print_updated_pos(cub, player);
+	}
+
+	if (player->kbrd.key_right)
+	{
+		printf ("right arrow pressed \n" );
+		double	oldDirX = player->dir.x;
+		player->dir.x = player->dir.x * cos(player->rot_speed) - player->dir.y * sin(player->rot_speed);
+		player->dir.y = oldDirX * sin(player->rot_speed) + player->dir.y * cos(player->rot_speed);
+
+		double	oldPlaneX = player->plane.x;
+		player->plane.x = player->plane.x * cos(player->rot_speed) - player->plane.y * sin(player->rot_speed);
+		player->plane.y = oldPlaneX * sin(player->rot_speed) + player->plane.y * cos(player->rot_speed);
+		cub->moves++;
+		print_updated_pos(cub, player);
+	}
 }
 
 void	handle_move(t_cub *cub, t_player *player)

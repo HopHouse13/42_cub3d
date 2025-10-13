@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/11 19:19:47 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:29:48 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void draw_ray_line(t_cub *cub, int x0, int y0, int x1, int y1) // a expliciter
 	while (1)
 	{
 		if (x >= 0 && x <= cub->window_width && y>= 0 && y<= cub->window_height)
-			img_pxl_put(&cub->map_img, x, y, 0xFFFF00);
+			img_pxl_put(&cub->game_img, x, y, 0xFFFF00);
 		// if (x >= 0 && x <= WNDW_W && y>= 0 && y<= WNDW_H)
 		// 	img_pxl_put(&cub->game_img, x, y, 0xFFFF00);
 
@@ -85,8 +85,6 @@ void	render_2Dray(t_cub *cub, t_player *player, t_ray *ray, int x, FILE *fp) // 
 	start.y = ((start.y * TILE_SIZE) / MAP_RATIO);
 	wall_hit.x = ((wall_hit.x * TILE_SIZE) / MAP_RATIO);
 	wall_hit.y = ((wall_hit.y * TILE_SIZE) / MAP_RATIO);
-
-
 
 	// Draw the ray to the exact wall hit position
 	draw_ray_line(cub,
@@ -201,14 +199,31 @@ void	render_map(t_cub *cub, t_player *player)
 			int screen_x = x * TILE_SIZE / MAP_RATIO;
 			int screen_y = y * TILE_SIZE / MAP_RATIO;
 			if (char_to_tile(cub->map.grid[y][x]) == TILE_WALL)
-				render_sqr(&cub->map_img, (t_sqr){screen_x, screen_y, TILE_SIZE / MAP_RATIO, RGB_RED});
+				render_sqr(&cub->game_img, (t_sqr){screen_x, screen_y, TILE_SIZE / MAP_RATIO, RGB_RED});
 
-			else
-				render_sqr(&cub->map_img, (t_sqr){screen_x, screen_y, TILE_SIZE/ MAP_RATIO, 0x0000067});			// render_tile(cub, char_to_tile(cub->map.grid[y][x]), x, y);
+			// else
+			// 	render_sqr(&cub->game_img, (t_sqr){screen_x, screen_y, TILE_SIZE/ MAP_RATIO, 0x0000067});			// render_tile(cub, char_to_tile(cub->map.grid[y][x]), x, y);
 		}
 	}
 
 	// raycasting_loop(cub, player);
+}
+
+bool	outofbond_dda_ray(t_cub *cub, t_ray *ray)
+{
+	// Check Y coordinate (row) first
+	if ((int)ray->map.y < 0 || (int)ray->map.y >= (int)cub->map.rows)
+	{
+		ray->hit = 1;
+		return (true);
+	}
+	// Then check X coordinate (column) - now safe to access the row
+	if ((int)ray->map.x < 0 || (int)ray->map.x >= (int)ft_strlen(cub->map.grid[(int)ray->map.y]))
+	{
+		ray->hit = 1;
+		return (true);
+	}
+	return (false);
 }
 
 
@@ -316,6 +331,10 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 			// 	fprintf(fp, "			Ray[%d] DDA[%d]		sideDistX = %.4f		sideDistY = %.4f\n", x, dda, ray->side_dist.x, ray->side_dist.y);
 			// 	dda++;
 			// }
+
+
+			if (!COLLISION && outofbond_dda_ray(cub, ray))
+					break ;
 			if (cub->map.grid[(int)ray->map.y][(int)ray->map.x] == '1')
 				ray->hit = 1;
 		}
@@ -345,6 +364,9 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 		}
 
 	}
+	if (player->kbrd.key_m == true)
+		render_map(cub, player);
+
 	if (cub->print_debug_cub)
 		fclose(fp);
 	cub->print_debug_cub = false;
@@ -374,8 +396,10 @@ int	render_loop(t_cub *cub)
 	if (cub->game_init)
 		print_updated_pos(cub, &(cub->player));
 
-
-	handle_move(cub, &(cub->player));
+	if (!COLLISION)
+		no_collision_move(cub, &(cub->player));
+	else
+		handle_move(cub, &(cub->player));
 
 	if (cub->player.kbrd.key_m == true)
 		render_map(cub, &(cub->player));
@@ -387,9 +411,9 @@ int	render_loop(t_cub *cub)
 	// 	cub->background_img.mlx_img, 0, 0);
 	mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
 			cub->game_img.mlx_img, 0, 0);
-	if (cub->player.kbrd.key_m == true)
-		{mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
-			cub->map_img.mlx_img, 10, 10);}
+	// if (cub->player.kbrd.key_m == true)
+	// 	{mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
+	// 		cub->map_img.mlx_img, 10, 10);}
 
 
 	return (0);
