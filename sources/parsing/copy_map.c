@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/10/11 20:46:17 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/13 19:57:12 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ static void	refind_start_map(t_cub *cub, char *mapfile, t_error *err_id)
 	free(line);
 }
 
-// non static car utilisation dans check_map
-bool	is_empty(char *line)
+static bool	is_empty(char *line)
 {
 	int	i;
 
@@ -93,8 +92,8 @@ static char	*init_map(t_cub *cub, t_error *err_id)
 
 void	make_copy(t_cub *cub, char *mapfile)
 {
-	size_t		i;
-	char		*line;
+	size_t	i;
+	char	*line;
 	t_error	err_id;
 
 	err_id = OK; // value de non erreur
@@ -112,7 +111,20 @@ void	make_copy(t_cub *cub, char *mapfile)
 		free(line);
 		if (!cub->map.grid[i])
 			exit_door(cub, PSG_ALLOC_ERR);
+		if (cub->map.max_col < ft_strlen(cub->map.grid[i]))
+			cub->map.max_col = ft_strlen(cub->map.grid[i]);
 		i++;
 	}
 	cub->map.grid[i] = NULL; // met a NULL le dernier pointeur de la chaine de pointeur
+}
+
+// fonction de management del a verification de la map
+void	check_map(t_cub *cub, char *mapfile)
+{
+	make_copy(cub, mapfile);
+	valid_char(cub);
+	valid_outline(cub);
+	get_player(cub);
+	empty_line(cub);
+	supp_newline(cub->map.grid);
 }

@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/11 20:07:12 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/13 19:19:33 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,72 +16,42 @@ void	init_images(t_cub *cub)
 {
 	// init minimap image
 	cub->map_img.mlx_img = mlx_new_image(cub->mlx_pointer, cub->window_width, cub->window_height);
-	cub->map_img.addr = mlx_get_data_addr(cub->map_img.mlx_img, &cub->map_img.bpp, &cub->map_img.line_len, &cub->map_img.endian);
-
-	// // init background image
-	// cub->background_img.mlx_img = mlx_new_image(cub->mlx_pointer, WNDW_W, WNDW_H);
-	// cub->background_img.addr = mlx_get_data_addr(cub->background_img.mlx_img, &cub->background_img.bpp, &cub->background_img.line_len, &cub->background_img.endian);
-
-	// init game images
 	cub->game_img.mlx_img = mlx_new_image(cub->mlx_pointer, WNDW_W, WNDW_H);
+	if (!cub->map_img.mlx_img || !cub->game_img.mlx_img)
+		cleanup_mlx(cub, MLX_IMG_ERR);
+	cub->map_img.addr = mlx_get_data_addr(cub->map_img.mlx_img, &cub->map_img.bpp, &cub->map_img.line_len, &cub->map_img.endian);
 	cub->game_img.addr = mlx_get_data_addr(cub->game_img.mlx_img, &cub->game_img.bpp, &cub->game_img.line_len, &cub->game_img.endian);
-
-
 }
-
-
 
 void	init_textures(t_cub *cub)
 {
-	size_t		i;
-	int			width;
-	int			height;
+	size_t	i;
+	int		width;
+	int		height;
 
 	i = -1;
 	while (++i < 4)
 		cub->txtr[i].mlx_img = NULL;
-
 	i = 0;
 	while (i < 4)
 	{
 		cub->txtr[i].mlx_img = mlx_xpm_file_to_image(cub->mlx_pointer, cub->elem.path[i], &width, &height);
 		if (!cub->txtr[i].mlx_img)
-		{
-			// printf("Error initializing the textures\n");
 			cleanup_mlx(cub, MLX_TXTR_ERR);
-			close_window(cub);
-		}
 		cub->txtr[i].width = width;
 		cub->txtr[i].height = height;
 		cub->txtr[i].addr = mlx_get_data_addr(cub->txtr[i].mlx_img, &cub->txtr[i].bpp, &cub->txtr[i].line_len, &cub->txtr[i].endian);
 		i++;
 	}
-
-}
-
-static void	init_map(t_map *map)
-{
-	size_t	i_rows;
-	size_t	j_cols;
-	size_t	max_cols;
-
-	i_rows = 0;
-	max_cols = 0;
-	while (i_rows < map->rows)
-	{
-		j_cols = ft_strlen(map->grid[i_rows]);
-		if (map->grid[i_rows][j_cols - 1] == '\n')
-			j_cols-- ;
-		if (max_cols < j_cols)
-			max_cols = j_cols;
-		i_rows++;
-	}
-	map->max_col = max_cols;
 }
 
 void	init_exec_data(t_cub *cub)
 {
-	init_map(&(cub->map));
+	cub->mlx_pointer = NULL;
+	cub->mlx_window = NULL;
+	cub->map_img.mlx_img = NULL;
+	cub->game_img.mlx_img = NULL;
+	
 	cub->moves = 0;
 	cub->window_width = (cub->map).max_col * TILE_SIZE / MAP_RATIO;
 	cub->window_height = (cub->map).rows * TILE_SIZE / MAP_RATIO;
@@ -142,7 +112,6 @@ int	init_player(t_cub *cub, t_player *player)
 	player->time = 0;
 	player->old_time = 0;
 	player->frame_time = 0;
-	// player->cub_ptr = cub;
 	player->camera_x = 0;
 
 	player->rot_speed = 0;
@@ -181,8 +150,3 @@ void	init_ray_data(t_ray *ray)
 	ray->draw_start = 0;
 
 }
-
-
-
-
-
