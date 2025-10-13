@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/09 15:46:11 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/13 17:35:22 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int	key_press_hook(int keysym, t_cub *cub)
 {
 	if (keysym == XK_Escape)
-		close_window(cub);
+		mlx_loop_end(cub->mlx_pointer);
 	if (keysym == XK_w) // keycode ==
 		cub->player.kbrd.key_w = true;
 	if (keysym == XK_s)

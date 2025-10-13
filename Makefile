@@ -6,7 +6,7 @@
 #    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/11 20:08:39 by pbret            ###   ########.fr        #
+#    Updated: 2025/10/13 19:39:26 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,9 @@ SRCS_DIR	= sources/
 OBJ_DIR 	= obj_$(NAME)
 
 SRCS_PARSING = \
+	parsing/utilities/get_next_line.c \
+	parsing/utilities/get_next_line_utilities.c \
+	parsing/utilities/utilities.c \
 	parsing/check_filename.c \
 	parsing/check_paths.c\
 	parsing/check_colors.c\
@@ -26,9 +29,7 @@ SRCS_PARSING = \
 
 SRC_UTILS = \
 	utilities/handle_exit.c \
-	utilities/init_parsing_data.c \
-	utilities/get_next_line.c \
-	utilities/get_next_line_utilities.c \
+	utilities/init_err_msgs.c \
 	utilities/print_debug.c
 
 SRCS_EXEC = exec/ray_game_mechanics.c \
