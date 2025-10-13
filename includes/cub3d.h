@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/13 19:22:57 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/13 20:28:44 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ typedef struct	s_elements
 
 typedef struct s_txtr
 {
-	void		*mlx_img;
+	void		*mlx_img; // ca x4
 	char		*addr;
 	int			bpp; /* bits per pixel */
 	int			line_len;
@@ -190,10 +190,9 @@ typedef struct s_txtr
 
 typedef struct	s_cub
 {
-	void		*mlx_pointer;
-	void		*mlx_window;
-	t_txtr		txtr[4];
-	void		*textures[7];
+	void		*mlx_pointer; // ca
+	void		*mlx_window; // ca
+	t_txtr		txtr[4]; // ca
 	int			moves;
 
 	int			window_height;
@@ -203,11 +202,11 @@ typedef struct	s_cub
 	t_elem		elem;
 	t_player	player;
 
-	t_img		map_img;
-	t_img		game_img;
+	t_img		map_img; // ca
+	t_img		game_img; // ca
 
 	int			fd_file;
-	char		*err_msg[E_UNKNOWN + 1];
+	char		*err_msg[UNKNOWN_ERR + 1];
 
 	bool		game_init;		// debug
 	bool		print_debug_cub; // debug
@@ -233,28 +232,35 @@ typedef struct s_ray
 
 /// PARSING ///
 void	parsing(t_cub *cub, char *argv);
+
+// PARSING_CHECK_FILENAME ///
 void	check_filename(t_cub *cub, char *argv);
+
+// PARSING_CHECK_ELEM //
 void	check_elem(t_cub *cub, char *file_map);
 t_error	handle_paths(t_cub *cub, char **line, t_key key_id);
 t_error	handle_colors(t_cub *cub, char **line, t_key key_id);
 
+// PARSING_CHECK_MAP ///
 void	check_map(t_cub *cub, char *mapfile);
 void	make_copy(t_cub *cub, char *mapfile);
-bool	is_empty(char *line);
+bool	open_cell(t_cub *cub,char ** map, int i, int j);
+void	valid_outline(t_cub *cub);
+void	valid_char(t_cub *cub);
+void	get_player(t_cub *cub);
+void	empty_line(t_cub *cub);
 
-/// UTILITIES ///
-
-// handle_exit
-void	exit_door(t_cub *cub, t_error err_id);
-
-// init_parsing_data
+/// PARSING_UTILITIES ///
 void	init_parsing_data(t_cub *cub);
-void	init_elem(t_elem *elem);
-
-// GNL
+void	supp_newline(char **map);
 char	*get_next_line(int fd, t_error *err_id, bool exit_door);
 char	*gnl_strdup(const char *s, t_error *err_id);
 char	*gnl_strjoin(const char *s1, const char *s2, t_error *err_id);
+
+/// UTILITIES ///
+
+void	exit_door(t_cub *cub, t_error err_id);
+void	init_err_msgs(t_cub *cub);
 
 // print_debug
 void	print_cub_data(t_cub *cub);
@@ -274,12 +280,7 @@ void		init_ray_data(t_ray *ray);
 
 
 // mlx_stuff
-int			close_window(t_cub *cub);
-void		clear_img(t_img *img, int width, int height);
 void		cleanup_mlx(t_cub *cub, t_error mlx_err);
-
-
-
 
 // render_stuff
 void		render_map(t_cub *cub, t_player *player);

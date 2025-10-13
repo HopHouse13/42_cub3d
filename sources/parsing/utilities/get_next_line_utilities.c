@@ -6,11 +6,11 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:01:54 by pbret             #+#    #+#             */
-/*   Updated: 2025/09/30 19:12:36 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/13 19:35:39 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "../../../includes/cub3d.h"
 
 char	*gnl_strdup(const char *s, t_error *err_id)
 {
@@ -24,7 +24,7 @@ char	*gnl_strdup(const char *s, t_error *err_id)
 	dup = malloc(sizeof(char) * (s_len + 1));
 	if (dup == NULL)
 	{
-		*err_id = E_ALLOC;
+		*err_id = PSG_ALLOC_ERR;
 		return (NULL);
 	}
 	i = 0;
@@ -48,7 +48,7 @@ char	*gnl_strjoin(const char *s1, const char *s2, t_error *err_id)
 	dest = malloc(sizeof(char) * (dest_len + 1));
 	if (dest == NULL)
 	{
-		*err_id = E_ALLOC;
+		*err_id = PSG_ALLOC_ERR;
 		return (NULL);
 	}
 	i = -1;
