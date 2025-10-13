@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/13 20:28:44 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/13 21:44:50 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
 
-# define COLLISION 0
+# define COLLISION 1
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
@@ -151,6 +151,9 @@ typedef struct	s_player
 
 	double		rot_speed;		// a passer en macro fixe ?
 	double		move_speed;		// struct ray ou player? // ou plutot  a passer en macro fixe ?
+
+	int			old_mouse_x;
+	bool 		display_cursor;
 
 	t_key_inpt	kbrd;
 
@@ -293,6 +296,8 @@ void		handle_move(t_cub *cub, t_player *player);
 void		no_collision_move(t_cub *cub, t_player *player);
 void		print_ray_info(t_ray *ray, int x, FILE *fp);
 void		print_updated_pos(t_cub *cub, t_player *player);
+void		turn_around(t_cub *cub, t_player *player, char dir);
+
 
 
 
@@ -315,6 +320,8 @@ int			render_rect(t_img *img, t_rect rect);
 // render textures
 void		texture_function(t_cub *cub, t_player *player, t_ray *ray, t_txtr *txtr, int x, double wallX);
 
+// bonus
+int		handle_mouse(int x, int y, t_cub *cub);
 
 
 /* ************************************** RAYCASTER FCTIONS END ********************************** */

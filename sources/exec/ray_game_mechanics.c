@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 19:10:39 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/13 17:11:07 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/13 21:30:30 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	no_collision_move(t_cub *cub, t_player *player)
 		double new_y = player->pos.y + player->dir.y * player->move_speed;
 
 		// Check X bounds and row length
-		if (new_x >= 0 && new_x <= cub->map.max_col)
+		if (new_x >= 0 && new_x < cub->map.max_col)
 		{
 			int row = (int)player->pos.y;
-			if (row >= 0 && row <=(int)cub->map.rows && new_x <= (int)ft_strlen(cub->map.grid[row]))
+			if (row >= 0 && row <(int)cub->map.rows && new_x < (int)ft_strlen(cub->map.grid[row]))
 				player->pos.x = new_x;
 		}
 
@@ -76,7 +76,7 @@ void	no_collision_move(t_cub *cub, t_player *player)
 		{
 			int col = (int)player->pos.x;
 			int new_row = (int)new_y;
-			if (new_row >= 0 && new_row <=(int)cub->map.rows && col <= (int)ft_strlen(cub->map.grid[new_row]))
+			if (new_row >= 0 && new_row <=(int)cub->map.rows && col < (int)ft_strlen(cub->map.grid[new_row]))
 				player->pos.y = new_y;
 		}
 
@@ -91,10 +91,10 @@ void	no_collision_move(t_cub *cub, t_player *player)
 		double new_y = player->pos.y - player->dir.y * player->move_speed;
 
 		// Check X bounds and row length
-		if (new_x >= 0 && new_x <= cub->map.max_col)
+		if (new_x >= 0 && new_x < cub->map.max_col)
 		{
 			int row = (int)player->pos.y;
-			if (row >= 0 && row <=(int)cub->map.rows && new_x <= (int)ft_strlen(cub->map.grid[row]))
+			if (row >= 0 && row <=(int)cub->map.rows && new_x < (int)ft_strlen(cub->map.grid[row]))
 				player->pos.x = new_x;
 		}
 
@@ -103,7 +103,7 @@ void	no_collision_move(t_cub *cub, t_player *player)
 		{
 			int col = (int)player->pos.x;
 			int new_row = (int)new_y;
-			if (new_row >= 0 && new_row <=(int)cub->map.rows && col <= (int)ft_strlen(cub->map.grid[new_row]))
+			if (new_row >= 0 && new_row <=(int)cub->map.rows && col < (int)ft_strlen(cub->map.grid[new_row]))
 				player->pos.y = new_y;
 		}
 
@@ -118,10 +118,10 @@ void	no_collision_move(t_cub *cub, t_player *player)
 		double new_y = player->pos.y + player->dir.x * player->move_speed;
 
 		// Check X bounds and row length
-		if (new_x >= 0 && new_x <= cub->map.max_col)
+		if (new_x >= 0 && new_x < cub->map.max_col)
 		{
 			int row = (int)player->pos.y;
-			if (row >= 0 && row <=(int)cub->map.rows && new_x <= (int)ft_strlen(cub->map.grid[row]))
+			if (row >= 0 && row <=(int)cub->map.rows && new_x < (int)ft_strlen(cub->map.grid[row]))
 				player->pos.x = new_x;
 		}
 
@@ -130,7 +130,7 @@ void	no_collision_move(t_cub *cub, t_player *player)
 		{
 			int col = (int)player->pos.x;
 			int new_row = (int)new_y;
-			if (new_row >= 0 && new_row <=(int)cub->map.rows && col <= (int)ft_strlen(cub->map.grid[new_row]))
+			if (new_row >= 0 && new_row <=(int)cub->map.rows && col < (int)ft_strlen(cub->map.grid[new_row]))
 				player->pos.y = new_y;
 		}
 
@@ -145,10 +145,10 @@ void	no_collision_move(t_cub *cub, t_player *player)
 		double new_y = player->pos.y - player->dir.x * player->move_speed;
 
 		// Check X bounds and row length
-		if (new_x >= 0 && new_x <= cub->map.max_col)
+		if (new_x >= 0 && new_x < cub->map.max_col)
 		{
 			int row = (int)player->pos.y;
-			if (row >= 0 && row <=(int)cub->map.rows && new_x <= (int)ft_strlen(cub->map.grid[row]))
+			if (row >= 0 && row <=(int)cub->map.rows && new_x < (int)ft_strlen(cub->map.grid[row]))
 				player->pos.x = new_x;
 		}
 
@@ -157,7 +157,7 @@ void	no_collision_move(t_cub *cub, t_player *player)
 		{
 			int col = (int)player->pos.x;
 			int new_row = (int)new_y;
-			if (new_row >= 0 && new_row <=(int)cub->map.rows && col <= (int)ft_strlen(cub->map.grid[new_row]))
+			if (new_row >= 0 && new_row <=(int)cub->map.rows && col < (int)ft_strlen(cub->map.grid[new_row]))
 				player->pos.y = new_y;
 		}
 
@@ -195,11 +195,9 @@ void	no_collision_move(t_cub *cub, t_player *player)
 	}
 }
 
-void	handle_move(t_cub *cub, t_player *player)
+void	move_forward(t_cub *cub, t_player *player)
 {
-	if (player->kbrd.key_w)
-	{
-		printf ("W pressed \n" );
+			printf ("W pressed \n" );
 		double strafeX = COLLISION_OFFSET * player->dir.x + player->dir.x * player->move_speed;
 		double strafeY = COLLISION_OFFSET * player->dir.y + player->dir.y * player->move_speed;
 
@@ -211,10 +209,10 @@ void	handle_move(t_cub *cub, t_player *player)
 			player->pos.y += player->dir.y * player->move_speed;
 		cub->moves++;
 		print_updated_pos(cub, player);
-	}
+}
 
-	if (player->kbrd.key_s)
-	{
+void	move_backward(t_cub *cub, t_player *player)
+{
 		printf ("S pressed \n" );
 		double strafeX = COLLISION_OFFSET * player->dir.x + player->dir.x * player->move_speed;
 		double strafeY = COLLISION_OFFSET * player->dir.y + player->dir.y * player->move_speed;
@@ -227,10 +225,10 @@ void	handle_move(t_cub *cub, t_player *player)
 			player->pos.y -= player->dir.y * player->move_speed;
 		cub->moves++;
 		print_updated_pos(cub, player);
+}
 
-	}
-	if (player->kbrd.key_d)
-	{
+void	strafe_right(t_cub *cub, t_player *player)
+{
 		printf ("D pressed \n" );
 
 		// Move perpendicular to the right: use (dir.y, -dir.x)
@@ -245,11 +243,11 @@ void	handle_move(t_cub *cub, t_player *player)
 			player->pos.y += player->dir.x * player->move_speed;
 		cub->moves++;
 		print_updated_pos(cub, player);
-	}
+}
 
-	if (player->kbrd.key_a)
-	{
-		// Move perpendicular to the left: use (-dir.y, dir.x)
+void	strafe_left(t_cub *cub, t_player *player)
+{
+	// Move perpendicular to the left: use (-dir.y, dir.x)
 		printf ("A pressed \n" );
 
 		double moveX = player->dir.y * player->move_speed;
@@ -267,8 +265,11 @@ void	handle_move(t_cub *cub, t_player *player)
 		cub->moves++;
 		print_updated_pos(cub, player);
 		cub->print_debug_cub = true;
-	}
-	if (player->kbrd.key_left)
+}
+
+void	turn_around(t_cub *cub, t_player *player, char dir)
+{
+	if (dir == 'L')
 	{
 		printf ("left arrow pressed \n" );
 		//	Matrice de rotation 2D
@@ -284,7 +285,7 @@ void	handle_move(t_cub *cub, t_player *player)
 		print_updated_pos(cub, player);
 	}
 
-	if (player->kbrd.key_right)
+	if (dir == 'R')
 	{
 		printf ("right arrow pressed \n" );
 		//	Matrice de rotation 2D
@@ -299,6 +300,119 @@ void	handle_move(t_cub *cub, t_player *player)
 		cub->moves++;
 		print_updated_pos(cub, player);
 	}
+}
+
+void	handle_move(t_cub *cub, t_player *player)
+{
+	if (player->kbrd.key_w)
+	{
+		move_forward(cub, player);
+		// printf ("W pressed \n" );
+		// double strafeX = COLLISION_OFFSET * player->dir.x + player->dir.x * player->move_speed;
+		// double strafeY = COLLISION_OFFSET * player->dir.y + player->dir.y * player->move_speed;
+
+		// if (player->pos.x + player->dir.x * player->move_speed >= 1 && player->pos.x + player->dir.x * player->move_speed < cub->map.max_col
+		// 	&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x + strafeX)] != '1')
+		// 	player->pos.x += player->dir.x * player->move_speed;
+		// if (player->pos.y + player->dir.y * player->move_speed >= 1 && player->pos.y + player->dir.x * player->move_speed < cub->map.rows
+		// 	&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
+		// 	player->pos.y += player->dir.y * player->move_speed;
+		// cub->moves++;
+		// print_updated_pos(cub, player);
+	}
+
+	if (player->kbrd.key_s)
+	{
+		move_backward(cub, player);
+		// printf ("S pressed \n" );
+		// double strafeX = COLLISION_OFFSET * player->dir.x + player->dir.x * player->move_speed;
+		// double strafeY = COLLISION_OFFSET * player->dir.y + player->dir.y * player->move_speed;
+
+		// if (player->pos.x - player->dir.x * player->move_speed >= 1 && player->pos.x - player->dir.x * player->move_speed < cub->map.max_col
+		// 		&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x - strafeX)] != '1')
+		// 	player->pos.x -= player->dir.x * player->move_speed;
+		// if (player->pos.y - player->dir.y * player->move_speed >= 1 && player->pos.y - player->dir.x * player->move_speed < cub->map.rows
+		// 		&& cub->map.grid[(int)(player->pos.y - strafeY)][(int)player->pos.x] != '1')
+		// 	player->pos.y -= player->dir.y * player->move_speed;
+		// cub->moves++;
+		// print_updated_pos(cub, player);
+
+	}
+	if (player->kbrd.key_d)
+	{
+		strafe_right(cub, player);
+		// printf ("D pressed \n" );
+
+		// // Move perpendicular to the right: use (dir.y, -dir.x)
+		// double strafeX = (COLLISION_OFFSET * -player->dir.y) + (-player->dir.y * player->move_speed);
+		// double strafeY = COLLISION_OFFSET * player->dir.x + player->dir.x * player->move_speed;
+
+		// if (player->pos.x + strafeX >= 1 && player->pos.x + strafeX < cub->map.max_col
+		// 		&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x + strafeX)] != '1')
+		// 	player->pos.x += -player->dir.y * player->move_speed;
+		// if (player->pos.y + strafeY >= 1 && player->pos.y + strafeY < cub->map.rows
+		// 		&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
+		// 	player->pos.y += player->dir.x * player->move_speed;
+		// cub->moves++;
+		// print_updated_pos(cub, player);
+	}
+
+	if (player->kbrd.key_a)
+	{
+		strafe_left(cub, player);
+		// // Move perpendicular to the left: use (-dir.y, dir.x)
+		// printf ("A pressed \n" );
+
+		// double moveX = player->dir.y * player->move_speed;
+		// double moveY = -player->dir.x * player->move_speed;
+
+		// double strafeX = COLLISION_OFFSET * player->dir.y + moveX;
+		// double strafeY = COLLISION_OFFSET * -player->dir.x + moveY;
+
+		// if (player->pos.x + strafeX >= 1 && player->pos.x + strafeX < cub->map.max_col
+		// 		&& cub->map.grid[(int)player->pos.y][(int)(player->pos.x + strafeX)] != '1')
+		// 	player->pos.x += moveX;
+		// if (player->pos.y + strafeY >= 1 && player->pos.y + strafeY < cub->map.rows
+		// 		&& cub->map.grid[(int)(player->pos.y + strafeY)][(int)player->pos.x] != '1')
+		// 	player->pos.y += moveY;
+		// cub->moves++;
+		// print_updated_pos(cub, player);
+		// cub->print_debug_cub = true;
+	}
+	if (player->kbrd.key_left)
+	{
+		turn_around(cub, player, 'L');
+	// 	printf ("left arrow pressed \n" );
+	// 	//	Matrice de rotation 2D
+	// 	double	oldDirX = player->dir.x;
+	// 	player->dir.x = player->dir.x * cos(- player->rot_speed) - player->dir.y * sin(- player->rot_speed);
+	// 	player->dir.y = oldDirX * sin(- player->rot_speed) + player->dir.y * cos(-player->rot_speed);
+
+	// 	//	Matrice de rotation 2D
+	// 	double	oldPlaneX = player->plane.x;
+	// 	player->plane.x = player->plane.x * cos( - player->rot_speed) - player->plane.y * sin( - player->rot_speed);
+	// 	player->plane.y = oldPlaneX * sin(- player->rot_speed) + player->plane.y * cos(- player->rot_speed);
+	// 	cub->moves++;
+	// 	print_updated_pos(cub, player);
+	}
+
+	if (player->kbrd.key_right)
+	{
+		turn_around(cub, player, 'R');
+	// 	printf ("right arrow pressed \n" );
+	// 	//	Matrice de rotation 2D
+	// 	double	oldDirX = player->dir.x;
+	// 	player->dir.x = player->dir.x * cos(player->rot_speed) - player->dir.y * sin(player->rot_speed);
+	// 	player->dir.y = oldDirX * sin(player->rot_speed) + player->dir.y * cos(player->rot_speed);
+
+	// 	//	Matrice de rotation 2D
+	// 	double	oldPlaneX = player->plane.x;
+	// 	player->plane.x = player->plane.x * cos(player->rot_speed) - player->plane.y * sin(player->rot_speed);
+	// 	player->plane.y = oldPlaneX * sin(player->rot_speed) + player->plane.y * cos(player->rot_speed);
+	// 	cub->moves++;
+	// 	print_updated_pos(cub, player);
+	}
+
 
 
 }
