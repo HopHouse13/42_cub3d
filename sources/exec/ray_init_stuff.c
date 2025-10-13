@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/13 20:29:42 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/13 21:44:58 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,9 @@ int	init_player(t_cub *cub, t_player *player)
 	player->kbrd.key_left = false;
 	player->kbrd.key_right = false;
 	player->kbrd.key_m = true;
+
+	player->old_mouse_x = 0;
+	player->display_cursor = true;
 
 	return (1);
 

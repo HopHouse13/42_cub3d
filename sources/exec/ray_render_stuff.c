@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/13 20:30:07 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/13 22:11:57 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void draw_ray_line(t_cub *cub, int x0, int y0, int x1, int y1) // a expliciter
 
 	while (1)
 	{
-		if (x >= 0 && x <= MINIMAP_SIZE && y>= 0 && y<= MINIMAP_SIZE)
-			img_pxl_put(&cub->game_img, x + MINIMAP_MARGIN, y + MINIMAP_MARGIN, 0xFFFF00);
+		if (x >= 0 && x <= cub->window_width && y>= 0 && y<= cub->window_height)
+			img_pxl_put(&cub->map_img, x, y, 0xFFFF00);
 		// if (x >= 0 && x <= WNDW_W && y>= 0 && y<= WNDW_H)
 		// 	img_pxl_put(&cub->game_img, x, y, 0xFFFF00);
 
@@ -80,17 +80,17 @@ void	render_2Dray(t_cub *cub, t_player *player, t_ray *ray, int x, FILE *fp) // 
 	// 	fprintf(fp, "		Ray[%d]->start.x =		%.4f		start.y =			%.4f\n", x, start.x, start.y);
 	// 	fprintf(fp, "		Ray[%d]->wall_hit.x =	%.4f		wall_hit.y =		%.4f\n\n", x, wall_hit.x, wall_hit.y);
 	// }
-	double scale = (double)MINIMAP_SIZE / (MINIMAP_RADIUS * 2 + 1);
 
-	// Position relative au joueur
-	double rel_start_x = (start.x - player->pos.x) * scale + MINIMAP_SIZE / 2;
-	double rel_start_y = (start.y - player->pos.y) * scale + MINIMAP_SIZE / 2;
-	double rel_wall_x = (wall_hit.x - player->pos.x) * scale + MINIMAP_SIZE / 2;
-	double rel_wall_y = (wall_hit.y - player->pos.y) * scale + MINIMAP_SIZE / 2;
+
+	start.x = ((start.x * TILE_SIZE) / MAP_RATIO);
+	start.y = ((start.y * TILE_SIZE) / MAP_RATIO);
+	wall_hit.x = ((wall_hit.x * TILE_SIZE) / MAP_RATIO);
+	wall_hit.y = ((wall_hit.y * TILE_SIZE) / MAP_RATIO);
+
 
 	// Draw the ray to the exact wall hit position
-	draw_ray_line(cub, (int)rel_start_x, (int)rel_start_y,
-		(int)rel_wall_x, (int)rel_wall_y);
+	draw_ray_line(cub, start.x, start.y,
+		wall_hit.x, wall_hit.y);
 	// draw_ray_line(cub, start_screen_x, start_screen_y, end_screen_x, end_screen_y);
 
 }
@@ -200,10 +200,10 @@ void	render_map(t_cub *cub, t_player *player)
 			int screen_x = x * TILE_SIZE / MAP_RATIO;
 			int screen_y = y * TILE_SIZE / MAP_RATIO;
 			if (char_to_tile(cub->map.grid[y][x]) == TILE_WALL)
-				render_sqr(&cub->game_img, (t_sqr){screen_x, screen_y, TILE_SIZE / MAP_RATIO, RGB_RED});
+				render_sqr(&cub->map_img, (t_sqr){screen_x, screen_y, TILE_SIZE / MAP_RATIO, RGB_RED});
 
-			// else
-			// 	render_sqr(&cub->game_img, (t_sqr){screen_x, screen_y, TILE_SIZE/ MAP_RATIO, 0x0000067});			// render_tile(cub, char_to_tile(cub->map.grid[y][x]), x, y);
+			else
+				render_sqr(&cub->map_img, (t_sqr){screen_x, screen_y, TILE_SIZE/ MAP_RATIO, 0x0000067});			// render_tile(cub, char_to_tile(cub->map.grid[y][x]), x, y);
 		}
 	}
 
@@ -356,7 +356,7 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 		render_cubes(cub, player, ray, x);
 
 
-		if (player->kbrd.key_m == true && x % 10 == 0)
+		if (player->kbrd.key_m == true)
 		{
 
 
@@ -365,8 +365,8 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 		}
 
 	}
-	if (player->kbrd.key_m == true)
-		render_map(cub, player);
+	// if (player->kbrd.key_m == true)
+	// 	render_map(cub, player);
 
 	if (cub->print_debug_cub)
 		fclose(fp);
@@ -407,14 +407,18 @@ int	render_loop(t_cub *cub)
 
 	raycasting_loop(cub, &(cub->player), &ray);
 
+	if (cub->player.display_cursor)
+		mlx_mouse_show(cub->mlx_pointer, cub->mlx_window);
+	else
+		mlx_mouse_hide(cub->mlx_pointer, cub->mlx_window);
 
 	// mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
 	// 	cub->background_img.mlx_img, 0, 0);
 	mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
 			cub->game_img.mlx_img, 0, 0);
-	// if (cub->player.kbrd.key_m == true)
-	// 	{mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
-	// 		cub->map_img.mlx_img, 10, 10);}
+	if (cub->player.kbrd.key_m == true)
+		{mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
+			cub->map_img.mlx_img, 10, 10);}
 
 
 	return (0);
@@ -447,6 +451,7 @@ bool	render(t_cub *cub)
 	mlx_loop_hook(cub->mlx_pointer, &render_loop, cub);
 	mlx_hook(cub->mlx_window, KeyPress, KeyPressMask, &key_press_hook, cub);
 	mlx_hook(cub->mlx_window, KeyRelease, KeyReleaseMask, &key_release_hook, cub);
+	mlx_hook(cub->mlx_window, MotionNotify, PointerMotionMask, &handle_mouse, cub);
 	mlx_hook(cub->mlx_window, DestroyNotify, NoEventMask, &mlx_loop_end, cub->mlx_pointer);
 	mlx_loop(cub->mlx_pointer);
 
