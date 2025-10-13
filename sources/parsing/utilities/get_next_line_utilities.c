@@ -6,11 +6,11 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:01:54 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/11 20:40:17 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/13 19:35:39 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "../../../includes/cub3d.h"
 
 char	*gnl_strdup(const char *s, t_error *err_id)
 {
