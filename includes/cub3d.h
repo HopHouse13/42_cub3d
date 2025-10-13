@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/13 17:30:08 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:22:57 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@
 # define MINIMAP_H (WNDW_H / 5)
 # define MINIMAP_W (WNDW_W / 5)
 
+# define MINIMAP_SIZE 200
+# define MINIMAP_MARGIN 20
+# define MINIMAP_RADIUS 5
+# define MINIMAP_TILE_SIZE (MINIMAP_SIZE / (MINIMAP_RADIUS * 2 + 1))
+
 # define COLLISION_OFFSET 0.0
 
 # define RGB_WHT 0xFFFFFF
@@ -55,12 +60,12 @@
 # define PLANE_MAG (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0)
 
 
-# define MAP_RATIO 5
+# define MAP_RATIO 2
 // #  if MAP_RATIO <= 0 || MAP_RATIO >= 10
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
 
-# define COLLISION 1
+# define COLLISION 0
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */

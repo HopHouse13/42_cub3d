@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/13 17:29:48 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/13 20:18:41 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void draw_ray_line(t_cub *cub, int x0, int y0, int x1, int y1) // a expliciter
 
 	while (1)
 	{
-		if (x >= 0 && x <= cub->window_width && y>= 0 && y<= cub->window_height)
-			img_pxl_put(&cub->game_img, x, y, 0xFFFF00);
+		if (x >= 0 && x <= MINIMAP_SIZE && y>= 0 && y<= MINIMAP_SIZE)
+			img_pxl_put(&cub->game_img, x + MINIMAP_MARGIN, y + MINIMAP_MARGIN, 0xFFFF00);
 		// if (x >= 0 && x <= WNDW_W && y>= 0 && y<= WNDW_H)
 		// 	img_pxl_put(&cub->game_img, x, y, 0xFFFF00);
 
@@ -80,16 +80,17 @@ void	render_2Dray(t_cub *cub, t_player *player, t_ray *ray, int x, FILE *fp) // 
 	// 	fprintf(fp, "		Ray[%d]->start.x =		%.4f		start.y =			%.4f\n", x, start.x, start.y);
 	// 	fprintf(fp, "		Ray[%d]->wall_hit.x =	%.4f		wall_hit.y =		%.4f\n\n", x, wall_hit.x, wall_hit.y);
 	// }
+	double scale = (double)MINIMAP_SIZE / (MINIMAP_RADIUS * 2 + 1);
 
-	start.x = ((start.x * TILE_SIZE) / MAP_RATIO);
-	start.y = ((start.y * TILE_SIZE) / MAP_RATIO);
-	wall_hit.x = ((wall_hit.x * TILE_SIZE) / MAP_RATIO);
-	wall_hit.y = ((wall_hit.y * TILE_SIZE) / MAP_RATIO);
+	// Position relative au joueur
+	double rel_start_x = (start.x - player->pos.x) * scale + MINIMAP_SIZE / 2;
+	double rel_start_y = (start.y - player->pos.y) * scale + MINIMAP_SIZE / 2;
+	double rel_wall_x = (wall_hit.x - player->pos.x) * scale + MINIMAP_SIZE / 2;
+	double rel_wall_y = (wall_hit.y - player->pos.y) * scale + MINIMAP_SIZE / 2;
 
 	// Draw the ray to the exact wall hit position
-	draw_ray_line(cub,
-		start.x, start.y,
-		wall_hit.x, wall_hit.y);
+	draw_ray_line(cub, (int)rel_start_x, (int)rel_start_y,
+		(int)rel_wall_x, (int)rel_wall_y);
 	// draw_ray_line(cub, start_screen_x, start_screen_y, end_screen_x, end_screen_y);
 
 }
@@ -209,7 +210,7 @@ void	render_map(t_cub *cub, t_player *player)
 	// raycasting_loop(cub, player);
 }
 
-bool	outofbond_dda_ray(t_cub *cub, t_ray *ray)
+static bool	outofbounds_dda_ray(t_cub *cub, t_ray *ray)
 {
 	// Check Y coordinate (row) first
 	if ((int)ray->map.y < 0 || (int)ray->map.y >= (int)cub->map.rows)
@@ -333,7 +334,7 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 			// }
 
 
-			if (!COLLISION && outofbond_dda_ray(cub, ray))
+			if (!COLLISION && outofbounds_dda_ray(cub, ray))
 					break ;
 			if (cub->map.grid[(int)ray->map.y][(int)ray->map.x] == '1')
 				ray->hit = 1;
@@ -355,7 +356,7 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 		render_cubes(cub, player, ray, x);
 
 
-		if (player->kbrd.key_m == true)
+		if (player->kbrd.key_m == true && x % 10 == 0)
 		{
 
 
