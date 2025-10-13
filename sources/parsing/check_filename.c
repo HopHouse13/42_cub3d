@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:42:52 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/09 12:57:56 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/11 20:38:51 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ void	check_filename(t_cub *cub, char *mapfile)
 
 	n = ft_strlen(mapfile);
 	if (n <= 4 || !valid_ext(mapfile, ".cub", n - 4))
-		exit_door(cub, E_FILENAME);
+		exit_door(cub, PSG_FILENAME_ERR);
 }

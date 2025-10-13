@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/13 20:18:41 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/13 20:30:07 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 		if (fp == NULL)
 		{
 			perror("fopen");
-			close_window(cub);
+			mlx_loop_end(cub->mlx_pointer);
 			cleanup_mlx(cub, MLX_OTHER_ERR);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:29 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/11 15:54:31 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/13 18:36:30 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	color_conversion(t_cub *cub)
 static t_error	check_color(int color_value)
 {
 	if (color_value > 255 || color_value < 0)
-		return (E_VALUE_COLOR);
+		return (PSG_VALUE_COLOR_ERR);
 	return (OK);
 }
 
@@ -71,19 +71,19 @@ static t_error	between_value(char **line, int nb_color_found, int *new_start)
 	while ((*line)[i] && ft_isdigit((*line)[i]))
 		i++;
 	if (i == 0 && !ft_isdigit((*line)[i]))
-		return (E_RGB_FT);
+		return (PSG_RGB_FT_ERR);
 	tmp_end = i;
 	while ((*line)[i] && !ft_isdigit((*line)[i]))
 	{	
 		if (((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n')
 			|| (nb_color_found > 1 && (*line)[i] != ' ' && (*line)[i] != '\n'))
-			return (E_RGB_FT);
+			return (PSG_RGB_FT_ERR);
 		else if ((*line)[i] == ',')
 			comma++;
 		i++;
 	}
 	if (comma != 1 && nb_color_found < 2)
-		return (E_RGB_FT);
+		return (PSG_RGB_FT_ERR);
 	(*line)[tmp_end] = '\0';
 	*new_start = i;
 	return (OK);
@@ -116,7 +116,7 @@ static t_error	handle_color_value(int *location_value, char **line, int idx)
 	if (*location_value == -1)
 		*location_value = value_color;
 	else
-		return (E_DUP_COLOR);
+		return (PSG_DUP_COLOR_ERR);
 	(*line) += new_start;
 	return (OK);
 }
@@ -132,7 +132,7 @@ t_error	handle_colors(t_cub *cub, char **line, t_key key_id)
 	t_error	err_id;
 
 	if (!ft_isdigit(**line))
-		return (E_RGB_FT);
+		return (PSG_RGB_FT_ERR);
 	idx = -1;
 	while (++idx < 3)
 	{
