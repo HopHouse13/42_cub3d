@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/14 18:15:36 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/14 22:04:08 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 void	init_images(t_cub *cub)
 {
-	// init minimap image
-	cub->map_img.mlx_img = mlx_new_image(cub->mlx_pointer, cub->window_width, cub->window_height);
+	cub->map_img.mlx_img = mlx_new_image(cub->mlx_pointer, cub->window_width,
+										 cub->window_height);
 	cub->game_img.mlx_img = mlx_new_image(cub->mlx_pointer, WNDW_W, WNDW_H);
 	if (!cub->map_img.mlx_img || !cub->game_img.mlx_img)
 		cleanup_mlx(cub, MLX_IMG_ERR);
-	cub->map_img.addr = mlx_get_data_addr(cub->map_img.mlx_img, &cub->map_img.bpp, &cub->map_img.line_len, &cub->map_img.endian);
-	cub->game_img.addr = mlx_get_data_addr(cub->game_img.mlx_img, &cub->game_img.bpp, &cub->game_img.line_len, &cub->game_img.endian);
+	cub->map_img.addr = mlx_get_data_addr(cub->map_img.mlx_img, &cub->map_img.bpp,
+									 &cub->map_img.line_len, &cub->map_img.endian);
+	cub->game_img.addr = mlx_get_data_addr(cub->game_img.mlx_img,
+		&cub->game_img.bpp, &cub->game_img.line_len, &cub->game_img.endian);
 }
 
 void	init_textures(t_cub *cub)
@@ -154,5 +156,5 @@ void	init_ray_data(t_ray *ray)
 	ray->line_height = 0;
 	ray->draw_end = 0;
 	ray->draw_start = 0;
-
+	ray->wall_x = 0;
 }

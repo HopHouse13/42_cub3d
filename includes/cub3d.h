@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/14 20:07:17 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 22:02:19 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
 
-# define COLLISION true
+# define COLLISION 0
+# define PRINT_DEBUG true
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
@@ -190,6 +191,7 @@ typedef struct s_txtr
 	int			endian;
 	int			width;
 	int			height;
+	t_vec		coord;
 }			t_txtr;
 
 
@@ -226,6 +228,7 @@ typedef struct s_ray
 	t_vec		side_dist;
 	t_vec		step;
 	double		perp_wall_dist;
+	double		wall_x;
 	int			hit;
 	int			side;
 	int			line_height;
@@ -315,7 +318,7 @@ int			render_sqr(t_img *img, t_sqr sqr);
 int			render_rect(t_img *img, t_rect rect);
 
 // render textures
-void		texture_function(t_cub *cub, t_player *player, t_ray *ray, t_txtr *txtr, int x, double wallX);
+void		render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x, double wallX);
 
 // bonus
 int		handle_mouse(int x, int y, t_cub *cub);
