@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/14 20:08:58 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 20:49:53 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	*supp_newline(t_cub *cub, char *line)
 {
 	int		i;
 	char	*new_line;
+
 	i = -1;
 	while (line[++i])
 	{
@@ -54,6 +55,6 @@ char	*supp_newline(t_cub *cub, char *line)
 	new_line = ft_strdup(line);
 	if (!new_line)
 		exit_door(cub, PSG_ALLOC_ERR);
-	free(line);
-	return(new_line);
+	free (line);
+	return (new_line);
 }

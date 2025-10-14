@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/14 18:28:47 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 20:47:25 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	free_map(t_cub *cub)
 	int	i;
 
 	if (!cub->map.grid)
-		return;
+		return ;
 	i = 0;
 	while (cub->map.grid[i])
 		free(cub->map.grid[i++]);
@@ -43,7 +43,7 @@ static void	free_elem(t_cub *cub)
 // memoire de elem et map.
 // Si err_id est a 'OK'->return pour fermer le programme avec le return du main.
 // Sinon -> exit(2).
-static void free_parsing(t_cub *cub, t_error err_id)
+static void	free_parsing(t_cub *cub, t_error err_id)
 {
 	if (cub->fd_file >= 0)
 		close(cub->fd_file);
