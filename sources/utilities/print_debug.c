@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:39:16 by pab               #+#    #+#             */
-/*   Updated: 2025/10/13 18:47:34 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 16:25:21 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_map(char **map)
 	i = 0;
 	while (map[i])
 		printf("%s\n", map[i++]);
-	printf("\n||||| FIN DE MAP |||||\n");
+	printf("||||| FIN DE MAP |||||\n");
 }
 
 void	print_elem(t_elem *elem)
