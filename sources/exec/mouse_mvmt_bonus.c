@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 21:21:34 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/14 18:33:05 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/14 19:23:10 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ int	handle_mouse(int x, int y, t_cub *cub)
 	return (0);
 }
 
-
-int handle_focus_out(t_cub *cub)
+int	handle_focus_out(t_cub *cub)
 {
 	if (!cub->player.display_cursor && cub->player.cursor_hidden)
 	{
@@ -44,7 +43,7 @@ int handle_focus_out(t_cub *cub)
 	return (0);
 }
 
-int handle_focus_in(t_cub *cub)
+int	handle_focus_in(t_cub *cub)
 {
 	if (!cub->player.display_cursor && !cub->player.cursor_hidden)
 	{

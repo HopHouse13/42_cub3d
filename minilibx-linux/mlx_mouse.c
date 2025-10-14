@@ -5,8 +5,6 @@
 int		mlx_mouse_move(t_xvar *xvar, t_win_list *win, int x, int y)
 {
 	XWarpPointer(xvar->display, None, win->window, 0, 0, 0, 0, x, y);
-
-	// rajout fix leaks en dessous
 	XFlush(xvar->display);
 	return (0);
 }
