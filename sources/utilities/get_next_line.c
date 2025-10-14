@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:52:04 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/14 13:17:06 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 20:53:16 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,16 +105,13 @@ char	*get_next_line(int fd, t_error *err_id, bool exit_door)
 	char		*line;
 	char		*buffer;
 
-	if(exit_door && stash)
+	if (exit_door && stash)
 		free(stash);
 	if (fd < 0)
 		return (NULL);
 	buffer = malloc(sizeof(char) * (42 + 1));
 	if (!buffer)
-	{
-		*err_id = PSG_ALLOC_ERR;
-		return (NULL);
-	}
+		return (*err_id = PSG_ALLOC_ERR, NULL);
 	stash = gnl_read_line(fd, stash, buffer, err_id);
 	free(buffer);
 	if (!stash)
