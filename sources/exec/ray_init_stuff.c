@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/13 21:44:58 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/14 18:15:36 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	init_exec_data(t_cub *cub)
 	cub->map_img.mlx_img = NULL;
 	cub->game_img.mlx_img = NULL;
 
-	cub->moves = 0;
 	cub->window_width = (cub->map).max_col * TILE_SIZE / MAP_RATIO;
 	cub->window_height = (cub->map).rows * TILE_SIZE / MAP_RATIO;
 	cub->map.display_map = true;
@@ -128,8 +127,10 @@ int	init_player(t_cub *cub, t_player *player)
 	player->kbrd.key_right = false;
 	player->kbrd.key_m = true;
 
-	player->old_mouse_x = 0;
 	player->display_cursor = true;
+	player->cursor_hidden = false;
+
+	player->moves = 0;
 
 	return (1);
 

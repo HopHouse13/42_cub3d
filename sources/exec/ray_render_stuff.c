@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/13 22:11:57 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:36:56 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,8 +195,8 @@ void	render_map(t_cub *cub, t_player *player)
 		size_t	row_len = ft_strlen(cub->map.grid[y]);
 		for (x = 0; x < row_len; x++) // modif de condition avoir la taille de la ligne pour chaque ligne. car la map peut avoir des lignes de dimensions differentes.
 		{
-			if (cub->map.grid[y][x] == '\n')
-				continue ;
+			// if (cub->map.grid[y][x] == '\0')
+			// 	break ;
 			int screen_x = x * TILE_SIZE / MAP_RATIO;
 			int screen_y = y * TILE_SIZE / MAP_RATIO;
 			if (char_to_tile(cub->map.grid[y][x]) == TILE_WALL)
@@ -407,10 +407,6 @@ int	render_loop(t_cub *cub)
 
 	raycasting_loop(cub, &(cub->player), &ray);
 
-	if (cub->player.display_cursor)
-		mlx_mouse_show(cub->mlx_pointer, cub->mlx_window);
-	else
-		mlx_mouse_hide(cub->mlx_pointer, cub->mlx_window);
 
 	// mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
 	// 	cub->background_img.mlx_img, 0, 0);
@@ -452,7 +448,10 @@ bool	render(t_cub *cub)
 	mlx_hook(cub->mlx_window, KeyPress, KeyPressMask, &key_press_hook, cub);
 	mlx_hook(cub->mlx_window, KeyRelease, KeyReleaseMask, &key_release_hook, cub);
 	mlx_hook(cub->mlx_window, MotionNotify, PointerMotionMask, &handle_mouse, cub);
+	mlx_hook(cub->mlx_window, FocusIn, FocusChangeMask, &handle_focus_in, cub);
+	mlx_hook(cub->mlx_window, FocusOut, FocusChangeMask, &handle_focus_out, cub);
 	mlx_hook(cub->mlx_window, DestroyNotify, NoEventMask, &mlx_loop_end, cub->mlx_pointer);
+
 	mlx_loop(cub->mlx_pointer);
 
 	cleanup_mlx(cub, OK);

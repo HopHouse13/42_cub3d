@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 21:21:34 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/13 21:58:20 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/14 18:33:05 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	handle_mouse(int x, int y, t_cub *cub)
 
 	(void) y;
 	center_x = WNDW_W / 2;
-	if (!cub->player.display_cursor)
+	if (!cub->player.display_cursor && cub->player.cursor_hidden)
 	{
 		if (x == center_x)
 			return (0);
@@ -29,6 +29,27 @@ int	handle_mouse(int x, int y, t_cub *cub)
 		else if (dx < 0)
 			turn_around(cub, &(cub->player), 'L');
 		mlx_mouse_move(cub->mlx_pointer, cub->mlx_window, center_x, WNDW_H / 2);
+	}
+	return (0);
+}
+
+
+int handle_focus_out(t_cub *cub)
+{
+	if (!cub->player.display_cursor && cub->player.cursor_hidden)
+	{
+		mlx_mouse_show(cub->mlx_pointer, cub->mlx_window);
+		cub->player.cursor_hidden = false;
+	}
+	return (0);
+}
+
+int handle_focus_in(t_cub *cub)
+{
+	if (!cub->player.display_cursor && !cub->player.cursor_hidden)
+	{
+		mlx_mouse_hide(cub->mlx_pointer, cub->mlx_window);
+		cub->player.cursor_hidden = true;
 	}
 	return (0);
 }
