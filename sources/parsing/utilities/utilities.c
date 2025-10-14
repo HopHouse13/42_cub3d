@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/13 19:38:03 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/13 20:56:29 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	init_parsing_data(t_cub *cub)
 {
 	int	i;
-	
+
 	cub->fd_file = -1;
 	// struct_map
 	cub->map.grid = NULL;
@@ -47,7 +47,7 @@ void	supp_newline(char **map)
 {
 	int i;
 	int	j;
-	
+
 	i = -1;
 	while (map[++i])
 	{
