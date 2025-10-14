@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/10/14 20:08:34 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 20:46:00 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ static char	*found_start_map(t_cub *cub, t_error *err_id)
 	int		i;
 
 	found_start = false;
-	while(true)
+	while (true)
 	{
 		line = get_next_line(cub->fd_file, err_id, false);
 		if (*err_id == PSG_ALLOC_ERR)
 			exit_door(cub, *err_id);
-		if(!line)
+		if (!line)
 			exit_door(cub, PSG_EMPTY_MAP_ERR);
 		i = -1;
 		while (line[++i])
@@ -59,10 +59,10 @@ static char	*found_start_map(t_cub *cub, t_error *err_id)
 				found_start = true;
 		}
 		if (found_start)
-			break;
+			break ;
 		free(line);
 	}
-	return(line);
+	return (line);
 }
 
 // Found_start_map stock la premiere line de map dans 'start_map'.
@@ -76,7 +76,7 @@ static void	map_allocation(t_cub *cub, t_error *err_id)
 
 	start_map = found_start_map(cub, err_id);
 	line = NULL;
-	while(1)
+	while (1)
 	{
 		++cub->map.rows;
 		free(line);
@@ -109,13 +109,13 @@ void	make_copy(t_cub *cub, char *mapfile)
 	map_allocation(cub, &err_id);
 	refind_start_map(cub, mapfile, &err_id);
 	i = 1;
-	while(i < cub->map.rows)
+	while (i < cub->map.rows)
 	{
 		line = get_next_line(cub->fd_file, &err_id, false);
 		if (err_id == PSG_ALLOC_ERR)
 			exit_door(cub, err_id);
 		if (!line)
-			break;
+			break ;
 		cub->map.grid[i] = supp_newline(cub, line);
 		if (cub->map.max_col < ft_strlen(cub->map.grid[i]))
 			cub->map.max_col = ft_strlen(cub->map.grid[i]);
@@ -123,6 +123,7 @@ void	make_copy(t_cub *cub, char *mapfile)
 	}
 	cub->map.grid[i] = NULL;
 }
+
 // Fonction qui manage le parsing de la map.
 void	check_map(t_cub *cub, char *mapfile)
 {

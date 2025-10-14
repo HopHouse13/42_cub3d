@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/14 18:14:56 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 20:44:43 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 // Deux possibilites de char invalide.
 // Le 1er if : si le char n'existe pas.
 // Le 2eme if : si le char n'est pas le player, un mur ou un sol.
-bool	open_cell(t_cub *cub,char ** map, int i, int j)
+bool	open_cell(t_cub *cub, char **map, int i, int j)
 {
 	if (i < 0 || i >= (int)cub->map.rows || !map[i]
 		|| j < 0 || j >= (int)ft_strlen(map[i]))
 		return (true);
-	if (!map[i][j] 
-		|| (map[i][j] != '1' &&  map[i][j] != '0'
-		&&  map[i][j] != 'N' && map[i][j] != 'E'
-		&&  map[i][j] != 'S' && map[i][j] != 'W'))
+	if (!map[i][j]
+		|| (map[i][j] != '1' && map[i][j] != '0'
+		&& map[i][j] != 'N' && map[i][j] != 'E'
+		&& map[i][j] != 'S' && map[i][j] != 'W'))
 		return (true);
 	return (false);
 }
@@ -34,10 +34,10 @@ bool	open_cell(t_cub *cub,char ** map, int i, int j)
 // Si open_cell renvoie true, la map est ouverte.
 void	valid_outline(t_cub *cub)
 {
-	int	i;
-	int	j;
-	char **map;
-	
+	int		i;
+	int		j;
+	char	**map;
+
 	map = cub->map.grid;
 	i = -1;
 	while (map[++i])
@@ -48,7 +48,7 @@ void	valid_outline(t_cub *cub)
 			if (map[i][j] == '0' || map[i][j] == 'N' || map[i][j] == 'S'
 				|| map[i][j] == 'E' || map[i][j] == 'W')
 			{
-				if (open_cell(cub, map, i -1, j) 
+				if (open_cell(cub, map, i -1, j)
 					|| open_cell(cub, map, i +1, j)
 					|| open_cell(cub, map, i, j -1)
 					|| open_cell(cub, map, i, j +1))
@@ -65,7 +65,7 @@ void	valid_char(t_cub *cub)
 {
 	int		i;
 	int		j;
-	char 	c;
+	char	c;
 
 	i = -1;
 	while (cub->map.grid[++i])
@@ -88,21 +88,21 @@ void	get_player(t_cub *cub)
 {
 	int		i;
 	int		j;
-	
+
 	i = -1;
 	while (cub->map.grid[++i])
 	{
 		j = -1;
 		while (cub->map.grid[i][++j])
 		{
-			if ( cub->map.grid[i][j] == 'N' ||  cub->map.grid[i][j] == 'S'
-				||  cub->map.grid[i][j] == 'E' ||  cub->map.grid[i][j] == 'W')
+			if (cub->map.grid[i][j] == 'N' || cub->map.grid[i][j] == 'S'
+				|| cub->map.grid[i][j] == 'E' || cub->map.grid[i][j] == 'W')
 			{
 				if (cub->elem.facing != '\0')
 					exit_door(cub, PSG_DUP_PLAYER_ERR);
 				else
 				{
-					cub->elem.facing =  cub->map.grid[i][j];
+					cub->elem.facing = cub->map.grid[i][j];
 					cub->player.pos.x = j;
 					cub->player.pos.y = i;
 				}
@@ -120,7 +120,7 @@ void	empty_line(t_cub *cub)
 {
 	int	i;
 	int	j;
-	
+
 	i = -1;
 	while (cub->map.grid[++i])
 	{
