@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/11 19:15:50 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/14 21:24:28 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 double	date_in_s(void)
 {
-	double		time;
+	double			time;
 	struct timeval	current_time;
 
 	time = 0;
@@ -29,7 +29,7 @@ double	date_in_s(void)
 
 double	date_in_ms(void)
 {
-	double		time;
+	double			time;
 	struct timeval	current_time;
 
 	time = 0;
@@ -44,15 +44,21 @@ double	date_in_ms(void)
 
 t_tile	char_to_tile(char c)
 {
-	if (c == '0') return TILE_FLOOR;
-	if (c == '1') return TILE_WALL;
-	if (c == 'E') return TILE_EP;
-	if (c == 'S') return TILE_SP;
-	if (c == 'W') return TILE_WP;
-	if (c == 'N') return TILE_NP;
-	if (c == 'C') return TILE_EXTRA;
-
-	return TILE_FLOOR; // Default fallback
+	if (c == '0')
+		return (TILE_FLOOR);
+	if (c == '1')
+		return (TILE_WALL);
+	if (c == 'E')
+		return (TILE_EP);
+	if (c == 'S')
+		return (TILE_SP);
+	if (c == 'W')
+		return (TILE_WP);
+	if (c == 'N')
+		return (TILE_NP);
+	if (c == 'C')
+		return (TILE_EXTRA);
+	return (TILE_FLOOR);
 }
 
 void	print_map_ray(t_map *map)
@@ -61,22 +67,23 @@ void	print_map_ray(t_map *map)
 	printf("map->rows = %zd\n", map->rows);
 	printf("map->max_col = %zd\n", map->max_col);
 	printf("map->display_map = %d\n", map->display_map);
-
 }
 
 void	print_txtr_struct(t_txtr *txtr)
 {
 	int	i;
-	printf("/* ----------------------------    print_txtr_struct    -------------------------*/\n");
 
+	printf("/* ----------------------------    print_txtr_struct\
+    -------------------------*/\n");
 	i = 0;
 	while (i < 4)
 	{
-		printf("	txtr[%d].mlx_img = %p, .addr = %p, .bpp = %d, .line_end = %d, .endian = %d, .width = %d, .height = %d\n",
-				i, txtr[i].mlx_img, (void *)txtr[i].addr, txtr[i].bpp, txtr[i].line_len, txtr[i].endian, txtr[i].width, txtr[i].height);
+		printf("	txtr[%d].mlx_img = %p, .addr = %p, .bpp = %d, .line_end = \
+%d, .endian = %d, .width = %d, .height = %d\n",
+			i, txtr[i].mlx_img, (void *)txtr[i].addr, txtr[i].bpp, txtr[i].\
+			line_len, txtr[i].endian, txtr[i].width, txtr[i].height);
 			i++;
 	}
-	printf("/* ------------------------------------------------------------------------------*/\n\n");
-
+	printf("/* -----------------------------------------------------\
+-------------------------*/\n\n");
 }
-

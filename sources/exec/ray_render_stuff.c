@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/14 19:21:59 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/14 21:47:41 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,13 +145,13 @@ void	render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x)
 		if (ray->step.y == 1) // WEST facing wall -- on regarde a l'est		// ca c'est le sud au final (face nord du mur // on regarde au sud)
 		{
 			// color = RGB_BLUE;
-			texture_function(cub, player, ray, &(cub->txtr[2]), x, wallX);
+			render_texture(cub, ray, &(cub->txtr[2]), x, wallX);
 		}
 
 		else 				// EAST facing wall -- on regarde a l'ouest	// ca c'est le nord au final (face sud du mur // on regarde au nord)
 		{
 			// color = RGB_RED;
-			texture_function(cub, player, ray, &(cub->txtr[0]), x, wallX);
+			render_texture(cub, ray, &(cub->txtr[0]), x, wallX);
 		}
 	}
 	else // le mur n'est pas un cote (est-ouest)
@@ -163,13 +163,13 @@ void	render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x)
 		if (ray->step.x == 1) // NORTH facing wall -- on regarde au sud // ca c'est l'est au final (face ouest du mur // on regarde a l'est)
 		{
 			// color = RGB_GRN;
-			texture_function(cub, player, ray, &(cub->txtr[1]), x, wallX);
+			render_texture(cub, ray, &(cub->txtr[1]), x, wallX);
 
 		}
 		else // SOUTH facing wall -- on regarde au nord		// ca c'est l'ouest au final (face est du mur // on regarde a l'ouest)
 		{
 			// color = RGB_YLW;
-			texture_function(cub, player, ray, &(cub->txtr[3]), x, wallX);
+			render_texture(cub, ray, &(cub->txtr[3]), x, wallX);
 		}
 	}
 
@@ -425,17 +425,11 @@ bool	render(t_cub *cub)
 {
 	cub->mlx_pointer = mlx_init();
 	if (!cub->mlx_pointer)
-		return (printf("MLX initialization failed\n"), false);
-
+		cleanup_mlx(cub, MLX_PTR_ERR);
 	cub->mlx_window = mlx_new_window(cub->mlx_pointer, WNDW_W,
 			WNDW_H, "cubD3TROIT");
-
 	if (!cub->mlx_window)
-	{
-		mlx_destroy_display(cub->mlx_pointer);
-		free(cub->mlx_pointer);
-		return (printf("Window creation failed\n"), false);
-	}
+		cleanup_mlx(cub, MLX_WDW_ERR);
 	init_images(cub);
 	init_textures(cub);
 	// init_images(cub);
