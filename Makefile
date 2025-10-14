@@ -6,7 +6,7 @@
 #    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/14 20:09:03 by pbret            ###   ########.fr        #
+#    Updated: 2025/10/14 20:53:51 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS_PARSING = \
 	parsing/check_elem.c \
 	parsing/parsing.c \
 	parsing/check_map.c \
-	parsing/copy_map.c
+	parsing/handle_map.c
 
 SRC_UTILS = \
 	utilities/get_next_line_utilities.c \

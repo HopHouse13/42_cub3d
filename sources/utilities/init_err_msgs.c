@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:56:31 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/14 18:29:46 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 20:47:50 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ void	init_err_msgs(t_cub *cub)
 	cub->err_msg[MLX_IMG_ERR] = "Error initializing the images";
 	cub->err_msg[MLX_PTR_ERR] = "MLX initialization failed";
 	cub->err_msg[MLX_WDW_ERR] = "Window creation failed";
-	cub->err_msg[MLX_OTHER_ERR] = "PLACEHOLDER";
+	cub->err_msg[MLX_OTHER_ERR] = "PLACEHOLDER"; // pour le debug
 	cub->err_msg[UNKNOWN_ERR] = "Unknown error occurred";
 }

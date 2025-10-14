@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:39:16 by pab               #+#    #+#             */
-/*   Updated: 2025/10/14 16:25:21 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 20:49:06 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_map(char **map)
 {
-	int i;
+	int	i;
 
 	printf("||||| MAP |||||\n");
 	i = 0;
@@ -25,14 +25,14 @@ void	print_map(char **map)
 
 void	print_elem(t_elem *elem)
 {
-		int	i;
+	int	i;
 
 	i = -1;
-	while(++i < 3)
+	while (++i < 3)
 		printf("elem->f_values[%d] = %d\n", i, elem->f_values[i]);
-	printf("elem->f_color = %d\n",elem->f_color);
+	printf("elem->f_color = %d\n", elem->f_color);
 	i = -1;
-	while(++i < 3)
+	while (++i < 3)
 		printf("elem->c_values[%d] = %d\n", i, elem->c_values[i]);
 	printf("elem->c_color = %d\n", elem->c_color);
 	i = -1;
@@ -49,5 +49,4 @@ void	print_cub_data(t_cub *cub)
 	print_elem(&cub->elem);
 	print_map(cub->map.grid);
 	printf("\n----------------\n\n");
-
 }
