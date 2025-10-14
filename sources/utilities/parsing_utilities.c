@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/14 19:32:50 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 20:08:58 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	init_parsing_data(t_cub *cub)
 {
 	int	i;
-	
+
 	cub->fd_file = -1;
 	cub->map.grid = NULL;
 	cub->map.rows = 0;

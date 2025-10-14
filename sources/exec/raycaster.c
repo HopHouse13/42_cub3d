@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/13 17:35:22 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 18:35:32 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,20 @@ int	key_release_hook(int keysym, t_cub *cub)
 {
 
 	if (keysym == XK_m)
+		cub->player.kbrd.key_m = !cub->player.kbrd.key_m;
+	if (keysym == XK_c)
 	{
-		if (cub->player.kbrd.key_m == false)
+		cub->player.display_cursor = !cub->player.display_cursor;
+		// cub->player.cursor_hidden = !cub->player.cursor_hidden;
+		if (!cub->player.display_cursor)
 		{
-			cub->player.kbrd.key_m = true;
-			printf("cub->player.kbrd.key_m = %d \n", cub->player.kbrd.key_m);
+			mlx_mouse_hide(cub->mlx_pointer, cub->mlx_window);
+			cub->player.cursor_hidden = true;
 		}
 		else
 		{
-			cub->player.kbrd.key_m = false;
-			printf("cub->player.kbrd.key_m = %d \n", cub->player.kbrd.key_m);
+			mlx_mouse_show(cub->mlx_pointer, cub->mlx_window);
+			cub->player.cursor_hidden = false;
 		}
 	}
 	if (keysym == XK_w)
