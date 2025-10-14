@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_init_stuff.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/13 19:19:33 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 18:15:36 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ void	init_exec_data(t_cub *cub)
 	cub->mlx_window = NULL;
 	cub->map_img.mlx_img = NULL;
 	cub->game_img.mlx_img = NULL;
-	
-	cub->moves = 0;
+
 	cub->window_width = (cub->map).max_col * TILE_SIZE / MAP_RATIO;
 	cub->window_height = (cub->map).rows * TILE_SIZE / MAP_RATIO;
 	cub->map.display_map = true;
@@ -60,6 +59,8 @@ void	init_exec_data(t_cub *cub)
 	cub->print_debug_cub = true;
 	cub->game_init = true;
 	cub->render_bool = true;
+
+	cub->no_collision = false;
 
 }
 
@@ -125,6 +126,11 @@ int	init_player(t_cub *cub, t_player *player)
 	player->kbrd.key_left = false;
 	player->kbrd.key_right = false;
 	player->kbrd.key_m = true;
+
+	player->display_cursor = true;
+	player->cursor_hidden = false;
+
+	player->moves = 0;
 
 	return (1);
 

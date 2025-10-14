@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_render_stuff.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/13 17:35:08 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 19:21:59 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,15 @@ void	render_2Dray(t_cub *cub, t_player *player, t_ray *ray, int x, FILE *fp) // 
 	// 	fprintf(fp, "		Ray[%d]->wall_hit.x =	%.4f		wall_hit.y =		%.4f\n\n", x, wall_hit.x, wall_hit.y);
 	// }
 
+
 	start.x = ((start.x * TILE_SIZE) / MAP_RATIO);
 	start.y = ((start.y * TILE_SIZE) / MAP_RATIO);
 	wall_hit.x = ((wall_hit.x * TILE_SIZE) / MAP_RATIO);
 	wall_hit.y = ((wall_hit.y * TILE_SIZE) / MAP_RATIO);
 
 
-
 	// Draw the ray to the exact wall hit position
-	draw_ray_line(cub,
-		start.x, start.y,
+	draw_ray_line(cub, start.x, start.y,
 		wall_hit.x, wall_hit.y);
 	// draw_ray_line(cub, start_screen_x, start_screen_y, end_screen_x, end_screen_y);
 
@@ -196,8 +195,8 @@ void	render_map(t_cub *cub, t_player *player)
 		size_t	row_len = ft_strlen(cub->map.grid[y]);
 		for (x = 0; x < row_len; x++) // modif de condition avoir la taille de la ligne pour chaque ligne. car la map peut avoir des lignes de dimensions differentes.
 		{
-			if (cub->map.grid[y][x] == '\n')
-				continue ;
+			// if (cub->map.grid[y][x] == '\0')
+			// 	break ;
 			int screen_x = x * TILE_SIZE / MAP_RATIO;
 			int screen_y = y * TILE_SIZE / MAP_RATIO;
 			if (char_to_tile(cub->map.grid[y][x]) == TILE_WALL)
@@ -209,6 +208,23 @@ void	render_map(t_cub *cub, t_player *player)
 	}
 
 	// raycasting_loop(cub, player);
+}
+
+static bool	outofbounds_dda_ray(t_cub *cub, t_ray *ray)
+{
+	// Check Y coordinate (row) first
+	if ((int)ray->map.y < 0 || (int)ray->map.y >= (int)cub->map.rows)
+	{
+		ray->hit = 1;
+		return (true);
+	}
+	// Then check X coordinate (column) - now safe to access the row
+	if ((int)ray->map.x < 0 || (int)ray->map.x >= (int)ft_strlen(cub->map.grid[(int)ray->map.y]))
+	{
+		ray->hit = 1;
+		return (true);
+	}
+	return (false);
 }
 
 
@@ -316,6 +332,10 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 			// 	fprintf(fp, "			Ray[%d] DDA[%d]		sideDistX = %.4f		sideDistY = %.4f\n", x, dda, ray->side_dist.x, ray->side_dist.y);
 			// 	dda++;
 			// }
+
+
+			if (!COLLISION && outofbounds_dda_ray(cub, ray))
+					break ;
 			if (cub->map.grid[(int)ray->map.y][(int)ray->map.x] == '1')
 				ray->hit = 1;
 		}
@@ -345,6 +365,9 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 		}
 
 	}
+	// if (player->kbrd.key_m == true)
+	// 	render_map(cub, player);
+
 	if (cub->print_debug_cub)
 		fclose(fp);
 	cub->print_debug_cub = false;
@@ -374,8 +397,10 @@ int	render_loop(t_cub *cub)
 	if (cub->game_init)
 		print_updated_pos(cub, &(cub->player));
 
-
-	handle_move(cub, &(cub->player));
+	if (COLLISION)
+		handle_move(cub, &(cub->player));
+	else
+		no_collision_move(cub, &(cub->player));
 
 	if (cub->player.kbrd.key_m == true)
 		render_map(cub, &(cub->player));
@@ -422,7 +447,11 @@ bool	render(t_cub *cub)
 	mlx_loop_hook(cub->mlx_pointer, &render_loop, cub);
 	mlx_hook(cub->mlx_window, KeyPress, KeyPressMask, &key_press_hook, cub);
 	mlx_hook(cub->mlx_window, KeyRelease, KeyReleaseMask, &key_release_hook, cub);
+	mlx_hook(cub->mlx_window, MotionNotify, PointerMotionMask, &handle_mouse, cub);
+	mlx_hook(cub->mlx_window, FocusIn, FocusChangeMask, &handle_focus_in, cub);
+	mlx_hook(cub->mlx_window, FocusOut, FocusChangeMask, &handle_focus_out, cub);
 	mlx_hook(cub->mlx_window, DestroyNotify, NoEventMask, &mlx_loop_end, cub->mlx_pointer);
+
 	mlx_loop(cub->mlx_pointer);
 
 	cleanup_mlx(cub, OK);

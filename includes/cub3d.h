@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/14 18:02:48 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 20:07:17 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@
 # define MINIMAP_H (WNDW_H / 5)
 # define MINIMAP_W (WNDW_W / 5)
 
+# define MINIMAP_SIZE 200
+# define MINIMAP_MARGIN 20
+# define MINIMAP_RADIUS 5
+# define MINIMAP_TILE_SIZE (MINIMAP_SIZE / (MINIMAP_RADIUS * 2 + 1))
+
 # define COLLISION_OFFSET 0.0
 
 # define RGB_WHT 0xFFFFFF
@@ -55,10 +60,12 @@
 # define PLANE_MAG (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0)
 
 
-# define MAP_RATIO 5
+# define MAP_RATIO 2
 // #  if MAP_RATIO <= 0 || MAP_RATIO >= 10
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
+
+# define COLLISION true
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
@@ -145,6 +152,11 @@ typedef struct	s_player
 	double		rot_speed;		// a passer en macro fixe ?
 	double		move_speed;		// struct ray ou player? // ou plutot  a passer en macro fixe ?
 
+	bool 		display_cursor;
+	bool		cursor_hidden;
+
+	int			moves;
+
 	t_key_inpt	kbrd;
 
 }				t_player;
@@ -186,7 +198,6 @@ typedef struct	s_cub
 	void		*mlx_pointer; // ca
 	void		*mlx_window; // ca
 	t_txtr		txtr[4]; // ca
-	int			moves;
 
 	int			window_height;
 	int			window_width;
@@ -204,6 +215,7 @@ typedef struct	s_cub
 	bool		game_init;		// debug
 	bool		print_debug_cub; // debug
 	bool		render_bool;
+	bool		no_collision;
 }			t_cub;
 
 typedef struct s_ray
@@ -278,8 +290,11 @@ bool		render(t_cub *cub);
 int			key_press_hook(int keysym, t_cub *cub);
 int			key_release_hook(int keysym, t_cub *cub);
 void		handle_move(t_cub *cub, t_player *player);
+void		no_collision_move(t_cub *cub, t_player *player);
 void		print_ray_info(t_ray *ray, int x, FILE *fp);
 void		print_updated_pos(t_cub *cub, t_player *player);
+void		turn_around(t_cub *cub, t_player *player, char dir);
+
 
 
 
@@ -302,7 +317,10 @@ int			render_rect(t_img *img, t_rect rect);
 // render textures
 void		texture_function(t_cub *cub, t_player *player, t_ray *ray, t_txtr *txtr, int x, double wallX);
 
-
+// bonus
+int		handle_mouse(int x, int y, t_cub *cub);
+int		handle_focus_out(t_cub *cub);
+int		handle_focus_in(t_cub *cub);
 
 /* ************************************** RAYCASTER FCTIONS END ********************************** */
 

@@ -6,7 +6,7 @@
 #    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/14 13:16:32 by pbret            ###   ########.fr        #
+#    Updated: 2025/10/14 20:09:03 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRCS_EXEC = exec/ray_game_mechanics.c \
 	exec/ray_utils.c \
 	exec/raycaster.c \
 	exec/ray_txtr_render.c \
+	exec/mouse_mvmt_bonus.c \
 
 
 SRCS_FILES	= main.c $(SRCS_PARSING) $(SRCS_EXEC) $(SRC_UTILS)
@@ -59,7 +60,7 @@ INCLUDES = -I./includes -I$(LIBFT_DIR) -I$(MLX_DIR)
 # MinilibX settings
 MLX_DIR = ./minilibx-linux
 MLX_LIB = $(MLX_DIR)/libmlx.a
-MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
+MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lXfixes
 
 
 # Pattern rule for object files
