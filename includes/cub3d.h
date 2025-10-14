@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/13 19:51:24 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 18:02:48 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,17 +242,16 @@ void	valid_char(t_cub *cub);
 void	get_player(t_cub *cub);
 void	empty_line(t_cub *cub);
 
+/// UTILITIES ///
+void	exit_door(t_cub *cub, t_error err_id);
+void	init_err_msgs(t_cub *cub);
+
 /// PARSING_UTILITIES ///
 void	init_parsing_data(t_cub *cub);
-void	supp_newline(char **map);
+char	*supp_newline(t_cub *cub, char *line);
 char	*get_next_line(int fd, t_error *err_id, bool exit_door);
 char	*gnl_strdup(const char *s, t_error *err_id);
 char	*gnl_strjoin(const char *s1, const char *s2, t_error *err_id);
-
-/// UTILITIES ///
-
-void	exit_door(t_cub *cub, t_error err_id);
-void	init_err_msgs(t_cub *cub);
 
 // print_debug
 void	print_cub_data(t_cub *cub);
@@ -267,9 +266,6 @@ void		init_exec_data(t_cub *cub);
 int			init_player(t_cub *cub, t_player *player);
 void		init_images(t_cub *cub);
 void		init_ray_data(t_ray *ray);
-
-
-
 
 // mlx_stuff
 void		cleanup_mlx(t_cub *cub, t_error mlx_err);

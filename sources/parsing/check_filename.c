@@ -6,12 +6,13 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:42:52 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/11 20:38:51 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 18:18:52 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
+// Compare les 4 derniers char du nom du fichier avec "".cub".
 static bool	valid_ext(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
@@ -27,6 +28,8 @@ static bool	valid_ext(const char *s1, const char *s2, size_t n)
 	return (true);
 }
 
+// check si le nom du fichier excite (supperieur a 4 char) et si
+// c'est la bonne extention.
 void	check_filename(t_cub *cub, char *mapfile)
 {
 	size_t	n;

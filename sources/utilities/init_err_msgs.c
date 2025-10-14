@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_data.c                                        :+:      :+:    :+:   */
+/*   init_err_msgs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:56:31 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/13 19:38:11 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 18:29:46 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
+// Initialisation du tableau "err_msg".
+// Tableau qui contient tous les messages d'erreurs du programme.
 void	init_err_msgs(t_cub *cub)
 {
 	cub->err_msg[OK] = "Cub3D executed successfully";

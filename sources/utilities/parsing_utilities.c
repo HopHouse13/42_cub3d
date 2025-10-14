@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utilities.c                                        :+:      :+:    :+:   */
+/*   parsing_utilities.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/13 19:38:03 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 19:32:50 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
+// Initialisation a ZERO des variables du parsing.
 void	init_parsing_data(t_cub *cub)
 {
 	int	i;
 	
 	cub->fd_file = -1;
-	// struct_map
 	cub->map.grid = NULL;
 	cub->map.rows = 0;
 	cub->map.max_col = 0;
-	// struct_play
 	cub->player.pos.x = 0.0;
 	cub->player.pos.y = 0.0;
-	// struct elem
 	i = 0;
 	while (i < 4)
 		cub->elem.path[i++] = NULL;
@@ -41,21 +39,21 @@ void	init_parsing_data(t_cub *cub)
 	cub->elem.e_counter = 0;
 }
 
-// fonction qui remplace les '\n' par '\0' de chaque ligne de la map.
-// Cela simplifie l'affichage de la minimap.
-void	supp_newline(char **map)
+// Remplace les '\n' de fin line par '\0'
+// Puis dup dans new_line et free la line.
+char	*supp_newline(t_cub *cub, char *line)
 {
-	int i;
-	int	j;
-	
+	int		i;
+	char	*new_line;
 	i = -1;
-	while (map[++i])
+	while (line[++i])
 	{
-		j= -1;
-		while (map[i][++j])
-		{
-			if (map[i][j] == '\n')
-			map[i][j] = '\0';
-		}
+		if (line[i] == '\n')
+			line[i] = '\0';
 	}
+	new_line = ft_strdup(line);
+	if (!new_line)
+		exit_door(cub, PSG_ALLOC_ERR);
+	free(line);
+	return(new_line);
 }
