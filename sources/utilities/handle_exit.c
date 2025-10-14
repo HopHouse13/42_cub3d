@@ -6,12 +6,13 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/13 19:08:21 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/14 18:28:47 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
+// Fonction qui libere le double tableau de la map.
 static void	free_map(t_cub *cub)
 {
 	int	i;
@@ -24,6 +25,7 @@ static void	free_map(t_cub *cub)
 	free(cub->map.grid);
 }
 
+// Fonction qui libere les 4 textures.
 static void	free_elem(t_cub *cub)
 {
 	int	i;
@@ -36,8 +38,12 @@ static void	free_elem(t_cub *cub)
 	}
 }
 
-
-static void freee(t_cub *cub, t_error err_id)
+// Fonction qui ferme fd_file, libere la varible 'stash' dans GNL avec le flag
+// true en parametre d'entree, qui appelle les 2 fonctions de liberation de
+// memoire de elem et map.
+// Si err_id est a 'OK'->return pour fermer le programme avec le return du main.
+// Sinon -> exit(2).
+static void free_parsing(t_cub *cub, t_error err_id)
 {
 	if (cub->fd_file >= 0)
 		close(cub->fd_file);
@@ -49,12 +55,16 @@ static void freee(t_cub *cub, t_error err_id)
 	exit (2);
 }
 
+// Securite si err_id est negatif renvoie le message 'UNKNOWN_ERR'.
+// Affiche "error\n" si err_id est plus grand que 'OK'.
+// Affiche le message  correspondant a la valeur err_id.
+// Appelle de la fonction free_parsing pour liberer les memoires.
 void	exit_door(t_cub *cub, t_error err_id)
-{printf("||||| EXIT_DOOR |||||\n");
+{
 	if (err_id < OK)
 		err_id = UNKNOWN_ERR;
 	if (err_id > OK)
 		printf("Error\n");
 	printf("%s\n", cub->err_msg[err_id]);
-	freee(cub, err_id);
+	free_parsing(cub, err_id);
 }
