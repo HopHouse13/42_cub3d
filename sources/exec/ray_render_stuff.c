@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/14 17:36:56 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/14 19:21:59 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,10 +397,10 @@ int	render_loop(t_cub *cub)
 	if (cub->game_init)
 		print_updated_pos(cub, &(cub->player));
 
-	if (!COLLISION)
-		no_collision_move(cub, &(cub->player));
-	else
+	if (COLLISION)
 		handle_move(cub, &(cub->player));
+	else
+		no_collision_move(cub, &(cub->player));
 
 	if (cub->player.kbrd.key_m == true)
 		render_map(cub, &(cub->player));

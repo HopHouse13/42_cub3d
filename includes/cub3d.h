@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/14 18:15:19 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/14 19:18:43 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
 
-# define COLLISION 0
+# define COLLISION true
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
