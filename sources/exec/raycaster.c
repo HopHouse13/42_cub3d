@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/13 21:49:15 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/14 18:35:32 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,20 @@ int	key_release_hook(int keysym, t_cub *cub)
 	if (keysym == XK_m)
 		cub->player.kbrd.key_m = !cub->player.kbrd.key_m;
 	if (keysym == XK_c)
+	{
 		cub->player.display_cursor = !cub->player.display_cursor;
+		// cub->player.cursor_hidden = !cub->player.cursor_hidden;
+		if (!cub->player.display_cursor)
+		{
+			mlx_mouse_hide(cub->mlx_pointer, cub->mlx_window);
+			cub->player.cursor_hidden = true;
+		}
+		else
+		{
+			mlx_mouse_show(cub->mlx_pointer, cub->mlx_window);
+			cub->player.cursor_hidden = false;
+		}
+	}
 	if (keysym == XK_w)
 		cub->player.kbrd.key_w = false;
 	if (keysym == XK_s)

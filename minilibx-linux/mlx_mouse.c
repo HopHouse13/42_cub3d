@@ -1,13 +1,23 @@
 #include "mlx_int.h"
+#include <X11/extensions/Xfixes.h>
+#define LEAK_FIX 1
 
 int		mlx_mouse_move(t_xvar *xvar, t_win_list *win, int x, int y)
 {
 	XWarpPointer(xvar->display, None, win->window, 0, 0, 0, 0, x, y);
+
+	// rajout fix leaks en dessous
+	XFlush(xvar->display);
 	return (0);
 }
 
-int		mlx_mouse_hide(t_xvar *xvar, t_win_list *win)
+int		mlx_mouse_hide(t_xvar *xvar, t_win_list *win, int x)
 {
+	#if LEAK_FIX
+	XFixesHideCursor(xvar->display, win->window);
+	XFlush(xvar->display);
+
+	#else
 	static char data[1] = {0};
 	Cursor cursor;
 	Pixmap blank;
@@ -18,11 +28,22 @@ int		mlx_mouse_hide(t_xvar *xvar, t_win_list *win)
 	XDefineCursor(xvar->display, win->window, cursor);
 	XFreePixmap(xvar->display, blank);
 	XFreeCursor(xvar->display, cursor);
+
+	#endif
+	return (0);
 }
 
 int		mlx_mouse_show(t_xvar *xvar, t_win_list *win)
 {
+	#if LEAK_FIX
+	XFixesShowCursor(xvar->display, win->window);
+	XFlush(xvar->display);
+
+	#else
 	XUndefineCursor(xvar->display, win->window);
+
+	#endif
+	return (0);
 }
 
 /*
