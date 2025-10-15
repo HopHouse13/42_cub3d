@@ -1,7 +1,7 @@
-NO ./path_to_the_north_texture    cccc
-WE ./path_to_the_west_textureEA./path_to_the_east_texture
-SO ./path_to_the_south_texture
-EA ./path_to_the_east_texture
+EA ./textures/invalid/corrupted_content.xpm
+NO ./textures/basic_txtr/blue_texture.xpm
+SO ./textures/basic_txtr/blue_texture.xpm
+WE ./textures/basic_txtr/blue_texture.xpm
 
 
 C 225,30,0

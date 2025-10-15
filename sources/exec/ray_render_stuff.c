@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/14 21:47:41 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/15 22:14:22 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,15 @@ void	render_2Dray(t_cub *cub, t_player *player, t_ray *ray, int x, FILE *fp) // 
 		wall_hit.x = player->pos.x + (wall_hit.y - player->pos.y) * ray->ray_dir.x / ray->ray_dir.y;
 	}
 
-	// if (cub->print_debug_cub)
-	// {
-	// 	print_ray_info(ray, x, fp);
-	// 	fprintf(fp, "		Ray[%d]->start.x =		%.4f		start.y =			%.4f\n", x, start.x, start.y);
-	// 	fprintf(fp, "		Ray[%d]->wall_hit.x =	%.4f		wall_hit.y =		%.4f\n\n", x, wall_hit.x, wall_hit.y);
-	// }
+	if (PRINT_DEBUG)
+	{
+		if (cub->print_debug_cub)
+		{
+			print_ray_info(ray, x, fp);
+			fprintf(fp, "		Ray[%d]->start.x =		%.4f		start.y =			%.4f\n", x, start.x, start.y);
+			fprintf(fp, "		Ray[%d]->wall_hit.x =	%.4f		wall_hit.y =		%.4f\n\n", x, wall_hit.x, wall_hit.y);
+		}
+	}
 
 
 	start.x = ((start.x * TILE_SIZE) / MAP_RATIO);
@@ -230,7 +233,6 @@ static bool	outofbounds_dda_ray(t_cub *cub, t_ray *ray)
 
 void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 {
-
 	// int	w = cub->map.max_col;
 	int	w = WNDW_W;
 	// int w = 30;
@@ -244,7 +246,7 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 		{
 			perror("fopen");
 			mlx_loop_end(cub->mlx_pointer);
-			cleanup_mlx(cub, MLX_OTHER_ERR);
+			cleanup_mlx(cub, MLX_OTHER_ERR, NULL);
 		}
 	}
 
@@ -389,18 +391,16 @@ int	render_loop(t_cub *cub)
 
 
 	cub->player.old_time = cub->player.time;
-	cub->player.time = date_in_ms() - cub->player.start_time;
+	cub->player.time = date_in_ms(cub) - cub->player.start_time;
 	cub->player.frame_time = (cub->player.time - cub->player.old_time) / 1000.0;
 	cub->player.move_speed = cub->player.frame_time * 5.0;
 	cub->player.rot_speed  = cub->player.frame_time * 3.0;
 
 	if (cub->game_init)
-		print_updated_pos(cub, &(cub->player));
+		print_updated_pos(cub, &(cub->player), NULL);
 
-	if (COLLISION)
-		handle_move(cub, &(cub->player));
-	else
-		no_collision_move(cub, &(cub->player));
+
+	handle_move(cub, &(cub->player));
 
 	if (cub->player.kbrd.key_m == true)
 		render_map(cub, &(cub->player));
@@ -425,11 +425,11 @@ bool	render(t_cub *cub)
 {
 	cub->mlx_pointer = mlx_init();
 	if (!cub->mlx_pointer)
-		cleanup_mlx(cub, MLX_PTR_ERR);
+		cleanup_mlx(cub, MLX_PTR_ERR, NULL);
 	cub->mlx_window = mlx_new_window(cub->mlx_pointer, WNDW_W,
 			WNDW_H, "cubD3TROIT");
 	if (!cub->mlx_window)
-		cleanup_mlx(cub, MLX_WDW_ERR);
+		cleanup_mlx(cub, MLX_WDW_ERR, NULL);
 	init_images(cub);
 	init_textures(cub);
 	// init_images(cub);
@@ -448,7 +448,7 @@ bool	render(t_cub *cub)
 
 	mlx_loop(cub->mlx_pointer);
 
-	cleanup_mlx(cub, OK);
+	cleanup_mlx(cub, OK, NULL);
 
 
 	return (true);

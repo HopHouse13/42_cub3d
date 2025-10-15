@@ -107,17 +107,17 @@ void	check_elem(t_cub *cub, char *mapfile)
 	err_id = OK;
 	cub->fd_file = open(mapfile, O_RDONLY);
 	if (cub->fd_file < 0)
-		exit_door(cub, PSG_OPEN_FILE_ERR);
+		exit_door(cub, PSG_OPEN_FILE_ERR, mapfile);
 	while (cub->elem.e_counter < 6)
 	{
 		line = get_next_line(cub->fd_file, &err_id, false);
 		if (err_id == PSG_ALLOC_ERR)
-			exit_door(cub, err_id);
+			exit_door(cub, err_id, NULL);
 		if (!line)
-			exit_door(cub, PSG_MISS_PARAM_ERR);
+			exit_door(cub, PSG_MISS_PARAM_ERR, NULL);
 		err_id = handle_line(cub, line);
 		free(line);
 		if (err_id > OK)
-			exit_door(cub, err_id);
+			exit_door(cub, err_id, NULL);
 	}
 }

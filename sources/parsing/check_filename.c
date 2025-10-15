@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_filename.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:42:52 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/14 18:18:52 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/15 16:57:31 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ void	check_filename(t_cub *cub, char *mapfile)
 
 	n = ft_strlen(mapfile);
 	if (n <= 4 || !valid_ext(mapfile, ".cub", n - 4))
-		exit_door(cub, PSG_FILENAME_ERR);
+		exit_door(cub, PSG_FILENAME_ERR, mapfile);
 }

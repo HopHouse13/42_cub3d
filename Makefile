@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
+#    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/14 20:53:51 by pbret            ###   ########.fr        #
+#    Updated: 2025/10/15 23:22:03 by tjacquel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,10 +30,13 @@ SRC_UTILS = \
 	utilities/handle_exit.c \
 	utilities/init_err_msgs.c \
 	utilities/parsing_utilities.c \
-	utilities/print_debug.c
+	utilities/print_debug.c \
+	/utilities/print_ray_debug.c \
 
 SRCS_EXEC = exec/ray_game_mechanics.c \
+	exec/ray_game_mechanics2.c \
 	exec/ray_init_stuff.c \
+	exec/ray_init_stuff2.c \
 	exec/ray_mlx_stuff.c \
 	exec/ray_render_stuff.c \
 	exec/ray_render_utils.c \

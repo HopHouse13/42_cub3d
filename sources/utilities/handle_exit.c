@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/14 20:47:25 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/15 16:43:56 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,15 @@ static void	free_parsing(t_cub *cub, t_error err_id)
 // Affiche "error\n" si err_id est plus grand que 'OK'.
 // Affiche le message  correspondant a la valeur err_id.
 // Appelle de la fonction free_parsing pour liberer les memoires.
-void	exit_door(t_cub *cub, t_error err_id)
+void	exit_door(t_cub *cub, t_error err_id, char *str)
 {
 	if (err_id < OK)
 		err_id = UNKNOWN_ERR;
 	if (err_id > OK)
 		printf("Error\n");
-	printf("%s\n", cub->err_msg[err_id]);
+	printf("%s", cub->err_msg[err_id]);
+	if (str)
+		printf(" %s", str);
+	printf("\n");
 	free_parsing(cub, err_id);
 }

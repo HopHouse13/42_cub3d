@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_err_msgs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:56:31 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/14 20:47:50 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/15 17:12:08 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	init_err_msgs(t_cub *cub)
 {
 	cub->err_msg[OK] = "Cub3D executed successfully";
-	cub->err_msg[PSG_FILENAME_ERR] = "Invalid file name";
+	cub->err_msg[PSG_FILENAME_ERR] = "Invalid file name:";
 	cub->err_msg[PSG_OPEN_FILE_ERR] = "Unable to open .cub file";
 	cub->err_msg[PSG_READ_FILE_ERR] = "Error reading the .cub file";
 	cub->err_msg[PSG_MISS_PARAM_ERR] = "Missing parameters";
@@ -36,7 +36,7 @@ void	init_err_msgs(t_cub *cub)
 	cub->err_msg[PSG_EMPTY_LINE_ERR] = "Empty line inside map";
 	cub->err_msg[PSG_OPEN_MAP_ERR] = "Map is not enclosed";
 	cub->err_msg[PSG_NO_PLAYER_ERR] = "No player on the map";
-	cub->err_msg[MLX_TXTR_ERR] = "Error initializing the textures";
+	cub->err_msg[MLX_TXTR_ERR] = "Unable to initialize the texture:";
 	cub->err_msg[MLX_IMG_ERR] = "Error initializing the images";
 	cub->err_msg[MLX_PTR_ERR] = "MLX initialization failed";
 	cub->err_msg[MLX_WDW_ERR] = "Window creation failed";

@@ -6,38 +6,32 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/14 21:24:28 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:07:20 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-double	date_in_s(void)
+double	date_in_s(t_cub *cub)
 {
 	double			time;
 	struct timeval	current_time;
 
 	time = 0;
 	if (gettimeofday(&current_time, NULL) == -1)
-	{
-		printf("gettimeofday() returned -1\n");
-		return (-1);
-	}
+		cleanup_mlx(cub, MLX_OTHER_ERR, NULL);
 	time = current_time.tv_sec + current_time.tv_usec / 1000000.0;
 	return (time);
 }
 
-double	date_in_ms(void)
+double	date_in_ms(t_cub *cub)
 {
 	double			time;
 	struct timeval	current_time;
 
 	time = 0;
 	if (gettimeofday(&current_time, NULL) == -1)
-	{
-		printf("gettimeofday() returned -1\n");
-		return (-1);
-	}
+		cleanup_mlx(cub, MLX_OTHER_ERR, NULL);
 	time = (current_time.tv_sec * 1000.0) + (current_time.tv_usec / 1000.0);
 	return (time);
 }
