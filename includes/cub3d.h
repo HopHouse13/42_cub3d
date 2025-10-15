@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/14 22:02:19 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/15 23:27:13 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,11 @@
 # define MINIMAP_RADIUS 5
 # define MINIMAP_TILE_SIZE (MINIMAP_SIZE / (MINIMAP_RADIUS * 2 + 1))
 
-# define COLLISION_OFFSET 0.0
-
 # define RGB_WHT 0xFFFFFF
 # define RGB_RED 0xdb4437
 # define RGB_BLUE 0x4285f4
 # define RGB_YLW 0xf4b400
 # define RGB_GRN 0x0f9d58
-
 
 # define FOV 66
 #  if FOV <= 0 || FOV >= 180
@@ -59,14 +56,13 @@
 # define FOV_RAD (FOV * M_PI / 180.0)
 # define PLANE_MAG (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0)
 
-
 # define MAP_RATIO 2
 // #  if MAP_RATIO <= 0 || MAP_RATIO >= 10
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
 
-# define COLLISION 0
-# define PRINT_DEBUG true
+# define COLLISION 1
+# define PRINT_DEBUG 0
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
@@ -251,14 +247,14 @@ t_error	handle_colors(t_cub *cub, char **line, t_key key_id);
 // PARSING_CHECK_MAP ///
 void	check_map(t_cub *cub, char *mapfile);
 void	make_copy(t_cub *cub, char *mapfile);
-bool	open_cell(t_cub *cub,char ** map, int i, int j);
+bool	open_cell(t_cub *cub, char **map, int i, int j);
 void	valid_outline(t_cub *cub);
 void	valid_char(t_cub *cub);
 void	get_player(t_cub *cub);
 void	empty_line(t_cub *cub);
 
 /// UTILITIES ///
-void	exit_door(t_cub *cub, t_error err_id);
+void	exit_door(t_cub *cub, t_error err_id, char *str);
 void	init_err_msgs(t_cub *cub);
 
 /// PARSING_UTILITIES ///
@@ -278,12 +274,12 @@ void	print_map(char **map);
 int			exec_launch(t_cub *cub);
 void		init_textures(t_cub *cub);
 void		init_exec_data(t_cub *cub);
-int			init_player(t_cub *cub, t_player *player);
+void		init_player(t_cub *cub, t_player *player);
 void		init_images(t_cub *cub);
 void		init_ray_data(t_ray *ray);
 
 // mlx_stuff
-void		cleanup_mlx(t_cub *cub, t_error mlx_err);
+void		cleanup_mlx(t_cub *cub, t_error mlx_err, char *str);
 
 // render_stuff
 void		render_map(t_cub *cub, t_player *player);
@@ -293,10 +289,15 @@ bool		render(t_cub *cub);
 int			key_press_hook(int keysym, t_cub *cub);
 int			key_release_hook(int keysym, t_cub *cub);
 void		handle_move(t_cub *cub, t_player *player);
-void		no_collision_move(t_cub *cub, t_player *player);
 void		print_ray_info(t_ray *ray, int x, FILE *fp);
-void		print_updated_pos(t_cub *cub, t_player *player);
-void		turn_around(t_cub *cub, t_player *player, char dir);
+void		print_updated_pos(t_cub *cub, t_player *player, char *key);
+void		turn_right(t_cub *cub, t_player *player);
+void		turn_left(t_cub *cub, t_player *player);
+bool		is_valid_move_x(t_cub *cub, t_player *player, double new_x);
+bool		is_valid_move_y(t_cub *cub, t_player *player, double new_y);
+
+
+
 
 
 
@@ -305,8 +306,8 @@ void		turn_around(t_cub *cub, t_player *player, char dir);
 // utils
 t_tile		char_to_tile(char c);
 void		print_map_ray(t_map *map);
-double		date_in_s(void);
-double		date_in_ms(void);
+double		date_in_s(t_cub *cub);
+double		date_in_ms(t_cub *cub);
 void		print_txtr_struct(t_txtr *txtr);
 
 

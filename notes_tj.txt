@@ -23,3 +23,8 @@ trucs a faire
 	quoi des espaces
 	attention tous les > et < ont ete remplaces par des >= et <= dans no_collision_move()
 	on s'en ballec?
+
+7. on peut accelerer
+	en appuyant sur deux touches de clavier ensemble (W+D ou S+A ou W+A ou S+D)
+	c'est nouveau ?
+	on fixe si ca l'est pas ?

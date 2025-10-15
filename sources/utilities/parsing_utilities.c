@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utilities.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/14 20:49:53 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/15 16:54:15 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*supp_newline(t_cub *cub, char *line)
 	}
 	new_line = ft_strdup(line);
 	if (!new_line)
-		exit_door(cub, PSG_ALLOC_ERR);
+		exit_door(cub, PSG_ALLOC_ERR, NULL);
 	free (line);
 	return (new_line);
 }

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/14 21:12:15 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:04:11 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ int	key_release_hook(int keysym, t_cub *cub)
 int	exec_launch(t_cub *cub)
 {
 	init_exec_data(cub);
-	if (!init_player(cub, &(cub->player)))
-		return (1);
+	init_player(cub, &(cub->player));
 	if (PRINT_DEBUG)
 	{
 		print_map_ray(&(cub->map));
