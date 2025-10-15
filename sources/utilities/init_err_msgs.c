@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:56:31 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/14 20:47:50 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/15 15:24:43 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	init_err_msgs(t_cub *cub)
 {
 	cub->err_msg[OK] = "Cub3D executed successfully";
 	cub->err_msg[PSG_FILENAME_ERR] = "Invalid file name";
-	cub->err_msg[PSG_OPEN_FILE_ERR] = "Unable to open .cub file";
-	cub->err_msg[PSG_READ_FILE_ERR] = "Error reading the .cub file";
+	cub->err_msg[PSG_OPEN_FILE_ERR] = "Unable to open the .cub file";
+	cub->err_msg[PSG_READ_FILE_ERR] = "unable to read the .cub file";
 	cub->err_msg[PSG_MISS_PARAM_ERR] = "Missing parameters";
 	cub->err_msg[PSG_NO_KEY_ERR] = "Unknown or missing element key in line";
 	cub->err_msg[PSG_ALLOC_ERR] = "Memory allocation failed";
