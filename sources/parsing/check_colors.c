@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:29 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/13 18:36:30 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/15 20:25:29 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	color_conversion(t_cub *cub)
 static t_error	check_color(int color_value)
 {
 	if (color_value > 255 || color_value < 0)
-		return (PSG_VALUE_COLOR_ERR);
+		return (PSG_RGB_FT_ERR);
 	return (OK);
 }
 
