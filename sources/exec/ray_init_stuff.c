@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_init_stuff.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/14 22:04:08 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/15 17:17:28 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	init_images(t_cub *cub)
 {
 	cub->map_img.mlx_img = mlx_new_image(cub->mlx_pointer, cub->window_width,
 										 cub->window_height);
+	if (!cub->map_img.mlx_img)
+		cleanup_mlx(cub, MLX_IMG_ERR);
 	cub->game_img.mlx_img = mlx_new_image(cub->mlx_pointer, WNDW_W, WNDW_H);
-	if (!cub->map_img.mlx_img || !cub->game_img.mlx_img)
+	if (!cub->game_img.mlx_img)
 		cleanup_mlx(cub, MLX_IMG_ERR);
 	cub->map_img.addr = mlx_get_data_addr(cub->map_img.mlx_img, &cub->map_img.bpp,
 									 &cub->map_img.line_len, &cub->map_img.endian);
@@ -31,9 +33,6 @@ void	init_textures(t_cub *cub)
 	int		width;
 	int		height;
 
-	i = -1;
-	while (++i < 4)
-		cub->txtr[i].mlx_img = NULL;
 	i = 0;
 	while (i < 4)
 	{
@@ -49,10 +48,15 @@ void	init_textures(t_cub *cub)
 
 void	init_exec_data(t_cub *cub)
 {
+	size_t	i;
+	
 	cub->mlx_pointer = NULL;
 	cub->mlx_window = NULL;
 	cub->map_img.mlx_img = NULL;
 	cub->game_img.mlx_img = NULL;
+	i = -1;
+	while (++i < 4)
+		cub->txtr[i].mlx_img = NULL;
 
 	cub->window_width = (cub->map).max_col * TILE_SIZE / MAP_RATIO;
 	cub->window_height = (cub->map).rows * TILE_SIZE / MAP_RATIO;

@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/10/14 20:46:00 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/15 16:34:30 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void	map_allocation(t_cub *cub, t_error *err_id)
 			break ;
 	}
 	close(cub->fd_file);
-	cub->map.grid = malloc(sizeof(char *) * (cub->map.rows + 1));
+	cub->map.grid = ft_calloc(sizeof(char *), (cub->map.rows + 1));
 	if (!cub->map.grid)
 		exit_door(cub, PSG_ALLOC_ERR);
 	cub->map.grid[0] = supp_newline(cub, start_map);

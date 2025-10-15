@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:10:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/13 19:17:54 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/15 17:10:07 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static void	destroy_images(t_cub *cub)
 
 void	cleanup_mlx(t_cub *cub, t_error mlx_err)
 {
-	destroy_images(cub);
+	if (cub->mlx_pointer)
+		destroy_images(cub);
 	if (cub->mlx_window)
 		mlx_destroy_window(cub->mlx_pointer, cub->mlx_window);
 	if (cub->mlx_pointer)
