@@ -6,7 +6,7 @@
 #    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/15 23:22:03 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/10/16 17:41:05 by tjacquel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRCS_EXEC = exec/ray_game_mechanics.c \
 	exec/raycaster.c \
 	exec/ray_txtr_render.c \
 	exec/mouse_mvmt_bonus.c \
+	exec/exec_launch.c \
 
 
 SRCS_FILES	= main.c $(SRCS_PARSING) $(SRCS_EXEC) $(SRC_UTILS)

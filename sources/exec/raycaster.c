@@ -5,81 +5,114 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/23 17:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/15 16:04:11 by tjacquel         ###   ########.fr       */
+/*   Created: 2025/10/16 17:41:15 by tjacquel          #+#    #+#             */
+/*   Updated: 2025/10/16 18:02:16 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-
-
-int	key_press_hook(int keysym, t_cub *cub)
+static bool	outofbounds_dda_ray(t_cub *cub, t_ray *ray)
 {
-	if (keysym == XK_Escape)
-		mlx_loop_end(cub->mlx_pointer);
-	if (keysym == XK_w) // keycode ==
-		cub->player.kbrd.key_w = true;
-	if (keysym == XK_s)
-		cub->player.kbrd.key_s = true;
-	if (keysym == XK_a)
-		cub->player.kbrd.key_a = true;
-	if (keysym == XK_d)
-		cub->player.kbrd.key_d = true;
-	if (keysym == XK_Left)
-		cub->player.kbrd.key_left = true;
-	if (keysym == XK_Right)
-		cub->player.kbrd.key_right = true;
-	if (cub->player.kbrd.key_w || cub->player.kbrd.key_s || cub->player.kbrd.key_d ||
-			cub->player.kbrd.key_a || cub->player.kbrd.key_left || cub->player.kbrd.key_right)
-		cub->render_bool = true;
-	return (0);
+	if ((int)ray->map.y < 0
+		|| (int)ray->map.y >= (int)cub->map.rows)
+	{
+		ray->hit = 1;
+		return (true);
+	}
+	if ((int)ray->map.x < 0
+		|| (int)ray->map.x >= (int)ft_strlen(cub->map.grid[(int)ray->map.y]))
+	{
+		ray->hit = 1;
+		return (true);
+	}
+	return (false);
 }
 
-int	key_release_hook(int keysym, t_cub *cub)
+static void	dda_loop(t_cub *cub, t_ray *ray)
 {
-
-	if (keysym == XK_m)
-		cub->player.kbrd.key_m = !cub->player.kbrd.key_m;
-	if (keysym == XK_c)
+	ray->hit = 0;
+	while (ray->hit == 0)
 	{
-		cub->player.display_cursor = !cub->player.display_cursor;
-		if (!cub->player.display_cursor)
+		if (ray->side_dist.x < ray->side_dist.y)
 		{
-			mlx_mouse_hide(cub->mlx_pointer, cub->mlx_window);
-			cub->player.cursor_hidden = true;
+			ray->side_dist.x += ray->delta_dist.x;
+			ray->map.x += ray->step.x;
+			ray->side = 0;
 		}
 		else
 		{
-			mlx_mouse_show(cub->mlx_pointer, cub->mlx_window);
-			cub->player.cursor_hidden = false;
+			ray->side_dist.y += ray->delta_dist.y;
+			ray->map.y += ray->step.y;
+			ray->side = 1;
 		}
+		if (outofbounds_dda_ray(cub, ray))
+			break ;
+		if (cub->map.grid[(int)ray->map.y][(int)ray->map.x] == '1')
+			ray->hit = 1;
 	}
-	if (keysym == XK_w)
-		cub->player.kbrd.key_w = false;
-	if (keysym == XK_s)
-		cub->player.kbrd.key_s = false;
-	if (keysym == XK_a)
-		cub->player.kbrd.key_a = false;
-	if (keysym == XK_d)
-		cub->player.kbrd.key_d = false;
-	if (keysym == XK_Left)
-		cub->player.kbrd.key_left = false;
-	if (keysym == XK_Right)
-		cub->player.kbrd.key_right = false;
-	return (0);
 }
 
-int	exec_launch(t_cub *cub)
+static void	init_step_and_sidedist(t_player *player, t_ray *ray)
 {
-	init_exec_data(cub);
-	init_player(cub, &(cub->player));
-	if (PRINT_DEBUG)
+	if (ray->ray_dir.x < 0)
 	{
-		print_map_ray(&(cub->map));
-		print_elem(&(cub->elem));
+		ray->step.x = -1;
+		ray->side_dist.x
+			= (player->pos.x - ray->map.x) * ray->delta_dist.x;
 	}
-	if (!render(cub))
-		return (1);
-	return (0);
+	else
+	{
+		ray->step.x = 1;
+		ray->side_dist.x
+			= (ray->map.x + 1.0 - player->pos.x) * ray->delta_dist.x;
+	}
+	if (ray->ray_dir.y < 0)
+	{
+		ray->step.y = -1;
+		ray->side_dist.y
+			= (player->pos.y - ray->map.y) * ray->delta_dist.y;
+	}
+	else
+	{
+		ray->step.y = 1;
+		ray->side_dist.y
+			= (ray->map.y + 1.0 - player->pos.y) * ray->delta_dist.y;
+	}
+}
+
+static double	compute_delta_dist(double ray_dir)
+{
+	if (ray_dir == 0)
+		return (1e30);
+	return (fabs(1 / ray_dir));
+}
+
+void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
+{
+	int		x;
+	double	camera_x;
+
+	x = 0;
+	while (x < WNDW_W)
+	{
+		camera_x = 2 * x / (double)WNDW_W - 1;
+		ray->ray_dir.x = player->dir.x + player->plane.x * camera_x;
+		ray->ray_dir.y = player->dir.y + player->plane.y * camera_x;
+		ray->map.x = (int)player->pos.x;
+		ray->map.y = (int)player->pos.y;
+		ray->delta_dist.x = compute_delta_dist(ray->ray_dir.x);
+		ray->delta_dist.y = compute_delta_dist(ray->ray_dir.y);
+		init_step_and_sidedist(player, ray);
+		dda_loop(cub, ray);
+		if (ray->side == 0)
+			ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
+		else
+			ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
+		render_cubes(cub, player, ray, x);
+		if (player->kbrd.key_m == true)
+			render_2Dray(cub, player, ray, x);
+		x++;
+	}
+	cub->print_debug_cub = false;
 }
