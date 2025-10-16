@@ -6,37 +6,69 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:37:47 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/14 22:00:32 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 23:00:00 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void	render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x, double wallX)
+static void	check_txtr_pxl_bound(t_ray *ray, t_txtr *txtr)
+{
+	if (txtr->pxl.x < 0)
+		txtr->pxl.x = 0;
+	if (txtr->pxl.x >= txtr->width)
+		txtr->pxl.x = txtr->width - 1;
+	if (ray->side == 1 && ray->ray_dir.x < 0)
+		txtr->pxl.x = txtr->width - txtr->pxl.x - 1;
+	if (ray->side == 0 && ray->ray_dir.y > 0)
+		txtr->pxl.x = txtr->width - txtr->pxl.x - 1;
+}
+
+/*
+txtr_y_coord: represents the current vertical position within the texture
+	as a floating-point value. It's used to track which row of the texture
+	should be sampled as you iterate through screen pixels.
+step: How much to move through the texture for each screen pixel
+txtr->pxl.x & txtr->pxl.y are the exact integer pixel coordinates in the texture
+ */
+void	render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x)
 {
 	int		y;
 	int		color;
 	double	step;
-	double	text_pos;
+	double	txtr_y_coord;
 
-	txtr->coord.x = (int)(wallX * (double)(txtr->width));
-	if (txtr->coord.x < 0)
-		txtr->coord.x = 0;
-	if (txtr->coord.x >= txtr->width)
-		txtr->coord.x = txtr->width - 1;
-	if (ray->side == 0 && ray->ray_dir.x < 0)
-		txtr->coord.x = txtr->width - txtr->coord.x - 1;
-	if (ray->side == 1 && ray->ray_dir.y > 0)
-		txtr->coord.x = txtr->width - txtr->coord.x - 1;
+	txtr->pxl.x = (int)(ray->wall_x * (double)(txtr->width));
+	check_txtr_pxl_bound(ray, txtr);
 	step = 1.0 * txtr->height / ray->line_height;
-	text_pos = (ray->draw_start - WNDW_H / 2 + ray->line_height / 2) * step;
+	txtr_y_coord = (ray->draw_start - WNDW_H / 2 + ray->line_height / 2) * step;
 	y = ray->draw_start;
 	while (y < ray->draw_end)
 	{
-		txtr->coord.y = (int)text_pos % txtr->height;
-		text_pos += step;
-		color = *(int *)(txtr->addr + (int)txtr->coord.y * txtr->line_len + ((int)txtr->coord.x * txtr->bpp / 8));
+		txtr->pxl.y = (int)txtr_y_coord % txtr->height;
+		txtr_y_coord += step;
+		color = *(int *)(txtr->addr + txtr->pxl.y * txtr->line_len
+				+ (txtr->pxl.x * txtr->bpp / 8));
 		img_pxl_put(&cub->game_img, x, y, color);
 		y++;
 	}
+}
+
+t_key	get_texture_index(t_ray *ray)
+{
+	if (ray->side)
+	{
+		if (ray->step.x == 1)
+			return (EA);
+		else
+			return (WE);
+	}
+	else
+	{
+		if (ray->step.y == 1)
+			return (SO);
+		else
+			return (NO);
+	}
+	return (NO);
 }
