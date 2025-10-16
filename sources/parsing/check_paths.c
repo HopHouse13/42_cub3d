@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:58 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/13 18:36:03 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/16 18:25:44 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // check si le fichier de path peut etre bien ouvert (creation d'un fd)
 // et etre lu pour verifier si le fichier en question n'est pas un dossier.
 // La lecture avec 'read' est impossible si c'etait un dossier. (renvoie -1)
-static t_error	check_path(char *path)
+static void	check_path(t_cub *cub, char *path)
 {
 	int		tmp_fd;
 	int		tmp_read;
@@ -23,12 +23,11 @@ static t_error	check_path(char *path)
 
 	tmp_fd = open(path, O_RDONLY);
 	if (tmp_fd == -1)
-		return (PSG_PATH_ERR);
+		exit_door(cub, PSG_PATH_ERR);
 	tmp_read = read(tmp_fd, tmp_buf, 1);
 	if (tmp_read == -1)
-		return (PSG_READ_PATH_ERR);
+		exit_door(cub, PSG_READ_PATH_ERR);
 	close(tmp_fd);
-	return (OK);
 }
 
 // Le pointeur de line se trouve au debut du path.
@@ -37,7 +36,7 @@ static t_error	check_path(char *path)
 // specifiquement est vide ou deja remplit(controle des doublons).
 // dub et stockqge dans cub->elem.path avec la cle specifique.
 // Enfin retour du retour de 'check_path' que check si le path est valide.
-t_error	handle_paths(t_cub *cub, char **line, t_key key_id)
+void	handle_paths(t_cub *cub, char **line, t_key key_id)
 {
 	unsigned int	nb_char_path;
 	char			*tmp_line;
@@ -53,9 +52,9 @@ t_error	handle_paths(t_cub *cub, char **line, t_key key_id)
 	{
 		cub->elem.path[key_id] = ft_strndup(tmp_line, nb_char_path);
 		if (!cub->elem.path[key_id])
-			return (PSG_ALLOC_ERR);
+			exit_door(cub, PSG_ALLOC_ERR);
 	}
 	else
-		return (PSG_DUP_PATH_ERR);
-	return (check_path(cub->elem.path[key_id]));
+		exit_door(cub, PSG_DUP_PATH_ERR);
+	check_path(cub, cub->elem.path[key_id]);
 }

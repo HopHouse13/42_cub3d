@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/15 17:20:24 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/16 17:48:16 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ static void	free_elem(t_cub *cub)
 // Sinon -> exit(2).
 static void	free_parsing(t_cub *cub, t_error err_id)
 {
-	if (cub->fd_file >= 0)
-		close(cub->fd_file);
+	if (cub->psg.fd_file >= 0)
+		close(cub->psg.fd_file);
+	if (cub->psg.line)
+		free(cub->psg.line);
 	get_next_line(-1, &err_id, true);
 	free_elem(cub);
 	free_map(cub);
