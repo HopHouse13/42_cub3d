@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/16 18:19:47 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 23:01:25 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
 
-# define COLLISION 0
+# define COLLISION 1
 # define PRINT_DEBUG 0
 
 
@@ -128,6 +128,12 @@ typedef enum	e_key
 				C,
 }				t_key;
 
+typedef struct	s_coord
+{
+	int		x;
+	int		y;
+}				t_coord;
+
 typedef struct	s_vec
 {
 	double		x;
@@ -188,7 +194,7 @@ typedef struct s_txtr
 	int			endian;
 	int			width;
 	int			height;
-	t_vec		coord;
+	t_coord		pxl;
 }			t_txtr;
 
 
@@ -284,7 +290,7 @@ void		cleanup_mlx(t_cub *cub, t_error mlx_err, char *str);
 
 // render_stuff
 void		render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x);
-void		render_2Dray(t_cub *cub, t_player *player, t_ray *ray, int x);
+void		render_2dray(t_cub *cub, t_player *player, t_ray *ray);
 void		raycasting_loop(t_cub *cub, t_player *player, t_ray *ray);
 void		render_map(t_cub *cub);
 void		render(t_cub *cub);
@@ -324,6 +330,9 @@ int			render_rect(t_img *img, t_rect rect);
 
 // render textures
 void		render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x);
+t_key		get_texture_index(t_ray *ray);
+void		compute_wall_bounds(t_ray *ray);
+
 
 // bonus
 int		handle_mouse(int x, int y, t_cub *cub);

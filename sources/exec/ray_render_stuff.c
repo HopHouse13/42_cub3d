@@ -6,92 +6,11 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 18:21:08 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 22:59:24 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-
-void draw_ray_line(t_cub *cub, int x0, int y0, int x1, int y1) // a expliciter
-{
-	int dx = abs(x1 - x0);
-	int dy = abs(y1 - y0);
-	int sx = x0 < x1 ? 1 : -1;
-	int sy = y0 < y1 ? 1 : -1;
-	int err = dx - dy;
-	int x = x0, y = y0;
-
-	while (1)
-	{
-		if (x >= 0 && x <= cub->window_width && y>= 0 && y<= cub->window_height)
-			img_pxl_put(&cub->map_img, x, y, 0xFFFF00);
-		// if (x >= 0 && x <= WNDW_W && y>= 0 && y<= WNDW_H)
-		// 	img_pxl_put(&cub->game_img, x, y, 0xFFFF00);
-
-
-		if (x == x1 && y == y1) break;
-
-		int e2 = 2 * err;
-		if (e2 > -dy)
-		{
-			err -= dy;
-			x += sx;
-		}
-		if (e2 < dx)
-		{
-			err += dx;
-			y += sy;
-		}
-	}
-}
-
-void	render_2Dray(t_cub *cub, t_player *player, t_ray *ray, int x) // a expliciter
-{
-	(void) x;
-	// Calculate the exact wall hit position
-	t_vec	wall_hit;
-	t_vec	start;
-	// Store the starting position for ray drawing
-	start.x = player->pos.x;
-	start.y = player->pos.y;
-	wall_hit.x = 0;
-	wall_hit.y = 0;
-
-	if (ray->side == 0) // Hit a vertical wall (x-side)
-	{
-		wall_hit.x = ray->map.x;
-		if (ray->step.x == -1)
-			wall_hit.x += 1.0; // Hit the right side of the previous cell
-		wall_hit.y = player->pos.y + (wall_hit.x - player->pos.x) * ray->ray_dir.y / ray->ray_dir.x;
-	}
-	else // Hit a horizontal wall (y-side)
-	{
-		wall_hit.y = ray->map.y;
-		if (ray->step.y == -1)
-			wall_hit.y += 1.0; // Hit the bottom side of the previous cell
-		wall_hit.x = player->pos.x + (wall_hit.y - player->pos.y) * ray->ray_dir.x / ray->ray_dir.y;
-	}
-
-	// if (PRINT_DEBUG)
-	// {
-	// 	if (cub->print_debug_cub)
-	// 	{
-	// 		print_ray_info(ray, x, fp);
-	// 		fprintf(fp, "		Ray[%d]->start.x =		%.4f		start.y =			%.4f\n", x, start.x, start.y);
-	// 		fprintf(fp, "		Ray[%d]->wall_hit.x =	%.4f		wall_hit.y =		%.4f\n\n", x, wall_hit.x, wall_hit.y);
-	// 	}
-	// }
-
-
-	start.x = ((start.x * TILE_SIZE) / MAP_RATIO);
-	start.y = ((start.y * TILE_SIZE) / MAP_RATIO);
-	wall_hit.x = ((wall_hit.x * TILE_SIZE) / MAP_RATIO);
-	wall_hit.y = ((wall_hit.y * TILE_SIZE) / MAP_RATIO);
-	draw_ray_line(cub, start.x, start.y,
-		wall_hit.x, wall_hit.y);
-}
-
 
 static void	render_background(t_cub *cub, int x, int draw_start, int draw_end)
 {
@@ -111,8 +30,7 @@ static void	render_background(t_cub *cub, int x, int draw_start, int draw_end)
 	}
 }
 
-
-void	render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x)
+void	compute_wall_bounds(t_ray *ray)
 {
 	ray->line_height = (int)(WNDW_H / ray->perp_wall_dist);
 	ray->draw_start = -ray->line_height / 2 + WNDW_H / 2;
@@ -121,73 +39,18 @@ void	render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x)
 	ray->draw_end = ray->line_height / 2 + WNDW_H / 2;
 	if (ray->draw_end >= WNDW_H)
 		ray->draw_end = WNDW_H - 1;
-
-
-	if (ray->side) // le mur est un cote (est-ouest)
-	{
-		ray->wall_x = player->pos.x + ray->perp_wall_dist * ray->ray_dir.x;
-		ray->wall_x -= floor((ray->wall_x));
-		// if (cub->print_debug_cub)
-		// 	printf("Ray[%d] ray->wall_x = %.4f\n", x, ray->wall_x);
-		if (ray->step.y == 1) // WEST facing wall -- on regarde a l'est		// ca c'est le sud au final (face nord du mur // on regarde au sud)
-		{
-			// color = RGB_BLUE;
-			render_texture(cub, ray, &(cub->txtr[2]), x);
-		}
-
-		else 				// EAST facing wall -- on regarde a l'ouest	// ca c'est le nord au final (face sud du mur // on regarde au nord)
-		{
-			// color = RGB_RED;
-			render_texture(cub, ray, &(cub->txtr[0]), x);
-		}
-	}
-	else // le mur n'est pas un cote (est-ouest)
-	{
-		ray->wall_x = player->pos.y + ray->perp_wall_dist * ray->ray_dir.y;
-		ray->wall_x -= floor((ray->wall_x));
-		// if (cub->print_debug_cub)
-		// 	printf("Ray[%d] ray->wall_x = %.4f\n", x, ray->wall_x);
-		if (ray->step.x == 1) // NORTH facing wall -- on regarde au sud // ca c'est l'est au final (face ouest du mur // on regarde a l'est)
-		{
-			// color = RGB_GRN;
-			render_texture(cub, ray, &(cub->txtr[1]), x);
-
-		}
-		else // SOUTH facing wall -- on regarde au nord		// ca c'est l'ouest au final (face est du mur // on regarde a l'ouest)
-		{
-			// color = RGB_YLW;
-			render_texture(cub, ray, &(cub->txtr[3]), x);
-		}
-	}
-	render_background(cub, x, ray->draw_start, ray->draw_end);
 }
 
-void	render_map(t_cub *cub)
+void	render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x)
 {
-	size_t	x;
-	size_t	y;
-
-	y = 0;
-	while (y < cub->map.rows)
-	{
-		x = 0;
-		size_t	row_len = ft_strlen(cub->map.grid[y]);
-		while (x < row_len)
-		{
-			if (char_to_tile(cub->map.grid[y][x]) == TILE_WALL)
-				render_sqr(&cub->map_img,
-					(t_sqr){x * TILE_SIZE / MAP_RATIO,
-					y * TILE_SIZE / MAP_RATIO,
-					TILE_SIZE / MAP_RATIO, RGB_RED});
-			else
-				render_sqr(&cub->map_img,
-					(t_sqr){x * TILE_SIZE / MAP_RATIO,
-					y * TILE_SIZE / MAP_RATIO,
-					TILE_SIZE / MAP_RATIO, RGB_FLOOR});
-			x++;
-		}
-		y++;
-	}
+	compute_wall_bounds(ray);
+	if (ray->side)
+		ray->wall_x = player->pos.y + ray->perp_wall_dist * ray->ray_dir.y;
+	else
+		ray->wall_x = player->pos.x + ray->perp_wall_dist * ray->ray_dir.x;
+	ray->wall_x -= floor((ray->wall_x));
+	render_texture(cub, ray, &(cub->txtr[get_texture_index(ray)]), x);
+	render_background(cub, x, ray->draw_start, ray->draw_end);
 }
 
 int	render_loop(t_cub *cub)
@@ -219,19 +82,19 @@ void	render(t_cub *cub)
 	cub->mlx_pointer = mlx_init();
 	if (!cub->mlx_pointer)
 		cleanup_mlx(cub, MLX_PTR_ERR, NULL);
-	cub->mlx_window = mlx_new_window(cub->mlx_pointer, WNDW_W,
-			WNDW_H, "cubD3TROIT");
+	cub->mlx_window = mlx_new_window(cub->mlx_pointer, WNDW_W, WNDW_H,
+			"cubD3TROIT");
 	if (!cub->mlx_window)
 		cleanup_mlx(cub, MLX_WDW_ERR, NULL);
 	init_images(cub);
 	init_textures(cub);
 	mlx_loop_hook(cub->mlx_pointer, &render_loop, cub);
 	mlx_hook(cub->mlx_window, KeyPress, KeyPressMask, &key_press_hook, cub);
-	mlx_hook(cub->mlx_window, KeyRelease, KeyReleaseMask,
-		&key_release_hook, cub);
+	mlx_hook(cub->mlx_window, KeyRelease, KeyReleaseMask, &key_release_hook,
+		cub);
 	mouse_mlx_hook_bonus(cub);
-	mlx_hook(cub->mlx_window, DestroyNotify, NoEventMask,
-		&mlx_loop_end, cub->mlx_pointer);
+	mlx_hook(cub->mlx_window, DestroyNotify, NoEventMask, &mlx_loop_end,
+		cub->mlx_pointer);
 	mlx_loop(cub->mlx_pointer);
 	cleanup_mlx(cub, OK, NULL);
 }

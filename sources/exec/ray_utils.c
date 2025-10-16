@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 16:42:14 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 22:16:12 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ void	print_txtr_struct(t_txtr *txtr)
 		printf("	txtr[%d].mlx_img = %p, .addr = %p, .bpp = %d, .line_end = \
 %d, .endian = %d, .width = %d, .height = %d\n",
 			i, txtr[i].mlx_img, (void *)txtr[i].addr, txtr[i].bpp, txtr[i].\
-			line_len, txtr[i].endian, txtr[i].width, txtr[i].height);
-			i++;
+line_len, txtr[i].endian, txtr[i].width, txtr[i].height);
+		i++;
 	}
 	printf("/* -----------------------------------------------------\
 -------------------------*/\n\n");

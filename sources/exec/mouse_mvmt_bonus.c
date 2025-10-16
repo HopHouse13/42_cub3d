@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 21:21:34 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 16:36:11 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 20:26:28 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ void	toggle_cursor_bonus(t_cub *cub)
 
 void	mouse_mlx_hook_bonus(t_cub *cub)
 {
-	mlx_hook(cub->mlx_window, MotionNotify, PointerMotionMask, &handle_mouse, cub);
-	mlx_hook(cub->mlx_window, FocusIn, FocusChangeMask, &handle_focus_in, cub);
-	mlx_hook(cub->mlx_window, FocusOut, FocusChangeMask, &handle_focus_out, cub);
+	mlx_hook(cub->mlx_window, MotionNotify, PointerMotionMask,
+		&handle_mouse, cub);
+	mlx_hook(cub->mlx_window, FocusIn, FocusChangeMask,
+		&handle_focus_in, cub);
+	mlx_hook(cub->mlx_window, FocusOut, FocusChangeMask,
+		&handle_focus_out, cub);
 }
