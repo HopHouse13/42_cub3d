@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 16:29:28 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 22:25:07 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	init_textures(t_cub *cub)
 			cleanup_mlx(cub, MLX_TXTR_ERR, cub->elem.path[i]);
 		cub->txtr[i].width = width;
 		cub->txtr[i].height = height;
-		cub->txtr[i].coord = (t_vec){0, 0};
+		cub->txtr[i].pxl = (t_coord){0, 0};
 		cub->txtr[i].addr = mlx_get_data_addr(cub->txtr[i].mlx_img,
 				&cub->txtr[i].bpp,
 				&cub->txtr[i].line_len,
