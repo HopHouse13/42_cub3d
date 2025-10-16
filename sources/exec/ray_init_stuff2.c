@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 23:19:59 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 00:40:00 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	init_images(t_cub *cub)
 			cub->window_width,
 			cub->window_height);
 	if (!cub->map_img.mlx_img)
-		cleanup_mlx(cub, MLX_IMG_ERR, NULL);
+		cleanup_mlx(cub, MLX_IMG_ERR);
 	cub->game_img.mlx_img = mlx_new_image(cub->mlx_pointer,
 			WNDW_W,
 			WNDW_H);
 	if (!cub->game_img.mlx_img)
-		cleanup_mlx(cub, MLX_IMG_ERR, NULL);
+		cleanup_mlx(cub, MLX_IMG_ERR);
 	cub->map_img.addr = mlx_get_data_addr(cub->map_img.mlx_img,
 			&cub->map_img.bpp,
 			&cub->map_img.line_len,
@@ -48,7 +48,7 @@ void	init_textures(t_cub *cub)
 				&width,
 				&height);
 		if (!cub->txtr[i].mlx_img)
-			cleanup_mlx(cub, MLX_TXTR_ERR, cub->elem.path[i]);
+			cleanup_mlx(cub, MLX_TXTR_ERR);
 		cub->txtr[i].width = width;
 		cub->txtr[i].height = height;
 		cub->txtr[i].pxl = (t_coord){0, 0};

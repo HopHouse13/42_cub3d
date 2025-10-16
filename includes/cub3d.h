@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/17 00:24:00 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 00:40:20 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,7 @@ void	get_player(t_cub *cub);
 void	empty_line(t_cub *cub);
 
 /// UTILITIES ///
-void	exit_door(t_cub *cub, t_error err_id, char *str);
+void	exit_door(t_cub *cub, t_error err_id);
 void	init_err_msgs(t_cub *cub);
 
 /// PARSING_UTILITIES ///
@@ -289,7 +289,7 @@ void		init_images(t_cub *cub);
 void		init_ray_data(t_ray *ray);
 
 // mlx_stuff
-void		cleanup_mlx(t_cub *cub, t_error mlx_err, char *str);
+void		cleanup_mlx(t_cub *cub, t_error mlx_err);
 
 // render_stuff
 void		render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x);

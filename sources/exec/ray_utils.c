@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 22:16:12 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 00:40:34 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ double	date_in_s(t_cub *cub)
 
 	time = 0;
 	if (gettimeofday(&current_time, NULL) == -1)
-		cleanup_mlx(cub, MLX_OTHER_ERR, NULL);
+		cleanup_mlx(cub, MLX_OTHER_ERR);
 	time = current_time.tv_sec + current_time.tv_usec / 1000000.0;
 	return (time);
 }
@@ -31,7 +31,7 @@ double	date_in_ms(t_cub *cub)
 
 	time = 0;
 	if (gettimeofday(&current_time, NULL) == -1)
-		cleanup_mlx(cub, MLX_OTHER_ERR, NULL);
+		cleanup_mlx(cub, MLX_OTHER_ERR);
 	time = (current_time.tv_sec * 1000.0) + (current_time.tv_usec / 1000.0);
 	return (time);
 }
