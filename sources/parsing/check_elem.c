@@ -12,34 +12,29 @@
 
 #include "../../includes/cub3d.h"
 
-// check si il y a qutre chose que des espace apres le path ou la couleur.
-static t_error	check_rest_of_line(char **line)
+// check si il y a autre chose que des espace apres le path ou la couleur.
+static void	check_rest_of_line(t_cub *cub, char **line)
 {
 	while (**line && **line != '\n')
 	{
 		if (**line != ' ')
-			return (PSG_LINE_FT_ERR);
+			exit_door(cub, PSG_LINE_FT_ERR);
 		(*line)++;
 	}
-	return (OK);
 }
 
 // Avance jusqu'a 1er char qui n'est pas un espace.
 // dispatch en fonction de la keu trouvee.
 // En de F(4) c'est un path sinon c'est une couleur.
 // voir Enum struct
-static t_error	handle_get_elem(t_cub *cub, char **line, t_key key_id)
+static void	handle_get_elem(t_cub *cub, char **line, t_key key_id)
 {
-	t_error	err_id;
-
-	err_id = OK;
 	while (**line && **line == ' ')
 		(*line)++;
 	if (key_id < F)
-		err_id = handle_paths(cub, line, key_id);
+		handle_paths(cub, line, key_id);
 	else
-		err_id = handle_colors(cub, line, key_id);
-	return (err_id);
+		handle_colors(cub, line, key_id);
 }
 
 // init un tab avec les 6 key avec leurs valeurs de la struct ENUM
@@ -66,58 +61,52 @@ static bool	key_finder(char **line, t_key key_id)
 // skip des espaces et la lignes vide
 // initialisation de key_id a la premiere valeur de l'enum (NO)
 // key trouvee avec 'key_finder', on la check et stockavec 'handle_get_elem.
-// si cette fonction renvoye une erreur, on return l'erreur.
-// si apres il y a des char invalid apres tout se processus, return l'erreur.
-static t_error	handle_line(t_cub *cub, char *line)
+// Apres check si il y a des char invalid apres tout se processus.
+static void	handle_line(t_cub *cub, char *line)
 {
 	t_key	key_id;
-	t_error	err_id;
 
-	err_id = OK;
 	while (*line && *line == ' ')
 		line++;
 	if (*line == '\n' || *line == '\0')
-		return (OK);
+		return ;
 	key_id = NO;
 	while (key_id <= C)
 	{
 		if (key_finder(&line, key_id))
 		{
 			cub->elem.e_counter++;
-			err_id = handle_get_elem(cub, &line, key_id);
-			if (err_id == OK)
-				err_id = check_rest_of_line(&line);
-			return (err_id);
+			handle_get_elem(cub, &line, key_id);
+			check_rest_of_line(cub, &line);
+			return ;
 		}
 		key_id++;
 	}
-	return (PSG_NO_KEY_ERR);
+	exit_door(cub, PSG_NO_KEY_ERR);
 }
 
 // ouvre le .cub
 // loop -> lecture continue tant que pas trouve 6 elem (4 patchs + 2 colors)
-// les messages des erreurs de check_elem sont le retour de handle_line,
-// stock dans err_id.
-// si on arrive a la fin du file sans avoir avoir trouve els 6 elem -> error
+// Plusieurs controle sur si l'allocation.
+// Handle_line prend la line stock dans la struct psg.
+// Si on arrive a la fin du file sans avoir avoir trouve els 6 elem -> error
 void	check_elem(t_cub *cub, char *mapfile)
 {
-	char	*line;
 	t_error	err_id;
 
 	err_id = OK;
-	cub->fd_file = open(mapfile, O_RDONLY);
-	if (cub->fd_file < 0)
+	cub->psg.fd_file = open(mapfile, O_RDONLY);
+	if (cub->psg.fd_file < 0)
 		exit_door(cub, PSG_OPEN_FILE_ERR);
 	while (cub->elem.e_counter < 6)
 	{
-		line = get_next_line(cub->fd_file, &err_id, false);
+		cub->psg.line = get_next_line(cub->psg.fd_file, &err_id, false);
 		if (err_id == PSG_ALLOC_ERR)
 			exit_door(cub, err_id);
-		if (!line)
+		if (!cub->psg.line)
 			exit_door(cub, PSG_MISS_PARAM_ERR);
-		err_id = handle_line(cub, line);
-		free(line);
-		if (err_id > OK)
-			exit_door(cub, err_id);
+		handle_line(cub, cub->psg.line);
+		free(cub->psg.line);
+		cub->psg.line = NULL;
 	}
 }

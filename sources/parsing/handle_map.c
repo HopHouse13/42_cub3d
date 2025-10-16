@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/10/15 16:34:30 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/16 18:05:36 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static void	refind_start_map(t_cub *cub, char *mapfile, t_error *err_id)
 {
 	char	*line;
 
-	cub->fd_file = open(mapfile, O_RDONLY);
-	if (cub->fd_file < 0)
+	cub->psg.fd_file = open(mapfile, O_RDONLY);
+	if (cub->psg.fd_file < 0)
 		exit_door(cub, PSG_OPEN_FILE_ERR);
 	while (true)
 	{
-		line = get_next_line(cub->fd_file, err_id, false);
+		line = get_next_line(cub->psg.fd_file, err_id, false);
 		if (*err_id == PSG_ALLOC_ERR)
 			exit_door(cub, *err_id);
 		if (!line)
@@ -47,7 +47,7 @@ static char	*found_start_map(t_cub *cub, t_error *err_id)
 	found_start = false;
 	while (true)
 	{
-		line = get_next_line(cub->fd_file, err_id, false);
+		line = get_next_line(cub->psg.fd_file, err_id, false);
 		if (*err_id == PSG_ALLOC_ERR)
 			exit_door(cub, *err_id);
 		if (!line)
@@ -80,13 +80,13 @@ static void	map_allocation(t_cub *cub, t_error *err_id)
 	{
 		++cub->map.rows;
 		free(line);
-		line = get_next_line(cub->fd_file, err_id, false);
+		line = get_next_line(cub->psg.fd_file, err_id, false);
 		if (*err_id == PSG_ALLOC_ERR)
 			exit_door(cub, *err_id);
 		if (!line)
 			break ;
 	}
-	close(cub->fd_file);
+	close(cub->psg.fd_file);
 	cub->map.grid = ft_calloc(sizeof(char *), (cub->map.rows + 1));
 	if (!cub->map.grid)
 		exit_door(cub, PSG_ALLOC_ERR);
@@ -111,7 +111,7 @@ void	make_copy(t_cub *cub, char *mapfile)
 	i = 1;
 	while (i < cub->map.rows)
 	{
-		line = get_next_line(cub->fd_file, &err_id, false);
+		line = get_next_line(cub->psg.fd_file, &err_id, false);
 		if (err_id == PSG_ALLOC_ERR)
 			exit_door(cub, err_id);
 		if (!line)
