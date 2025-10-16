@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 22:25:07 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 23:19:59 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ void	init_textures(t_cub *cub)
 
 void	init_ray_data(t_ray *ray)
 {
-	ray->map = (t_vec){0, 0};
+	ray->map = (t_coord){0, 0};
 	ray->ray_dir = (t_vec){0, 0};
 	ray->delta_dist = (t_vec){0, 0};
 	ray->side_dist = (t_vec){0, 0};
-	ray->step = (t_vec){0, 0};
+	ray->step = (t_coord){0, 0};
 	ray->perp_wall_dist = 0;
 	ray->wall_x = 0;
 	ray->hit = 0;

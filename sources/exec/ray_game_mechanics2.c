@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 22:17:36 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 17:54:56 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 23:53:25 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,28 @@
 	│ sin(θ)  cos(θ)│   │ y │       │ x*sin(θ) + y*cos(θ) │
 	└               ┘   └   ┘       └                     ┘
 */
-static t_vec	rotation_matrix(t_vec vec, double angle)
+static t_vec	rotation_matrix(t_vec vec, double angle, bool mouse)
 {
 	t_vec	rotated;
 
+	if (mouse)
+		angle /= 1.5;
 	rotated.x = vec.x * cos(angle) - vec.y * sin(angle);
 	rotated.y = vec.x * sin(angle) + vec.y * cos(angle);
 	return (rotated);
 }
 
-void	turn_left(t_cub *cub, t_player *player)
+void	turn_left(t_cub *cub, t_player *player, bool mouse)
 {
-	if (!player->display_cursor)
-		player->rot_speed /= 1.5;
-	player->dir = rotation_matrix(player->dir, -player->rot_speed);
-	player->plane = rotation_matrix(player->plane, -player->rot_speed);
+	player->dir = rotation_matrix(player->dir, -ROT_SPEED, mouse);
+	player->plane = rotation_matrix(player->plane, -ROT_SPEED, mouse);
 	print_updated_pos(cub, player, "Left Arrow");
 }
 
-void	turn_right(t_cub *cub, t_player *player)
+void	turn_right(t_cub *cub, t_player *player, bool mouse)
 {
-	if (!player->display_cursor)
-		player->rot_speed /= 1.5;
-	player->dir = rotation_matrix(player->dir, player->rot_speed);
-	player->plane = rotation_matrix(player->plane, player->rot_speed);
+	player->dir = rotation_matrix(player->dir, ROT_SPEED, mouse);
+	player->plane = rotation_matrix(player->plane, ROT_SPEED, mouse);
 	print_updated_pos(cub, player, "Right Arrow");
 }
 

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 22:59:24 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 23:14:42 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ static void	render_background(t_cub *cub, int x, int draw_start, int draw_end)
 	}
 }
 
+/*
+8. Calculating wall height on screen (line_height)
+9. Vertical drawing coordinates (draw_start, draw_end)
+ */
 void	compute_wall_bounds(t_ray *ray)
 {
 	ray->line_height = (int)(WNDW_H / ray->perp_wall_dist);

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 21:21:34 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 20:26:28 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 23:52:14 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	handle_mouse(int x, int y, t_cub *cub)
 			return (0);
 		dx = x - center_x;
 		if (dx > 0)
-			turn_right(cub, &(cub->player));
+			turn_right(cub, &(cub->player), true);
 		else if (dx < 0)
-			turn_left(cub, &(cub->player));
+			turn_left(cub, &(cub->player), true);
 		mlx_mouse_move(cub->mlx_pointer, cub->mlx_window, center_x, WNDW_H / 2);
 	}
 	return (0);
