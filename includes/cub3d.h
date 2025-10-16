@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/16 23:01:25 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 23:54:10 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@
 # define RGB_YLW 0xf4b400
 # define RGB_GRN 0x0f9d58
 # define RGB_FLOOR 0x0000067
+
+# define MOVE_SPEED 0.075
+# define ROT_SPEED 0.035
 
 # define FOV 66
 #  if FOV <= 0 || FOV >= 180
@@ -225,11 +228,11 @@ typedef struct	s_cub
 
 typedef struct s_ray
 {
-	t_vec		map;
+	t_coord		map;
 	t_vec		ray_dir;
 	t_vec		delta_dist;
 	t_vec		side_dist;
-	t_vec		step;
+	t_coord		step;
 	double		perp_wall_dist;
 	double		wall_x;
 	int			hit;
@@ -301,8 +304,8 @@ int			key_release_hook(int keysym, t_cub *cub);
 void		handle_move(t_cub *cub, t_player *player);
 void		print_ray_info(t_ray *ray, int x, FILE *fp);
 void		print_updated_pos(t_cub *cub, t_player *player, char *key);
-void		turn_right(t_cub *cub, t_player *player);
-void		turn_left(t_cub *cub, t_player *player);
+void		turn_right(t_cub *cub, t_player *player, bool mouse);
+void		turn_left(t_cub *cub, t_player *player, bool mouse);
 bool		is_valid_move_x(t_cub *cub, t_player *player, double new_x);
 bool		is_valid_move_y(t_cub *cub, t_player *player, double new_y);
 

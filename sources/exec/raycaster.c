@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:41:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 20:38:55 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 23:22:28 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 static bool	outofbounds_dda_ray(t_cub *cub, t_ray *ray)
 {
-	if ((int)ray->map.y < 0
-		|| (int)ray->map.y >= (int)cub->map.rows)
+	if (ray->map.y < 0
+		|| ray->map.y >= (int)cub->map.rows)
 	{
 		ray->hit = 1;
 		return (true);
 	}
-	if ((int)ray->map.x < 0
-		|| (int)ray->map.x >= (int)ft_strlen(cub->map.grid[(int)ray->map.y]))
+	if (ray->map.x < 0
+		|| ray->map.x >= (int)ft_strlen(cub->map.grid[ray->map.y]))
 	{
 		ray->hit = 1;
 		return (true);
@@ -29,6 +29,7 @@ static bool	outofbounds_dda_ray(t_cub *cub, t_ray *ray)
 	return (false);
 }
 
+/* 6. Digital Differential Analysis: Casting the ray */
 static void	dda_loop(t_cub *cub, t_ray *ray)
 {
 	ray->hit = 0;
@@ -48,11 +49,12 @@ static void	dda_loop(t_cub *cub, t_ray *ray)
 		}
 		if (outofbounds_dda_ray(cub, ray))
 			break ;
-		if (cub->map.grid[(int)ray->map.y][(int)ray->map.x] == '1')
+		if (cub->map.grid[ray->map.y][ray->map.x] == '1')
 			ray->hit = 1;
 	}
 }
 
+/* 5. Calculation of steps and initial side distances  */
 static void	init_step_and_sidedist(t_player *player, t_ray *ray)
 {
 	if (ray->ray_dir.x < 0)
@@ -88,6 +90,13 @@ static double	compute_delta_dist(double ray_dir)
 	return (fabs(1 / ray_dir));
 }
 
+/*
+1. x is the index of the column to render
+2.	Ray calculation for column x (camera_x, ray_dir)
+3. Position in the grid (map)
+4. Initial distances (delta_dist)
+7. Calculating perpendicular distance to the wall (perp_wall_dist)
+ */
 void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 {
 	int		x;
