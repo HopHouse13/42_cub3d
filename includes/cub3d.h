@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/14 22:02:19 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 00:24:00 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,15 @@
 # define MINIMAP_RADIUS 5
 # define MINIMAP_TILE_SIZE (MINIMAP_SIZE / (MINIMAP_RADIUS * 2 + 1))
 
-# define COLLISION_OFFSET 0.0
-
 # define RGB_WHT 0xFFFFFF
 # define RGB_RED 0xdb4437
 # define RGB_BLUE 0x4285f4
 # define RGB_YLW 0xf4b400
 # define RGB_GRN 0x0f9d58
+# define RGB_FLOOR 0x0000067
 
+# define MOVE_SPEED 0.075
+# define ROT_SPEED 0.035
 
 # define FOV 66
 #  if FOV <= 0 || FOV >= 180
@@ -59,14 +60,13 @@
 # define FOV_RAD (FOV * M_PI / 180.0)
 # define PLANE_MAG (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0)
 
-
 # define MAP_RATIO 2
 // #  if MAP_RATIO <= 0 || MAP_RATIO >= 10
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
 
-# define COLLISION 0
-# define PRINT_DEBUG true
+# define COLLISION 1
+# define PRINT_DEBUG 0
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
@@ -131,6 +131,12 @@ typedef enum	e_key
 				C,
 }				t_key;
 
+typedef struct	s_coord
+{
+	int		x;
+	int		y;
+}				t_coord;
+
 typedef struct	s_vec
 {
 	double		x;
@@ -148,7 +154,7 @@ typedef struct	s_player
 	double		old_time;		// a voir si on peut passer cette variable en local
 	double		frame_time;		// a voir si on peut passer cette variable en local
 
-	double		camera_x;		// a voir si on peut passer cette variable en local
+	// double		camera_x;		// a voir si on peut passer cette variable en local
 
 	double		rot_speed;		// a passer en macro fixe ?
 	double		move_speed;		// struct ray ou player? // ou plutot  a passer en macro fixe ?
@@ -191,7 +197,7 @@ typedef struct s_txtr
 	int			endian;
 	int			width;
 	int			height;
-	t_vec		coord;
+	t_coord		pxl;
 }			t_txtr;
 
 
@@ -222,11 +228,11 @@ typedef struct	s_cub
 
 typedef struct s_ray
 {
-	t_vec		map;
+	t_coord		map;
 	t_vec		ray_dir;
 	t_vec		delta_dist;
 	t_vec		side_dist;
-	t_vec		step;
+	t_coord		step;
 	double		perp_wall_dist;
 	double		wall_x;
 	int			hit;
@@ -251,14 +257,14 @@ t_error	handle_colors(t_cub *cub, char **line, t_key key_id);
 // PARSING_CHECK_MAP ///
 void	check_map(t_cub *cub, char *mapfile);
 void	make_copy(t_cub *cub, char *mapfile);
-bool	open_cell(t_cub *cub,char ** map, int i, int j);
+bool	open_cell(t_cub *cub, char **map, int i, int j);
 void	valid_outline(t_cub *cub);
 void	valid_char(t_cub *cub);
 void	get_player(t_cub *cub);
 void	empty_line(t_cub *cub);
 
 /// UTILITIES ///
-void	exit_door(t_cub *cub, t_error err_id);
+void	exit_door(t_cub *cub, t_error err_id, char *str);
 void	init_err_msgs(t_cub *cub);
 
 /// PARSING_UTILITIES ///
@@ -275,28 +281,36 @@ void	print_map(char **map);
 
 /* ************************************** RAYCASTER FCTIONS ********************************** */
 // init_stuff
-int			exec_launch(t_cub *cub);
+void		exec_launch(t_cub *cub);
 void		init_textures(t_cub *cub);
 void		init_exec_data(t_cub *cub);
-int			init_player(t_cub *cub, t_player *player);
+void		init_player(t_cub *cub, t_player *player);
 void		init_images(t_cub *cub);
 void		init_ray_data(t_ray *ray);
 
 // mlx_stuff
-void		cleanup_mlx(t_cub *cub, t_error mlx_err);
+void		cleanup_mlx(t_cub *cub, t_error mlx_err, char *str);
 
 // render_stuff
-void		render_map(t_cub *cub, t_player *player);
-bool		render(t_cub *cub);
+void		render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x);
+void		render_2dray(t_cub *cub, t_player *player, t_ray *ray);
+void		raycasting_loop(t_cub *cub, t_player *player, t_ray *ray);
+void		render_map(t_cub *cub);
+void		render(t_cub *cub);
 
 // game_stuff
 int			key_press_hook(int keysym, t_cub *cub);
 int			key_release_hook(int keysym, t_cub *cub);
 void		handle_move(t_cub *cub, t_player *player);
-void		no_collision_move(t_cub *cub, t_player *player);
 void		print_ray_info(t_ray *ray, int x, FILE *fp);
-void		print_updated_pos(t_cub *cub, t_player *player);
-void		turn_around(t_cub *cub, t_player *player, char dir);
+void		print_updated_pos(t_cub *cub, t_player *player, char *key);
+void		turn_right(t_cub *cub, t_player *player, bool mouse);
+void		turn_left(t_cub *cub, t_player *player, bool mouse);
+bool		is_valid_move_x(t_cub *cub, t_player *player, double new_x);
+bool		is_valid_move_y(t_cub *cub, t_player *player, double new_y);
+
+
+
 
 
 
@@ -305,8 +319,8 @@ void		turn_around(t_cub *cub, t_player *player, char dir);
 // utils
 t_tile		char_to_tile(char c);
 void		print_map_ray(t_map *map);
-double		date_in_s(void);
-double		date_in_ms(void);
+double		date_in_s(t_cub *cub);
+double		date_in_ms(t_cub *cub);
 void		print_txtr_struct(t_txtr *txtr);
 
 
@@ -318,12 +332,19 @@ int			render_sqr(t_img *img, t_sqr sqr);
 int			render_rect(t_img *img, t_rect rect);
 
 // render textures
-void		render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x, double wallX);
+void		render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x);
+t_key		get_texture_index(t_ray *ray);
+void		compute_wall_bounds(t_ray *ray);
+
 
 // bonus
 int		handle_mouse(int x, int y, t_cub *cub);
 int		handle_focus_out(t_cub *cub);
 int		handle_focus_in(t_cub *cub);
+void	toggle_cursor_bonus(t_cub *cub);
+void	mouse_mlx_hook_bonus(t_cub *cub);
+
+
 
 /* ************************************** RAYCASTER FCTIONS END ********************************** */
 
