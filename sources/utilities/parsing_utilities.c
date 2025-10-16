@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/15 16:54:15 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 00:23:26 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	init_parsing_data(t_cub *cub)
 	while (i < 3)
 	{
 		cub->elem.f_values[i] = -1;
-		cub->elem.c_values[i++] = -1;
+		cub->elem.c_values[i] = -1;
+		i++;
 	}
 	cub->elem.f_color = -1;
 	cub->elem.c_color = -1;

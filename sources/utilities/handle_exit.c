@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/15 16:43:56 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 00:20:34 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@ static void	free_map(t_cub *cub)
 		return ;
 	i = 0;
 	while (cub->map.grid[i])
-		free(cub->map.grid[i++]);
+	{
+		free(cub->map.grid[i]);
+		cub->map.grid[i++] = NULL;
+	}
 	free(cub->map.grid);
+	cub->map.grid = NULL;
 }
 
 // Fonction qui libere les 4 textures.
@@ -50,9 +54,6 @@ static void	free_parsing(t_cub *cub, t_error err_id)
 	get_next_line(-1, &err_id, true);
 	free_elem(cub);
 	free_map(cub);
-	if (err_id == OK)
-		return ;
-	exit (2);
 }
 
 // Securite si err_id est negatif renvoie le message 'UNKNOWN_ERR'.
@@ -70,4 +71,7 @@ void	exit_door(t_cub *cub, t_error err_id, char *str)
 		printf(" %s", str);
 	printf("\n");
 	free_parsing(cub, err_id);
+	if (err_id == OK)
+		return ;
+	exit (2);
 }
