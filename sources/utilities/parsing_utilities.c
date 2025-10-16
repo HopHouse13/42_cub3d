@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/17 00:23:26 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 00:39:11 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*supp_newline(t_cub *cub, char *line)
 	}
 	new_line = ft_strdup(line);
 	if (!new_line)
-		exit_door(cub, PSG_ALLOC_ERR, NULL);
+		exit_door(cub, PSG_ALLOC_ERR);
 	free (line);
 	return (new_line);
 }
