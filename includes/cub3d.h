@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/15 23:27:13 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:19:47 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 # define RGB_BLUE 0x4285f4
 # define RGB_YLW 0xf4b400
 # define RGB_GRN 0x0f9d58
+# define RGB_FLOOR 0x0000067
 
 # define FOV 66
 #  if FOV <= 0 || FOV >= 180
@@ -61,7 +62,7 @@
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
 
-# define COLLISION 1
+# define COLLISION 0
 # define PRINT_DEBUG 0
 
 
@@ -144,7 +145,7 @@ typedef struct	s_player
 	double		old_time;		// a voir si on peut passer cette variable en local
 	double		frame_time;		// a voir si on peut passer cette variable en local
 
-	double		camera_x;		// a voir si on peut passer cette variable en local
+	// double		camera_x;		// a voir si on peut passer cette variable en local
 
 	double		rot_speed;		// a passer en macro fixe ?
 	double		move_speed;		// struct ray ou player? // ou plutot  a passer en macro fixe ?
@@ -271,7 +272,7 @@ void	print_map(char **map);
 
 /* ************************************** RAYCASTER FCTIONS ********************************** */
 // init_stuff
-int			exec_launch(t_cub *cub);
+void		exec_launch(t_cub *cub);
 void		init_textures(t_cub *cub);
 void		init_exec_data(t_cub *cub);
 void		init_player(t_cub *cub, t_player *player);
@@ -282,8 +283,11 @@ void		init_ray_data(t_ray *ray);
 void		cleanup_mlx(t_cub *cub, t_error mlx_err, char *str);
 
 // render_stuff
-void		render_map(t_cub *cub, t_player *player);
-bool		render(t_cub *cub);
+void		render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x);
+void		render_2Dray(t_cub *cub, t_player *player, t_ray *ray, int x);
+void		raycasting_loop(t_cub *cub, t_player *player, t_ray *ray);
+void		render_map(t_cub *cub);
+void		render(t_cub *cub);
 
 // game_stuff
 int			key_press_hook(int keysym, t_cub *cub);
@@ -319,12 +323,16 @@ int			render_sqr(t_img *img, t_sqr sqr);
 int			render_rect(t_img *img, t_rect rect);
 
 // render textures
-void		render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x, double wallX);
+void		render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x);
 
 // bonus
 int		handle_mouse(int x, int y, t_cub *cub);
 int		handle_focus_out(t_cub *cub);
 int		handle_focus_in(t_cub *cub);
+void	toggle_cursor_bonus(t_cub *cub);
+void	mouse_mlx_hook_bonus(t_cub *cub);
+
+
 
 /* ************************************** RAYCASTER FCTIONS END ********************************** */
 

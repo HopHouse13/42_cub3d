@@ -6,20 +6,20 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:37:47 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/14 22:00:32 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:19:28 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void	render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x, double wallX)
+void	render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x)
 {
 	int		y;
 	int		color;
 	double	step;
 	double	text_pos;
 
-	txtr->coord.x = (int)(wallX * (double)(txtr->width));
+	txtr->coord.x = (int)(ray->wall_x * (double)(txtr->width));
 	if (txtr->coord.x < 0)
 		txtr->coord.x = 0;
 	if (txtr->coord.x >= txtr->width)

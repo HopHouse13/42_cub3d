@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/15 22:14:22 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:21:08 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,8 @@ void draw_ray_line(t_cub *cub, int x0, int y0, int x1, int y1) // a expliciter
 	}
 }
 
-void	render_2Dray(t_cub *cub, t_player *player, t_ray *ray, int x, FILE *fp) // a expliciter
+void	render_2Dray(t_cub *cub, t_player *player, t_ray *ray, int x) // a expliciter
 {
-	(void) fp;
 	(void) x;
 	// Calculate the exact wall hit position
 	t_vec	wall_hit;
@@ -74,37 +73,32 @@ void	render_2Dray(t_cub *cub, t_player *player, t_ray *ray, int x, FILE *fp) // 
 		wall_hit.x = player->pos.x + (wall_hit.y - player->pos.y) * ray->ray_dir.x / ray->ray_dir.y;
 	}
 
-	if (PRINT_DEBUG)
-	{
-		if (cub->print_debug_cub)
-		{
-			print_ray_info(ray, x, fp);
-			fprintf(fp, "		Ray[%d]->start.x =		%.4f		start.y =			%.4f\n", x, start.x, start.y);
-			fprintf(fp, "		Ray[%d]->wall_hit.x =	%.4f		wall_hit.y =		%.4f\n\n", x, wall_hit.x, wall_hit.y);
-		}
-	}
+	// if (PRINT_DEBUG)
+	// {
+	// 	if (cub->print_debug_cub)
+	// 	{
+	// 		print_ray_info(ray, x, fp);
+	// 		fprintf(fp, "		Ray[%d]->start.x =		%.4f		start.y =			%.4f\n", x, start.x, start.y);
+	// 		fprintf(fp, "		Ray[%d]->wall_hit.x =	%.4f		wall_hit.y =		%.4f\n\n", x, wall_hit.x, wall_hit.y);
+	// 	}
+	// }
 
 
 	start.x = ((start.x * TILE_SIZE) / MAP_RATIO);
 	start.y = ((start.y * TILE_SIZE) / MAP_RATIO);
 	wall_hit.x = ((wall_hit.x * TILE_SIZE) / MAP_RATIO);
 	wall_hit.y = ((wall_hit.y * TILE_SIZE) / MAP_RATIO);
-
-
-	// Draw the ray to the exact wall hit position
 	draw_ray_line(cub, start.x, start.y,
 		wall_hit.x, wall_hit.y);
-	// draw_ray_line(cub, start_screen_x, start_screen_y, end_screen_x, end_screen_y);
-
 }
 
 
-static void	verLine(t_cub *cub, int x, int draw_start, int draw_end)
+static void	render_background(t_cub *cub, int x, int draw_start, int draw_end)
 {
+	int	y;
 
-	int	y = 0;
-
-	while (y < draw_start) // put SKY background
+	y = 0;
+	while (y < draw_start)
 	{
 		img_pxl_put(&cub->game_img, x, y, cub->elem.c_color);
 		y++;
@@ -115,22 +109,12 @@ static void	verLine(t_cub *cub, int x, int draw_start, int draw_end)
 		img_pxl_put(&cub->game_img, x, y, cub->elem.f_color);
 		y++;
 	}
-	// while (draw_start < draw_end)
-	// {
-	// 	img_pxl_put(&cub->game_img, x, draw_start, color);
-	// 	draw_start++;
-	// }
-
 }
 
 
 void	render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x)
 {
-	double	wallX;
-
-	// int color = RGB_RED;
 	ray->line_height = (int)(WNDW_H / ray->perp_wall_dist);
-
 	ray->draw_start = -ray->line_height / 2 + WNDW_H / 2;
 	if (ray->draw_start < 0)
 		ray->draw_start = 0;
@@ -141,287 +125,96 @@ void	render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x)
 
 	if (ray->side) // le mur est un cote (est-ouest)
 	{
-		wallX = player->pos.x + ray->perp_wall_dist * ray->ray_dir.x;
-		wallX -= floor((wallX));
+		ray->wall_x = player->pos.x + ray->perp_wall_dist * ray->ray_dir.x;
+		ray->wall_x -= floor((ray->wall_x));
 		// if (cub->print_debug_cub)
-		// 	printf("Ray[%d] wallX = %.4f\n", x, wallX);
+		// 	printf("Ray[%d] ray->wall_x = %.4f\n", x, ray->wall_x);
 		if (ray->step.y == 1) // WEST facing wall -- on regarde a l'est		// ca c'est le sud au final (face nord du mur // on regarde au sud)
 		{
 			// color = RGB_BLUE;
-			render_texture(cub, ray, &(cub->txtr[2]), x, wallX);
+			render_texture(cub, ray, &(cub->txtr[2]), x);
 		}
 
 		else 				// EAST facing wall -- on regarde a l'ouest	// ca c'est le nord au final (face sud du mur // on regarde au nord)
 		{
 			// color = RGB_RED;
-			render_texture(cub, ray, &(cub->txtr[0]), x, wallX);
+			render_texture(cub, ray, &(cub->txtr[0]), x);
 		}
 	}
 	else // le mur n'est pas un cote (est-ouest)
 	{
-		wallX = player->pos.y + ray->perp_wall_dist * ray->ray_dir.y;
-		wallX -= floor((wallX));
+		ray->wall_x = player->pos.y + ray->perp_wall_dist * ray->ray_dir.y;
+		ray->wall_x -= floor((ray->wall_x));
 		// if (cub->print_debug_cub)
-		// 	printf("Ray[%d] wallX = %.4f\n", x, wallX);
+		// 	printf("Ray[%d] ray->wall_x = %.4f\n", x, ray->wall_x);
 		if (ray->step.x == 1) // NORTH facing wall -- on regarde au sud // ca c'est l'est au final (face ouest du mur // on regarde a l'est)
 		{
 			// color = RGB_GRN;
-			render_texture(cub, ray, &(cub->txtr[1]), x, wallX);
+			render_texture(cub, ray, &(cub->txtr[1]), x);
 
 		}
 		else // SOUTH facing wall -- on regarde au nord		// ca c'est l'ouest au final (face est du mur // on regarde a l'ouest)
 		{
 			// color = RGB_YLW;
-			render_texture(cub, ray, &(cub->txtr[3]), x, wallX);
+			render_texture(cub, ray, &(cub->txtr[3]), x);
 		}
 	}
-
-
-	verLine(cub, x, ray->draw_start, ray->draw_end);
-
-
-
-
-
-
-
+	render_background(cub, x, ray->draw_start, ray->draw_end);
 }
 
-
-void	render_map(t_cub *cub, t_player *player)
+void	render_map(t_cub *cub)
 {
-	(void) player;
-	size_t x, y;
+	size_t	x;
+	size_t	y;
 
-	for (y = 0; y < cub->map.rows; y++)
+	y = 0;
+	while (y < cub->map.rows)
 	{
+		x = 0;
 		size_t	row_len = ft_strlen(cub->map.grid[y]);
-		for (x = 0; x < row_len; x++) // modif de condition avoir la taille de la ligne pour chaque ligne. car la map peut avoir des lignes de dimensions differentes.
+		while (x < row_len)
 		{
-			// if (cub->map.grid[y][x] == '\0')
-			// 	break ;
-			int screen_x = x * TILE_SIZE / MAP_RATIO;
-			int screen_y = y * TILE_SIZE / MAP_RATIO;
 			if (char_to_tile(cub->map.grid[y][x]) == TILE_WALL)
-				render_sqr(&cub->map_img, (t_sqr){screen_x, screen_y, TILE_SIZE / MAP_RATIO, RGB_RED});
-
+				render_sqr(&cub->map_img,
+					(t_sqr){x * TILE_SIZE / MAP_RATIO,
+					y * TILE_SIZE / MAP_RATIO,
+					TILE_SIZE / MAP_RATIO, RGB_RED});
 			else
-				render_sqr(&cub->map_img, (t_sqr){screen_x, screen_y, TILE_SIZE/ MAP_RATIO, 0x0000067});			// render_tile(cub, char_to_tile(cub->map.grid[y][x]), x, y);
+				render_sqr(&cub->map_img,
+					(t_sqr){x * TILE_SIZE / MAP_RATIO,
+					y * TILE_SIZE / MAP_RATIO,
+					TILE_SIZE / MAP_RATIO, RGB_FLOOR});
+			x++;
 		}
+		y++;
 	}
-
-	// raycasting_loop(cub, player);
 }
-
-static bool	outofbounds_dda_ray(t_cub *cub, t_ray *ray)
-{
-	// Check Y coordinate (row) first
-	if ((int)ray->map.y < 0 || (int)ray->map.y >= (int)cub->map.rows)
-	{
-		ray->hit = 1;
-		return (true);
-	}
-	// Then check X coordinate (column) - now safe to access the row
-	if ((int)ray->map.x < 0 || (int)ray->map.x >= (int)ft_strlen(cub->map.grid[(int)ray->map.y]))
-	{
-		ray->hit = 1;
-		return (true);
-	}
-	return (false);
-}
-
-
-void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
-{
-	// int	w = cub->map.max_col;
-	int	w = WNDW_W;
-	// int w = 30;
-	FILE	*fp;
-	//int dda = 0;
-
-	if (cub->print_debug_cub)
-	{
-		fp = fopen("output.txt", "w");
-		if (fp == NULL)
-		{
-			perror("fopen");
-			mlx_loop_end(cub->mlx_pointer);
-			cleanup_mlx(cub, MLX_OTHER_ERR, NULL);
-		}
-	}
-
-
-	for (int x = 0; x < w; x++)
-	{
-		// if (cub->print_debug_cub)
-		// 	print_ray_info(ray, x, fp);
-		//calculate ray position and direction
-		player->camera_x = 2 * x / (double)w - 1; //x-coordinate in camera space
-		ray->ray_dir.x = player->dir.x + player->plane.x * player->camera_x;
-		ray->ray_dir.y = player->dir.y + player->plane.y * player->camera_x;
-
-		//which box of the map we're in
-		ray->map.x = (int)player->pos.x;
-		ray->map.y = (int)player->pos.y;
-
-		// printf("ray->ray_dir.x = %f\n", ray->ray_dir.x);
-		// printf("ray->ray_dir.y = %f\n", ray->ray_dir.y);
-
-
-		//length of ray from one x or y-side to next x or y-side --> deltaDistX || deltaDistY
-		if (ray->ray_dir.x == 0)
-			ray->delta_dist.x = 1e30;
-		else
-			ray->delta_dist.x = fabs(1 / ray->ray_dir.x);
-
-		if (ray->ray_dir.y == 0)
-			ray->delta_dist.y = 1e30;
-		else
-			ray->delta_dist.y = fabs(1 / ray->ray_dir.y);
-		// if (cub->print_debug_cub)
-		// {	printf("ray->delta_dist.x = %f\n", ray->delta_dist.x);
-		// 	printf("ray->delta_dist.y = %f\n", ray->delta_dist.y);}
-
-		ray->hit = 0;
-
-		//length of ray from current position to next x or y-side --> sideDistX || sideDistY
-		if (ray->ray_dir.x < 0)
-		{
-			ray->step.x = -1;
-			ray->side_dist.x = (player->pos.x - ray->map.x) * ray->delta_dist.x;
-		}
-		else
-		{
-			ray->step.x = 1;
-			ray->side_dist.x = (ray->map.x + 1.0 - player->pos.x) * ray->delta_dist.x;
-		}
-		if (ray->ray_dir.y < 0)
-		{
-			ray->step.y = -1;
-			ray->side_dist.y = (player->pos.y - ray->map.y) * ray->delta_dist.y;
-		}
-		else
-		{
-			ray->step.y = 1;
-			ray->side_dist.y = (ray->map.y + 1.0 - player->pos.y) * ray->delta_dist.y;
-		}
-		// if (cub->print_debug_cub)
-		// {
-		// 	printf("ray->side_dist.x = %f\n", ray->side_dist.x);
-		// 	printf("ray->side_dist.y = %f\n", ray->side_dist.y);
-		// }
-
-
-		// DDA - Digital Differential Analyzer
-		// int dda = 0;	// pour les prints de debug
-		while (ray->hit == 0)
-		{
-			//jump to next map sqr, either in x-direction, or in y-direction
-			if (ray->side_dist.x < ray->side_dist.y)
-			{
-				ray->side_dist.x += ray->delta_dist.x;
-				ray->map.x += ray->step.x;
-				ray->side = 0;
-			}
-			else
-			{
-				ray->side_dist.y += ray->delta_dist.y;
-				ray->map.y += ray->step.y;
-				ray->side = 1;
-			}
-			// if (cub->print_debug_cub)
-			// {
-			// 	fprintf(fp, "			Ray[%d] DDA[%d]		sideDistX = %.4f		sideDistY = %.4f\n", x, dda, ray->side_dist.x, ray->side_dist.y);
-			// 	dda++;
-			// }
-
-
-			if (!COLLISION && outofbounds_dda_ray(cub, ray))
-					break ;
-			if (cub->map.grid[(int)ray->map.y][(int)ray->map.x] == '1')
-				ray->hit = 1;
-		}
-		if (ray->side == 0)
-			ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
-		else
-			ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
-
-
-		// if (player->kbrd.key_m == true)
-		// {
-
-
-		// 	// render_map(player->mlx_data_pointer, player);
-		// 	render_2Dray(cub, player, ray, x, fp);
-		// }
-
-		render_cubes(cub, player, ray, x);
-
-
-		if (player->kbrd.key_m == true)
-		{
-
-
-		// 	// render_map(cub, player);
-			render_2Dray(cub, player, ray, x, fp);
-		}
-
-	}
-	// if (player->kbrd.key_m == true)
-	// 	render_map(cub, player);
-
-	if (cub->print_debug_cub)
-		fclose(fp);
-	cub->print_debug_cub = false;
-	// cub->render_bool = false;
-
-
-}
-
-
 
 int	render_loop(t_cub *cub)
 {
 	t_ray	ray;
 
-	// if (cub->render_bool == false)
-	// 	return (0);
-
 	init_ray_data(&ray);
-
-
 	cub->player.old_time = cub->player.time;
 	cub->player.time = date_in_ms(cub) - cub->player.start_time;
 	cub->player.frame_time = (cub->player.time - cub->player.old_time) / 1000.0;
 	cub->player.move_speed = cub->player.frame_time * 5.0;
-	cub->player.rot_speed  = cub->player.frame_time * 3.0;
-
+	cub->player.rot_speed = cub->player.frame_time * 3.0;
 	if (cub->game_init)
 		print_updated_pos(cub, &(cub->player), NULL);
-
-
 	handle_move(cub, &(cub->player));
-
 	if (cub->player.kbrd.key_m == true)
-		render_map(cub, &(cub->player));
-
+		render_map(cub);
 	raycasting_loop(cub, &(cub->player), &ray);
-
-
-	// mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
-	// 	cub->background_img.mlx_img, 0, 0);
 	mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
-			cub->game_img.mlx_img, 0, 0);
+		cub->game_img.mlx_img, 0, 0);
 	if (cub->player.kbrd.key_m == true)
-		{mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
-			cub->map_img.mlx_img, 10, 10);}
-
-
+		mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
+			cub->map_img.mlx_img, 10, 10);
 	return (0);
 }
 
-
-bool	render(t_cub *cub)
+void	render(t_cub *cub)
 {
 	cub->mlx_pointer = mlx_init();
 	if (!cub->mlx_pointer)
@@ -432,25 +225,13 @@ bool	render(t_cub *cub)
 		cleanup_mlx(cub, MLX_WDW_ERR, NULL);
 	init_images(cub);
 	init_textures(cub);
-	// init_images(cub);
-
-	if (cub->game_init)
-		print_txtr_struct(cub->txtr);
-
-
 	mlx_loop_hook(cub->mlx_pointer, &render_loop, cub);
 	mlx_hook(cub->mlx_window, KeyPress, KeyPressMask, &key_press_hook, cub);
-	mlx_hook(cub->mlx_window, KeyRelease, KeyReleaseMask, &key_release_hook, cub);
-	mlx_hook(cub->mlx_window, MotionNotify, PointerMotionMask, &handle_mouse, cub);
-	mlx_hook(cub->mlx_window, FocusIn, FocusChangeMask, &handle_focus_in, cub);
-	mlx_hook(cub->mlx_window, FocusOut, FocusChangeMask, &handle_focus_out, cub);
-	mlx_hook(cub->mlx_window, DestroyNotify, NoEventMask, &mlx_loop_end, cub->mlx_pointer);
-
+	mlx_hook(cub->mlx_window, KeyRelease, KeyReleaseMask,
+		&key_release_hook, cub);
+	mouse_mlx_hook_bonus(cub);
+	mlx_hook(cub->mlx_window, DestroyNotify, NoEventMask,
+		&mlx_loop_end, cub->mlx_pointer);
 	mlx_loop(cub->mlx_pointer);
-
 	cleanup_mlx(cub, OK, NULL);
-
-
-	return (true);
 }
-

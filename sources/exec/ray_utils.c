@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/15 17:07:20 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:42:14 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ t_tile	char_to_tile(char c)
 
 void	print_map_ray(t_map *map)
 {
+	if (!PRINT_DEBUG)
+		return ;
 	print_map(map->grid);
 	printf("map->rows = %zd\n", map->rows);
 	printf("map->max_col = %zd\n", map->max_col);
@@ -67,6 +69,8 @@ void	print_txtr_struct(t_txtr *txtr)
 {
 	int	i;
 
+	if (!PRINT_DEBUG)
+		return ;
 	printf("/* ----------------------------    print_txtr_struct\
     -------------------------*/\n");
 	i = 0;

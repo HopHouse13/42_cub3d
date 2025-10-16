@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/15 17:06:35 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:29:28 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	init_textures(t_cub *cub)
 				&cub->txtr[i].endian);
 		i++;
 	}
+	if (cub->game_init)
+		print_txtr_struct(cub->txtr);
 }
 
 void	init_ray_data(t_ray *ray)
