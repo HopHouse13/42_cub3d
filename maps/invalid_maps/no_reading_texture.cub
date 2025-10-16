@@ -1,7 +1,7 @@
 NO ./textures/basic_txtr/red_north_txture.xpm
 SO ./textures/basic_txtr/blue_south_txture.xpm
 WE ./textures/basic_txtr/yellow_west_txture.xpm
-EA ./textures/basic_txtr/green_east_txture.xpm
+EA ./textures/invalid_txtr/this_texture_is_a_repertory.xpm
 
 F 220,100,55
 C 225,80,125

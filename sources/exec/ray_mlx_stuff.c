@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:10:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/15 17:06:18 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 00:19:06 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	destroy_images(t_cub *cub)
 
 void	cleanup_mlx(t_cub *cub, t_error mlx_err, char *str)
 {
+	if (cub->mlx_pointer)
+		destroy_images(cub);
 	if (cub->mlx_pointer)
 		destroy_images(cub);
 	if (cub->mlx_window)
