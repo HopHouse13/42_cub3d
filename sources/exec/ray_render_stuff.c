@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 23:14:42 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/16 23:55:20 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ int	render_loop(t_cub *cub)
 	cub->player.old_time = cub->player.time;
 	cub->player.time = date_in_ms(cub) - cub->player.start_time;
 	cub->player.frame_time = (cub->player.time - cub->player.old_time) / 1000.0;
-	cub->player.move_speed = cub->player.frame_time * 5.0;
-	cub->player.rot_speed = cub->player.frame_time * 3.0;
 	if (cub->game_init)
 		print_updated_pos(cub, &(cub->player), NULL);
 	handle_move(cub, &(cub->player));
