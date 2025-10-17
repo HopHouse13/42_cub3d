@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:58 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/16 18:25:44 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/17 16:39:16 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static void	check_path(t_cub *cub, char *path)
 
 	tmp_fd = open(path, O_RDONLY);
 	if (tmp_fd == -1)
-		exit_door(cub, PSG_PATH_ERR);
+		exit_door(cub, PSG_PATH_ERR, path);
 	tmp_read = read(tmp_fd, tmp_buf, 1);
 	if (tmp_read == -1)
-		exit_door(cub, PSG_READ_PATH_ERR);
+		exit_door(cub, PSG_READ_PATH_ERR, path);
 	close(tmp_fd);
 }
 
@@ -52,9 +52,9 @@ void	handle_paths(t_cub *cub, char **line, t_key key_id)
 	{
 		cub->elem.path[key_id] = ft_strndup(tmp_line, nb_char_path);
 		if (!cub->elem.path[key_id])
-			exit_door(cub, PSG_ALLOC_ERR);
+			exit_door(cub, PSG_ALLOC_ERR, NULL);
 	}
 	else
-		exit_door(cub, PSG_DUP_PATH_ERR);
+		exit_door(cub, PSG_DUP_PATH_ERR, cub->elem.path[key_id]);
 	check_path(cub, cub->elem.path[key_id]);
 }

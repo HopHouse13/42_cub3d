@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:29 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/16 19:14:30 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/17 16:53:48 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	color_conversion(t_cub *cub)
 static void	check_value(t_cub *cub, int color_value)
 {
 	if (color_value > 255 || color_value < 0)
-		exit_door(cub, PSG_RGB_FT_ERR);
+		exit_door(cub, PSG_RGB_FT_ERR, ft_itoa(color_value));
 }
 
 // fonction de deplacement, controle de la conformitee et transmettre les infos
@@ -70,19 +70,19 @@ static int	between_value(t_cub *cub, int nb_colors, char **line)
 	while ((*line)[i] && ft_isdigit((*line)[i]))
 		i++;
 	if (i == 0 && !ft_isdigit((*line)[i]))
-		exit_door(cub, PSG_RGB_FT_ERR);
+		exit_door(cub, PSG_RGB_FT_ERR, *line);
 	tmp_end = i;
 	while ((*line)[i] && !ft_isdigit((*line)[i]))
 	{	
 		if (((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n')
 			|| (nb_colors > 1 && (*line)[i] != ' ' && (*line)[i] != '\n'))
-			exit_door(cub, PSG_RGB_FT_ERR);
+			exit_door(cub, PSG_RGB_FT_ERR, *line);
 		else if ((*line)[i] == ',')
 			comma++;
 		i++;
 	}
 	if (comma != 1 && nb_colors < 2)
-		exit_door(cub, PSG_RGB_FT_ERR);
+		exit_door(cub, PSG_RGB_FT_ERR, *line);
 	return (i);
 }
 
@@ -103,7 +103,7 @@ static void	get_color(t_cub *cub, int *loc_value, char **line, int idx)
 	int		value_color;
 	int		nb_char_value;
 	char	*tmp_char_value;
-	
+
 	nb_char_value = between_value(cub, idx, line);
 	tmp_char_value = ft_substr(*line, 0, nb_char_value);
 	value_color = ft_atoi(tmp_char_value);
@@ -112,7 +112,7 @@ static void	get_color(t_cub *cub, int *loc_value, char **line, int idx)
 	if (*loc_value == -1)
 		*loc_value = value_color;
 	else
-		exit_door(cub, PSG_DUP_COLOR_ERR);
+		exit_door(cub, PSG_DUP_COLOR_ERR, *line);
 	(*line) += nb_char_value;
 }
 
@@ -126,7 +126,7 @@ void	handle_colors(t_cub *cub, char **line, t_key key_id)
 	int		idx;
 
 	if (!ft_isdigit(**line))
-		exit_door(cub, PSG_RGB_FT_ERR);
+		exit_door(cub, PSG_RGB_FT_ERR, *line);
 	idx = -1;
 	while (++idx < 3)
 	{

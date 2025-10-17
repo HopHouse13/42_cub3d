@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:10:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/15 17:10:07 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/17 16:10:20 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ void	cleanup_mlx(t_cub *cub, t_error mlx_err)
 		free(cub->mlx_pointer);
 	}
 	if (mlx_err != OK)
-		exit_door (cub, mlx_err);
+		exit_door (cub, mlx_err, NULL);
 }

@@ -18,7 +18,7 @@ static void	check_rest_of_line(t_cub *cub, char **line)
 	while (**line && **line != '\n')
 	{
 		if (**line != ' ')
-			exit_door(cub, PSG_LINE_FT_ERR);
+			exit_door(cub, PSG_LINE_FT_ERR, *line);
 		(*line)++;
 	}
 }
@@ -82,7 +82,7 @@ static void	handle_line(t_cub *cub, char *line)
 		}
 		key_id++;
 	}
-	exit_door(cub, PSG_NO_KEY_ERR);
+	exit_door(cub, PSG_NO_KEY_ERR, NULL);
 }
 
 // ouvre le .cub
@@ -97,14 +97,14 @@ void	check_elem(t_cub *cub, char *mapfile)
 	err_id = OK;
 	cub->psg.fd_file = open(mapfile, O_RDONLY);
 	if (cub->psg.fd_file < 0)
-		exit_door(cub, PSG_OPEN_FILE_ERR);
+		exit_door(cub, PSG_OPEN_FILE_ERR, NULL);
 	while (cub->elem.e_counter < 6)
 	{
 		cub->psg.line = get_next_line(cub->psg.fd_file, &err_id, false);
 		if (err_id == PSG_ALLOC_ERR)
-			exit_door(cub, err_id);
+			exit_door(cub, err_id, NULL);
 		if (!cub->psg.line)
-			exit_door(cub, PSG_MISS_PARAM_ERR);
+			exit_door(cub, PSG_MISS_PARAM_ERR, NULL);
 		handle_line(cub, cub->psg.line);
 		free(cub->psg.line);
 		cub->psg.line = NULL;

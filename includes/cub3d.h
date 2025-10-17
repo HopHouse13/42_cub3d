@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/16 18:36:20 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/17 16:09:07 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,7 @@ void	get_player(t_cub *cub);
 void	empty_line(t_cub *cub);
 
 /// UTILITIES ///
-void	exit_door(t_cub *cub, t_error err_id);
+void	exit_door(t_cub *cub, t_error err_id, char *item);
 void	init_err_msgs(t_cub *cub);
 
 /// PARSING_UTILITIES ///
