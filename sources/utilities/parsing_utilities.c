@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utilities.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/17 00:39:11 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 16:59:41 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	init_parsing_data(t_cub *cub)
 {
 	int	i;
 
-	cub->fd_file = -1;
+	cub->psg.fd_file = -1;
+	cub->psg.line = NULL;
 	cub->map.grid = NULL;
 	cub->map.rows = 0;
 	cub->map.max_col = 0;
@@ -55,7 +56,7 @@ char	*supp_newline(t_cub *cub, char *line)
 	}
 	new_line = ft_strdup(line);
 	if (!new_line)
-		exit_door(cub, PSG_ALLOC_ERR);
+		exit_door(cub, PSG_ALLOC_ERR, NULL);
 	free (line);
 	return (new_line);
 }
