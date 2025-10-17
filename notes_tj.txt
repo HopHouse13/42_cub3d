@@ -6,20 +6,16 @@ trucs a faire
 	reduire taille (cercle ou carre)
 	limiter calcul ?
 
-2. keybind en keysym ou keycode
-	structure enun ?
 
 3. vitesse de deplacement et rotation
 	interet de calculer par rapport au FPS ?
-
-4. init tous les pointeurs mlx a NULL avant utilisation fonctions mlx_init etc en cas de malloc fail
 
 5. nouvelles textures heavy
 	jarter celles que je nai pas fait
 	comprendre pourquoi la detroit met autant de temps a se charger alors que resolution et taille inferieures
 
-6. le COLLSION define
-	quoi des murs de fin de ligne qui sont egaux a max_col
-	quoi des espaces
-	attention tous les > et < ont ete remplaces par des >= et <= dans no_collision_move()
-	on s'en ballec?
+
+7. on peut accelerer
+	en appuyant sur deux touches de clavier ensemble (W+D ou S+A ou W+A ou S+D)
+	c'est nouveau ?
+	on fixe si ca l'est pas ?

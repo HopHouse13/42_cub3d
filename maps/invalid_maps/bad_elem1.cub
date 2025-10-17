@@ -1,0 +1,16 @@
+EA ./textures/invalid/corrupted_content.xpm
+NO ./textures/basic_txtr/blue_texture.xpm
+SO ./textures/basic_txtr/blue_texture.xpm
+WE ./textures/basic_txtr/blue_texture.xpm
+
+
+C 225,30,0
+F 220,100,0
+
+       111111111
+11111111111111111111111111111111
+11111110000000000000000000000011
+111111110011111111111110011111111111
+111100000000N11100000000000000000001
+   111111111111111111111111111111111
+                1111

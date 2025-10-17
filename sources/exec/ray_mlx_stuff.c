@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:10:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/17 16:10:20 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/17 16:59:01 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	destroy_images(t_cub *cub)
 {
-	int	i;
-	
+	size_t	i;
+
 	if (cub->map_img.mlx_img)
 		mlx_destroy_image(cub->mlx_pointer, cub->map_img.mlx_img);
 	if (cub->game_img.mlx_img)

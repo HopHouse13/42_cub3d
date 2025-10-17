@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/17 16:34:40 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/17 16:59:17 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	valid_outline(t_cub *cub)
 
 // Pourcours du double tab char par char.
 // Si un char de la map est un autre char que ceux dans la condition,
-// la map est invalide. 
+// la map est invalide.
 void	valid_char(t_cub *cub)
 {
 	int		i;
