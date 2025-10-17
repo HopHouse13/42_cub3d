@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 20:25:05 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 22:14:54 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 18:08:40 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	render_2dray(t_cub *cub, t_player *player, t_ray *ray)
 	t_vec	impact;
 	t_coord	start;
 
-	if (ray->side == 1)
+	if (ray->side == 0)
 	{
 		impact.x = ray->map.x + (ray->step.x == -1);
 		impact.y = player->pos.y + (impact.x - player->pos.x) * ray->ray_dir.y
