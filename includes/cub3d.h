@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/17 00:40:20 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 16:58:53 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,14 @@
 
 typedef enum	e_tile
 {
-	TILE_FLOOR,
-	TILE_WALL,
-	TILE_EP,
-	TILE_SP,
-	TILE_WP,
-	TILE_NP,
-	TILE_EXTRA
-}			t_tile;
+				TILE_FLOOR,
+				TILE_WALL,
+				TILE_EP,
+				TILE_SP,
+				TILE_WP,
+				TILE_NP,
+				TILE_EXTRA
+}				t_tile;
 
 typedef struct	s_img
 {
@@ -188,9 +188,9 @@ typedef struct	s_elements
 	int			e_counter;
 }				t_elem;
 
-typedef struct s_txtr
+typedef struct	s_txtr
 {
-	void		*mlx_img; // ca x4
+	void		*mlx_img;
 	char		*addr;
 	int			bpp; /* bits per pixel */
 	int			line_len;
@@ -200,12 +200,17 @@ typedef struct s_txtr
 	t_coord		pxl;
 }			t_txtr;
 
+typedef struct	s_psg
+{
+	int			fd_file;
+	char		*line;
+}				t_psg;
 
 typedef struct	s_cub
 {
-	void		*mlx_pointer; // ca
-	void		*mlx_window; // ca
-	t_txtr		txtr[4]; // ca
+	void		*mlx_pointer;
+	void		*mlx_window;
+	t_txtr		txtr[4];
 
 	int			window_height;
 	int			window_width;
@@ -214,19 +219,19 @@ typedef struct	s_cub
 	t_elem		elem;
 	t_player	player;
 
-	t_img		map_img; // ca
-	t_img		game_img; // ca
+	t_img		map_img;
+	t_img		game_img;
 
-	int			fd_file;
+	t_psg		psg;
 	char		*err_msg[UNKNOWN_ERR + 1];
 
 	bool		game_init;		// debug
 	bool		print_debug_cub; // debug
 	bool		render_bool;
 	bool		no_collision;
-}			t_cub;
+}				t_cub;
 
-typedef struct s_ray
+typedef struct	s_ray
 {
 	t_coord		map;
 	t_vec		ray_dir;
@@ -241,7 +246,7 @@ typedef struct s_ray
 	int			draw_start;
 	int			draw_end;
 
-}			t_ray;
+}				t_ray;
 
 /// PARSING ///
 void	parsing(t_cub *cub, char *argv);
@@ -251,8 +256,8 @@ void	check_filename(t_cub *cub, char *argv);
 
 // PARSING_CHECK_ELEM //
 void	check_elem(t_cub *cub, char *file_map);
-t_error	handle_paths(t_cub *cub, char **line, t_key key_id);
-t_error	handle_colors(t_cub *cub, char **line, t_key key_id);
+void	handle_paths(t_cub *cub, char **line, t_key key_id);
+void	handle_colors(t_cub *cub, char **line, t_key key_id);
 
 // PARSING_CHECK_MAP ///
 void	check_map(t_cub *cub, char *mapfile);
@@ -264,7 +269,7 @@ void	get_player(t_cub *cub);
 void	empty_line(t_cub *cub);
 
 /// UTILITIES ///
-void	exit_door(t_cub *cub, t_error err_id);
+void	exit_door(t_cub *cub, t_error err_id, char *item);
 void	init_err_msgs(t_cub *cub);
 
 /// PARSING_UTILITIES ///

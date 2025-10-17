@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/10/17 00:38:57 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 16:59:25 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ static void	refind_start_map(t_cub *cub, char *mapfile, t_error *err_id)
 {
 	char	*line;
 
-	cub->fd_file = open(mapfile, O_RDONLY);
-	if (cub->fd_file < 0)
-		exit_door(cub, PSG_OPEN_FILE_ERR);
+	cub->psg.fd_file = open(mapfile, O_RDONLY);
+	if (cub->psg.fd_file < 0)
+		exit_door(cub, PSG_OPEN_FILE_ERR, NULL);
 	while (true)
 	{
-		line = get_next_line(cub->fd_file, err_id, false);
+		line = get_next_line(cub->psg.fd_file, err_id, false);
 		if (*err_id == PSG_ALLOC_ERR)
-			exit_door(cub, *err_id);
+			exit_door(cub, *err_id, NULL);
 		if (!line)
-			exit_door(cub, UNKNOWN_ERR);
+			exit_door(cub, UNKNOWN_ERR, NULL);
 		if (!ft_strncmp(cub->map.grid[0], line, ft_strlen(cub->map.grid[0])))
 			break ;
 		free(line);
@@ -47,11 +47,11 @@ static char	*found_start_map(t_cub *cub, t_error *err_id)
 	found_start = false;
 	while (true)
 	{
-		line = get_next_line(cub->fd_file, err_id, false);
+		line = get_next_line(cub->psg.fd_file, err_id, false);
 		if (*err_id == PSG_ALLOC_ERR)
-			exit_door(cub, *err_id);
+			exit_door(cub, *err_id, NULL);
 		if (!line)
-			exit_door(cub, PSG_EMPTY_MAP_ERR);
+			exit_door(cub, PSG_EMPTY_MAP_ERR, NULL);
 		i = -1;
 		while (line[++i])
 		{
@@ -80,16 +80,16 @@ static void	map_allocation(t_cub *cub, t_error *err_id)
 	{
 		++cub->map.rows;
 		free(line);
-		line = get_next_line(cub->fd_file, err_id, false);
+		line = get_next_line(cub->psg.fd_file, err_id, false);
 		if (*err_id == PSG_ALLOC_ERR)
-			exit_door(cub, *err_id);
+			exit_door(cub, *err_id, NULL);
 		if (!line)
 			break ;
 	}
-	close(cub->fd_file);
+	close(cub->psg.fd_file);
 	cub->map.grid = ft_calloc(sizeof(char *), (cub->map.rows + 1));
 	if (!cub->map.grid)
-		exit_door(cub, PSG_ALLOC_ERR);
+		exit_door(cub, PSG_ALLOC_ERR, NULL);
 	cub->map.grid[0] = supp_newline(cub, start_map);
 }
 
@@ -111,9 +111,9 @@ void	make_copy(t_cub *cub, char *mapfile)
 	i = 1;
 	while (i < cub->map.rows)
 	{
-		line = get_next_line(cub->fd_file, &err_id, false);
+		line = get_next_line(cub->psg.fd_file, &err_id, false);
 		if (err_id == PSG_ALLOC_ERR)
-			exit_door(cub, err_id);
+			exit_door(cub, err_id, NULL);
 		if (!line)
 			break ;
 		cub->map.grid[i] = supp_newline(cub, line);

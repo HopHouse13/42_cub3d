@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_mlx_stuff.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:10:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/17 00:44:54 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 16:59:01 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ void	cleanup_mlx(t_cub *cub, t_error mlx_err)
 		free(cub->mlx_pointer);
 	}
 	if (mlx_err != OK)
-		exit_door (cub, mlx_err);
+		exit_door (cub, mlx_err, NULL);
 }
