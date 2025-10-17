@@ -3,53 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   ray_init_stuff.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/15 17:17:28 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/17 00:18:38 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void	init_images(t_cub *cub)
+static void	which_starting_direction(t_player *player, char facing)
 {
-	cub->map_img.mlx_img = mlx_new_image(cub->mlx_pointer, cub->window_width,
-										 cub->window_height);
-	if (!cub->map_img.mlx_img)
-		cleanup_mlx(cub, MLX_IMG_ERR);
-	cub->game_img.mlx_img = mlx_new_image(cub->mlx_pointer, WNDW_W, WNDW_H);
-	if (!cub->game_img.mlx_img)
-		cleanup_mlx(cub, MLX_IMG_ERR);
-	cub->map_img.addr = mlx_get_data_addr(cub->map_img.mlx_img, &cub->map_img.bpp,
-									 &cub->map_img.line_len, &cub->map_img.endian);
-	cub->game_img.addr = mlx_get_data_addr(cub->game_img.mlx_img,
-		&cub->game_img.bpp, &cub->game_img.line_len, &cub->game_img.endian);
-}
-
-void	init_textures(t_cub *cub)
-{
-	size_t	i;
-	int		width;
-	int		height;
-
-	i = 0;
-	while (i < 4)
+	if (facing == 'W')
 	{
-		cub->txtr[i].mlx_img = mlx_xpm_file_to_image(cub->mlx_pointer, cub->elem.path[i], &width, &height);
-		if (!cub->txtr[i].mlx_img)
-			cleanup_mlx(cub, MLX_TXTR_ERR);
-		cub->txtr[i].width = width;
-		cub->txtr[i].height = height;
-		cub->txtr[i].addr = mlx_get_data_addr(cub->txtr[i].mlx_img, &cub->txtr[i].bpp, &cub->txtr[i].line_len, &cub->txtr[i].endian);
-		i++;
+		player->dir = (t_vec){-1, 0};
+		player->plane = (t_vec){0, -0.66};
+	}
+	if (facing == 'E')
+	{
+		player->dir = (t_vec){1, 0};
+		player->plane = (t_vec){0, 0.66};
+	}
+	if (facing == 'N')
+	{
+		player->dir = (t_vec){0, -1};
+		player->plane = (t_vec){0.66, 0};
+	}
+	if (facing == 'S')
+	{
+		player->dir = (t_vec){0, 1};
+		player->plane = (t_vec){-0.66, 0};
 	}
 }
 
-void	init_exec_data(t_cub *cub)
+void	init_player(t_cub *cub, t_player *player)
+{
+	player->pos.x += 0.5;
+	player->pos.y += 0.5;
+	which_starting_direction(player, cub->elem.facing);
+	player->start_time = date_in_ms(cub);
+	player->time = 0;
+	player->old_time = 0;
+	player->frame_time = 0;
+	player->kbrd = (t_key_inpt){0, 0, 0, 0, 0, 0, 1};
+	player->display_cursor = true;
+	player->cursor_hidden = false;
+	player->moves = 0;
+	print_map_ray(&(cub->map));
+	print_elem(&(cub->elem));
+}
+
+static void	init_ptr_to_null(t_cub *cub)
 {
 	size_t	i;
-	
+
 	cub->mlx_pointer = NULL;
 	cub->mlx_window = NULL;
 	cub->map_img.mlx_img = NULL;
@@ -57,108 +64,16 @@ void	init_exec_data(t_cub *cub)
 	i = -1;
 	while (++i < 4)
 		cub->txtr[i].mlx_img = NULL;
+}
 
+void	init_exec_data(t_cub *cub)
+{
+	init_ptr_to_null(cub);
 	cub->window_width = (cub->map).max_col * TILE_SIZE / MAP_RATIO;
 	cub->window_height = (cub->map).rows * TILE_SIZE / MAP_RATIO;
 	cub->map.display_map = true;
-
 	cub->print_debug_cub = true;
 	cub->game_init = true;
 	cub->render_bool = true;
-
 	cub->no_collision = false;
-
-}
-
-static void	which_starting_direction(t_player *player, char facing)
-{
-	if (facing == 'W')
-	{
-		player->dir.x = -1;
-		player->dir.y = 0;
-		player->plane.x = 0;
-		player->plane.y = -0.66;
-		// player->plane.y = -PLANE_MAG;
-
-	}
-	if (facing == 'E')
-	{
-		player->dir.x = 1;
-		player->dir.y = 0;
-		player->plane.x = 0;
-		player->plane.y = 0.66;
-		// player->plane.y = PLANE_MAG;
-
-	}
-	if (facing == 'N')
-	{
-		player->dir.x = 0;
-		player->dir.y = -1;
-		player->plane.x = 0.66;
-		// player->plane.x = PLANE_MAG;
-		player->plane.y = 0;
-	}
-	if (facing == 'S')
-	{
-		player->dir.x = 0;
-		player->dir.y = 1;
-		player->plane.x = -0.66;
-		// player->plane.x = -PLANE_MAG;
-		player->plane.y = 0;
-	}
-}
-
-int	init_player(t_cub *cub, t_player *player)
-{
-
-	player->pos.x += 0.5;
-	player->pos.y += 0.5;
-	which_starting_direction(player, cub->elem.facing);
-
-	player->start_time = date_in_ms();
-	player->time = 0;
-	player->old_time = 0;
-	player->frame_time = 0;
-	player->camera_x = 0;
-
-	player->rot_speed = 0;
-	player->move_speed = 0;
-
-
-	player->kbrd.key_w = false;
-	player->kbrd.key_s = false;
-	player->kbrd.key_a = false;
-	player->kbrd.key_d = false;
-	player->kbrd.key_left = false;
-	player->kbrd.key_right = false;
-	player->kbrd.key_m = true;
-
-	player->display_cursor = true;
-	player->cursor_hidden = false;
-
-	player->moves = 0;
-
-	return (1);
-
-}
-
-void	init_ray_data(t_ray *ray)
-{
-	ray->ray_dir.x = 0;
-	ray->ray_dir.y = 0;
-	ray->map.x = 0;
-	ray->map.y = 0;
-	ray->side_dist.x = 0;
-	ray->side_dist.y = 0;
-	ray->delta_dist.x = 0;
-	ray->delta_dist.y = 0;
-	ray->step.x = 0;
-	ray->step.y = 0;
-	ray->perp_wall_dist = 0;
-	ray->hit = 0;
-	ray->side = 0;
-	ray->line_height = 0;
-	ray->draw_end = 0;
-	ray->draw_start = 0;
-	ray->wall_x = 0;
 }
