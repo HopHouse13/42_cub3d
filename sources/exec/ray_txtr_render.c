@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:37:47 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 23:00:00 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 18:16:00 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static void	check_txtr_pxl_bound(t_ray *ray, t_txtr *txtr)
 		txtr->pxl.x = 0;
 	if (txtr->pxl.x >= txtr->width)
 		txtr->pxl.x = txtr->width - 1;
-	if (ray->side == 1 && ray->ray_dir.x < 0)
+	if (ray->side == 0 && ray->ray_dir.x < 0)
 		txtr->pxl.x = txtr->width - txtr->pxl.x - 1;
-	if (ray->side == 0 && ray->ray_dir.y > 0)
+	if (ray->side == 1 && ray->ray_dir.y > 0)
 		txtr->pxl.x = txtr->width - txtr->pxl.x - 1;
 }
 
@@ -56,7 +56,7 @@ void	render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x)
 
 t_key	get_texture_index(t_ray *ray)
 {
-	if (ray->side)
+	if (ray->side == 0)
 	{
 		if (ray->step.x == 1)
 			return (EA);

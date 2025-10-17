@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:41:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/17 17:14:51 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 18:06:05 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ static void	dda_loop(t_cub *cub, t_ray *ray)
 		{
 			ray->side_dist.x += ray->delta_dist.x;
 			ray->map.x += ray->step.x;
-			ray->side = 1;
+			ray->side = 0;
 		}
 		else
 		{
 			ray->side_dist.y += ray->delta_dist.y;
 			ray->map.y += ray->step.y;
-			ray->side = 0;
+			ray->side = 1;
 		}
 		if (outofbounds_dda_ray(cub, ray))
 			break ;
