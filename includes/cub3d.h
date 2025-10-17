@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/17 16:58:53 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/17 17:25:40 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,7 +307,7 @@ void		render(t_cub *cub);
 int			key_press_hook(int keysym, t_cub *cub);
 int			key_release_hook(int keysym, t_cub *cub);
 void		handle_move(t_cub *cub, t_player *player);
-void		print_ray_info(t_ray *ray, int x, FILE *fp);
+void		print_ray_info(t_ray *ray, int x);
 void		print_updated_pos(t_cub *cub, t_player *player, char *key);
 void		turn_right(t_cub *cub, t_player *player, bool mouse);
 void		turn_left(t_cub *cub, t_player *player, bool mouse);

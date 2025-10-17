@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:41:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/17 00:19:30 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 17:14:51 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ static double	compute_delta_dist(double ray_dir)
 2.	Ray calculation for column x (camera_x, ray_dir)
 3. Position in the grid (map)
 4. Initial distances (delta_dist)
-7. Calculating perpendicular distance to the wall (perp_wall_dist)
  */
 void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 {
@@ -114,10 +113,6 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 		ray->delta_dist.y = compute_delta_dist(ray->ray_dir.y);
 		init_step_and_sidedist(player, ray);
 		dda_loop(cub, ray);
-		if (ray->side == 1)
-			ray->perp_wall_dist = ray->side_dist.x - ray->delta_dist.x;
-		else
-			ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
 		render_cubes(cub, player, ray, x);
 		if (player->kbrd.key_m == true)
 			render_2dray(cub, player, ray);

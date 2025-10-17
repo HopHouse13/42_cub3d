@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 17:30:37 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 23:55:38 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/17 17:24:31 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,27 @@
 
 /* Il faudrait utiliser fprintf pour print_ray_info sinon c'est illisible
 	mais fonction interdite*/
-void	print_ray_info(t_ray *ray, int x, FILE *fp)
+void	print_ray_info(t_ray *ray, int x)
 {
-	return ;
-	(void) fp;
 	if (!PRINT_DEBUG)
 		return ;
-	printf("		Ray[%d]->map.x =			%d		map.y =		\
-		%d\n", x, ray->map.x, ray->map.y);
-	printf("		Ray[%d]->ray_dir.x =		%.4f		ray_dir.y =	\
-		%.4f\n", x, ray->ray_dir.x, ray->ray_dir.y);
-	printf("		Ray[%d]->delta_dist.x =	%.4f		delta_dist.y =	\
+	printf("	Ray[%d]->map.x =		%d		map.y =			%d\n",\
+		x, ray->map.x, ray->map.y);
+	printf("	Ray[%d]->ray_dir.x =		%.4f		ray_dir.y =	\
+	%.4f\n", x, ray->ray_dir.x, ray->ray_dir.y);
+	printf("	Ray[%d]->delta_dist.x =	%.4f		delta_dist.y =	\
 	%.4f\n", x, ray->delta_dist.x, ray->delta_dist.y);
-	printf("		Ray[%d]->side_dist.x =	%.4f		side_dist.y =	\
+	printf("	Ray[%d]->side_dist.x =	%.4f		side_dist.y =	\
 	%.4f\n", x, ray->side_dist.x, ray->side_dist.y);
-	printf("		Ray[%d]->step.x =		%d		step.y =		\
-	%d		hit = %d, side = %d, perp_wall_dist = %.4f\n",
-		x, ray->step.x, ray->step.y, ray->hit, ray->side, ray->perp_wall_dist);
-	printf("		Ray[%d]->line_height =	%d\n", x, ray->line_height);
-	printf("		Ray[%d]->draw_start =	%d			draw_end =		\
-	%d\n", x, ray->draw_start, ray->draw_end);
+	printf("	Ray[%d]->step.x =		%d		step.y =		%d\n",
+		x, ray->step.x, ray->step.y);
+	printf("	Ray[%d]->hit =		%d		side =			%d\n",
+		x, ray->hit, ray->side);
+	printf("	Ray[%d]->perp_wall_dist =	%g		line_height =		%d\n",
+		 x, ray->perp_wall_dist, ray->line_height);
+	printf("	Ray[%d]->draw_start =		%d		draw_end =		%d\n",
+		 x, ray->draw_start, ray->draw_end);
+	printf("	Ray[%d]->wall_x =		%.4f\n\n", x, ray->wall_x);
 }
 
 static void	print_updated_pos2(t_cub *cub, t_player *player)
