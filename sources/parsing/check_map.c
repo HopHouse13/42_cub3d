@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/14 20:44:43 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/17 16:34:40 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	valid_outline(t_cub *cub)
 					|| open_cell(cub, map, i +1, j)
 					|| open_cell(cub, map, i, j -1)
 					|| open_cell(cub, map, i, j +1))
-					exit_door(cub, PSG_OPEN_MAP_ERR);
+					exit_door(cub, PSG_OPEN_MAP_ERR, map[i]);
 			}
 		}
 	}
@@ -76,7 +76,7 @@ void	valid_char(t_cub *cub)
 			c = cub->map.grid[i][j];
 			if (c != '1' && c != '0' && c != 'N' && c != 'S'
 				&& c != 'E' && c != 'W' && c != ' ')
-				exit_door(cub, PSG_INV_CHAR_MAP_ERR);
+				exit_door(cub, PSG_INV_CHAR_MAP_ERR, cub->map.grid[i]);
 		}
 	}
 }
@@ -99,7 +99,7 @@ void	get_player(t_cub *cub)
 				|| cub->map.grid[i][j] == 'E' || cub->map.grid[i][j] == 'W')
 			{
 				if (cub->elem.facing != '\0')
-					exit_door(cub, PSG_DUP_PLAYER_ERR);
+					exit_door(cub, PSG_DUP_PLAYER_ERR, cub->map.grid[i]);
 				else
 				{
 					cub->elem.facing = cub->map.grid[i][j];
@@ -110,7 +110,7 @@ void	get_player(t_cub *cub)
 		}
 	}
 	if (cub->elem.facing == '\0')
-		exit_door(cub, PSG_NO_PLAYER_ERR);
+		exit_door(cub, PSG_NO_PLAYER_ERR, NULL);
 }
 
 // Parcours le double tab a la recherche d'une line vide.
@@ -128,6 +128,6 @@ void	empty_line(t_cub *cub)
 		while (cub->map.grid[i][j])
 			j++;
 		if (j == 0)
-			exit_door(cub, PSG_EMPTY_LINE_ERR);
+			exit_door(cub, PSG_EMPTY_LINE_ERR, NULL);
 	}
 }

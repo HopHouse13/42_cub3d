@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/16 17:49:07 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/17 16:41:56 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*supp_newline(t_cub *cub, char *line)
 	}
 	new_line = ft_strdup(line);
 	if (!new_line)
-		exit_door(cub, PSG_ALLOC_ERR);
+		exit_door(cub, PSG_ALLOC_ERR, NULL);
 	free (line);
 	return (new_line);
 }

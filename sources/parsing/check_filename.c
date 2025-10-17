@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:42:52 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/15 15:23:12 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/17 16:32:14 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static void	check_access(t_cub *cub, char *map)
 
 	tmp_fd = open(map, O_RDONLY);
 	if (tmp_fd == -1)
-		exit_door(cub, PSG_OPEN_FILE_ERR);
+		exit_door(cub, PSG_OPEN_FILE_ERR, map);
 	tmp_read = read(tmp_fd, tmp_buf, 1);
 	if (tmp_read == -1)
 	{
 		close(tmp_fd);
-		exit_door(cub, PSG_READ_FILE_ERR);
+		exit_door(cub, PSG_READ_FILE_ERR, map);
 	}
 }
 
@@ -53,6 +53,6 @@ void	check_filename(t_cub *cub, char *mapfile)
 
 	n = ft_strlen(mapfile);
 	if (n <= 4 || !valid_ext(mapfile, ".cub", n - 4))
-		exit_door(cub, PSG_FILENAME_ERR);
+		exit_door(cub, PSG_FILENAME_ERR, mapfile);
 	check_access(cub, mapfile);
 }
