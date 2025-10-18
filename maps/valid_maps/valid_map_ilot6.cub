@@ -1,16 +1,15 @@
 F   1,  22, 255
-           NO ./path_to_the_north_texture
-WE ./path_to_the_west_texture
 
-SO ./path_to_the_south_texture
 
 C 4,55,232
 
-EA ./path_to_the_east_texture
-
+NO ./textures/basic_txtr/red_north_txture.xpm
+SO ./textures/basic_txtr/blue_south_txture.xpm
+WE ./textures/basic_txtr/yellow_west_txture.xpm
+EA ./textures/basic_txtr/green_east_txture.xpm
 
                 111111111111111111111111
-                100000000011000000C000001
+     1          1000000000110000000000001
                 1011000001110000000000001
                 1001000000000000000000001
         111111111011000001110000000000001

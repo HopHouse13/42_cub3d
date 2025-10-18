@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/17 16:59:32 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/17 20:13:34 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	exit_door(t_cub *cub, t_error err_id, char *item)
 		printf("Error\n");
 	printf("%s", cub->err_msg[err_id]);
 	if (item != NULL)
-		printf(" -> %s\n", item);
+		printf(": %s\n", item);
 	else
 		printf("\n");
 	free_parsing(cub, err_id);

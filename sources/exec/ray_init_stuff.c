@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/17 00:18:38 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/18 19:45:08 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static void	init_ptr_to_null(t_cub *cub)
 
 	cub->mlx_pointer = NULL;
 	cub->mlx_window = NULL;
-	cub->map_img.mlx_img = NULL;
 	cub->game_img.mlx_img = NULL;
 	i = -1;
 	while (++i < 4)

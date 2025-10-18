@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/17 00:40:34 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/18 19:20:31 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,25 @@ t_tile	char_to_tile(char c)
 		return (TILE_NP);
 	if (c == 'C')
 		return (TILE_EXTRA);
+	return (TILE_FLOOR);
+}
+
+uint32_t	char_to_tile_rgb(char c)
+{
+	if (c == '0')
+		return (RGB_FLOOR);
+	if (c == '1')
+		return (RGB_RED);
+	if (c == 'E')
+		return (RGB_FLOOR);
+	if (c == 'S')
+		return (RGB_FLOOR);
+	if (c == 'W')
+		return (RGB_FLOOR);
+	if (c == 'N')
+		return (RGB_FLOOR);
+	if (c == 'C')
+		return (RGB_GRN);
 	return (TILE_FLOOR);
 }
 

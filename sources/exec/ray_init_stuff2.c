@@ -6,28 +6,19 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/17 00:40:00 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/18 19:44:06 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void	init_images(t_cub *cub)
+void	init_image(t_cub *cub)
 {
-	cub->map_img.mlx_img = mlx_new_image(cub->mlx_pointer,
-			cub->window_width,
-			cub->window_height);
-	if (!cub->map_img.mlx_img)
-		cleanup_mlx(cub, MLX_IMG_ERR);
 	cub->game_img.mlx_img = mlx_new_image(cub->mlx_pointer,
 			WNDW_W,
 			WNDW_H);
 	if (!cub->game_img.mlx_img)
 		cleanup_mlx(cub, MLX_IMG_ERR);
-	cub->map_img.addr = mlx_get_data_addr(cub->map_img.mlx_img,
-			&cub->map_img.bpp,
-			&cub->map_img.line_len,
-			&cub->map_img.endian);
 	cub->game_img.addr = mlx_get_data_addr(cub->game_img.mlx_img,
 			&cub->game_img.bpp,
 			&cub->game_img.line_len,

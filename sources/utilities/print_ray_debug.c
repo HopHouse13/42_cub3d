@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 17:30:37 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/17 17:24:31 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/18 18:12:24 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 	mais fonction interdite*/
 void	print_ray_info(t_ray *ray, int x)
 {
+	return ;
 	if (!PRINT_DEBUG)
 		return ;
 	printf("	Ray[%d]->map.x =		%d		map.y =			%d\n",\

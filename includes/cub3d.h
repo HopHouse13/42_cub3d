@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/17 17:25:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/18 21:25:10 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,24 @@
 # define TILE_SIZE 64
 # define PLAYER_SIZE 8
 
+// For rectangular minimap (non-circular)
+# define MINIMAP_MARGIN 10
+# define MINIMAP_WIDTH 640   // Fixed minimap display size
+# define MINIMAP_HEIGHT 240
+# define MINIMAP_X MINIMAP_MARGIN
+# define MINIMAP_Y MINIMAP_MARGIN
+
 # define WNDW_W 1920
 # define WNDW_H 1080
 # define MINIMAP_H (WNDW_H / 5)
 # define MINIMAP_W (WNDW_W / 5)
 
-# define MINIMAP_SIZE 200
-# define MINIMAP_MARGIN 20
-# define MINIMAP_RADIUS 5
-# define MINIMAP_TILE_SIZE (MINIMAP_SIZE / (MINIMAP_RADIUS * 2 + 1))
+# define MINIMAP_SIZE 300
+// # define MINIMAP_MARGIN 16
+# define MINIMAP_RADIUS 128
+# define MINIMAP_CENTER_X (MINIMAP_MARGIN + MINIMAP_RADIUS)
+# define MINIMAP_CENTER_Y (MINIMAP_MARGIN + MINIMAP_RADIUS)
+# define MINIMAP_SCALE 32  // How many pixels per tile in minimap
 
 # define RGB_WHT 0xFFFFFF
 # define RGB_RED 0xdb4437
@@ -48,6 +57,7 @@
 # define RGB_YLW 0xf4b400
 # define RGB_GRN 0x0f9d58
 # define RGB_FLOOR 0x0000067
+# define RGB_RAY_YLW 0xFFFF00
 
 # define MOVE_SPEED 0.075
 # define ROT_SPEED 0.035
@@ -60,13 +70,14 @@
 # define FOV_RAD (FOV * M_PI / 180.0)
 # define PLANE_MAG (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0)
 
-# define MAP_RATIO 2
+# define MAP_RATIO 3.5
 // #  if MAP_RATIO <= 0 || MAP_RATIO >= 10
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
 
-# define COLLISION 1
-# define PRINT_DEBUG 0
+# define COLLISION 0
+# define PRINT_DEBUG 1
+# define BONUS 1
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
@@ -219,7 +230,6 @@ typedef struct	s_cub
 	t_elem		elem;
 	t_player	player;
 
-	t_img		map_img;
 	t_img		game_img;
 
 	t_psg		psg;
@@ -290,7 +300,7 @@ void		exec_launch(t_cub *cub);
 void		init_textures(t_cub *cub);
 void		init_exec_data(t_cub *cub);
 void		init_player(t_cub *cub, t_player *player);
-void		init_images(t_cub *cub);
+void		init_image(t_cub *cub);
 void		init_ray_data(t_ray *ray);
 
 // mlx_stuff
@@ -299,7 +309,7 @@ void		cleanup_mlx(t_cub *cub, t_error mlx_err);
 // render_stuff
 void		render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x);
 void		render_2dray(t_cub *cub, t_player *player, t_ray *ray);
-void		raycasting_loop(t_cub *cub, t_player *player, t_ray *ray);
+void		raycasting_loop(t_cub *cub, t_player *player, t_ray *ray, bool render_map);
 void		render_map(t_cub *cub);
 void		render(t_cub *cub);
 
@@ -323,6 +333,7 @@ bool		is_valid_move_y(t_cub *cub, t_player *player, double new_y);
 
 // utils
 t_tile		char_to_tile(char c);
+uint32_t	char_to_tile_rgb(char c);
 void		print_map_ray(t_map *map);
 double		date_in_s(t_cub *cub);
 double		date_in_ms(t_cub *cub);
@@ -348,6 +359,14 @@ int		handle_focus_out(t_cub *cub);
 int		handle_focus_in(t_cub *cub);
 void	toggle_cursor_bonus(t_cub *cub);
 void	mouse_mlx_hook_bonus(t_cub *cub);
+
+bool	is_in_minimap_circle(int x, int y);
+void	screen_to_map_coords(int screen_x, int screen_y, t_player *player,
+		t_vec *map_coords);
+void	draw_minimap_pixel(t_cub *cub, int x, int y);
+void	draw_pixel_if_valid(t_cub *cub, int x, int y, int color);
+
+
 
 
 
