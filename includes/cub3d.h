@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/19 23:04:52 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/19 23:55:58 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,36 +33,54 @@
 # define PRINT_DEBUG 1
 # define BONUS 1
 # define MAP_CIRCLE 0
-# define MAP_VIEWPORT 1
-# define MAP_SCALED 0
-
+# define MAP_VIEWPORT 0
+# define MAP_SCALED 1
 
 # define TILE_SIZE 64
 # define PLAYER_SIZE 8
 
-#  define MINIMAP_TILE_SIZE 32  // Fixed pixel size per tile
-#  define MINIMAP_VISIBLE_COLS 32  // How many tiles wide
-#  define MINIMAP_VISIBLE_ROWS 8  // How many tiles tall
-
-
-// For rectangular minimap (non-circular)
-# define MINIMAP_MARGIN 10
-# define MINIMAP_WIDTH 640   // Fixed minimap display size
-# define MINIMAP_HEIGHT 240
-# define MINIMAP_X MINIMAP_MARGIN
-# define MINIMAP_Y MINIMAP_MARGIN
-
 # define WNDW_W 1920
 # define WNDW_H 1080
-# define MINIMAP_H (WNDW_H / 5)
-# define MINIMAP_W (WNDW_W / 5)
 
-# define MINIMAP_SIZE 300
-// # define MINIMAP_MARGIN 16
-# define MINIMAP_RADIUS 128
-# define MINIMAP_CENTER_X (MINIMAP_MARGIN + MINIMAP_RADIUS)
-# define MINIMAP_CENTER_Y (MINIMAP_MARGIN + MINIMAP_RADIUS)
-# define MINIMAP_SCALE 16  // How many pixels per tile in minimap
+// Common minimap settings
+# define MINIMAP_MARGIN 10
+
+// CIRCLE mode settings
+# if MAP_CIRCLE
+#  define MINIMAP_RADIUS 128
+#  define MINIMAP_CENTER_X (MINIMAP_MARGIN + MINIMAP_RADIUS)
+#  define MINIMAP_CENTER_Y (MINIMAP_MARGIN + MINIMAP_RADIUS)
+#  define MINIMAP_SCALE 16  // Pixels per tile in circle mode
+#  define MINIMAP_WIDTH (MINIMAP_RADIUS * 2)
+#  define MINIMAP_HEIGHT (MINIMAP_RADIUS * 2)
+#  define MINIMAP_X (MINIMAP_MARGIN)
+#  define MINIMAP_Y (MINIMAP_MARGIN)
+
+// VIEWPORT mode settings
+# elif MAP_VIEWPORT
+#  define MINIMAP_TILE_SIZE 16  // Fixed pixel size per tile
+#  define MINIMAP_VISIBLE_COLS 40  // How many tiles wide
+#  define MINIMAP_VISIBLE_ROWS 15  // How many tiles tall
+#  define MINIMAP_WIDTH (MINIMAP_VISIBLE_COLS * MINIMAP_TILE_SIZE)
+#  define MINIMAP_HEIGHT (MINIMAP_VISIBLE_ROWS * MINIMAP_TILE_SIZE)
+#  define MINIMAP_X MINIMAP_MARGIN
+#  define MINIMAP_Y MINIMAP_MARGIN
+
+// SCALED mode settings
+# elif MAP_SCALED
+#  define MINIMAP_WIDTH 640
+#  define MINIMAP_HEIGHT 240
+#  define MINIMAP_X MINIMAP_MARGIN
+#  define MINIMAP_Y MINIMAP_MARGIN
+
+// Fallback for no mode selected
+# else
+#  define MAP_RATIO 3.5
+#  define MINIMAP_WIDTH (WNDW_W / 5)
+#  define MINIMAP_HEIGHT (WNDW_H / 5)
+#  define MINIMAP_X MINIMAP_MARGIN
+#  define MINIMAP_Y MINIMAP_MARGIN
+# endif
 
 
 # define RGB_WHT 0xFFFFFF
@@ -377,6 +395,8 @@ void	draw_pixel_if_valid(t_img *img, int x, int y, int color);
 void	get_viewport_offset(t_cub *cub, t_coord *offset);
 void	get_minimap_center(t_cub *cub, t_vec *center);
 float	get_map_scale(t_cub *cub);
+bool	is_in_minimap_circle(int x, int y);
+
 
 
 

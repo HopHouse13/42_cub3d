@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 18:04:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/19 22:49:23 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/19 23:54:56 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #if MAP_CIRCLE
 /* Check if pixel is within circular minimap boundary */
-static bool	is_in_minimap_circle(int x, int y)
+bool	is_in_minimap_circle(int x, int y)
 {
 	int	dx;
 	int	dy;

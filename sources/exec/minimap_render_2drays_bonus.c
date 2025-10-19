@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 22:23:29 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/19 22:59:09 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/19 23:54:04 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,16 +131,17 @@ void	render_2dray(t_cub *cub, t_player *player, t_ray *ray)
 
 		// Get the same clamped center as render_map uses
 		get_minimap_center(cub, &center);
-		center_screen_x = MINIMAP_X + MINIMAP_WIDTH / 2;
-		center_screen_y = MINIMAP_Y + MINIMAP_HEIGHT / 2;
+		center_screen_x = MINIMAP_MARGIN + MINIMAP_WIDTH / 2;
+		center_screen_y = MINIMAP_MARGIN + MINIMAP_HEIGHT / 2;
 
 		// Transform player position relative to center
-		start.x = center_screen_x + (int)((player->pos.x - center.x) * MINIMAP_SCALE);
-		start.y = center_screen_y + (int)((player->pos.y - center.y) * MINIMAP_SCALE);
+		start.x = center_screen_x + (int)((player->pos.x - center.x) * MINIMAP_TILE_SIZE);
+		start.y = center_screen_y + (int)((player->pos.y - center.y) * MINIMAP_TILE_SIZE);
 
 		// Transform impact point relative to center
-		impact.x = center_screen_x + (int)((impact.x - center.x) * MINIMAP_SCALE);
-		impact.y = center_screen_y + (int)((impact.y - center.y) * MINIMAP_SCALE);
+		impact.x = center_screen_x + (int)((impact.x - center.x) * MINIMAP_TILE_SIZE);
+		impact.y = center_screen_y + (int)((impact.y - center.y) * MINIMAP_TILE_SIZE);
+
 		#elif MAP_SCALED
 		start.x = MINIMAP_X + (int)(player->pos.x * scale);
 		start.y = MINIMAP_Y + (int)(player->pos.y * scale);
