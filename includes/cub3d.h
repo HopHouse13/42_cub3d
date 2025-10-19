@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/18 21:25:10 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/19 23:04:52 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,21 @@
 # include <string.h>
 # include "mlx.h"
 
+# define COLLISION 0
+# define PRINT_DEBUG 1
+# define BONUS 1
+# define MAP_CIRCLE 0
+# define MAP_VIEWPORT 1
+# define MAP_SCALED 0
+
+
 # define TILE_SIZE 64
 # define PLAYER_SIZE 8
+
+#  define MINIMAP_TILE_SIZE 32  // Fixed pixel size per tile
+#  define MINIMAP_VISIBLE_COLS 32  // How many tiles wide
+#  define MINIMAP_VISIBLE_ROWS 8  // How many tiles tall
+
 
 // For rectangular minimap (non-circular)
 # define MINIMAP_MARGIN 10
@@ -49,7 +62,8 @@
 # define MINIMAP_RADIUS 128
 # define MINIMAP_CENTER_X (MINIMAP_MARGIN + MINIMAP_RADIUS)
 # define MINIMAP_CENTER_Y (MINIMAP_MARGIN + MINIMAP_RADIUS)
-# define MINIMAP_SCALE 32  // How many pixels per tile in minimap
+# define MINIMAP_SCALE 16  // How many pixels per tile in minimap
+
 
 # define RGB_WHT 0xFFFFFF
 # define RGB_RED 0xdb4437
@@ -75,9 +89,7 @@
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
 
-# define COLLISION 0
-# define PRINT_DEBUG 1
-# define BONUS 1
+
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
@@ -360,11 +372,13 @@ int		handle_focus_in(t_cub *cub);
 void	toggle_cursor_bonus(t_cub *cub);
 void	mouse_mlx_hook_bonus(t_cub *cub);
 
-bool	is_in_minimap_circle(int x, int y);
-void	screen_to_map_coords(int screen_x, int screen_y, t_player *player,
-		t_vec *map_coords);
-void	draw_minimap_pixel(t_cub *cub, int x, int y);
-void	draw_pixel_if_valid(t_cub *cub, int x, int y, int color);
+
+void	draw_pixel_if_valid(t_img *img, int x, int y, int color);
+void	get_viewport_offset(t_cub *cub, t_coord *offset);
+void	get_minimap_center(t_cub *cub, t_vec *center);
+float	get_map_scale(t_cub *cub);
+
+
 
 
 
