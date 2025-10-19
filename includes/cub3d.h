@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/20 00:28:56 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 00:49:28 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <string.h>
 # include "mlx.h"
 
-# define COLLISION 0
+# define COLLISION 1
 # define PRINT_DEBUG 1
 # define BONUS 1
 # define MAP_CIRCLE 0
@@ -396,6 +396,7 @@ void	get_viewport_offset(t_cub *cub, t_coord *offset);
 void	get_minimap_center(t_cub *cub, t_vec *center);
 float	get_map_scale(t_cub *cub);
 bool	is_in_minimap_circle(int x, int y);
+bool	ray_outside_minimap(t_cub *cub, t_ray *ray);
 
 
 

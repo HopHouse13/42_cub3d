@@ -6,11 +6,27 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 22:23:29 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/19 23:54:04 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 01:00:06 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+bool	ray_outside_minimap(t_cub *cub, t_ray *ray)
+{
+	t_vec	center;
+	t_vec	dist;
+	t_vec	max_dist;
+
+	get_minimap_center(cub, &center);
+	dist.x = fabs(ray->map.x - center.x);
+	dist.y = fabs(ray->map.y - center.y);
+	max_dist.x = MINIMAP_VISIBLE_COLS / 2.0 + 2;
+	max_dist.y = MINIMAP_VISIBLE_ROWS / 2.0 + 2;
+	if (dist.x > max_dist.x || dist.y > max_dist.y)
+		return (true);
+	return (false);
+}
 
 /* Boolean arithmetic instead of if/else */
 static void	init_bresenham(t_coord start, t_coord end, t_coord *delta,

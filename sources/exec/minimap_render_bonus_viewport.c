@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 20:25:05 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 00:17:36 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 01:23:26 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,100 +15,49 @@
 
 #if MAP_VIEWPORT
 
-/* void	get_minimap_center(t_cub *cub, t_vec *center)
+// 1. Calculate offset (top-left corner of viewport in map coordinates)
+// 2. Clamp to positive (don't go before start of map) (offset < 0)
+static double	clamp_viewport_axis(double player_pos, int visible_tiles,
+		int map_size)
 {
-	float	half_view_x;
-	float	half_view_y;
+	double	offset;
+	int		half_tiles;
 
-	// How many tiles fit in half the minimap
-	half_view_x = MINIMAP_VISIBLE_COLS / 2.0f;
-	half_view_y = MINIMAP_VISIBLE_ROWS / 2.0f;
-
-
-	// Start with player position as center
-	center->x = cub->player.pos.x;
-	center->y = cub->player.pos.y;
-
-	// Clamp X - if map is small or player near edges
-	if (cub->map.max_col <= MINIMAP_VISIBLE_COLS)
+	half_tiles = visible_tiles / 2;
+	offset = player_pos - half_tiles;
+	if (offset < 0)
+		offset = 0;
+	if (map_size > visible_tiles)
 	{
-		// Map smaller than viewport - center the map itself
-		center->x = cub->map.max_col / 2.0f;
+		if (offset + visible_tiles > map_size)
+			offset = map_size - visible_tiles;
 	}
 	else
-	{
-		// Map larger than viewport - clamp to edges
-		if (center->x < half_view_x)
-			center->x = half_view_x;
-		else if (center->x > cub->map.max_col - half_view_x)
-			center->x = cub->map.max_col - half_view_x;
-	}
+		offset = 0;
+	return (offset);
+}
 
-	// Clamp Y
-	if (cub->map.rows <= MINIMAP_VISIBLE_ROWS)
-	{
-		// Map smaller than viewport - center the map itself
-		center->y = cub->map.rows / 2.0f;
-	}
-	else
-	{
-		// Map larger than viewport - clamp to edges
-		if (center->y < half_view_y)
-			center->y = half_view_y;
-		else if (center->y > cub->map.rows - half_view_y)
-			center->y = cub->map.rows - half_view_y;
-	}
-} */
-
+// 3. Handle X dimension
+//		if		Map larger than viewport - clamp to left/right edge
+//		else	Map smaller than viewport - center map (offset.x = 0)
+// 4. Handle Y dimension
+//		if		Map larger than viewport - clamp to top/bottom edge
+//		else	Map smaller than viewport - center map (offset.y = 0)
+// 5. Center is offset + half viewport (middle of visible area)
 void	get_minimap_center(t_cub *cub, t_vec *center)
 {
 	int		half_cols;
 	int		half_rows;
-	float	offset_x;
-	float	offset_y;
+	t_vec	offset;
 
 	half_cols = MINIMAP_VISIBLE_COLS / 2;
 	half_rows = MINIMAP_VISIBLE_ROWS / 2;
-
-	// Calculate offset (top-left corner of viewport in map coordinates)
-	offset_x = cub->player.pos.x - half_cols;
-	offset_y = cub->player.pos.y - half_rows;
-
-	// Clamp to positive (don't go before start of map)
-	if (offset_x < 0)
-		offset_x = 0;
-	if (offset_y < 0)
-		offset_y = 0;
-
-	// Handle X dimension
-	if ((int)cub->map.max_col > MINIMAP_VISIBLE_COLS)
-	{
-		// Map larger than viewport - clamp to right edge
-		if (offset_x + MINIMAP_VISIBLE_COLS > (int)cub->map.max_col)
-			offset_x = cub->map.max_col - MINIMAP_VISIBLE_COLS;
-	}
-	else
-	{
-		// Map smaller than viewport - pin to top-left (offset = 0)
-		offset_x = 0;
-	}
-
-	// Handle Y dimension
-	if ((int)cub->map.rows > MINIMAP_VISIBLE_ROWS)
-	{
-		// Map larger than viewport - clamp to bottom edge
-		if (offset_y + MINIMAP_VISIBLE_ROWS > (int)cub->map.rows)
-			offset_y = cub->map.rows - MINIMAP_VISIBLE_ROWS;
-	}
-	else
-	{
-		// Map smaller than viewport - pin to top-left (offset = 0)
-		offset_y = 0;
-	}
-
-	// Center is offset + half viewport (middle of visible area)
-	center->x = offset_x + half_cols;
-	center->y = offset_y + half_rows;
+	offset.x = clamp_viewport_axis(cub->player.pos.x, MINIMAP_VISIBLE_COLS,
+		(int)cub->map.max_col);
+	offset.y = clamp_viewport_axis(cub->player.pos.y, MINIMAP_VISIBLE_ROWS,
+		(int)cub->map.rows);
+	center->x = offset.x + half_cols;
+	center->y = offset.y + half_rows;
 }
 
 /* Convert screen pixel to map coordinates relative to player */
@@ -150,8 +99,6 @@ static void	draw_minimap_pixel(t_cub *cub, int x, int y, t_vec center)
 	color = char_to_tile_rgb(cub->map.grid[map.y][map.x]);
 	tile.x = (int)((map_pos.x - floor(map_pos.x)) * MINIMAP_TILE_SIZE);
 	tile.y = (int)((map_pos.y - floor(map_pos.y)) * MINIMAP_TILE_SIZE);
-
-	// Draw black border if at edge of tile
 	if (MINIMAP_TILE_SIZE >= 8 &&
 		(tile.x == 0 || tile.x == MINIMAP_TILE_SIZE - 1 ||
 		tile.y == 0 || tile.y == MINIMAP_TILE_SIZE - 1))
