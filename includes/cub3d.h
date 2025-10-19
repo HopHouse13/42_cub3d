@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/19 23:55:58 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 00:28:56 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@
 # define PRINT_DEBUG 1
 # define BONUS 1
 # define MAP_CIRCLE 0
-# define MAP_VIEWPORT 0
-# define MAP_SCALED 1
+# define MAP_VIEWPORT 1
+# define MAP_SCALED 0
 
 # define TILE_SIZE 64
 # define PLAYER_SIZE 8
@@ -59,8 +59,8 @@
 // VIEWPORT mode settings
 # elif MAP_VIEWPORT
 #  define MINIMAP_TILE_SIZE 16  // Fixed pixel size per tile
-#  define MINIMAP_VISIBLE_COLS 40  // How many tiles wide
-#  define MINIMAP_VISIBLE_ROWS 15  // How many tiles tall
+#  define MINIMAP_VISIBLE_COLS 16  // How many tiles wide
+#  define MINIMAP_VISIBLE_ROWS 8  // How many tiles tall
 #  define MINIMAP_WIDTH (MINIMAP_VISIBLE_COLS * MINIMAP_TILE_SIZE)
 #  define MINIMAP_HEIGHT (MINIMAP_VISIBLE_ROWS * MINIMAP_TILE_SIZE)
 #  define MINIMAP_X MINIMAP_MARGIN

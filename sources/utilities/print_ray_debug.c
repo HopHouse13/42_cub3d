@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 17:30:37 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/18 18:12:24 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 00:33:45 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ void	print_ray_info(t_ray *ray, int x)
 
 static void	print_updated_pos2(t_cub *cub, t_player *player)
 {
-	printf("player->old_time=	%.2f		player->time=		%.2f\n",
+	printf("player->old_time(ms)=	%f	player->time(ms)=	%f\n",
 		player->old_time, player->time);
-	printf("player->frame_time=	%.2f		FPS=			%.2f\n",
+	printf("player->frame_time(ms)=	%f	FPS=			%f\n",
 		player->frame_time, 1.0 / player->frame_time);
+	printf("player->move_speed=	%.4f		player->rot_speed=	%.4f\n",
+		player->move_speed, player->rot_speed);
 	printf ("player->display_cursor=	%d		player->cursor_hidden=	%d\n",
 		player->display_cursor, player->cursor_hidden);
 	printf("player->moves=		%d\n", player->moves);

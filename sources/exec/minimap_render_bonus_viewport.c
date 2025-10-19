@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 20:25:05 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/19 23:53:07 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 00:17:36 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,18 +136,28 @@ static void	draw_minimap_pixel(t_cub *cub, int x, int y, t_vec center)
 {
 	t_vec	map_pos;
 	t_coord	map;
+	t_coord	tile;
+	int		color;
 
 	screen_to_map_coords(x, y, center, &map_pos);
 	map.x = (int)floor(map_pos.x);
 	map.y = (int)floor(map_pos.y);
 
-
 	if (map.y < 0 || map.y >= (int)cub->map.rows)
 		return;
 	if (map.x < 0 || map.x >= (int)ft_strlen(cub->map.grid[map.y]))
 		return;
-	img_pxl_put(&cub->game_img, x, y,
-		char_to_tile_rgb(cub->map.grid[map.y][map.x]));
+	color = char_to_tile_rgb(cub->map.grid[map.y][map.x]);
+	tile.x = (int)((map_pos.x - floor(map_pos.x)) * MINIMAP_TILE_SIZE);
+	tile.y = (int)((map_pos.y - floor(map_pos.y)) * MINIMAP_TILE_SIZE);
+
+	// Draw black border if at edge of tile
+	if (MINIMAP_TILE_SIZE >= 8 &&
+		(tile.x == 0 || tile.x == MINIMAP_TILE_SIZE - 1 ||
+		tile.y == 0 || tile.y == MINIMAP_TILE_SIZE - 1))
+		color = 0x000000;
+
+	img_pxl_put(&cub->game_img, x, y, color);
 }
 
 void render_map(t_cub *cub)
