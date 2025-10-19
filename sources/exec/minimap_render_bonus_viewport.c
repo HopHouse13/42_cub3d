@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 20:25:05 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/19 23:06:51 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/19 23:08:02 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,10 +171,10 @@ void render_map(t_cub *cub)
 	get_minimap_center(cub, &center);
 
 	y = MINIMAP_Y;
-	while (y <= MINIMAP_Y + MINIMAP_HEIGHT)
+	while (y < MINIMAP_Y + MINIMAP_HEIGHT)
 	{
 		x = MINIMAP_X;
-		while (x <= MINIMAP_X + MINIMAP_WIDTH)
+		while (x < MINIMAP_X + MINIMAP_WIDTH)
 		{
 			draw_minimap_pixel(cub, x, y, center);
 			x++;
