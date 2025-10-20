@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:37:47 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/17 18:16:00 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 21:41:11 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,17 @@ void	render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x)
 		txtr_y_coord += step;
 		color = *(int *)(txtr->addr + txtr->pxl.y * txtr->line_len
 				+ (txtr->pxl.x * txtr->bpp / 8));
+		if (BONUS && FOG)
+			color = add_fog(ray, color);
 		img_pxl_put(&cub->game_img, x, y, color);
 		y++;
 	}
 }
 
-t_key	get_texture_index(t_ray *ray)
+t_key	get_texture_index(t_cub *cub, t_ray *ray)
 {
+	if (cub->map.grid[ray->map.y][ray->map.x] == 'D')
+		return (DO);
 	if (ray->side == 0)
 	{
 		if (ray->step.x == 1)

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 16:56:35 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 20:21:23 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ uint32_t	char_to_tile_rgb(char c)
 		return (RGB_FLOOR);
 	if (c == 'N')
 		return (RGB_FLOOR);
-	if (c == 'C')
+	if (c == 'D')
 		return (RGB_GRN);
 	return (TILE_FLOOR);
 }

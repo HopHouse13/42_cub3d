@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 16:56:04 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 21:40:10 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x)
 		ray->wall_x = player->pos.y + ray->perp_wall_dist * ray->ray_dir.y;
 	ray->wall_x -= floor((ray->wall_x));
 	print_ray_info(ray, x);
-	render_texture(cub, ray, &(cub->txtr[get_texture_index(ray)]), x);
+	render_texture(cub, ray, &(cub->txtr[get_texture_index(cub, ray)]), x);
 	render_background(cub, x, ray->draw_start, ray->draw_end);
 }
 

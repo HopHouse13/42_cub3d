@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 17:30:37 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 16:57:03 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 21:09:23 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,30 @@ void	print_updated_pos(t_cub *cub, t_player *player, char *key)
 	printf ("player->dir.x=		%.4f		player->dir.y=		%.4f\n",
 		player->dir.x, player->dir.y);
 	print_updated_pos2(cub, player);
+}
+
+void	print_doors(t_cub *cub)
+{
+	int	i;
+
+	if (!PRINT_DEBUG)
+		return ;
+	i = 0;
+	if (cub->game_init)
+		printf("\
+		+------+       +------+\n\
+		|      |       |      |\n\
+		|      |-DOORS-|      |\n\
+		|      |       |      |\n\
+		+------+       +------+\n");
+	while (i < cub->elem.doors_nb)
+	{
+		if (cub->game_init || cub->doors[i].action)
+			printf("		Door[%d] coord{%d, %d} state[%d]\n",
+				i, cub->doors[i].pos.x, cub->doors[i].pos.y,
+				 cub->doors[i].state);
+		cub->doors[i].action = false;
+		i++;
+	}
+	printf("\n");
 }

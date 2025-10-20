@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 16:55:44 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 21:36:12 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	init_textures(t_cub *cub)
 	int		height;
 
 	i = 0;
-	while (i < 4)
+	while (i < 5)
 	{
 		cub->txtr[i].mlx_img = mlx_xpm_file_to_image(cub->mlx_pointer,
 				cub->elem.path[i],

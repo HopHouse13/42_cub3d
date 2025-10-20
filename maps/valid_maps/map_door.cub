@@ -3,7 +3,7 @@ SO ./textures/basic_txtr/blue_south_txture.xpm
 WE ./textures/basic_txtr/yellow_west_txture.xpm
 EA ./textures/basic_txtr/green_east_txture.xpm
 
-
+DO ./textures/door_txtr/bataclan_door.xpm
 
 F 220,100,55
 C 225,80,125
