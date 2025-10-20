@@ -6,12 +6,14 @@
 #    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/16 22:04:38 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/10/20 16:50:57 by tjacquel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
+
 NAME		= cub3D
+SRCS_DIR	= sources/
 SRCS_DIR	= sources/
 OBJ_DIR 	= obj_$(NAME)
 
@@ -44,7 +46,10 @@ SRCS_EXEC = exec/ray_game_mechanics.c \
 	exec/raycaster.c \
 	exec/ray_txtr_render.c \
 	exec/mouse_mvmt_bonus.c \
-	exec/minimap_render_bonus.c \
+	/exec/minimap_render_2drays_bonus.c \
+	exec/minimap_render_bonus_viewport.c \
+	exec/minimap_render_bonus2_circle.c \
+	exec/minimap_render_bonus3_scaled.c \
 	exec/exec_launch.c \
 
 
@@ -52,6 +57,7 @@ SRCS_FILES	= main.c $(SRCS_PARSING) $(SRCS_EXEC) $(SRC_UTILS)
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 
+OBJS		= $(SRCS:$(SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
 OBJS		= $(SRCS:$(SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
 CC			= cc
 RM			= rm -rf
@@ -70,12 +76,37 @@ MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lXfixes
 
 # Pattern rule for object files
 $(OBJ_DIR)/%.o : $(SRCS_DIR)%.c
+CFLAGS		= -Wall -Werror -Wextra
+
+LIBFT_DIR = ./lib/libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
+INCLUDES = -I./includes -I$(LIBFT_DIR) -I$(MLX_DIR)
+
+# MinilibX settings
+MLX_DIR = ./minilibx-linux
+MLX_LIB = $(MLX_DIR)/libmlx.a
+MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lXfixes
+
+
+# Pattern rule for object files
+$(OBJ_DIR)/%.o : $(SRCS_DIR)%.c
 			@mkdir -p $(@D)
+			@$(CC) -g $(CFLAGS) $(INCLUDES) -c $< -o $@
+
 			@$(CC) -g $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 
 all:		$(NAME)
 
+$(LIBFT):
+			@make -sC $(LIBFT_DIR)
+
+$(MLX_LIB):
+			@make -sC $(MLX_DIR)
+
+$(NAME):	$(LIBFT) $(MLX_LIB) $(OBJS)
+			@ $(CC) $(OBJS) $(LIBFT) $(MLX_LIB) $(MLX_FLAGS) -o $(NAME) -g
 $(LIBFT):
 			@make -sC $(LIBFT_DIR)
 
@@ -91,9 +122,14 @@ clean:
 			@echo "\033[36m""Directory $(OBJ_DIR) deleted.""\033[0m"
 			@make -sC $(LIBFT_DIR) clean
 			@make -sC $(MLX_DIR) clean
+			@echo "\033[36m""Directory $(OBJ_DIR) deleted.""\033[0m"
+			@make -sC $(LIBFT_DIR) clean
+			@make -sC $(MLX_DIR) clean
 
 fclean:		clean
 			@$(RM) $(NAME)
+			@echo "\033[36m""Executable $(NAME) deleted.""\033[0m"
+			@make -sC $(LIBFT_DIR) fclean
 			@echo "\033[36m""Executable $(NAME) deleted.""\033[0m"
 			@make -sC $(LIBFT_DIR) fclean
 

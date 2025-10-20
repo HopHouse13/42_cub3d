@@ -1,0 +1,16 @@
+NO ./textures/heavy_txtr/pbret_256.xpm
+SO ./textures/heavy_txtr/tjacquel_26.xpm
+WE ./textures/heavy_txtr/pbret_512.xpm
+EA ./textures/heavy_txtr/tjacquel_512.xpm
+
+F 192,135,134
+C 135,134,192
+
+11111111
+10101
+101001
+101E001
+10000001
+110000101
+10000101
+11111111
