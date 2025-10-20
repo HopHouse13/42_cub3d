@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 22:23:29 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 16:08:19 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 18:12:32 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	render_2dray(t_cub *cub, t_player *player, t_ray *ray)
 	#endif
 
 	#if MAP_MODE == MAP_SCALED
-	float scale;
+	double	scale;
 	scale = get_map_scale(cub);
 	#endif
 

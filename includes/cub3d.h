@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/20 17:03:49 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 18:13:22 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define MAP_CIRCLE 1
 # define MAP_VIEWPORT 2
 # define MAP_SCALED 3
-# define MAP_MODE 2
+# define MAP_MODE 0
 # define COLLISION 1
 # define PRINT_DEBUG 1
 # define BONUS 1
@@ -187,6 +187,12 @@ typedef struct	s_vec
 	double		x;
 	double		y;
 }				t_vec;
+
+typedef struct	s_pxl_range
+{
+	t_coord		start;
+	t_coord		end;
+}				t_pxl_range;
 
 typedef struct	s_player
 {
@@ -398,7 +404,7 @@ void	mouse_mlx_hook_bonus(t_cub *cub);
 void	draw_pixel_if_valid(t_img *img, int x, int y, int color);
 void	get_viewport_offset(t_cub *cub, t_coord *offset);
 void	get_map_center(t_cub *cub, t_vec *map_center);
-float	get_map_scale(t_cub *cub);
+double	get_map_scale(t_cub *cub);
 bool	is_in_minimap_circle(int x, int y);
 bool	ray_outside_minimap(t_cub *cub, t_ray *ray);
 
