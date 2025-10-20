@@ -6,7 +6,7 @@
 #    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/20 16:50:57 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/10/20 17:21:54 by tjacquel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,9 +47,9 @@ SRCS_EXEC = exec/ray_game_mechanics.c \
 	exec/ray_txtr_render.c \
 	exec/mouse_mvmt_bonus.c \
 	/exec/minimap_render_2drays_bonus.c \
-	exec/minimap_render_bonus_viewport.c \
-	exec/minimap_render_bonus2_circle.c \
-	exec/minimap_render_bonus3_scaled.c \
+	exec/minimap_render_circle_bonus.c \
+	exec/minimap_render_scaled_bonus.c \
+	exec/minimap_render_viewport_bonus.c \
 	exec/exec_launch.c \
 
 
