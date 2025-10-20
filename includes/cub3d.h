@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/20 02:36:36 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 02:48:41 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@
 # define PRINT_DEBUG 1
 # define BONUS 1
 # define MAP_CIRCLE 0
-# define MAP_VIEWPORT 1
-# define MAP_SCALED 0
+# define MAP_VIEWPORT 0
+# define MAP_SCALED 1
 
 # define TILE_SIZE 64
 # define PLAYER_SIZE 8

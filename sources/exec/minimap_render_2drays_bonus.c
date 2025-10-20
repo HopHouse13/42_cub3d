@@ -6,12 +6,27 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 22:23:29 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 02:41:13 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 02:45:37 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
+#if MAP_CIRCLE
+bool	ray_outside_minimap(t_cub *cub, t_ray *ray)
+{
+	int	screen_x;
+	int	screen_y;
+
+	// Convert map coordinates to screen pixel coordinates
+	screen_x = MINIMAP_CENTER_X + (int)((ray->map.x - cub->player.pos.x) * MINIMAP_SCALE);
+	screen_y = MINIMAP_CENTER_Y + (int)((ray->map.y - cub->player.pos.y) * MINIMAP_SCALE);
+
+	// Use the existing circle check
+	return !is_in_minimap_circle(screen_x, screen_y);
+}
+
+#elif VIEWPORT
 bool	ray_outside_minimap(t_cub *cub, t_ray *ray)
 {
 	t_vec	center;
@@ -27,6 +42,7 @@ bool	ray_outside_minimap(t_cub *cub, t_ray *ray)
 		return (true);
 	return (false);
 }
+#endif
 
 /* Boolean arithmetic instead of if/else */
 static void	init_bresenham(t_coord start, t_coord end, t_coord *delta,
