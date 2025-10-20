@@ -6,13 +6,13 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 22:20:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/19 22:31:07 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:09:11 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-# if MAP_SCALED
+# if MAP_MODE == MAP_SCALED
 /* Get the smaller scale to ensure entire map fits */
 float	get_map_scale(t_cub *cub)
 {
@@ -58,13 +58,13 @@ static void	fill_tile_pxl_range(t_cub *cub, t_coord pxl_start, t_coord pxl_end, 
 }
 #endif
 
-#if !MAP_VIEWPORT && !MAP_CIRCLE
+#if MAP_MODE != MAP_VIEWPORT && MAP_MODE != MAP_CIRCLE
 void	render_map(t_cub *cub)
 {
 	size_t	x;
 	size_t	y;
 	size_t	row_len;
-	#if MAP_SCALED
+	#if MAP_MODE == MAP_SCALED
 	float	scale;
 	int		tile_size;
 	t_coord	pxl_start;
@@ -85,7 +85,7 @@ void	render_map(t_cub *cub)
 	y = 0;
 	while (y < cub->map.rows && y < WNDW_H)
 	{
-		#if MAP_SCALED
+		#if MAP_MODE == MAP_SCALED
 		pxl_start.y = MINIMAP_Y + (int)(y * scale);
 		pxl_end.y = MINIMAP_Y + (int)((y + 1) * scale);
 		#endif
@@ -94,7 +94,7 @@ void	render_map(t_cub *cub)
 		row_len = ft_strlen(cub->map.grid[y]);
 		while (x < row_len && x < WNDW_W)
 		{
-			#if MAP_SCALED
+			#if MAP_MODE == MAP_SCALED
 			pxl_start.x = MINIMAP_X + (int)(x * scale);
 			pxl_end.x = MINIMAP_X + (int)((x + 1) * scale);
 

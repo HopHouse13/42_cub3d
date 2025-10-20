@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:41:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 02:46:30 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:08:45 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	dda_loop(t_cub *cub, t_ray *ray, bool render_map)
 		}
 		if (outofbounds_dda_ray(cub, ray))
 			break ;
-		if (BONUS && (MAP_CIRCLE || MAP_VIEWPORT) && render_map && ray_outside_minimap(cub, ray))
+		if (BONUS && (MAP_MODE == MAP_CIRCLE || MAP_MODE == MAP_VIEWPORT) && render_map && ray_outside_minimap(cub, ray))
 			ray->hit = 1;
 		if (cub->map.grid[ray->map.y][ray->map.x] == '1')
 			ray->hit = 1;

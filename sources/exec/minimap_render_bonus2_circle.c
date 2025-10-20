@@ -6,13 +6,13 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 18:04:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/19 23:54:56 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:18:40 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-#if MAP_CIRCLE
+#if MAP_MODE == MAP_CIRCLE
 /* Check if pixel is within circular minimap boundary */
 bool	is_in_minimap_circle(int x, int y)
 {
@@ -57,8 +57,8 @@ static void	draw_minimap_pixel(t_cub *cub, int x, int y)
 	if (map_x >= 0 && map_y >= 0 && map_y < (int)cub->map.rows
 		&& map_x < (int)ft_strlen(cub->map.grid[map_y]))
 		img_pxl_put(&cub->game_img, x, y, char_to_tile_rgb(cub->map.grid[map_y][map_x]));
-	// else
-	// 	img_pxl_put(&cub->game_img, x, y, 0x111111);
+	else
+		img_pxl_put(&cub->game_img, x, y, 0x111111);
 
 	// Draw border
 	if (sqrt(pow(x - MINIMAP_CENTER_X, 2) + pow(y - MINIMAP_CENTER_Y, 2))

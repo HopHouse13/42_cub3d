@@ -6,13 +6,13 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 22:23:29 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 02:45:37 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:08:19 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-#if MAP_CIRCLE
+#if MAP_MODE == MAP_CIRCLE
 bool	ray_outside_minimap(t_cub *cub, t_ray *ray)
 {
 	int	screen_x;
@@ -26,7 +26,7 @@ bool	ray_outside_minimap(t_cub *cub, t_ray *ray)
 	return !is_in_minimap_circle(screen_x, screen_y);
 }
 
-#elif VIEWPORT
+#elif MAP_MODE == MAP_VIEWPORT
 bool	ray_outside_minimap(t_cub *cub, t_ray *ray)
 {
 	t_vec	center;
@@ -53,7 +53,7 @@ static void	init_bresenham(t_coord start, t_coord end, t_coord *delta,
 	step->x = 1 - 2 * (start.x >= end.x);
 	step->y = 1 - 2 * (start.y >= end.y);
 }
-#if MAP_CIRCLE
+#if MAP_MODE == MAP_CIRCLE
 void	draw_pixel_if_valid(t_img *img, int x, int y, int color)
 {
 	if (is_in_minimap_circle(x, y) && x >= 0 && x < WNDW_W && y >= 0 && y < WNDW_H)
@@ -63,11 +63,11 @@ void	draw_pixel_if_valid(t_img *img, int x, int y, int color)
 #else
 void	draw_pixel_if_valid(t_img *img, int x, int y, int color)
 {
-# if MAP_VIEWPORT
+# if MAP_MODE == MAP_VIEWPORT
 	if (x >= MINIMAP_X && x < MINIMAP_X + MINIMAP_WIDTH
 		&& y >= MINIMAP_Y && y < MINIMAP_Y + MINIMAP_HEIGHT)
 		img_pxl_put(img, x, y, color);
-	# elif MAP_SCALED
+	# elif MAP_MODE == MAP_SCALED
 	if (x >= MINIMAP_X && x < MINIMAP_X + MINIMAP_WIDTH
 		&& y >= MINIMAP_Y && y < MINIMAP_Y + MINIMAP_HEIGHT)
 		img_pxl_put(img, x, y, color);
@@ -121,14 +121,14 @@ void	render_2dray(t_cub *cub, t_player *player, t_ray *ray)
 {
 	t_vec	impact;
 	t_coord	start;
-	#if MAP_VIEWPORT
+	#if MAP_MODE == MAP_VIEWPORT
 	// t_coord viewport_offset;
 	// viewport_offset = (t_coord){0, 0};
 	t_vec	map_center;
 	t_coord	minimap_center;
 	#endif
 
-	#if MAP_SCALED && !MAP_VIEWPORT
+	#if MAP_MODE == MAP_SCALED
 	float scale;
 	scale = get_map_scale(cub);
 	#endif
@@ -146,14 +146,14 @@ void	render_2dray(t_cub *cub, t_player *player, t_ray *ray)
 			/ ray->ray_dir.y;
 	}
 
-	# if MAP_CIRCLE
+	# if MAP_MODE == MAP_CIRCLE
 	start.x = MINIMAP_CENTER_X;
 	start.y = MINIMAP_CENTER_Y;
 	impact.x = MINIMAP_CENTER_X + (int)((impact.x - player->pos.x) * MINIMAP_SCALE);
 	impact.y = MINIMAP_CENTER_Y + (int)((impact.y - player->pos.y) * MINIMAP_SCALE);
 
 	# else
-		#if MAP_VIEWPORT
+		#if MAP_MODE == MAP_VIEWPORT
 		// get_viewport_offset(cub, &viewport_offset);
 		// // Transform player position to screen space
 		// start.x = MINIMAP_X + (int)((player->pos.x - viewport_offset.x) * MINIMAP_TILE_SIZE);
@@ -175,7 +175,7 @@ void	render_2dray(t_cub *cub, t_player *player, t_ray *ray)
 		impact.x = minimap_center.x + (int)((impact.x - map_center.x) * MINIMAP_TILE_SIZE);
 		impact.y = minimap_center.y + (int)((impact.y - map_center.y) * MINIMAP_TILE_SIZE);
 
-		#elif MAP_SCALED
+		#elif MAP_MODE == MAP_SCALED
 		start.x = MINIMAP_X + (int)(player->pos.x * scale);
 		start.y = MINIMAP_Y + (int)(player->pos.y * scale);
 		impact.x = MINIMAP_X + (int)(impact.x * scale);

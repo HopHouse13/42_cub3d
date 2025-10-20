@@ -6,13 +6,13 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 20:25:05 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 02:38:28 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:06:50 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-#if MAP_VIEWPORT
+#if MAP_MODE == MAP_VIEWPORT
 
 // 1. Calculate offset (top-left corner of viewport in map coordinates)
 // 2. Clamp to positive (don't go before start of map) (offset < 0)

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 00:26:06 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 15:49:44 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	which_starting_direction(t_player *player, char facing)
 {
+	
 	if (facing == 'W')
 	{
 		player->dir = (t_vec){-1, 0};

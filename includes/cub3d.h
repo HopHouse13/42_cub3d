@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/20 02:48:41 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:38:33 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,18 @@
 # include <string.h>
 # include "mlx.h"
 
-# define COLLISION 0
-# define PRINT_DEBUG 1
+// OPTIONS
+
+# define MAP_CIRCLE 1
+# define MAP_VIEWPORT 2
+# define MAP_SCALED 3
+# define MAP_MODE 3
+# define COLLISION 1
+# define PRINT_DEBUG 0
 # define BONUS 1
-# define MAP_CIRCLE 0
-# define MAP_VIEWPORT 0
-# define MAP_SCALED 1
+// # define MAP_CIRCLE 0
+// # define MAP_VIEWPORT 1
+// # define MAP_SCALED 0
 
 # define TILE_SIZE 64
 # define PLAYER_SIZE 8
@@ -45,8 +51,9 @@
 // Common minimap settings
 # define MINIMAP_MARGIN 10
 
+
 // CIRCLE mode settings
-# if MAP_CIRCLE
+# if MAP_MODE == MAP_CIRCLE
 #  define MINIMAP_RADIUS 128
 #  define MINIMAP_CENTER_X (MINIMAP_MARGIN + MINIMAP_RADIUS)
 #  define MINIMAP_CENTER_Y (MINIMAP_MARGIN + MINIMAP_RADIUS)
@@ -57,17 +64,17 @@
 #  define MINIMAP_Y (MINIMAP_MARGIN)
 
 // VIEWPORT mode settings
-# elif MAP_VIEWPORT
+# elif MAP_MODE == MAP_VIEWPORT
 #  define MINIMAP_TILE_SIZE 16  // Fixed pixel size per tile
-#  define MINIMAP_VISIBLE_COLS 16  // How many tiles wide
-#  define MINIMAP_VISIBLE_ROWS 8  // How many tiles tall
+#  define MINIMAP_VISIBLE_COLS 32  // How many tiles wide
+#  define MINIMAP_VISIBLE_ROWS 16  // How many tiles tall
 #  define MINIMAP_WIDTH (MINIMAP_VISIBLE_COLS * MINIMAP_TILE_SIZE)
 #  define MINIMAP_HEIGHT (MINIMAP_VISIBLE_ROWS * MINIMAP_TILE_SIZE)
 #  define MINIMAP_X MINIMAP_MARGIN
 #  define MINIMAP_Y MINIMAP_MARGIN
 
 // SCALED mode settings
-# elif MAP_SCALED
+# elif MAP_MODE == MAP_SCALED
 #  define MINIMAP_WIDTH 640
 #  define MINIMAP_HEIGHT 240
 #  define MINIMAP_X MINIMAP_MARGIN
