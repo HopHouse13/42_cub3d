@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/20 01:41:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 02:36:36 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -393,7 +393,7 @@ void	mouse_mlx_hook_bonus(t_cub *cub);
 
 void	draw_pixel_if_valid(t_img *img, int x, int y, int color);
 void	get_viewport_offset(t_cub *cub, t_coord *offset);
-void	get_minimap_center(t_cub *cub, t_vec *center);
+void	get_map_center(t_cub *cub, t_vec *map_center);
 float	get_map_scale(t_cub *cub);
 bool	is_in_minimap_circle(int x, int y);
 bool	ray_outside_minimap(t_cub *cub, t_ray *ray);

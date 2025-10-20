@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 20:25:05 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 02:15:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 02:38:28 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static double	clamp_viewport_axis(double player_pos, int visible_tiles,
 //		if		Map larger than viewport - clamp to top/bottom edge
 //		else	Map smaller than viewport - center map (offset.y = 0)
 // 5. Center is offset + half viewport (middle of visible area)
-void	get_minimap_center(t_cub *cub, t_vec *center)
+void	get_map_center(t_cub *cub, t_vec *map_center)
 {
 	int		half_cols;
 	int		half_rows;
@@ -55,8 +55,8 @@ void	get_minimap_center(t_cub *cub, t_vec *center)
 			(int)cub->map.max_col);
 	offset.y = clamp_viewport_axis(cub->player.pos.y, MINIMAP_VISIBLE_ROWS,
 			(int)cub->map.rows);
-	center->x = offset.x + half_cols;
-	center->y = offset.y + half_rows;
+	map_center->x = offset.x + half_cols;
+	map_center->y = offset.y + half_rows;
 }
 
 /* Convert screen pixel to map coordinates relative to player */
@@ -81,14 +81,14 @@ static void	screen_to_map_coords(int x, int y, t_vec map_center, t_vec *map_pos)
 	t_coord	tile_pxl;	// Pixel position WITHIN a tile
 							(e.g., 11 pixels from left edge)
 */
-static void	draw_minimap_pixel(t_cub *cub, int x, int y, t_vec center)
+static void	draw_minimap_pixel(t_cub *cub, int x, int y, t_vec map_center)
 {
 	t_vec	map_pos;
 	t_coord	map_tile;
 	t_coord	tile_pxl;
 	int		color;
 
-	screen_to_map_coords(x, y, center, &map_pos);
+	screen_to_map_coords(x, y, map_center, &map_pos);
 	map_tile.x = (int)floor(map_pos.x);
 	map_tile.y = (int)floor(map_pos.y);
 	if (map_tile.y < 0 || map_tile.y >= (int)cub->map.rows)
@@ -108,18 +108,18 @@ static void	draw_minimap_pixel(t_cub *cub, int x, int y, t_vec center)
 
 void	render_map(t_cub *cub)
 {
-	t_vec	center;
+	t_vec	map_center;
 	int		x;
 	int		y;
 
-	get_minimap_center(cub, &center);
+	get_map_center(cub, &map_center);
 	y = MINIMAP_Y;
 	while (y < MINIMAP_Y + MINIMAP_HEIGHT)
 	{
 		x = MINIMAP_MARGIN;
 		while (x < MINIMAP_MARGIN + MINIMAP_WIDTH)
 		{
-			draw_minimap_pixel(cub, x, y, center);
+			draw_minimap_pixel(cub, x, y, map_center);
 			x++;
 		}
 		y++;

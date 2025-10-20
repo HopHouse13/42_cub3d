@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 22:23:29 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 01:00:06 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 02:41:13 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool	ray_outside_minimap(t_cub *cub, t_ray *ray)
 	t_vec	dist;
 	t_vec	max_dist;
 
-	get_minimap_center(cub, &center);
+	get_map_center(cub, &center);
 	dist.x = fabs(ray->map.x - center.x);
 	dist.y = fabs(ray->map.y - center.y);
 	max_dist.x = MINIMAP_VISIBLE_COLS / 2.0 + 2;
@@ -37,15 +37,17 @@ static void	init_bresenham(t_coord start, t_coord end, t_coord *delta,
 	step->x = 1 - 2 * (start.x >= end.x);
 	step->y = 1 - 2 * (start.y >= end.y);
 }
-
+#if MAP_CIRCLE
 void	draw_pixel_if_valid(t_img *img, int x, int y, int color)
 {
-	#if MAP_CIRCLE
 	if (is_in_minimap_circle(x, y) && x >= 0 && x < WNDW_W && y >= 0 && y < WNDW_H)
 		img_pxl_put(img, x, y, color);
+}
 
-	#else
-	# if MAP_VIEWPORT
+#else
+void	draw_pixel_if_valid(t_img *img, int x, int y, int color)
+{
+# if MAP_VIEWPORT
 	if (x >= MINIMAP_X && x < MINIMAP_X + MINIMAP_WIDTH
 		&& y >= MINIMAP_Y && y < MINIMAP_Y + MINIMAP_HEIGHT)
 		img_pxl_put(img, x, y, color);
@@ -57,8 +59,8 @@ void	draw_pixel_if_valid(t_img *img, int x, int y, int color)
 	if (x >= 0 && x < WNDW_W && y >= 0 && y < WNDW_H)
 		img_pxl_put(img, x, y, color);
 	# endif
-	#endif
 }
+#endif
 
 /* Bresenham's line algorithm
 Core idea : draw a straight line from point A to point B on a pixel grid (INT)
@@ -106,9 +108,8 @@ void	render_2dray(t_cub *cub, t_player *player, t_ray *ray)
 	#if MAP_VIEWPORT
 	// t_coord viewport_offset;
 	// viewport_offset = (t_coord){0, 0};
-	t_vec center;
-	int center_screen_x;
-	int center_screen_y;
+	t_vec	map_center;
+	t_coord	minimap_center;
 	#endif
 
 	#if MAP_SCALED && !MAP_VIEWPORT
@@ -124,7 +125,7 @@ void	render_2dray(t_cub *cub, t_player *player, t_ray *ray)
 	}
 	else
 	{
-		impact.y = ray->map.y + (ray->step.y == -1);
+		impact.y = ray->map.y + (ray->step.y == -1);;
 		impact.x = player->pos.x + (impact.y - player->pos.y) * ray->ray_dir.x
 			/ ray->ray_dir.y;
 	}
@@ -146,17 +147,17 @@ void	render_2dray(t_cub *cub, t_player *player, t_ray *ray)
 		// impact.y = MINIMAP_Y + (int)((impact.y - viewport_offset.y) * MINIMAP_TILE_SIZE);
 
 		// Get the same clamped center as render_map uses
-		get_minimap_center(cub, &center);
-		center_screen_x = MINIMAP_MARGIN + MINIMAP_WIDTH / 2;
-		center_screen_y = MINIMAP_MARGIN + MINIMAP_HEIGHT / 2;
+		get_map_center(cub, &map_center);
+		minimap_center.x = MINIMAP_MARGIN + MINIMAP_WIDTH / 2;
+		minimap_center.y = MINIMAP_MARGIN + MINIMAP_HEIGHT / 2;
 
-		// Transform player position relative to center
-		start.x = center_screen_x + (int)((player->pos.x - center.x) * MINIMAP_TILE_SIZE);
-		start.y = center_screen_y + (int)((player->pos.y - center.y) * MINIMAP_TILE_SIZE);
+		// Transform player position relative to map_center
+		start.x = minimap_center.x + (int)((player->pos.x - map_center.x) * MINIMAP_TILE_SIZE);
+		start.y = minimap_center.y + (int)((player->pos.y - map_center.y) * MINIMAP_TILE_SIZE);
 
-		// Transform impact point relative to center
-		impact.x = center_screen_x + (int)((impact.x - center.x) * MINIMAP_TILE_SIZE);
-		impact.y = center_screen_y + (int)((impact.y - center.y) * MINIMAP_TILE_SIZE);
+		// Transform impact point relative to map_center
+		impact.x = minimap_center.x + (int)((impact.x - map_center.x) * MINIMAP_TILE_SIZE);
+		impact.y = minimap_center.y + (int)((impact.y - map_center.y) * MINIMAP_TILE_SIZE);
 
 		#elif MAP_SCALED
 		start.x = MINIMAP_X + (int)(player->pos.x * scale);
