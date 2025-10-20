@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/20 00:49:28 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 01:41:40 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <string.h>
 # include "mlx.h"
 
-# define COLLISION 1
+# define COLLISION 0
 # define PRINT_DEBUG 1
 # define BONUS 1
 # define MAP_CIRCLE 0

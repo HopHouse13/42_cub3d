@@ -6,11 +6,32 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 17:30:37 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 00:33:45 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 02:05:33 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+void	print_txtr_struct(t_txtr *txtr)
+{
+	int	i;
+
+	if (!PRINT_DEBUG)
+		return ;
+	printf("/* ----------------------------    print_txtr_struct\
+    -------------------------*/\n");
+	i = 0;
+	while (i < 4)
+	{
+		printf("	txtr[%d].mlx_img = %p, .addr = %p, .bpp = %d, .line_end = \
+%d, .endian = %d, .width = %d, .height = %d\n",
+			i, txtr[i].mlx_img, (void *)txtr[i].addr, txtr[i].bpp, txtr[i].\
+line_len, txtr[i].endian, txtr[i].width, txtr[i].height);
+		i++;
+	}
+	printf("/* -----------------------------------------------------\
+-------------------------*/\n\n");
+}
 
 /* Il faudrait utiliser fprintf pour print_ray_info sinon c'est illisible
 	mais fonction interdite*/
@@ -19,8 +40,8 @@ void	print_ray_info(t_ray *ray, int x)
 	return ;
 	if (!PRINT_DEBUG)
 		return ;
-	printf("	Ray[%d]->map.x =		%d		map.y =			%d\n",\
-		x, ray->map.x, ray->map.y);
+	printf("	Ray[%d]->map.x =		%d		map.y =			%d\n", \
+x, ray->map.x, ray->map.y);
 	printf("	Ray[%d]->ray_dir.x =		%.4f		ray_dir.y =	\
 	%.4f\n", x, ray->ray_dir.x, ray->ray_dir.y);
 	printf("	Ray[%d]->delta_dist.x =	%.4f		delta_dist.y =	\
@@ -32,9 +53,9 @@ void	print_ray_info(t_ray *ray, int x)
 	printf("	Ray[%d]->hit =		%d		side =			%d\n",
 		x, ray->hit, ray->side);
 	printf("	Ray[%d]->perp_wall_dist =	%g		line_height =		%d\n",
-		 x, ray->perp_wall_dist, ray->line_height);
+		x, ray->perp_wall_dist, ray->line_height);
 	printf("	Ray[%d]->draw_start =		%d		draw_end =		%d\n",
-		 x, ray->draw_start, ray->draw_end);
+		x, ray->draw_start, ray->draw_end);
 	printf("	Ray[%d]->wall_x =		%.4f\n\n", x, ray->wall_x);
 }
 
@@ -68,7 +89,7 @@ void	print_updated_pos(t_cub *cub, t_player *player, char *key)
 	{
 		printf("/* ----------------------------    print_updated_pos    \
 -------------------------*/\n");
-	printf("	`%s` key pressed\n", key);
+		printf("	`%s` key pressed\n", key);
 	}
 	printf ("player->pos.x=		%.4f		player->pos.y=		%.4f\n",
 		player->pos.x, player->pos.y);

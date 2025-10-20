@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:41:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 00:59:16 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 01:59:09 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static bool	outofbounds_dda_ray(t_cub *cub, t_ray *ray)
 	}
 	return (false);
 }
-
 
 /* 6. Digital Differential Analysis: Casting the ray */
 static void	dda_loop(t_cub *cub, t_ray *ray, bool render_map)
@@ -99,7 +98,8 @@ static double	compute_delta_dist(double ray_dir)
 3. Position in the grid (map)
 4. Initial distances (delta_dist)
  */
-void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray, bool render_map)
+void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray,
+	bool render_map)
 {
 	int		x;
 	double	camera_x;

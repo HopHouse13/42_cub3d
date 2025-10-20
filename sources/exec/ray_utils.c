@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/18 19:20:31 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 01:58:33 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,25 +82,4 @@ void	print_map_ray(t_map *map)
 	printf("map->rows = %zd\n", map->rows);
 	printf("map->max_col = %zd\n", map->max_col);
 	printf("map->display_map = %d\n", map->display_map);
-}
-
-void	print_txtr_struct(t_txtr *txtr)
-{
-	int	i;
-
-	if (!PRINT_DEBUG)
-		return ;
-	printf("/* ----------------------------    print_txtr_struct\
-    -------------------------*/\n");
-	i = 0;
-	while (i < 4)
-	{
-		printf("	txtr[%d].mlx_img = %p, .addr = %p, .bpp = %d, .line_end = \
-%d, .endian = %d, .width = %d, .height = %d\n",
-			i, txtr[i].mlx_img, (void *)txtr[i].addr, txtr[i].bpp, txtr[i].\
-line_len, txtr[i].endian, txtr[i].width, txtr[i].height);
-		i++;
-	}
-	printf("/* -----------------------------------------------------\
--------------------------*/\n\n");
 }
