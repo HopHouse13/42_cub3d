@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 19:10:39 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 16:55:12 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 23:16:50 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	move_forward(t_cub *cub, t_player *player, t_vec new_pos)
 {
 	new_pos.x = player->pos.x + player->dir.x * player->move_speed;
 	new_pos.y = player->pos.y + player->dir.y * player->move_speed;
-	if (is_valid_move_x(cub, player, new_pos.x))
+	if (is_valid_move(cub, new_pos.x, player->pos.y))
 		player->pos.x = new_pos.x;
-	if (is_valid_move_y(cub, player, new_pos.y))
+	if (is_valid_move(cub, player->pos.x, new_pos.y))
 		player->pos.y = new_pos.y;
 	print_updated_pos(cub, player, "W");
 }
@@ -27,9 +27,9 @@ void	move_backward(t_cub *cub, t_player *player, t_vec new_pos)
 {
 	new_pos.x = player->pos.x - player->dir.x * player->move_speed;
 	new_pos.y = player->pos.y - player->dir.y * player->move_speed;
-	if (is_valid_move_x(cub, player, new_pos.x))
+	if (is_valid_move(cub, new_pos.x, player->pos.y))
 		player->pos.x = new_pos.x;
-	if (is_valid_move_y(cub, player, new_pos.y))
+	if (is_valid_move(cub, player->pos.x, new_pos.y))
 		player->pos.y = new_pos.y;
 	print_updated_pos(cub, player, "S");
 }
@@ -38,9 +38,9 @@ void	strafe_right(t_cub *cub, t_player *player, t_vec new_pos)
 {
 	new_pos.x = player->pos.x - player->dir.y * player->move_speed;
 	new_pos.y = player->pos.y + player->dir.x * player->move_speed;
-	if (is_valid_move_x(cub, player, new_pos.x))
+	if (is_valid_move(cub, new_pos.x, player->pos.y))
 		player->pos.x = new_pos.x;
-	if (is_valid_move_y(cub, player, new_pos.y))
+	if (is_valid_move(cub, player->pos.x, new_pos.y))
 		player->pos.y = new_pos.y;
 	print_updated_pos(cub, player, "D");
 }
@@ -49,9 +49,9 @@ void	strafe_left(t_cub *cub, t_player *player, t_vec new_pos)
 {
 	new_pos.x = player->pos.x + player->dir.y * player->move_speed;
 	new_pos.y = player->pos.y - player->dir.x * player->move_speed;
-	if (is_valid_move_x(cub, player, new_pos.x))
+	if (is_valid_move(cub, new_pos.x, player->pos.y))
 		player->pos.x = new_pos.x;
-	if (is_valid_move_y(cub, player, new_pos.y))
+	if (is_valid_move(cub, player->pos.x, new_pos.y))
 		player->pos.y = new_pos.y;
 	print_updated_pos(cub, player, "A");
 }
@@ -73,4 +73,5 @@ void	handle_move(t_cub *cub, t_player *player)
 		turn_left(cub, player, false);
 	if (player->kbrd.key_right)
 		turn_right(cub, player, false);
+	cub->print_debug_cub = true;
 }

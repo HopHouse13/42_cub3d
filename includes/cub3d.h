@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/20 21:39:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 02:04:15 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@
 # define MAP_CIRCLE 1
 # define MAP_VIEWPORT 2
 # define MAP_SCALED 3
-# define MAP_MODE 3
+# define MAP_MODE 2
 # define COLLISION 1
 # define PRINT_DEBUG 1
 # define BONUS 1
-# define FOG 1
+# define FOG 0
 
 # define TILE_SIZE 64
 # define PLAYER_SIZE 8
@@ -94,13 +94,18 @@
 # define RGB_BLUE 0x4285f4
 # define RGB_YLW 0xf4b400
 # define RGB_GRN 0x0f9d58
+# define RGB_ORG 0xFF4500
 # define RGB_FLOOR 0x0000067
 # define RGB_RAY_YLW 0xFFFF00
 
 # define MOVE_SPEED 0.075
 # define ROT_SPEED 0.035
+# define MOVE_SPPED_MULT 5.0
+# define ROT_SPEED_MULT 3.0
 # define FOG_DISTANCE 16
 # define FOG_COLOR RGG_BLCK
+# define DOOR_ANIM_MS 60
+# define DOOR_ANIM_STEP 8
 
 # define FOV 66
 #  if FOV <= 0 || FOV >= 180
@@ -123,9 +128,9 @@
 typedef enum	e_door_state
 {
 	CLOSED,
+	CLOSING,
 	OPENING,
 	OPEN,
-	CLOSING
 }				t_door_state;
 
 typedef enum	e_tile
@@ -284,6 +289,8 @@ typedef struct s_door
 	t_coord			pos;
 	t_door_state	state;
 	bool			action;
+	double			offset;
+	double			anim_speed;
 }				t_door;
 
 typedef struct	s_cub
@@ -308,7 +315,6 @@ typedef struct	s_cub
 
 	bool		game_init;		// debug
 	bool		print_debug_cub; // debug
-	bool		render_bool;
 	bool		no_collision;
 }				t_cub;
 
@@ -396,6 +402,8 @@ void		turn_right(t_cub *cub, t_player *player, bool mouse);
 void		turn_left(t_cub *cub, t_player *player, bool mouse);
 bool		is_valid_move_x(t_cub *cub, t_player *player, double new_x);
 bool		is_valid_move_y(t_cub *cub, t_player *player, double new_y);
+bool		is_valid_move(t_cub *cub, double x, double y);
+
 
 
 
@@ -443,6 +451,16 @@ bool		ray_outside_minimap(t_cub *cub, t_ray *ray);
 int			add_fog(t_ray *ray, int pxl_color);
 void		init_doors(t_cub *cub);
 void		print_doors(t_cub *cub);
+bool		is_door_closed(t_cub *cub, int x, int y);
+int			minimap_door_color(t_cub *cub, int x, int y);
+void		door_interaction(t_cub *cub);
+t_door		*which_door(t_cub *cub, int x, int y);
+void		update_doors(t_cub *cub);
+bool		should_ray_hit_door(t_cub *cub, t_ray *ray, t_door *door);
+
+
+
+
 
 
 

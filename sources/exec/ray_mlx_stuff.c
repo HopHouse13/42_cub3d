@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:10:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 21:36:31 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 21:50:48 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,10 @@ static void	destroy_images(t_cub *cub)
 	}
 }
 
-void	destroy_doors(t_cub *cub)
-{
-	// size_t	i;
-
-	// i = 0;
-	// while (i < cub->elem.doors_nb)
-	// {
-	// 	if (cub->doors[i])
-	// 		free (cub->doors[i]);
-	// 	i++;
-	// }
-	if (cub->doors)
-		free(cub->doors);
-}
-
 void	cleanup_mlx(t_cub *cub, t_error mlx_err)
 {
-	destroy_doors(cub);
+	if (cub->doors)
+		free(cub->doors);
 	if (cub->mlx_pointer)
 		destroy_images(cub);
 	if (cub->mlx_window)

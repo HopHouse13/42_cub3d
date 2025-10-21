@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minimap_render_bonus_viewport.c                    :+:      :+:    :+:   */
+/*   minimap_render_viewport_bonus.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 20:25:05 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 16:06:50 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 23:34:01 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,10 @@ static void	draw_minimap_pixel(t_cub *cub, int x, int y, t_vec map_center)
 	if (map_tile.x < 0
 		|| map_tile.x >= (int)ft_strlen(cub->map.grid[map_tile.y]))
 		return ;
-	color = char_to_tile_rgb(cub->map.grid[map_tile.y][map_tile.x]);
+	if (cub->map.grid[map_tile.y][map_tile.x] == 'D')
+		color = minimap_door_color(cub, map_tile.x, map_tile.y);
+	else
+		color = char_to_tile_rgb(cub->map.grid[map_tile.y][map_tile.x]);
 	tile_pxl.x = (int)((map_pos.x - floor(map_pos.x)) * MINIMAP_TILE_SIZE);
 	tile_pxl.y = (int)((map_pos.y - floor(map_pos.y)) * MINIMAP_TILE_SIZE);
 	if (MINIMAP_TILE_SIZE >= 8

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 21:40:10 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 00:47:06 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	render_loop(t_cub *cub)
 	cub->player.frame_time = (cub->player.time - cub->player.old_time) / 1000.0;
 	cub->player.move_speed = cub->player.frame_time * 5.0;
 	cub->player.rot_speed = cub->player.frame_time * 3.0;
+	update_doors(cub);
 	if (cub->game_init)
 		print_updated_pos(cub, &(cub->player), NULL);
 	handle_move(cub, &(cub->player));
@@ -88,6 +89,7 @@ int	render_loop(t_cub *cub)
 	}
 	mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
 		cub->game_img.mlx_img, 0, 0);
+	cub->game_init = false;
 	return (0);
 }
 

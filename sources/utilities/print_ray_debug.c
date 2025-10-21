@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 17:30:37 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 21:09:23 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 00:12:19 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static void	print_updated_pos2(t_cub *cub, t_player *player)
 
 void	print_updated_pos(t_cub *cub, t_player *player, char *key)
 {
+	return ;
 	if (!PRINT_DEBUG)
 		return ;
 	if (cub->game_init)
@@ -123,5 +124,6 @@ void	print_doors(t_cub *cub)
 		cub->doors[i].action = false;
 		i++;
 	}
-	printf("\n");
+	if (cub->game_init)
+		printf("\n");
 }

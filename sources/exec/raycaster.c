@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:41:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 20:31:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 01:18:40 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static bool	outofbounds_dda_ray(t_cub *cub, t_ray *ray)
 /* 6. Digital Differential Analysis: Casting the ray */
 static void	dda_loop(t_cub *cub, t_ray *ray, bool render_map)
 {
+	t_door *door;
+
 	ray->hit = 0;
 	while (ray->hit == 0)
 	{
@@ -52,9 +54,17 @@ static void	dda_loop(t_cub *cub, t_ray *ray, bool render_map)
 		if (BONUS && (MAP_MODE == MAP_CIRCLE || MAP_MODE == MAP_VIEWPORT)
 			&& render_map && ray_outside_minimap(cub, ray))
 			ray->hit = 1;
-		if (cub->map.grid[ray->map.y][ray->map.x] == '1'
-			|| cub->map.grid[ray->map.y][ray->map.x] == 'D')
+		if (cub->map.grid[ray->map.y][ray->map.x] == '1')
 			ray->hit = 1;
+		if (cub->map.grid[ray->map.y][ray->map.x] == 'D')
+		{
+			door = which_door(cub, ray->map.x, ray->map.y);
+			if (door && should_ray_hit_door(cub, ray, door))
+				ray->hit = 1;
+			// if (is_door_closed(cub, ray->map.x, ray->map.y))
+				// ray->hit = 1;
+		}
+
 	}
 }
 

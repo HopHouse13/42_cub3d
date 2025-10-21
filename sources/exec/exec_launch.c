@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 19:47:33 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 23:44:50 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,12 @@ int	key_press_hook(int keysym, t_cub *cub)
 		cub->player.kbrd.key_a = true;
 	if (keysym == XK_d)
 		cub->player.kbrd.key_d = true;
+	if (keysym == XK_e)
+		door_interaction(cub);
 	if (keysym == XK_Left)
 		cub->player.kbrd.key_left = true;
 	if (keysym == XK_Right)
 		cub->player.kbrd.key_right = true;
-	if (cub->player.kbrd.key_w || cub->player.kbrd.key_s
-		|| cub->player.kbrd.key_d || cub->player.kbrd.key_a
-		|| cub->player.kbrd.key_left || cub->player.kbrd.key_right)
-		cub->render_bool = true;
 	return (0);
 }
 
