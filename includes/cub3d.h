@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/17 17:25:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 22:54:19 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,25 @@
 # include <stdlib.h>
 # include <float.h>
 # include <sys/time.h>
-# include <X11/X.h>
-# include <X11/keysym.h>
+//# include <X11/X.h>
+//# include <X11/keysym.h>
 # include <string.h>
 # include "mlx.h"
+
+#  ifdef __APPLE__   // macOS (M1 / Intel)
+	# define KEY_ESC 53
+	# define KEY_W 13
+	# define KEY_A 0
+	# define KEY_S 1
+	# define KEY_D 2
+	# define KEY_LEFT 123
+	# define KEY_RIGHT 124
+	# define KEY_UP 126
+	# define KEY_DOWN 125
+#  else
+	# include <X11/X.h>
+	# include <X11/keysym.h>
+#  endif
 
 # define TILE_SIZE 64
 # define PLAYER_SIZE 8

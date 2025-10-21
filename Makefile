@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
+#    By: pab <pab@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/16 22:04:38 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/10/21 21:33:14 by pab              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,11 +63,16 @@ LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I./includes -I$(LIBFT_DIR) -I$(MLX_DIR)
 
 # MinilibX settings
-MLX_DIR = ./minilibx-linux
-MLX_LIB = $(MLX_DIR)/libmlx.a
-MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lXfixes
-
-
+OS 		= $(shell uname -s)
+ifeq ($(OS), Linux)
+	MLX_DIR = ./minilibx-linux
+	MLX_LIB = $(MLX_DIR)/libmlx.a
+	MLX_FLAGS = -framework OpenGL -framework AppKit
+else
+	MLX_DIR = ./minilibx_opengl
+	MLX_LIB = $(MLX_DIR)/libmlx.a
+	MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lXfixes
+endif
 # Pattern rule for object files
 $(OBJ_DIR)/%.o : $(SRCS_DIR)%.c
 			@mkdir -p $(@D)

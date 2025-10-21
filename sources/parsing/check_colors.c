@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_colors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:29 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/17 16:53:48 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/21 23:02:38 by pab              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ static int	between_value(t_cub *cub, int nb_colors, char **line)
 {
 	int		i;
 	int		comma;
-	int		tmp_end;
 
 	i = 0;
 	comma = 0;
@@ -71,7 +70,6 @@ static int	between_value(t_cub *cub, int nb_colors, char **line)
 		i++;
 	if (i == 0 && !ft_isdigit((*line)[i]))
 		exit_door(cub, PSG_RGB_FT_ERR, *line);
-	tmp_end = i;
 	while ((*line)[i] && !ft_isdigit((*line)[i]))
 	{	
 		if (((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n')
