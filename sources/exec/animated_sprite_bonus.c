@@ -6,29 +6,13 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 16:24:59 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 22:08:33 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 23:34:46 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void	render_sprite(t_cub *cub, t_ray *ray, int x)
-{
-	t_txtr	*curr_sp_txtr;
-
-	curr_sp_txtr = NULL;
-	if (ray->map.y >= 0 && ray->map.y < (int)cub->map.rows
-		&& ray->map.x >= 0 && ray->map.x < (int)ft_strlen(cub->map.grid[ray->map.y]))
-	{
-		if (cub->map.grid[ray->map.y][ray->map.x] == 'C')
-		{
-			curr_sp_txtr = &cub->sp_txtr[cub->sprites->current_frame];
-			render_texture(cub, ray, curr_sp_txtr, x);
-		}
-	}
-}
-
-void render_single_sprite(t_cub *cub, t_sprite *sprite)
+void render_single_sprite(t_cub *cub, t_sprite *sprite, int sp_idx)
 {
 	t_vec	sprite_rel;
 	t_vec	transform;
@@ -38,6 +22,7 @@ void render_single_sprite(t_cub *cub, t_sprite *sprite)
 	t_coord	draw_start, draw_end;
 	int		stripe;
 	t_txtr	*current_frame;
+	(void)	sp_idx;
 
 	// Get current animation frame
 	current_frame = &cub->sp_txtr[sprite->current_frame];
@@ -100,8 +85,11 @@ void render_single_sprite(t_cub *cub, t_sprite *sprite)
 							+ tex_x * current_frame->bpp / 8);
 
 				// Color key transparency (skip if black/magenta)
-				if ((color & 0x00FFFFFF) != 0x000000)  // Not black
+				if ((color & 0x00FFFFFF) != 0x000000)   // Not black
+				{
+					// color = add_fog(cub->sprites[sp_idx].distance, color);
 					img_pxl_put(&cub->game_img, stripe, y, color);
+				}
 
 				y++;
 			}
@@ -134,12 +122,30 @@ void	sort_sprites(t_sp_render *sprites, int sprite_nb)
 	}
 }
 
+int	count_active_sprites(t_cub *cub)
+{
+	int	i;
+	int	active_count;
+
+	i = 0;
+	active_count = 0;
+	while (i < cub->elem.sprite_nb)
+	{
+		if (cub->sprites[i].active)
+			active_count++;
+		i++;
+	}
+	return (active_count);
+}
+
 void	render_all_sprites(t_cub *cub)
 {
 	t_sp_render	sp_order[cub->elem.sprite_nb];
 	int			i;
 	t_vec		delta;
+	int			active_sprites;
 
+	active_sprites = 0;
 	i = 0;
 	while (i < cub->elem.sprite_nb)
 	{
@@ -147,18 +153,20 @@ void	render_all_sprites(t_cub *cub)
 		{
 			delta.x = cub->sprites[i].pos.x - cub->player.pos.x;
 			delta.y = cub->sprites[i].pos.y - cub->player.pos.y;
-			sp_order[i].sprite_idx = i;
-			sp_order[i].distance = delta.x * delta.x + delta.y * delta.y;
+			sp_order[active_sprites].sprite_idx = i;
+			sp_order[active_sprites].distance = delta.x * delta.x + delta.y * delta.y;
+			cub->sprites[i].distance = sp_order[active_sprites].distance;
+			active_sprites++;
 		}
 		i++;
 	}
-	sort_sprites(sp_order, cub->elem.sprite_nb);
+	sort_sprites(sp_order, active_sprites);
 
 	i = 0;
-	while (i < cub->elem.sprite_nb)
+	while (i < active_sprites)
 	{
 		if (cub->sprites[sp_order[i].sprite_idx].active)
-			render_single_sprite(cub, &cub->sprites[sp_order[i].sprite_idx]);
+			render_single_sprite(cub, &cub->sprites[sp_order[i].sprite_idx], sp_order[i].sprite_idx);
 		i++;
 	}
 }
@@ -207,6 +215,11 @@ void	update_all_sprites(t_cub *cub)
 	{
 		if (cub->sprites[i].active)
 			update_sprite_animation(&cub->sprites[i], cub->player.frame_time);
+		// if (cub->sprites[i].distance < 0.5)
+		// 	cub->sprites[i].active = false;
+		if (fabs(cub->player.pos.x - cub->sprites[i].pos.x) < 0.5
+			&& fabs(cub->player.pos.y - cub->sprites[i].pos.y) < 0.5)
+			cub->sprites[i].active = false;
 		i++;
 	}
 }
@@ -219,6 +232,7 @@ void	init_single_sprite(t_sprite *sprite, int x, int y)
 	sprite->current_frame = 0;
 	sprite->frame_duration = 0.2;
 	sprite->elapsed_time = 0.0;
+	sprite->distance = 0.0;
 	sprite->loop = true;
 	sprite->action = false;
 }

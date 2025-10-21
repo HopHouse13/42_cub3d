@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/21 22:23:09 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 23:26:52 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,6 +350,7 @@ typedef struct s_sprite
 	int			current_frame;
 	double		frame_duration;
 	double		elapsed_time;
+	double		distance;
 	bool		loop;
 	bool		action;
 }				t_sprite;
@@ -374,7 +375,7 @@ typedef struct	s_cub
 
 	t_door		*doors;
 	t_sprite	*sprites;
-	double		z_buffer[1920];
+	double		z_buffer[WNDW_W];
 
 	t_psg		psg;
 	char		*err_msg[UNKNOWN_ERR + 1];
@@ -515,7 +516,7 @@ double		get_map_scale(t_cub *cub);
 bool		is_in_minimap_circle(int x, int y);
 bool		ray_outside_minimap(t_cub *cub, t_ray *ray);
 
-int			add_fog(t_ray *ray, int pxl_color);
+int			add_fog(double distance, int pxl_color);
 void		init_doors(t_cub *cub);
 void		print_doors(t_cub *cub);
 bool		is_door_closed(t_cub *cub, int x, int y);

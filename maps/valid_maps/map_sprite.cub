@@ -1,7 +1,7 @@
 NO ./textures/basic_txtr/street1_256.xpm
 SO ./textures/basic_txtr/street2_256.xpm
 WE ./textures/basic_txtr/street3_256.xpm
-EA ./textures/basic_txtr/street4_256.xpm
+EA ./textures/banksy_txtr/judge.xpm
 
 DO ./textures/door_txtr/bataclan_door.xpm
 
