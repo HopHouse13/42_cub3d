@@ -3,6 +3,8 @@ SO textures/black_txtr/blackSquare_neonBlue_horizontalStripe_64.xpm
 WE textures/black_txtr/blackSquare_neonBlue_horizontalStripe_64.xpm
 EA textures/black_txtr/blackSquare_neonBlue_horizontalStripe_64.xpm
 
+DO ./textures/door_txtr/bataclan_door.xpm
+
 F 1,1,1
 C 1,1,1
 

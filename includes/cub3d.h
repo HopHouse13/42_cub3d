@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/21 02:10:49 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 02:38:00 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # define COLLISION 1
 # define PRINT_DEBUG 1
 # define BONUS 1
-# define FOG 0
+# define FOG 1
 
 # define TILE_SIZE 64
 # define PLAYER_SIZE 8
@@ -102,16 +102,16 @@
 # define ROT_SPEED 0.035
 # define MOVE_SPPED_MULT 5.0
 # define ROT_SPEED_MULT 3.0
-# define FOG_DISTANCE 16
+# define FOG_DISTANCE 8
 # define FOG_COLOR RGG_BLCK
 # define DOOR_ANIM_MS 60
 # define DOOR_ANIM_STEP 8
 # define DOOR_INTERACT 1.5
 
 # define FOV 66
-#  if FOV <= 0 || FOV >= 180
-#   error "FOV must be between 0 and 180 degrees (exclusive)"
-#  endif
+// #  if FOV <= 0 || FOV >= 180
+// #   error "FOV must be between 0 and 180 degrees (exclusive)"
+// #  endif
 
 # define FOV_RAD (FOV * M_PI / 180.0)
 # define PLANE_MAG (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0)
