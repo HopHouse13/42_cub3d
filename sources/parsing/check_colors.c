@@ -6,7 +6,7 @@
 /*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:29 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/21 23:02:38 by pab              ###   ########.fr       */
+/*   Updated: 2025/10/21 13:38:39 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,9 @@ static void	get_color(t_cub *cub, int *loc_value, char **line, int idx)
 {
 	int		value_color;
 	int		nb_char_value;
-	char	*tmp_char_value;
 
 	nb_char_value = between_value(cub, idx, line);
-	tmp_char_value = ft_substr(*line, 0, nb_char_value);
-	value_color = ft_atoi(tmp_char_value);
-	free(tmp_char_value);
+	value_color = ft_atoi(*line);
 	check_value(cub, value_color);
 	if (*loc_value == -1)
 		*loc_value = value_color;

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/17 00:18:38 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:55:33 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	init_player(t_cub *cub, t_player *player)
 	player->time = 0;
 	player->old_time = 0;
 	player->frame_time = 0;
+	player->rot_speed = 0;
+	player->move_speed = 0;
 	player->kbrd = (t_key_inpt){0, 0, 0, 0, 0, 0, 1};
 	player->display_cursor = true;
 	player->cursor_hidden = false;
@@ -59,7 +61,6 @@ static void	init_ptr_to_null(t_cub *cub)
 
 	cub->mlx_pointer = NULL;
 	cub->mlx_window = NULL;
-	cub->map_img.mlx_img = NULL;
 	cub->game_img.mlx_img = NULL;
 	i = -1;
 	while (++i < 4)

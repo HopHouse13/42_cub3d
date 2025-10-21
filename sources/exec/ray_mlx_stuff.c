@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_mlx_stuff.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:10:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 23:05:16 by pab              ###   ########.fr       */
+/*   Updated: 2025/10/20 16:55:50 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ static void	destroy_images(t_cub *cub)
 {
 	size_t	i;
 
-	if (cub->map_img.mlx_img)
-		mlx_destroy_image(cub->mlx_pointer, cub->map_img.mlx_img);
 	if (cub->game_img.mlx_img)
 		mlx_destroy_image(cub->mlx_pointer, cub->game_img.mlx_img);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/17 18:10:11 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:56:04 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,19 @@ int	render_loop(t_cub *cub)
 	cub->player.old_time = cub->player.time;
 	cub->player.time = date_in_ms(cub) - cub->player.start_time;
 	cub->player.frame_time = (cub->player.time - cub->player.old_time) / 1000.0;
+	cub->player.move_speed = cub->player.frame_time * 5.0;
+	cub->player.rot_speed = cub->player.frame_time * 3.0;
 	if (cub->game_init)
 		print_updated_pos(cub, &(cub->player), NULL);
 	handle_move(cub, &(cub->player));
-	if (cub->player.kbrd.key_m == true)
+	raycasting_loop(cub, &(cub->player), &ray, false);
+	if (BONUS && cub->player.kbrd.key_m == true)
+	{
 		render_map(cub);
-	raycasting_loop(cub, &(cub->player), &ray);
+		raycasting_loop(cub, &(cub->player), &ray, true);
+	}
 	mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
 		cub->game_img.mlx_img, 0, 0);
-	if (cub->player.kbrd.key_m == true)
-		mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
-			cub->map_img.mlx_img, 10, 10);
 	return (0);
 }
 
@@ -98,7 +100,7 @@ void	render(t_cub *cub)
 			"cubD3TROIT");
 	if (!cub->mlx_window)
 		cleanup_mlx(cub, MLX_WDW_ERR);
-	init_images(cub);
+	init_image(cub);
 	init_textures(cub);
 	mlx_loop_hook(cub->mlx_pointer, &render_loop, cub);
 	mlx_hook(cub->mlx_window, KeyPress, KeyPressMask, &key_press_hook, cub);

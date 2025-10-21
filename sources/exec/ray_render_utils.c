@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 17:47:58 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/16 23:00:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:56:24 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ int	render_sqr(t_img *img, t_sqr sqr)
 		j = sqr.x;
 		while (j < sqr.x + sqr.side)
 		{
-			if (i == sqr.y || i == sqr.y + sqr.side - 1 || j == sqr.x
-				|| j == sqr.x + sqr.side - 1)
-				img_pxl_put(img, j++, i, 0x000000);
+			if (sqr.side >= 8 && (i == sqr.y || i == sqr.y + sqr.side - 1
+					|| j == sqr.x || j == sqr.x + sqr.side - 1))
+				draw_pixel_if_valid(img, j++, i, 0x000000);
 			else
-				img_pxl_put(img, j++, i, sqr.color);
+				draw_pixel_if_valid(img, j++, i, sqr.color);
 		}
 		++i;
 	}

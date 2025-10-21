@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pab <pab@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/21 22:54:19 by pab              ###   ########.fr       */
+/*   Updated: 2025/10/21 11:39:12 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,16 @@
 # include <string.h>
 # include "mlx.h"
 
+// OPTIONS
+
+# define MAP_CIRCLE 1
+# define MAP_VIEWPORT 2
+# define MAP_SCALED 3
+
+# define MAP_MODE 1
+# define COLLISION 0
+# define PRINT_DEBUG 1
+# define BONUS 1
 #  ifdef __APPLE__   // macOS (M1 / Intel)
 	# define KEY_ESC 53
 	# define KEY_W 13
@@ -49,13 +59,48 @@
 
 # define WNDW_W 1920
 # define WNDW_H 1080
-# define MINIMAP_H (WNDW_H / 5)
-# define MINIMAP_W (WNDW_W / 5)
 
-# define MINIMAP_SIZE 200
-# define MINIMAP_MARGIN 20
-# define MINIMAP_RADIUS 5
-# define MINIMAP_TILE_SIZE (MINIMAP_SIZE / (MINIMAP_RADIUS * 2 + 1))
+// Common minimap settings
+# define MINIMAP_MARGIN 10
+
+
+// CIRCLE mode settings
+# if MAP_MODE == MAP_CIRCLE
+#  define MINIMAP_RADIUS 128
+#  define MINIMAP_CENTER_X (MINIMAP_MARGIN + MINIMAP_RADIUS)
+#  define MINIMAP_CENTER_Y (MINIMAP_MARGIN + MINIMAP_RADIUS)
+#  define MINIMAP_SCALE 16  // Pixels per tile in circle mode
+#  define MINIMAP_WIDTH (MINIMAP_RADIUS * 2)
+#  define MINIMAP_HEIGHT (MINIMAP_RADIUS * 2)
+#  define MINIMAP_X (MINIMAP_MARGIN)
+#  define MINIMAP_Y (MINIMAP_MARGIN)
+
+// VIEWPORT mode settings
+# elif MAP_MODE == MAP_VIEWPORT
+#  define MINIMAP_TILE_SIZE 16  // Fixed pixel size per tile
+#  define MINIMAP_VISIBLE_COLS 32  // How many tiles wide
+#  define MINIMAP_VISIBLE_ROWS 16  // How many tiles tall
+#  define MINIMAP_WIDTH (MINIMAP_VISIBLE_COLS * MINIMAP_TILE_SIZE)
+#  define MINIMAP_HEIGHT (MINIMAP_VISIBLE_ROWS * MINIMAP_TILE_SIZE)
+#  define MINIMAP_X MINIMAP_MARGIN
+#  define MINIMAP_Y MINIMAP_MARGIN
+
+// SCALED mode settings
+# elif MAP_MODE == MAP_SCALED
+#  define MINIMAP_WIDTH 640
+#  define MINIMAP_HEIGHT 240
+#  define MINIMAP_X MINIMAP_MARGIN
+#  define MINIMAP_Y MINIMAP_MARGIN
+
+// Fallback for no mode selected
+# else
+#  define MAP_RATIO 3.5
+#  define MINIMAP_WIDTH (WNDW_W / 5)
+#  define MINIMAP_HEIGHT (WNDW_H / 5)
+#  define MINIMAP_X MINIMAP_MARGIN
+#  define MINIMAP_Y MINIMAP_MARGIN
+# endif
+
 
 # define RGB_WHT 0xFFFFFF
 # define RGB_RED 0xdb4437
@@ -63,6 +108,7 @@
 # define RGB_YLW 0xf4b400
 # define RGB_GRN 0x0f9d58
 # define RGB_FLOOR 0x0000067
+# define RGB_RAY_YLW 0xFFFF00
 
 # define MOVE_SPEED 0.075
 # define ROT_SPEED 0.035
@@ -75,13 +121,12 @@
 # define FOV_RAD (FOV * M_PI / 180.0)
 # define PLANE_MAG (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0)
 
-# define MAP_RATIO 2
+# define MAP_RATIO 3.5
 // #  if MAP_RATIO <= 0 || MAP_RATIO >= 10
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
 
-# define COLLISION 1
-# define PRINT_DEBUG 0
+
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
@@ -234,7 +279,6 @@ typedef struct	s_cub
 	t_elem		elem;
 	t_player	player;
 
-	t_img		map_img;
 	t_img		game_img;
 
 	t_psg		psg;
@@ -305,7 +349,7 @@ void		exec_launch(t_cub *cub);
 void		init_textures(t_cub *cub);
 void		init_exec_data(t_cub *cub);
 void		init_player(t_cub *cub, t_player *player);
-void		init_images(t_cub *cub);
+void		init_image(t_cub *cub);
 void		init_ray_data(t_ray *ray);
 
 // mlx_stuff
@@ -314,7 +358,7 @@ void		cleanup_mlx(t_cub *cub, t_error mlx_err);
 // render_stuff
 void		render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x);
 void		render_2dray(t_cub *cub, t_player *player, t_ray *ray);
-void		raycasting_loop(t_cub *cub, t_player *player, t_ray *ray);
+void		raycasting_loop(t_cub *cub, t_player *player, t_ray *ray, bool render_map);
 void		render_map(t_cub *cub);
 void		render(t_cub *cub);
 
@@ -338,6 +382,7 @@ bool		is_valid_move_y(t_cub *cub, t_player *player, double new_y);
 
 // utils
 t_tile		char_to_tile(char c);
+uint32_t	char_to_tile_rgb(char c);
 void		print_map_ray(t_map *map);
 double		date_in_s(t_cub *cub);
 double		date_in_ms(t_cub *cub);
@@ -363,6 +408,14 @@ int		handle_focus_out(t_cub *cub);
 int		handle_focus_in(t_cub *cub);
 void	toggle_cursor_bonus(t_cub *cub);
 void	mouse_mlx_hook_bonus(t_cub *cub);
+
+
+void	draw_pixel_if_valid(t_img *img, int x, int y, int color);
+void	get_viewport_offset(t_cub *cub, t_coord *offset);
+void	get_map_center(t_cub *cub, t_vec *map_center);
+float	get_map_scale(t_cub *cub);
+bool	is_in_minimap_circle(int x, int y);
+bool	ray_outside_minimap(t_cub *cub, t_ray *ray);
 
 
 
