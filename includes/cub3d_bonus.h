@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/21 11:39:12 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/21 14:25:12 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,8 @@ typedef enum	e_key
 				EA,
 				SO,
 				WE,
+				DR,
+				SP,
 				F,
 				C,
 }				t_key;
@@ -224,7 +226,7 @@ typedef struct	s_map
 
 typedef struct	s_elements
 {
-	char		*path[4]; // 0 NO, 1 EA, 2 SO, 3 WE
+	char		*path[6]; // 0 NO, 1 EA, 2 SO, 3 WE, 4 DR(door), 5 SP(sprite)
 	int			f_values[3];
 	int			c_values[3];
 	int			f_color;
@@ -257,6 +259,8 @@ typedef struct	s_cub
 	void		*mlx_pointer;
 	void		*mlx_window;
 	t_txtr		txtr[4];
+	//t_txtr		door; // plus de txtr pour les sprites: soit un file.xpm avec plusieurs frames soit un file par frame (ASUPP)
+	//t_txtr		sprite; // plus de txtr pour les sprites: soit un file.xpm avec plusieurs frames soit un file par frame (ASUPP)
 
 	int			window_height;
 	int			window_width;
@@ -312,6 +316,7 @@ void	valid_outline(t_cub *cub);
 void	valid_char(t_cub *cub);
 void	get_player(t_cub *cub);
 void	empty_line(t_cub *cub);
+void	check_door(t_cub *cub);
 
 /// UTILITIES ///
 void	exit_door(t_cub *cub, t_error err_id, char *item);

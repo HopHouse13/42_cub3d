@@ -3,19 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
+#    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/20 17:25:15 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/10/21 14:35:21 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 
-NAME		= cub3D
-SRCS_DIR	= sources/
-SRCS_DIR	= sources/
-OBJ_DIR 	= obj_$(NAME)
+NAME			= cub3D
+SRCS_DIR		= sources/
+#SRCS_DIR		= sources/		DOUBLON
+OBJ_DIR 		= obj_$(NAME)
 
 SRCS_PARSING = \
 	parsing/check_filename.c \
@@ -33,7 +33,7 @@ SRC_UTILS = \
 	utilities/init_err_msgs.c \
 	utilities/parsing_utilities.c \
 	utilities/print_debug.c \
-	/utilities/print_ray_debug.c \
+	/utilities/print_ray_debug.c
 
 SRCS_EXEC = exec/ray_game_mechanics.c \
 	exec/ray_game_mechanics2.c \
@@ -50,15 +50,32 @@ SRCS_EXEC = exec/ray_game_mechanics.c \
 	exec/minimap_render_circle_bonus.c \
 	exec/minimap_render_scaled_bonus.c \
 	exec/minimap_render_viewport_bonus.c \
-	exec/exec_launch.c \
+	exec/exec_launch.c
+
+SRCS_PSG_BONUS = bonus/parsing/check_filename.c \
+	bonus/parsing/check_paths.c\
+	bonus/parsing/check_colors.c\
+	bonus/parsing/check_elem.c \
+	bonus/parsing/parsing.c \
+	bonus/parsing/check_map.c \
+	bonus/parsing/handle_map.c
+
+SRC_UTILS_BONUS = \
+	utilities/get_next_line_utilities.c \
+	utilities/get_next_line.c \
+	utilities/handle_exit.c \
+	utilities/init_err_msgs.c \
+	utilities/parsing_utilities.c \
+	utilities/print_debug.c \
+	/utilities/print_ray_debug.c
 
 
-SRCS_FILES	= main.c $(SRCS_PARSING) $(SRCS_EXEC) $(SRC_UTILS)
+SRCS_FILES	= main.c $(SRCS_PSG_BONUS) $(SRCS_EXEC) $(SRC_UTILS_BONUS)
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 
 OBJS		= $(SRCS:$(SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
-OBJS		= $(SRCS:$(SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
+#OBJS		= $(SRCS:$(SRCS_DIR)%.c=$(OBJ_DIR)/%.o)		DOUBLON
 CC			= cc
 RM			= rm -rf
 CFLAGS		= -Wall -Werror -Wextra
@@ -74,19 +91,19 @@ MLX_LIB = $(MLX_DIR)/libmlx.a
 MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lXfixes
 
 
-# Pattern rule for object files
-$(OBJ_DIR)/%.o : $(SRCS_DIR)%.c
-CFLAGS		= -Wall -Werror -Wextra
+# Pattern rule for object files		DOUBLON
+#$(OBJ_DIR)/%.o : $(SRCS_DIR)%.c		DOUBLON
+#CFLAGS		= -Wall -Werror -Wextra		DOUBLON
 
-LIBFT_DIR = ./lib/libft
-LIBFT = $(LIBFT_DIR)/libft.a
+#LIBFT_DIR = ./lib/libft		DOUBLON
+#LIBFT = $(LIBFT_DIR)/libft.a		DOUBLON
 
-INCLUDES = -I./includes -I$(LIBFT_DIR) -I$(MLX_DIR)
+#INCLUDES = -I./includes -I$(LIBFT_DIR) -I$(MLX_DIR)		DOUBLON
 
-# MinilibX settings
-MLX_DIR = ./minilibx-linux
-MLX_LIB = $(MLX_DIR)/libmlx.a
-MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lXfixes
+## MinilibX settings
+#MLX_DIR = ./minilibx-linux		DOUBLON
+#MLX_LIB = $(MLX_DIR)/libmlx.a		DOUBLON
+#MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lXfixes		DOUBLON
 
 
 # Pattern rule for object files
@@ -94,19 +111,19 @@ $(OBJ_DIR)/%.o : $(SRCS_DIR)%.c
 			@mkdir -p $(@D)
 			@$(CC) -g $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-			@$(CC) -g $(CFLAGS) $(INCLUDES) -c $< -o $@
+#			@$(CC) -g $(CFLAGS) $(INCLUDES) -c $< -o $@		DOUBLON
 
 
 all:		$(NAME)
 
-$(LIBFT):
-			@make -sC $(LIBFT_DIR)
+#$(LIBFT):
+#			@make -sC $(LIBFT_DIR)		DOUBLON
 
-$(MLX_LIB):
-			@make -sC $(MLX_DIR)
+#$(MLX_LIB):
+#			@make -sC $(MLX_DIR)		DOUBLON
 
-$(NAME):	$(LIBFT) $(MLX_LIB) $(OBJS)
-			@ $(CC) $(OBJS) $(LIBFT) $(MLX_LIB) $(MLX_FLAGS) -o $(NAME) -g
+#$(NAME):	$(LIBFT) $(MLX_LIB) $(OBJS)		DOUBLON
+#			@ $(CC) $(OBJS) $(LIBFT) $(MLX_LIB) $(MLX_FLAGS) -o $(NAME) -g		DOUBLON
 $(LIBFT):
 			@make -sC $(LIBFT_DIR)
 

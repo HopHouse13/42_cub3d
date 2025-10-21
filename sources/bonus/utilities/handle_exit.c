@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/21 13:28:08 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/21 14:38:29 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	free_elem(t_cub *cub)
 	int	i;
 
 	i = -1;
-	while (++i < 4)
+	while (++i < 6)
 	{
 		if (cub->elem.path[i])
 			free(cub->elem.path[i]);

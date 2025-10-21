@@ -6,11 +6,11 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:29 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/21 13:38:39 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/21 13:40:20 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "../../includes/cub3d_bonus.h"
 
 // Conversion du format RGB (3 valeurs) en un int avec du bit shifting.
 // Un int est compose de 4 octets, l'octet le plus a gauche visuellement est le 
@@ -115,7 +115,7 @@ static void	get_color(t_cub *cub, int *loc_value, char **line, int idx)
 
 // Le pointeur vers le 1er char qui n'est pas un espace.
 // Check si ce char est bien un chiffre.
-// Boucle pour avancer 'idx' qui est l'index des deux tab de int
+// Boucle pour avancer 'idx' qui est l'index des deux tab de intnb_char_value
 // (stockage des valeurs)
 // Sortie de boucle, conversion des couleurs en un int. (bit shifting)
 void	handle_colors(t_cub *cub, char **line, t_key key_id)
