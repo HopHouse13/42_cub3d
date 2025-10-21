@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/21 02:38:00 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 22:23:09 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,20 @@
 
 
 # define RGB_WHT 0xFFFFFF
+# define DARK_GREY 0x222222
 # define RGG_BLCK 0x000000
 # define RGB_RED 0xdb4437
 # define RGB_BLUE 0x4285f4
 # define RGB_YLW 0xf4b400
 # define RGB_GRN 0x0f9d58
-# define RGB_ORG 0xFF4500
-# define RGB_FLOOR 0x0000067
+# define RGB_ORG 0xEC973D
+# define DARK_BLUE 0x000067
+# define RGB_FLOOR 0xC9C9C9
 # define RGB_RAY_YLW 0xFFFF00
+# define RGB_LIGHT_GREY 0xC9C9C9
+# define LIGHT_GRN 0x98E48B
+# define LIGHT_BLUE 0xAEEEEE
+# define RGB_BEIGE 0xD2B48C
 
 # define MOVE_SPEED 0.075
 # define ROT_SPEED 0.035
@@ -121,8 +127,30 @@
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
 
+# define SPRITE_ANIM1 "./textures/spinning_coin/coin1.xpm"
+# define SPRITE_ANIM2 "./textures/spinning_coin/coin2.xpm"
+# define SPRITE_ANIM3 "./textures/spinning_coin/coin3.xpm"
+# define SPRITE_ANIM4 "./textures/spinning_coin/coin4.xpm"
+# define SPRITE_ANIM5 "./textures/spinning_coin/coin5.xpm"
+# define SPRITE_ANIM6 "./textures/spinning_coin/coin6.xpm"
+# define SPRITE_ANIM7 "./textures/spinning_coin/coin7.xpm"
+# define SPRITE_ANIM8 "./textures/spinning_coin/coin8.xpm"
+# define SPRITE_ANIM9 "./textures/spinning_coin/coin9.xpm"
+# define SPRITE_ANIM10 "./textures/spinning_coin/coin10.xpm"
 
-
+// typedef enum	e_sprite_path_idx
+// {
+// 	SPRITE_ANIM1,
+// 	SPRITE_ANIM2,
+// 	SPRITE_ANIM3,
+// 	SPRITE_ANIM4,
+// 	SPRITE_ANIM5,
+// 	SPRITE_ANIM6,
+// 	SPRITE_ANIM7,
+// 	SPRITE_ANIM8,
+// 	SPRITE_ANIM9,
+// 	SPRITE_ANIM10
+// }				t_sprite_path_idx;
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
 
@@ -191,6 +219,16 @@ typedef enum	e_key
 				SO,
 				WE,
 				DO,
+				s0,
+				s1,
+				s2,
+				s3,
+				s4,
+				s5,
+				s6,
+				s7,
+				s8,
+				s9,
 				F,
 				C,
 }				t_key;
@@ -219,6 +257,9 @@ typedef struct s_rgb
 	int			g;
 	int			b;
 }				t_rgb;
+
+
+
 
 
 typedef struct	s_player
@@ -256,7 +297,7 @@ typedef struct	s_map
 
 typedef struct	s_elements
 {
-	char		*path[5]; // 0 NO, 1 EA, 2 SO, 3 WE, 4 DO
+	char		*path[15]; // 0 NO, 1 EA, 2 SO, 3 WE, 4 DO, 5=s0, 6=s1, 7=s2, 8=s3, 9=s4, 10=s5, 11=s6, 12=s7, 13=s8, 14=s9
 	int			f_values[3];
 	int			c_values[3];
 	int			f_color;
@@ -265,6 +306,7 @@ typedef struct	s_elements
 	bool		start_line;
 	int			e_counter;
 	int			doors_nb;
+	int			sprite_nb;
 }				t_elem;
 
 typedef struct	s_txtr
@@ -294,11 +336,32 @@ typedef struct s_door
 	double			anim_speed;
 }				t_door;
 
+typedef struct s_sprite_render
+{
+	int		sprite_idx;
+	double	distance;
+}			t_sp_render;
+
+typedef struct s_sprite
+{
+	t_vec		pos;
+	bool		active;
+	int			frame_count; // le nonbre de textures a charger
+	int			current_frame;
+	double		frame_duration;
+	double		elapsed_time;
+	bool		loop;
+	bool		action;
+}				t_sprite;
+
+
 typedef struct	s_cub
 {
 	void		*mlx_pointer;
 	void		*mlx_window;
 	t_txtr		txtr[5];
+	t_txtr		sp_txtr[10];
+
 
 	int			window_height;
 	int			window_width;
@@ -310,6 +373,8 @@ typedef struct	s_cub
 	t_img		game_img;
 
 	t_door		*doors;
+	t_sprite	*sprites;
+	double		z_buffer[1920];
 
 	t_psg		psg;
 	char		*err_msg[UNKNOWN_ERR + 1];
@@ -335,6 +400,7 @@ typedef struct	s_ray
 	int			draw_end;
 
 }				t_ray;
+
 
 
 
@@ -459,6 +525,15 @@ t_door		*which_door(t_cub *cub, int x, int y);
 void		update_doors(t_cub *cub);
 bool		should_ray_hit_door(t_cub *cub, t_ray *ray, t_door *door);
 
+void		init_sprites(t_cub *cub);
+void		count_sprites(t_cub *cub);
+
+void		print_sprites(t_cub *cub);
+void		init_sp_txtr(t_cub *cub);
+void		print_sp_txtr_struct(t_txtr *txtr);
+void		update_all_sprites(t_cub *cub);
+// void		render_sprite(t_cub *cub, t_ray *ray, int x);;
+void		render_all_sprites(t_cub *cub);
 
 
 

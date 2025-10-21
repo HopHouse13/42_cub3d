@@ -6,11 +6,32 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 17:30:37 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 00:12:19 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:47:19 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+void	print_sp_txtr_struct(t_txtr *sp_txtr)
+{
+	int	i;
+
+	if (!PRINT_DEBUG)
+		return ;
+	printf("/* ---------------------------    print_sp_txtr_struct\
+    ------------------------*/\n");
+	i = 0;
+	while (i < 10)
+	{
+		printf("	sp_txtr[%d].mlx_img = %p, .addr = %p, .bpp = %d, .line_end = \
+%d, .endian = %d, .width = %d, .height = %d\n",
+			i, sp_txtr[i].mlx_img, (void *)sp_txtr[i].addr, sp_txtr[i].bpp, sp_txtr[i].\
+line_len, sp_txtr[i].endian, sp_txtr[i].width, sp_txtr[i].height);
+		i++;
+	}
+	printf("/* -----------------------------------------------------\
+-------------------------*/\n\n");
+}
 
 void	print_txtr_struct(t_txtr *txtr)
 {

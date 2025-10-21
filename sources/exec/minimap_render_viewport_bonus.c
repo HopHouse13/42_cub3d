@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 20:25:05 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 23:34:01 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 16:44:34 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static void	draw_minimap_pixel(t_cub *cub, int x, int y, t_vec map_center)
 	if (MINIMAP_TILE_SIZE >= 8
 		&& (tile_pxl.x == 0 || tile_pxl.x == MINIMAP_TILE_SIZE - 1
 			|| tile_pxl.y == 0 || tile_pxl.y == MINIMAP_TILE_SIZE - 1))
-		color = 0x000000;
+		color = DARK_GREY;
 	img_pxl_put(&cub->game_img, x, y, color);
 }
 

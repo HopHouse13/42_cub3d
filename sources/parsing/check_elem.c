@@ -44,10 +44,12 @@ static void	handle_get_elem(t_cub *cub, char **line, t_key key_id)
 // resturn bool si oui ou non on a trouve une key
 static bool	key_finder(char **line, t_key key_id)
 {
-	static const char	*tab_keys[7] = {"NO ", "EA ", "SO ", "WE ", "DO ", "F ", "C "};
+	static const char	*tab_keys[17] = {"NO ", "EA ", "SO ", "WE ", "DO ",
+										"s0 ", "s1 " ,"s2 ", "s3 ", "s4 ", "s5 ",
+										"s6 ", "s7 ", "s8 ", "s9 ", "F ", "C "};
 
 	if ((key_id < F && !ft_strncmp(*line, tab_keys[key_id], 3))
-		|| (key_id > DO && !ft_strncmp(*line, tab_keys[key_id], 2)))
+		|| (key_id > s9 && !ft_strncmp(*line, tab_keys[key_id], 2)))
 	{
 		if (key_id < F)
 			*line += 3;
@@ -98,7 +100,7 @@ void	check_elem(t_cub *cub, char *mapfile)
 	cub->psg.fd_file = open(mapfile, O_RDONLY);
 	if (cub->psg.fd_file < 0)
 		exit_door(cub, PSG_OPEN_FILE_ERR, NULL);
-	while (cub->elem.e_counter < 7)
+	while (cub->elem.e_counter < 17)
 	{
 		cub->psg.line = get_next_line(cub->psg.fd_file, &err_id, false);
 		if (err_id == PSG_ALLOC_ERR)

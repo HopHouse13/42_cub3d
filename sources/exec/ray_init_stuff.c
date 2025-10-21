@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 02:32:19 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:34:31 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	init_player(t_cub *cub, t_player *player)
 
 static void	init_ptr_to_null(t_cub *cub)
 {
-	size_t	i;
+	int	i;
 
 	cub->mlx_pointer = NULL;
 	cub->mlx_window = NULL;
@@ -72,7 +72,11 @@ static void	init_ptr_to_null(t_cub *cub)
 	i = -1;
 	while (++i < 5)
 		cub->txtr[i].mlx_img = NULL;
+	i = -1;
+	while (++i < 10)
+		cub->sp_txtr[i].mlx_img = NULL;
 	cub->doors = NULL;
+	cub->sprites = NULL;
 }
 
 void	init_exec_data(t_cub *cub)

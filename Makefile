@@ -6,7 +6,7 @@
 #    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/20 20:16:22 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/10/21 16:26:03 by tjacquel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SRCS_EXEC = exec/ray_game_mechanics.c \
 	exec/exec_launch.c \
 	exec/doors_bonus.c \
 	exec/fog_bonus.c \
+	exec/animated_sprite_bonus.c \
 
 
 SRCS_FILES	= main.c $(SRCS_PARSING) $(SRCS_EXEC) $(SRC_UTILS)

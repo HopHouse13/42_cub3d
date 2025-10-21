@@ -6,26 +6,11 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:37:47 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 01:20:54 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 17:38:16 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-double	get_door_offset(t_cub *cub, t_ray *ray)
-{
-	t_door *door;
-
-	if (ray->map.y < 0 && ray->map.y >= (int)cub->map.rows
-		&& ray->map.x < 0 && ray->map.x >= (int)ft_strlen(cub->map.grid[ray->map.y]))
-		return (0.0);
-	if (cub->map.grid[ray->map.y][ray->map.x] != 'D')
-		return (0.0);
-	door = which_door(cub, ray->map.x, ray->map.y);
-	if (!door)
-		return (0.0);
-	return (door->offset);
-}
 
 static void	check_txtr_pxl_bound(t_ray *ray, t_txtr *txtr)
 {
@@ -55,9 +40,6 @@ void	render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x)
 	// double	door_offset;
 
 	txtr->pxl.x = (int)(ray->wall_x * (double)(txtr->width));
-	// door_offset = get_door_offset(cub, ray);
-	// if (door_offset > 0.0)
-	// 	txtr->pxl.x = (int)(txtr->pxl.x * (1.0 - door_offset));
 	check_txtr_pxl_bound(ray, txtr);
 	step = 1.0 * txtr->height / ray->line_height;
 	txtr_y_coord = (ray->draw_start - WNDW_H / 2 + ray->line_height / 2) * step;

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 23:44:50 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 20:49:10 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ void	exec_launch(t_cub *cub)
 	init_exec_data(cub);
 	init_player(cub, &(cub->player));
 	if (BONUS)
+	{
 		init_doors(cub);
+		init_sprites(cub);
+	}
 	render(cub);
 }

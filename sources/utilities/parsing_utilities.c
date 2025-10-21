@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/20 21:13:17 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 18:44:42 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	init_parsing_data(t_cub *cub)
 	cub->player.pos.x = 0.0;
 	cub->player.pos.y = 0.0;
 	i = 0;
-	while (i < 5)
+	while (i < 15)
 		cub->elem.path[i++] = NULL;
 	i = 0;
 	while (i < 3)
@@ -40,6 +40,7 @@ void	init_parsing_data(t_cub *cub)
 	cub->elem.start_line = false;
 	cub->elem.e_counter = 0;
 	cub->elem.doors_nb = 0;
+	cub->elem.sprite_nb = 0;
 }
 
 // Remplace les '\n' de fin line par '\0'
