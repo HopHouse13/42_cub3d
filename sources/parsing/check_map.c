@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/17 16:59:17 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/20 20:19:03 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ bool	open_cell(t_cub *cub, char **map, int i, int j)
 	if (!map[i][j]
 		|| (map[i][j] != '1' && map[i][j] != '0'
 		&& map[i][j] != 'N' && map[i][j] != 'E'
-		&& map[i][j] != 'S' && map[i][j] != 'W'))
+		&& map[i][j] != 'S' && map[i][j] != 'W'
+		&& map[i][j] != 'D'))
 		return (true);
 	return (false);
 }
@@ -46,7 +47,7 @@ void	valid_outline(t_cub *cub)
 		while (map[i][++j])
 		{
 			if (map[i][j] == '0' || map[i][j] == 'N' || map[i][j] == 'S'
-				|| map[i][j] == 'E' || map[i][j] == 'W')
+				|| map[i][j] == 'E' || map[i][j] == 'W' || map[i][j] == 'D')
 			{
 				if (open_cell(cub, map, i -1, j)
 					|| open_cell(cub, map, i +1, j)
@@ -75,7 +76,7 @@ void	valid_char(t_cub *cub)
 		{
 			c = cub->map.grid[i][j];
 			if (c != '1' && c != '0' && c != 'N' && c != 'S'
-				&& c != 'E' && c != 'W' && c != ' ')
+				&& c != 'E' && c != 'W' && c != ' ' && c != 'D')
 				exit_door(cub, PSG_INV_CHAR_MAP_ERR, cub->map.grid[i]);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/20 17:03:49 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 02:38:00 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # define COLLISION 1
 # define PRINT_DEBUG 1
 # define BONUS 1
+# define FOG 1
 
 # define TILE_SIZE 64
 # define PLAYER_SIZE 8
@@ -88,20 +89,29 @@
 
 
 # define RGB_WHT 0xFFFFFF
+# define RGG_BLCK 0x000000
 # define RGB_RED 0xdb4437
 # define RGB_BLUE 0x4285f4
 # define RGB_YLW 0xf4b400
 # define RGB_GRN 0x0f9d58
+# define RGB_ORG 0xFF4500
 # define RGB_FLOOR 0x0000067
 # define RGB_RAY_YLW 0xFFFF00
 
 # define MOVE_SPEED 0.075
 # define ROT_SPEED 0.035
+# define MOVE_SPPED_MULT 5.0
+# define ROT_SPEED_MULT 3.0
+# define FOG_DISTANCE 8
+# define FOG_COLOR RGG_BLCK
+# define DOOR_ANIM_MS 60
+# define DOOR_ANIM_STEP 8
+# define DOOR_INTERACT 1.5
 
 # define FOV 66
-#  if FOV <= 0 || FOV >= 180
-#   error "FOV must be between 0 and 180 degrees (exclusive)"
-#  endif
+// #  if FOV <= 0 || FOV >= 180
+// #   error "FOV must be between 0 and 180 degrees (exclusive)"
+// #  endif
 
 # define FOV_RAD (FOV * M_PI / 180.0)
 # define PLANE_MAG (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0)
@@ -115,6 +125,14 @@
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
+
+typedef enum	e_door_state
+{
+	CLOSED,
+	CLOSING,
+	OPENING,
+	OPEN,
+}				t_door_state;
 
 typedef enum	e_tile
 {
@@ -172,6 +190,7 @@ typedef enum	e_key
 				EA,
 				SO,
 				WE,
+				DO,
 				F,
 				C,
 }				t_key;
@@ -187,6 +206,20 @@ typedef struct	s_vec
 	double		x;
 	double		y;
 }				t_vec;
+
+typedef struct	s_pxl_range
+{
+	t_coord		start;
+	t_coord		end;
+}				t_pxl_range;
+
+typedef struct s_rgb
+{
+	int			r;
+	int			g;
+	int			b;
+}				t_rgb;
+
 
 typedef struct	s_player
 {
@@ -223,7 +256,7 @@ typedef struct	s_map
 
 typedef struct	s_elements
 {
-	char		*path[4]; // 0 NO, 1 EA, 2 SO, 3 WE
+	char		*path[5]; // 0 NO, 1 EA, 2 SO, 3 WE, 4 DO
 	int			f_values[3];
 	int			c_values[3];
 	int			f_color;
@@ -231,6 +264,7 @@ typedef struct	s_elements
 	char		facing; //dir
 	bool		start_line;
 	int			e_counter;
+	int			doors_nb;
 }				t_elem;
 
 typedef struct	s_txtr
@@ -251,11 +285,20 @@ typedef struct	s_psg
 	char		*line;
 }				t_psg;
 
+typedef struct s_door
+{
+	t_coord			pos;
+	t_door_state	state;
+	bool			action;
+	double			offset;
+	double			anim_speed;
+}				t_door;
+
 typedef struct	s_cub
 {
 	void		*mlx_pointer;
 	void		*mlx_window;
-	t_txtr		txtr[4];
+	t_txtr		txtr[5];
 
 	int			window_height;
 	int			window_width;
@@ -266,12 +309,13 @@ typedef struct	s_cub
 
 	t_img		game_img;
 
+	t_door		*doors;
+
 	t_psg		psg;
 	char		*err_msg[UNKNOWN_ERR + 1];
 
 	bool		game_init;		// debug
 	bool		print_debug_cub; // debug
-	bool		render_bool;
 	bool		no_collision;
 }				t_cub;
 
@@ -291,6 +335,8 @@ typedef struct	s_ray
 	int			draw_end;
 
 }				t_ray;
+
+
 
 /// PARSING ///
 void	parsing(t_cub *cub, char *argv);
@@ -357,6 +403,8 @@ void		turn_right(t_cub *cub, t_player *player, bool mouse);
 void		turn_left(t_cub *cub, t_player *player, bool mouse);
 bool		is_valid_move_x(t_cub *cub, t_player *player, double new_x);
 bool		is_valid_move_y(t_cub *cub, t_player *player, double new_y);
+bool		is_valid_move(t_cub *cub, double x, double y);
+
 
 
 
@@ -383,24 +431,39 @@ int			render_rect(t_img *img, t_rect rect);
 
 // render textures
 void		render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x);
-t_key		get_texture_index(t_ray *ray);
+t_key		get_texture_index(t_cub *cub, t_ray *ray);
 void		compute_wall_bounds(t_ray *ray);
 
 
 // bonus
-int		handle_mouse(int x, int y, t_cub *cub);
-int		handle_focus_out(t_cub *cub);
-int		handle_focus_in(t_cub *cub);
-void	toggle_cursor_bonus(t_cub *cub);
-void	mouse_mlx_hook_bonus(t_cub *cub);
+int			handle_mouse(int x, int y, t_cub *cub);
+int			handle_focus_out(t_cub *cub);
+int			handle_focus_in(t_cub *cub);
+void		toggle_cursor_bonus(t_cub *cub);
+void		mouse_mlx_hook_bonus(t_cub *cub);
 
 
-void	draw_pixel_if_valid(t_img *img, int x, int y, int color);
-void	get_viewport_offset(t_cub *cub, t_coord *offset);
-void	get_map_center(t_cub *cub, t_vec *map_center);
-float	get_map_scale(t_cub *cub);
-bool	is_in_minimap_circle(int x, int y);
-bool	ray_outside_minimap(t_cub *cub, t_ray *ray);
+void		draw_pixel_if_valid(t_img *img, int x, int y, int color);
+void		get_map_center(t_cub *cub, t_vec *map_center);
+double		get_map_scale(t_cub *cub);
+bool		is_in_minimap_circle(int x, int y);
+bool		ray_outside_minimap(t_cub *cub, t_ray *ray);
+
+int			add_fog(t_ray *ray, int pxl_color);
+void		init_doors(t_cub *cub);
+void		print_doors(t_cub *cub);
+bool		is_door_closed(t_cub *cub, int x, int y);
+int			minimap_door_color(t_cub *cub, int x, int y);
+void		door_interaction(t_cub *cub);
+t_door		*which_door(t_cub *cub, int x, int y);
+void		update_doors(t_cub *cub);
+bool		should_ray_hit_door(t_cub *cub, t_ray *ray, t_door *door);
+
+
+
+
+
+
 
 
 

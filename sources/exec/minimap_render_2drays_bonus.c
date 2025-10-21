@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 22:23:29 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 16:08:19 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/20 18:36:10 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	render_2dray(t_cub *cub, t_player *player, t_ray *ray)
 	#endif
 
 	#if MAP_MODE == MAP_SCALED
-	float scale;
+	double	scale;
 	scale = get_map_scale(cub);
 	#endif
 
@@ -154,13 +154,6 @@ void	render_2dray(t_cub *cub, t_player *player, t_ray *ray)
 
 	# else
 		#if MAP_MODE == MAP_VIEWPORT
-		// get_viewport_offset(cub, &viewport_offset);
-		// // Transform player position to screen space
-		// start.x = MINIMAP_X + (int)((player->pos.x - viewport_offset.x) * MINIMAP_TILE_SIZE);
-		// start.y = MINIMAP_Y + (int)((player->pos.y - viewport_offset.y) * MINIMAP_TILE_SIZE);
-		// // Transform impact point to screen space
-		// impact.x = MINIMAP_X + (int)((impact.x - viewport_offset.x) * MINIMAP_TILE_SIZE);
-		// impact.y = MINIMAP_Y + (int)((impact.y - viewport_offset.y) * MINIMAP_TILE_SIZE);
 
 		// Get the same clamped center as render_map uses
 		get_map_center(cub, &map_center);

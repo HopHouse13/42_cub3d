@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 22:17:36 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 16:55:24 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 01:15:42 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,32 @@ void	turn_right(t_cub *cub, t_player *player, bool mouse)
 	player->pos.x is the cols
 		map.grid[y][x]
 */
-bool	is_valid_move_x(t_cub *cub, t_player *player, double new_x)
+bool	is_valid_move(t_cub *cub, double x, double y)
+{
+	t_door *door;
+
+	if (COLLISION)
+	{
+		if (x <= 1 || x >= cub->map.max_col - 1)
+			return (false);
+		if (y <= 1 || y >= cub->map.rows - 1
+			|| x >= ft_strlen(cub->map.grid[(int)y]) - 1)
+			return (false);
+		if (cub->map.grid[(int)y][(int)x] == '1')
+			return (false);
+		if (cub->map.grid[(int)y][(int)x] == 'D')
+		{
+			door = which_door(cub, (int)x, (int)y);
+			return (door && door->state == OPEN);
+		}
+	}
+	return (x >= 0 && x < cub->map.max_col
+		&& y >= 0
+		&& y < cub->map.rows
+		&& x < ft_strlen(cub->map.grid[(int)y]));
+}
+
+/* bool	is_valid_move_x(t_cub *cub, t_player *player, double new_x)
 {
 	if (COLLISION)
 		return (new_x > 1 && new_x < cub->map.max_col - 1
@@ -74,4 +99,4 @@ bool	is_valid_move_y(t_cub *cub, t_player *player, double new_y)
 		&& new_y >= 0
 		&& new_y < cub->map.rows
 		&& player->pos.x < ft_strlen(cub->map.grid[(int)new_y]));
-}
+} */

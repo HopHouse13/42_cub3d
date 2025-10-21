@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:39:16 by pab               #+#    #+#             */
-/*   Updated: 2025/10/14 20:49:06 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/20 21:13:25 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	print_elem(t_elem *elem)
 		printf("elem->c_values[%d] = %d\n", i, elem->c_values[i]);
 	printf("elem->c_color = %d\n", elem->c_color);
 	i = -1;
-	while (++i < 4)
+	while (++i < 5)
 		printf("elem->path[%d] = %s\n", i, elem->path[i]);
 	printf("elem->facing = %c\n", elem->facing);
 	printf("elem->start_line = %d\n", elem->start_line);
