@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 19:47:43 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 02:01:34 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 02:10:57 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,8 +162,8 @@ void		door_interaction(t_cub *cub)
 	int		door_y;
 	t_door	*door;
 
-	door_x = (int)(cub->player.pos.x + cub->player.dir.x * 1.2);
-	door_y = (int)(cub->player.pos.y + cub->player.dir.y * 1.2);
+	door_x = (int)(cub->player.pos.x + cub->player.dir.x * DOOR_INTERACT);
+	door_y = (int)(cub->player.pos.y + cub->player.dir.y * DOOR_INTERACT);
 	if (door_y >= 0 && door_y < (int)cub->map.rows
 		&& door_x >= 0 && door_x < (int)ft_strlen(cub->map.grid[door_y]))
 	{

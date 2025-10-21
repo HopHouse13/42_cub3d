@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/21 02:04:15 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 02:10:49 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@
 # define FOG_COLOR RGG_BLCK
 # define DOOR_ANIM_MS 60
 # define DOOR_ANIM_STEP 8
+# define DOOR_INTERACT 1.5
 
 # define FOV 66
 #  if FOV <= 0 || FOV >= 180
