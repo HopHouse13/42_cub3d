@@ -86,26 +86,16 @@ LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I./includes -I$(LIBFT_DIR) -I$(MLX_DIR)
 
 # MinilibX settings
-MLX_DIR = ./minilibx-linux
-MLX_LIB = $(MLX_DIR)/libmlx.a
-MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lXfixes
-
-
-# Pattern rule for object files		DOUBLON
-#$(OBJ_DIR)/%.o : $(SRCS_DIR)%.c		DOUBLON
-#CFLAGS		= -Wall -Werror -Wextra		DOUBLON
-
-#LIBFT_DIR = ./lib/libft		DOUBLON
-#LIBFT = $(LIBFT_DIR)/libft.a		DOUBLON
-
-#INCLUDES = -I./includes -I$(LIBFT_DIR) -I$(MLX_DIR)		DOUBLON
-
-## MinilibX settings
-#MLX_DIR = ./minilibx-linux		DOUBLON
-#MLX_LIB = $(MLX_DIR)/libmlx.a		DOUBLON
-#MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lXfixes		DOUBLON
-
-
+OS 		= $(shell uname -s)
+ifeq ($(OS), Linux)
+	MLX_DIR = ./minilibx-linux
+	MLX_LIB = $(MLX_DIR)/libmlx.a
+	MLX_FLAGS = -framework OpenGL -framework AppKit
+else
+	MLX_DIR = ./minilibx_opengl
+	MLX_LIB = $(MLX_DIR)/libmlx.a
+	MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lXfixes
+endif
 # Pattern rule for object files
 $(OBJ_DIR)/%.o : $(SRCS_DIR)%.c
 			@mkdir -p $(@D)

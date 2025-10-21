@@ -33,11 +33,16 @@ void	cleanup_mlx(t_cub *cub, t_error mlx_err)
 		destroy_images(cub);
 	if (cub->mlx_window)
 		mlx_destroy_window(cub->mlx_pointer, cub->mlx_window);
+	# ifdef __APPLE__
+	if (cub->mlx_pointer)
+		free(cub->mlx_pointer);
+	# else
 	if (cub->mlx_pointer)
 	{
 		mlx_destroy_display(cub->mlx_pointer);
 		free(cub->mlx_pointer);
 	}
+	# endif
 	if (mlx_err != OK)
 		exit_door (cub, mlx_err, NULL);
 }

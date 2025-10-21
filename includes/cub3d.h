@@ -24,8 +24,8 @@
 # include <stdlib.h>
 # include <float.h>
 # include <sys/time.h>
-# include <X11/X.h>
-# include <X11/keysym.h>
+//# include <X11/X.h>
+//# include <X11/keysym.h>
 # include <string.h>
 # include "mlx.h"
 
@@ -39,6 +39,20 @@
 # define COLLISION 0
 # define PRINT_DEBUG 1
 # define BONUS 1
+#  ifdef __APPLE__   // macOS (M1 / Intel)
+	# define KEY_ESC 53
+	# define KEY_W 13
+	# define KEY_A 0
+	# define KEY_S 1
+	# define KEY_D 2
+	# define KEY_LEFT 123
+	# define KEY_RIGHT 124
+	# define KEY_UP 126
+	# define KEY_DOWN 125
+#  else
+	# include <X11/X.h>
+	# include <X11/keysym.h>
+#  endif
 
 # define TILE_SIZE 64
 # define PLAYER_SIZE 8
