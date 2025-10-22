@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
+#    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/22 20:33:24 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/10/22 22:07:02 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,26 +14,25 @@
 
 NAME		= cub3D
 SRCS_DIR	= sources/
-SRCS_DIR	= sources/
 OBJ_DIR 	= obj_$(NAME)
 
 SRCS_PARSING = \
-	parsing/check_filename.c \
-	parsing/check_paths.c\
 	parsing/check_colors.c\
 	parsing/check_elem.c \
-	parsing/parsing.c \
+	parsing/check_filename.c \
+	parsing/check_map_1.c \
 	parsing/check_map.c \
-	parsing/handle_map.c
+	parsing/check_paths.c \
+	parsing/copy_map.c \
+	parsing/init_parsing.c \
+	parsing/parsing.c
 
 SRC_UTILS = \
 	utilities/get_next_line_utilities.c \
 	utilities/get_next_line.c \
 	utilities/handle_exit.c \
-	utilities/init_err_msgs.c \
-	utilities/parsing_utilities.c \
 	utilities/print_debug.c \
-	/utilities/print_ray_debug.c \
+	utilities/print_ray_debug.c \
 
 SRCS_EXEC = exec/ray_game_mechanics.c \
 	exec/ray_game_mechanics2.c \

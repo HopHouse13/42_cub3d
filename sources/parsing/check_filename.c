@@ -6,12 +6,13 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 15:42:52 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/17 16:59:10 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 18:42:00 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
+// Check if the map file can be opened and read; exit on failure.
 static void	check_access(t_cub *cub, char *map)
 {
 	int		tmp_fd;
@@ -29,7 +30,7 @@ static void	check_access(t_cub *cub, char *map)
 	}
 }
 
-// Compare les 4 derniers char du nom du fichier avec "".cub".
+// Compare the last 4 characters of the file name with ".cub".
 static bool	valid_ext(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
@@ -45,8 +46,8 @@ static bool	valid_ext(const char *s1, const char *s2, size_t n)
 	return (true);
 }
 
-// check si le nom du fichier excite (supperieur a 4 char) et si
-// c'est la bonne extention.
+// Check if the file name exists (longer than 4 characters) and if
+// it has the correct extension.
 void	check_filename(t_cub *cub, char *mapfile)
 {
 	size_t	n;

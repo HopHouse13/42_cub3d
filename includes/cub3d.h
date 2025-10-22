@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 21:38:10 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 22:01:36 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define CUB3D_H
 
 # include "../lib/libft/libft.h"
-# include "error.h"
 
 # include <fcntl.h>
 # include <stdbool.h>
@@ -130,6 +129,7 @@ typedef struct s_rect
 	int			height;
 	int			color;
 }				t_rect;
+
 /* ************************************** RAYCASTER STRUCTS END ********************************** */
 
 typedef enum	e_key
@@ -316,7 +316,6 @@ typedef struct	s_cub
 	t_ray_buffer	buff[WNDW_W];
 
 	t_psg		psg;
-	char		*err_msg[UNKNOWN_ERR + 1];
 
 	bool		game_init;		// debug
 	bool		print_debug_cub; // debug
@@ -345,6 +344,7 @@ typedef struct	s_ray
 
 /// PARSING ///
 void	parsing(t_cub *cub, char *argv);
+void	init_parsing_data(t_cub *cub);
 
 // PARSING_CHECK_FILENAME ///
 void	check_filename(t_cub *cub, char *argv);
@@ -355,25 +355,19 @@ void	handle_paths(t_cub *cub, char **line, t_key key_id);
 void	handle_colors(t_cub *cub, char **line, t_key key_id);
 
 // PARSING_CHECK_MAP ///
-void	check_map(t_cub *cub, char *mapfile);
 void	make_copy(t_cub *cub, char *mapfile);
-bool	open_cell(t_cub *cub, char **map, int i, int j);
-void	valid_outline(t_cub *cub);
-void	valid_char(t_cub *cub);
-void	get_player(t_cub *cub);
+void	check_map(t_cub *cub, char *mapfile);
 void	empty_line(t_cub *cub);
 void	check_door(t_cub *cub);
 
 /// UTILITIES ///
-void	exit_door(t_cub *cub, t_error err_id, char *item);
+void	exit_door(t_cub *cub, char *err_id, char *item);
 void	init_err_msgs(t_cub *cub);
 
 /// PARSING_UTILITIES ///
-void	init_parsing_data(t_cub *cub);
-char	*supp_newline(t_cub *cub, char *line);
-char	*get_next_line(int fd, t_error *err_id, bool exit_door);
-char	*gnl_strdup(const char *s, t_error *err_id);
-char	*gnl_strjoin(const char *s1, const char *s2, t_error *err_id);
+char	*get_next_line(int fd, char **err_id, bool exit_door);
+char	*gnl_strdup(const char *s, char **err_id);
+char	*gnl_strjoin(const char *s1, const char *s2, char **err_id);
 
 // print_debug
 void	print_cub_data(t_cub *cub);
@@ -392,7 +386,7 @@ void		init_player_time(t_cub *cub, t_player *player);
 
 
 // mlx_stuff
-void		cleanup_mlx(t_cub *cub, t_error mlx_err);
+void		cleanup_mlx(t_cub *cub, char *mlx_err, char *item);
 
 // render_stuff
 void		render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x);

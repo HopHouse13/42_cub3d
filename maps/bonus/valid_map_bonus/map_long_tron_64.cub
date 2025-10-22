@@ -5,8 +5,20 @@ EA textures/black_txtr/blackSquare_neonBlue_horizontalStripe_64.xpm
 
 DO ./textures/door_txtr/bataclan_door.xpm
 
-F 1,1,1
-C 1,1,1
+s0 ./textures/spinning_coin/coin0.xpm
+s1 ./textures/spinning_coin/coin1.xpm
+s2 ./textures/spinning_coin/coin2.xpm
+s3 ./textures/spinning_coin/coin3.xpm
+s4 ./textures/spinning_coin/coin4.xpm
+s5 ./textures/spinning_coin/coin5.xpm
+s6 ./textures/spinning_coin/coin6.xpm
+s7 ./textures/spinning_coin/coin7.xpm
+s8 ./textures/spinning_coin/coin8.xpm
+s9 ./textures/spinning_coin/coin9.xpm
+
+F 0,0,0
+C 0,0,0
+
 
 1111111111111111111111111111111111111111111111111111111111111111
 1010001000000000000010001000100010001000000000000000100000000011

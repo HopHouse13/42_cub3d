@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_init_stuff2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 18:41:18 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 22:04:14 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_sp_txtr(t_cub *cub)
 		cub->sp_txtr[i].mlx_img = mlx_xpm_file_to_image(cub->mlx_pointer,
 				cub->elem.path[sp_idx], &width, &height);
 		if (!cub->sp_txtr[i].mlx_img)
-			cleanup_mlx(cub, MLX_TXTR_ERR);
+			cleanup_mlx(cub, MLX_TXTR_ERR, cub->elem.path[sp_idx]);
 		cub->sp_txtr[i].width = width;
 		cub->sp_txtr[i].height = height;
 		cub->sp_txtr[i].pxl = (t_coord){0, 0};
@@ -47,7 +47,7 @@ void	init_image(t_cub *cub)
 			WNDW_W,
 			WNDW_H);
 	if (!cub->game_img.mlx_img)
-		cleanup_mlx(cub, MLX_IMG_ERR);
+		cleanup_mlx(cub, MLX_IMG_ERR, NULL);
 	cub->game_img.addr = mlx_get_data_addr(cub->game_img.mlx_img,
 			&cub->game_img.bpp,
 			&cub->game_img.line_len,
@@ -68,7 +68,7 @@ void	init_textures(t_cub *cub)
 				&width,
 				&height);
 		if (!cub->txtr[i].mlx_img)
-			cleanup_mlx(cub, MLX_TXTR_ERR);
+			cleanup_mlx(cub, MLX_TXTR_ERR, cub->elem.path[i]);
 		cub->txtr[i].width = width;
 		cub->txtr[i].height = height;
 		cub->txtr[i].pxl = (t_coord){0, 0};
