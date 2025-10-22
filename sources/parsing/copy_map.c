@@ -6,14 +6,14 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/10/22 18:20:03 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 18:50:29 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-// Remplace les '\n' de fin line par '\0'
-// Puis dup dans new_line et free la line.
+// Replace the '\n' at the end of the line with '\0'.
+// Then duplicate the line into new_line and free the original line.
 static char	*supp_newline(t_cub *cub, char *line)
 {
 	int		i;
@@ -32,9 +32,9 @@ static char	*supp_newline(t_cub *cub, char *line)
 	return (new_line);
 }
 
-// Reouvre le fichier source avec son FD.
-// Boucle qui parcours le fichier et qui compare line par line avec la premiere
-// line de la map deja indentifee et stockee.
+// Reopen the source file using its file descriptor.
+// Loop through the file, comparing each line with the first map line already
+// identified and stored.
 static void	refind_start_map(t_cub *cub, char *mapfile, char **err_id)
 {
 	char	*line;
@@ -56,8 +56,9 @@ static void	refind_start_map(t_cub *cub, char *mapfile, char **err_id)
 	free(line);
 }
 
-// Boucle qui cherche la premiere line qui a autre chose que des espace ou '\n'.
-// Quand elle est trouvee, la fonction renvoie le pointeur de la line trouvee.
+// Loop that searches for the first line containing something other
+// than spaces or '\n'.
+// Once found, the function returns a pointer to the found line.
 static char	*found_start_map(t_cub *cub, char **err_id)
 {
 	char	*line;
@@ -113,12 +114,13 @@ static void	map_allocation(t_cub *cub, char **err_id)
 	cub->map.grid[0] = supp_newline(cub, start_map);
 }
 
-// Fonction qui copie la map.
-// map_allocation alloue la memoire du double tab.
-// refind_start_map re place le FD au debout de la map.
-// boule qui lit le fichier source et copie la map dans le double tab.
-// supp_newline dup la line sans le '\n'.
-// stock le plus grand nombre de char del a plus grande line(pour l'exec).
+// Function that copies the map.
+// map_allocation allocates memory for the 2D array.
+// refind_start_map resets the file descriptor to the beginning of the map.
+// Reads the source file and copies the map into the 2D array.
+// supp_newline duplicates the line without the '\n' character.
+// Stores the maximum number of characters of the longest line
+// (for execution purposes).
 void	make_copy(t_cub *cub, char *mapfile)
 {
 	size_t	i;

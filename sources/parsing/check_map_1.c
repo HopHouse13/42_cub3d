@@ -6,15 +6,14 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:07:47 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 16:11:45 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 18:53:53 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-// Parcours le double tab a la recherche d'une line vide.
-// Apres avoir parcouru la line, une line est identifiee comme vide si l'index
-// est egale a zero.
+// Traverse the 2D array looking for an empty line.
+// After scanning a line, it is considered empty if the index equals zero.
 void	empty_line(t_cub *cub)
 {
 	int	i;
@@ -31,12 +30,11 @@ void	empty_line(t_cub *cub)
 	}
 }
 
-// Parcours du double tab map.
-// found 'D':
-// -> check si les char aux 4 directions existent si non erreur.
-// -> check Si la porte n’est pas entre deux murs verticalement (haut/bas) ou
-// qu’elle n’est pas non plus entre deux murs horizontalement (gauche/droite),
-// alors c’est une erreur.
+// Traverse the 2D map array.
+// When a 'D' (door) is found:
+// -> Check if characters in all 4 directions exist; if not, error.
+// -> Check if the door is not between two vertical walls (top/bottom) 
+//    or not between two horizontal walls (left/right); otherwise, error.
 void	check_door(t_cub *cub)
 {
 	int		i;

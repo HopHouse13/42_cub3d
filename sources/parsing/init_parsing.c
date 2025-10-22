@@ -6,13 +6,13 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 16:09:40 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 18:40:41 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-// Initialisation a ZERO des variables du parsing.
+// Initialize all parsing variables to ZERO.
 void	init_parsing_data(t_cub *cub)
 {
 	int	i;

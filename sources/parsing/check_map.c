@@ -6,16 +6,16 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/22 18:15:43 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 18:52:00 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
 
-// Deux possibilites de char invalide.
-// Le 1er if : si le char n'existe pas.
-// Le 2eme if : si le char n'est pas le player, un mur ou un sol.
+// Two possibilities for invalid characters.
+// First if: the character does not exist.
+// Second if: the character is not a player, wall, or floor.
 static bool	open_cell(t_cub *cub, char **map, int i, int j)
 {
 	if (i < 0 || i >= (int)cub->map.rows || !map[i]
@@ -30,10 +30,10 @@ static bool	open_cell(t_cub *cub, char **map, int i, int j)
 	return (false);
 }
 
-// Pourcours du double tab char par char.
-// Pour les char '0' ou char 'player', la fonction check le char de charque
-// direction avec la fonction open_cell.
-// Si open_cell renvoie true, la map est ouverte.
+// Traverse the 2D array character by character.
+// For '0' characters or player characters, the function checks each surrounding
+// cell using the 'open_cell' function.
+// If 'open_cell' returns true, the map is considered open.
 static void	valid_outline(t_cub *cub)
 {
 	int		i;
@@ -61,9 +61,8 @@ static void	valid_outline(t_cub *cub)
 	}
 }
 
-// Pourcours du double tab char par char.
-// Si un char de la map est un autre char que ceux dans la condition,
-// la map est invalide.
+// Traverse the 2D array character by character.
+// If a map character is not one of the allowed characters, the map is invalid.
 static void	valid_char(t_cub *cub)
 {
 	int		i;
@@ -90,9 +89,9 @@ static void	valid_char(t_cub *cub)
 	}
 }
 
-// Pourcours du double tab char par char.
-// Si un char est identifie comme un caractere player et que la varible facing
-// est vide, la fonction stock ce char dans cette variable.
+// Traverse the 2D array character by character.
+// If a character is identified as a player and the 'facing' variable is empty,
+// the function stores this character in the variable.
 static void	get_player(t_cub *cub)
 {
 	int		i;
@@ -122,7 +121,7 @@ static void	get_player(t_cub *cub)
 		exit_door(cub, PSG_NO_PLAYER_ERR, NULL);
 }
 
-// Fonction qui manage le parsing de la map.
+// Function that handles the parsing of the map.
 void	check_map(t_cub *cub, char *mapfile)
 {
 	make_copy(cub, mapfile);
