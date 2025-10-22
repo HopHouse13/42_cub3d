@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_render_stuff.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 15:18:19 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:59:53 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,11 @@ void	render(t_cub *cub)
 {
 	cub->mlx_pointer = mlx_init();
 	if (!cub->mlx_pointer)
-		cleanup_mlx(cub, MLX_PTR_ERR);
+		cleanup_mlx(cub, MLX_PTR_ERR, NULL);
 	cub->mlx_window = mlx_new_window(cub->mlx_pointer, WNDW_W, WNDW_H,
 			"cubD3TROIT");
 	if (!cub->mlx_window)
-		cleanup_mlx(cub, MLX_WDW_ERR);
+		cleanup_mlx(cub, MLX_WDW_ERR, NULL);
 	init_image(cub);
 	init_textures(cub);
 	if (BONUS)
@@ -137,5 +137,5 @@ void	render(t_cub *cub)
 	mlx_hook(cub->mlx_window, DestroyNotify, NoEventMask, &mlx_loop_end,
 		cub->mlx_pointer);
 	mlx_loop(cub->mlx_pointer);
-	cleanup_mlx(cub, OK);
+	cleanup_mlx(cub, OK, NULL);
 }

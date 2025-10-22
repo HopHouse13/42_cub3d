@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 17:46:20 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/09/12 19:18:02 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 17:16:22 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 int		ft_atoi(const char *nptr);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
+int		ft_strcmp(const char *s1, const char *s2);
 
 // fctns supp
 

@@ -1,21 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_map.c                                       :+:      :+:    :+:   */
+/*   copy_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/10/22 14:13:59 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 18:20:03 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
+// Remplace les '\n' de fin line par '\0'
+// Puis dup dans new_line et free la line.
+static char	*supp_newline(t_cub *cub, char *line)
+{
+	int		i;
+	char	*new_line;
+
+	i = -1;
+	while (line[++i])
+	{
+		if (line[i] == '\n')
+			line[i] = '\0';
+	}
+	new_line = ft_strdup(line);
+	if (!new_line)
+		exit_door(cub, PSG_ALLOC_ERR, NULL);
+	free (line);
+	return (new_line);
+}
+
 // Reouvre le fichier source avec son FD.
 // Boucle qui parcours le fichier et qui compare line par line avec la premiere
 // line de la map deja indentifee et stockee.
-static void	refind_start_map(t_cub *cub, char *mapfile, t_error *err_id)
+static void	refind_start_map(t_cub *cub, char *mapfile, char **err_id)
 {
 	char	*line;
 
@@ -25,7 +45,7 @@ static void	refind_start_map(t_cub *cub, char *mapfile, t_error *err_id)
 	while (true)
 	{
 		line = get_next_line(cub->psg.fd_file, err_id, false);
-		if (*err_id == PSG_ALLOC_ERR)
+		if (!ft_strcmp(*err_id, PSG_ALLOC_ERR))
 			exit_door(cub, *err_id, NULL);
 		if (!line)
 			exit_door(cub, UNKNOWN_ERR, NULL);
@@ -38,7 +58,7 @@ static void	refind_start_map(t_cub *cub, char *mapfile, t_error *err_id)
 
 // Boucle qui cherche la premiere line qui a autre chose que des espace ou '\n'.
 // Quand elle est trouvee, la fonction renvoie le pointeur de la line trouvee.
-static char	*found_start_map(t_cub *cub, t_error *err_id)
+static char	*found_start_map(t_cub *cub, char **err_id)
 {
 	char	*line;
 	bool	found_start;
@@ -48,7 +68,7 @@ static char	*found_start_map(t_cub *cub, t_error *err_id)
 	while (true)
 	{
 		line = get_next_line(cub->psg.fd_file, err_id, false);
-		if (*err_id == PSG_ALLOC_ERR)
+		if (!ft_strcmp(*err_id, PSG_ALLOC_ERR))
 			exit_door(cub, *err_id, NULL);
 		if (!line)
 			exit_door(cub, PSG_EMPTY_MAP_ERR, NULL);
@@ -69,7 +89,7 @@ static char	*found_start_map(t_cub *cub, t_error *err_id)
 // boucle qui compte le nombre de line de la map.
 // Allocation du double_tab avec le bon nombre line.
 // supp_newline stock la premiere line de la map dans 1er tableau du double tab.
-static void	map_allocation(t_cub *cub, t_error *err_id)
+static void	map_allocation(t_cub *cub, char **err_id)
 {
 	char	*line;
 	char	*start_map;
@@ -81,7 +101,7 @@ static void	map_allocation(t_cub *cub, t_error *err_id)
 		++cub->map.rows;
 		free(line);
 		line = get_next_line(cub->psg.fd_file, err_id, false);
-		if (*err_id == PSG_ALLOC_ERR)
+		if (!ft_strcmp(*err_id, PSG_ALLOC_ERR))
 			exit_door(cub, *err_id, NULL);
 		if (!line)
 			break ;
@@ -103,7 +123,7 @@ void	make_copy(t_cub *cub, char *mapfile)
 {
 	size_t	i;
 	char	*line;
-	t_error	err_id;
+	char	*err_id;
 
 	err_id = OK;
 	map_allocation(cub, &err_id);
@@ -112,7 +132,7 @@ void	make_copy(t_cub *cub, char *mapfile)
 	while (i < cub->map.rows)
 	{
 		line = get_next_line(cub->psg.fd_file, &err_id, false);
-		if (err_id == PSG_ALLOC_ERR)
+		if (!ft_strcmp(err_id, PSG_ALLOC_ERR))
 			exit_door(cub, err_id, NULL);
 		if (!line)
 			break ;
@@ -122,15 +142,4 @@ void	make_copy(t_cub *cub, char *mapfile)
 		i++;
 	}
 	cub->map.grid[i] = NULL;
-}
-
-// Fonction qui manage le parsing de la map.
-void	check_map(t_cub *cub, char *mapfile)
-{
-	make_copy(cub, mapfile);
-	valid_char(cub);
-	valid_outline(cub);
-	get_player(cub);
-	empty_line(cub);
-	check_door(cub);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utilities.c                                :+:      :+:    :+:   */
+/*   init_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/21 18:44:42 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 16:09:40 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,4 @@ void	init_parsing_data(t_cub *cub)
 	cub->elem.sprite_nb = 0;
 }
 
-// Remplace les '\n' de fin line par '\0'
-// Puis dup dans new_line et free la line.
-char	*supp_newline(t_cub *cub, char *line)
-{
-	int		i;
-	char	*new_line;
 
-	i = -1;
-	while (line[++i])
-	{
-		if (line[i] == '\n')
-			line[i] = '\0';
-	}
-	new_line = ft_strdup(line);
-	if (!new_line)
-		exit_door(cub, PSG_ALLOC_ERR, NULL);
-	free (line);
-	return (new_line);
-}

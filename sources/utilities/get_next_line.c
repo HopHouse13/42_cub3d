@@ -6,13 +6,13 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 13:52:04 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/14 20:53:16 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 18:11:24 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-static char	*gnl_read_line(int fd, char *string, char *buffer, t_error *err_id)
+static char	*gnl_read_line(int fd, char *string, char *buffer, char **err_id)
 {
 	char	*tmp;
 	int		bytes_read;
@@ -41,7 +41,7 @@ static char	*gnl_read_line(int fd, char *string, char *buffer, t_error *err_id)
 	return (string);
 }
 
-static char	*gnl_extract_line(char *string, t_error *err_id)
+static char	*gnl_extract_line(char *string, char **err_id)
 {
 	char	*line;
 	int		i;
@@ -70,7 +70,7 @@ static char	*gnl_extract_line(char *string, t_error *err_id)
 	return (line);
 }
 
-static char	*gnl_update_stash(char *string, t_error *err_id)
+static char	*gnl_update_stash(char *string, char **err_id)
 {
 	char	*new_stash;
 	int		i;
@@ -99,7 +99,7 @@ static char	*gnl_update_stash(char *string, t_error *err_id)
 	return (new_stash);
 }
 
-char	*get_next_line(int fd, t_error *err_id, bool exit_door)
+char	*get_next_line(int fd, char **err_id, bool exit_door)
 {
 	static char	*stash;
 	char		*line;
