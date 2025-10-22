@@ -6,40 +6,33 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 20:34:31 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:50:19 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-static void	which_starting_direction(t_cub *cub, t_player *player, char facing)
+static void	which_starting_direction(t_player *player, char facing)
 {
-	double	fov_rad;
-	double	plane_mag;
-
-	if (FOV <= 0 || FOV >= 180)
-		exit_door(cub, MLX_OTHER_ERR, NULL);
-	fov_rad = FOV * M_PI / 180.0;
-	plane_mag = (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0);
 	if (facing == 'W')
 	{
 		player->dir = (t_vec){-1, 0};
-		player->plane = (t_vec){0, -plane_mag};
+		player->plane = (t_vec){0, -0.66};
 	}
 	if (facing == 'E')
 	{
 		player->dir = (t_vec){1, 0};
-		player->plane = (t_vec){0, plane_mag};
+		player->plane = (t_vec){0, 0.66};
 	}
 	if (facing == 'N')
 	{
 		player->dir = (t_vec){0, -1};
-		player->plane = (t_vec){plane_mag, 0};
+		player->plane = (t_vec){0.66, 0};
 	}
 	if (facing == 'S')
 	{
 		player->dir = (t_vec){0, 1};
-		player->plane = (t_vec){-plane_mag, 0};
+		player->plane = (t_vec){-0.66, 0};
 	}
 }
 
@@ -47,7 +40,7 @@ void	init_player(t_cub *cub, t_player *player)
 {
 	player->pos.x += 0.5;
 	player->pos.y += 0.5;
-	which_starting_direction(cub, player, cub->elem.facing);
+	which_starting_direction(player, cub->elem.facing);
 	player->start_time = date_in_ms(cub);
 	player->time = 0;
 	player->old_time = 0;

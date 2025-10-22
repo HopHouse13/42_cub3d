@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/21 23:26:52 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:56:40 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,31 +127,6 @@
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
 
-# define SPRITE_ANIM1 "./textures/spinning_coin/coin1.xpm"
-# define SPRITE_ANIM2 "./textures/spinning_coin/coin2.xpm"
-# define SPRITE_ANIM3 "./textures/spinning_coin/coin3.xpm"
-# define SPRITE_ANIM4 "./textures/spinning_coin/coin4.xpm"
-# define SPRITE_ANIM5 "./textures/spinning_coin/coin5.xpm"
-# define SPRITE_ANIM6 "./textures/spinning_coin/coin6.xpm"
-# define SPRITE_ANIM7 "./textures/spinning_coin/coin7.xpm"
-# define SPRITE_ANIM8 "./textures/spinning_coin/coin8.xpm"
-# define SPRITE_ANIM9 "./textures/spinning_coin/coin9.xpm"
-# define SPRITE_ANIM10 "./textures/spinning_coin/coin10.xpm"
-
-// typedef enum	e_sprite_path_idx
-// {
-// 	SPRITE_ANIM1,
-// 	SPRITE_ANIM2,
-// 	SPRITE_ANIM3,
-// 	SPRITE_ANIM4,
-// 	SPRITE_ANIM5,
-// 	SPRITE_ANIM6,
-// 	SPRITE_ANIM7,
-// 	SPRITE_ANIM8,
-// 	SPRITE_ANIM9,
-// 	SPRITE_ANIM10
-// }				t_sprite_path_idx;
-
 /* ************************************** RAYCASTER STRUCTS ********************************** */
 
 typedef enum	e_door_state
@@ -257,10 +232,6 @@ typedef struct s_rgb
 	int			g;
 	int			b;
 }				t_rgb;
-
-
-
-
 
 typedef struct	s_player
 {

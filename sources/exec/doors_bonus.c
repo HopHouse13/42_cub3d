@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 19:47:43 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 02:10:57 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:48:21 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #define SMOOTH 0
 #define CHUNKY 1
+
 
 bool	should_ray_hit_door(t_cub *cub, t_ray *ray, t_door *door)
 {
