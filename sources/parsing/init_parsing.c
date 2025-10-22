@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 22:10:43 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 22:51:36 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ void	init_parsing_data(t_cub *cub)
 	cub->map.grid = NULL;
 	cub->map.rows = 0;
 	cub->map.max_col = 0;
+	cub->map.display_map = true;
 	cub->player.pos = (t_vec){0.0, 0.0};
 	i = 0;
 	while (i < 15)
 		cub->elem.path[i++] = NULL;
-	i = 0;
-	while (i < 3)
+	i = -1;
+	while (++i < 3)
 	{
 		cub->elem.f_values[i] = -1;
 		cub->elem.c_values[i] = -1;
-		i++;
 	}
 	cub->elem.f_color = -1;
 	cub->elem.c_color = -1;
@@ -41,5 +41,3 @@ void	init_parsing_data(t_cub *cub)
 	cub->elem.doors_nb = 0;
 	cub->elem.sprite_nb = 0;
 }
-
-

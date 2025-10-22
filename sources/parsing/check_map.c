@@ -6,12 +6,11 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/22 20:54:48 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 22:51:17 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
 
 // Two possibilities for invalid characters.
 // First if: the character does not exist.
@@ -131,4 +130,3 @@ void	check_map(t_cub *cub, char *mapfile)
 	empty_line(cub);
 	check_door(cub);
 }
-

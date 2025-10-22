@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   animated_sprite_init_bonus.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 18:42:19 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 21:08:22 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 22:20:22 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	init_sprites(t_cub *cub)
 		return ;
 	cub->sprites = malloc(sizeof(t_sprite) * cub->elem.sprite_nb);
 	if (!cub->sprites)
-		cleanup_mlx(cub, MLX_OTHER_ERR);
+		cleanup_mlx(cub, ALLOC_ERR, NULL);
 	i = -1;
 	while (cub->map.grid[++i])
 	{

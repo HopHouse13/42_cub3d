@@ -6,27 +6,34 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:39:16 by pab               #+#    #+#             */
-/*   Updated: 2025/10/22 22:06:51 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 22:36:23 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void	print_map(char **map)
+void	print_map(t_map *map)
 {
 	int	i;
 
+	if (!PRINT_DEBUG)
+		return ;
 	printf("||||| MAP |||||\n");
 	i = 0;
-	while (map[i])
-		printf("%s\n", map[i++]);
+	while (map->grid[i])
+		printf("%s\n", map->grid[i++]);
 	printf("||||| FIN DE MAP |||||\n");
+	printf("map->rows = %zd\n", map->rows);
+	printf("map->max_col = %zd\n", map->max_col);
+	printf("map->display_map = %d\n", map->display_map);
 }
 
 void	print_elem(t_elem *elem)
 {
 	int	i;
 
+	if (!PRINT_DEBUG)
+		return ;
 	i = -1;
 	while (++i < 3)
 		printf("elem->f_values[%d] = %d\n", i, elem->f_values[i]);
@@ -47,9 +54,11 @@ void	print_elem(t_elem *elem)
 
 void	print_cub_data(t_cub *cub)
 {
+	if (!PRINT_DEBUG)
+		return ;
 	printf("----- DATA -----\n\n");
 	print_elem(&cub->elem);
-	print_map(cub->map.grid);
+	print_map(&cub->map);
 	printf("\n----------------\n\n");
 }
 

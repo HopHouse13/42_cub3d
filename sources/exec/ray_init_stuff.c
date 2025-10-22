@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_init_stuff.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 20:36:16 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 22:39:47 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ void	init_player(t_cub *cub, t_player *player)
 	player->display_cursor = true;
 	player->cursor_hidden = false;
 	player->moves = 0;
-	print_map_ray(&(cub->map));
-	print_elem(&(cub->elem));
 }
 
 static void	init_ptr_to_null(t_cub *cub)
@@ -75,7 +73,6 @@ static void	init_ptr_to_null(t_cub *cub)
 void	init_exec_data(t_cub *cub)
 {
 	init_ptr_to_null(cub);
-	cub->map.display_map = true;
 	cub->print_debug_cub = true;
 	cub->game_init = true;
 	cub->no_collision = false;

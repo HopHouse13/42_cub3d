@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 22:05:24 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 22:31:29 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	print_map_ray(t_map *map)
 {
 	if (!PRINT_DEBUG)
 		return ;
-	print_map(map->grid);
+	print_map(map);
 	printf("map->rows = %zd\n", map->rows);
 	printf("map->max_col = %zd\n", map->max_col);
 	printf("map->display_map = %d\n", map->display_map);

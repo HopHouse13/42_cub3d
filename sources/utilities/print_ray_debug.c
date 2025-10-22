@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_ray_debug.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 17:30:37 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 21:00:57 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 22:37:11 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ static void	print_updated_pos2(t_cub *cub, t_player *player)
 
 void	print_updated_pos(t_cub *cub, t_player *player, char *key)
 {
-	return ;
 	if (!PRINT_DEBUG)
 		return ;
 	if (cub->game_init)

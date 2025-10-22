@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/22 21:10:35 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 22:41:34 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static void	free_elem(t_cub *cub)
 }
 
 // Function that closes the file descriptor, frees the 'stash' variable in GNL 
-// using the input flag set to true, which calls the two memory cleanup functions 
-// for elements and the map.
+// using the input flag set to true, 
+// which calls the two memory cleanup functions for elements and the map.
 // If err_id is OK -> return to exit the program normally.
 // Otherwise -> exit with code 2.
 static void	free_parsing(t_cub *cub, char *err_id)

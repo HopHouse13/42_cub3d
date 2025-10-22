@@ -62,8 +62,10 @@ static bool	key_finder(char **line, t_key key_id)
 
 // Skip spaces and empty lines.
 // Initialize key_id to the first value of the enum (NO).
-// Key is found using 'key_finder', then checked and stored with 'handle_get_elem'.
-// Afterwards, check for any invalid characters remaining after the whole process.
+// Key is found using 'key_finder', 
+//	then checked and stored with 'handle_get_elem'.
+// Afterwards, check for any invalid characters remaining 
+//	after the whole process.
 static void	handle_line(t_cub *cub, char *line)
 {
 	t_key	key_id;
