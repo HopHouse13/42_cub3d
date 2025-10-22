@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 22:17:36 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 18:40:51 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 23:12:33 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ bool	is_valid_move(t_cub *cub, double x, double y)
 			return (false);
 		if (cub->map.grid[(int)y][(int)x] == '1')
 			return (false);
-		if (cub->map.grid[(int)y][(int)x] == 'D')
+		if (BONUS && cub->map.grid[(int)y][(int)x] == 'D')
 		{
 			door = which_door(cub, (int)x, (int)y);
 			return (door && door->state == OPEN);

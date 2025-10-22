@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 23:03:34 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 23:14:28 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -467,9 +467,9 @@ void		compute_wall_bounds(t_ray *ray);
 
 
 // bonus
-int			handle_mouse(int x, int y, t_cub *cub);
-int			handle_focus_out(t_cub *cub);
-int			handle_focus_in(t_cub *cub);
+// int			handle_mouse(int x, int y, t_cub *cub);
+// int			handle_focus_out(t_cub *cub);
+// int			handle_focus_in(t_cub *cub);
 void		toggle_cursor_bonus(t_cub *cub);
 void		mouse_mlx_hook_bonus(t_cub *cub);
 

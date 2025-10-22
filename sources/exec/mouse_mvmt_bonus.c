@@ -6,13 +6,13 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 21:21:34 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 16:54:50 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 23:14:00 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-int	handle_mouse(int x, int y, t_cub *cub)
+static int	handle_mouse(int x, int y, t_cub *cub)
 {
 	int		dx;
 	int		center_x;
@@ -33,7 +33,7 @@ int	handle_mouse(int x, int y, t_cub *cub)
 	return (0);
 }
 
-int	handle_focus_out(t_cub *cub)
+static int	handle_focus_out(t_cub *cub)
 {
 	if (!cub->player.display_cursor && cub->player.cursor_hidden)
 	{
@@ -43,7 +43,7 @@ int	handle_focus_out(t_cub *cub)
 	return (0);
 }
 
-int	handle_focus_in(t_cub *cub)
+static int	handle_focus_in(t_cub *cub)
 {
 	if (!cub->player.display_cursor && !cub->player.cursor_hidden)
 	{
@@ -55,6 +55,8 @@ int	handle_focus_in(t_cub *cub)
 
 void	toggle_cursor_bonus(t_cub *cub)
 {
+	if (!BONUS)
+		return ;
 	cub->player.display_cursor = !cub->player.display_cursor;
 	if (!cub->player.display_cursor)
 	{
