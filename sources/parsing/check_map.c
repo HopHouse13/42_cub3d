@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/22 22:51:17 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/23 00:26:04 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	valid_char(t_cub *cub)
 				cub->elem.doors_nb++;
 			if (c == 'C')
 				cub->elem.sprite_nb++;
-			if (cub->elem.sprite_nb > MAX_SPRITES)
+			if (cub->elem.sprite_nb >= MAX_SPRITES)
 				exit_door(cub, PSG_SP_MAX_ERR, NULL);
 		}
 	}
