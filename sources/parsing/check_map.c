@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/23 00:26:04 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 01:25:27 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ static bool	open_cell(t_cub *cub, char **map, int i, int j)
 	if (!map[i][j]
 		|| (map[i][j] != '1' && map[i][j] != '0'
 		&& map[i][j] != 'N' && map[i][j] != 'E'
-		&& map[i][j] != 'S' && map[i][j] != 'W'
-		&& map[i][j] != 'D' && map[i][j] != 'C'))
+		&& map[i][j] != 'S' && map[i][j] != 'W'))
 		return (true);
 	return (false);
 }
@@ -47,8 +46,7 @@ static void	valid_outline(t_cub *cub)
 		while (map[i][++j])
 		{
 			if (map[i][j] == '0' || map[i][j] == 'N' || map[i][j] == 'S'
-				|| map[i][j] == 'E' || map[i][j] == 'W' || map[i][j] == 'D'
-				|| map[i][j] == 'C')
+				|| map[i][j] == 'E' || map[i][j] == 'W')
 			{
 				if (open_cell(cub, map, i -1, j)
 					|| open_cell(cub, map, i +1, j)
@@ -76,14 +74,8 @@ static void	valid_char(t_cub *cub)
 		{
 			c = cub->map.grid[i][j];
 			if (c != '1' && c != '0' && c != 'N' && c != 'S'
-				&& c != 'E' && c != 'W' && c != ' ' && c != 'D' && c != 'C')
+				&& c != 'E' && c != 'W' && c != ' ')
 				exit_door(cub, PSG_INV_CHAR_MAP_ERR, cub->map.grid[i]);
-			if (c == 'D')
-				cub->elem.doors_nb++;
-			if (c == 'C')
-				cub->elem.sprite_nb++;
-			if (cub->elem.sprite_nb >= MAX_SPRITES)
-				exit_door(cub, PSG_SP_MAX_ERR, NULL);
 		}
 	}
 }
@@ -128,5 +120,4 @@ void	check_map(t_cub *cub, char *mapfile)
 	valid_outline(cub);
 	get_player(cub);
 	empty_line(cub);
-	check_door(cub);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_render_stuff.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 22:05:02 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/23 01:24:26 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,8 @@ void	render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x)
 	else
 		ray->wall_x = player->pos.y + ray->perp_wall_dist * ray->ray_dir.y;
 	ray->wall_x -= floor((ray->wall_x));
-	save_ray_buffer(cub, ray, x);
 	print_ray_info(ray, x);
-	render_texture(cub, ray, &(cub->txtr[get_texture_index(cub, ray)]), x);
+	render_texture(cub, ray, &(cub->txtr[get_texture_index(ray)]), x);
 	render_background(cub, x, ray->draw_start, ray->draw_end);
 }
 
@@ -74,12 +73,10 @@ int	render_loop(t_cub *cub)
 
 	init_ray_data(&ray);
 	init_player_time(cub, &(cub->player));
-	update_bonus(cub);
 	if (cub->game_init)
 		print_updated_pos(cub, &(cub->player), NULL);
 	handle_move(cub, &(cub->player));
 	raycasting_loop(cub, &(cub->player), &ray);
-	render_bonus(cub);
 	mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
 		cub->game_img.mlx_img, 0, 0);
 	cub->game_init = false;
@@ -97,13 +94,10 @@ void	render(t_cub *cub)
 		cleanup_mlx(cub, MLX_WDW_ERR, NULL);
 	init_image(cub);
 	init_textures(cub);
-	if (BONUS)
-		init_sp_txtr(cub);
 	mlx_loop_hook(cub->mlx_pointer, &render_loop, cub);
 	mlx_hook(cub->mlx_window, KeyPress, KeyPressMask, &key_press_hook, cub);
 	mlx_hook(cub->mlx_window, KeyRelease, KeyReleaseMask, &key_release_hook,
 		cub);
-	mouse_mlx_hook_bonus(cub);
 	mlx_hook(cub->mlx_window, DestroyNotify, NoEventMask, &mlx_loop_end,
 		cub->mlx_pointer);
 	mlx_loop(cub->mlx_pointer);

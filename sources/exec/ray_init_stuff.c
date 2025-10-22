@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 00:18:02 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 01:10:53 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ void	init_player(t_cub *cub, t_player *player)
 	player->rot_speed = 0;
 	player->move_speed = 0;
 	player->kbrd = (t_key_inpt){0, 0, 0, 0, 0, 0, 1};
-	player->display_cursor = true;
-	player->cursor_hidden = false;
 	player->moves = 0;
 }
 
@@ -61,13 +59,8 @@ static void	init_ptr_to_null(t_cub *cub)
 	cub->mlx_window = NULL;
 	cub->game_img.mlx_img = NULL;
 	i = -1;
-	while (++i < 5)
+	while (++i < 4)
 		cub->txtr[i].mlx_img = NULL;
-	i = -1;
-	while (++i < 10)
-		cub->sp_txtr[i].mlx_img = NULL;
-	cub->doors = NULL;
-	cub->sprites = NULL;
 }
 
 void	init_exec_data(t_cub *cub)
@@ -75,8 +68,6 @@ void	init_exec_data(t_cub *cub)
 	init_ptr_to_null(cub);
 	cub->print_debug_cub = true;
 	cub->game_init = true;
-	cub->minimap_height = MNMAP_ROWS * MNMAP_TILE_SIZE;
-	cub->minimap_width = MNMAP_COLS * MNMAP_TILE_SIZE;
 }
 
 void	init_player_time(t_cub *cub, t_player *player)

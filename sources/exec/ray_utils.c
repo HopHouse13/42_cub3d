@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 00:32:08 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 01:15:06 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,9 @@ double	date_in_ms(t_cub *cub)
 
 uint32_t	char_to_tile_rgb(char c)
 {
-	if (c == '0' || c == 'S' || c == 'E' || c == 'N' || c == 'W' || c == 'C')
+	if (c == '0' || c == 'S' || c == 'E' || c == 'N' || c == 'W')
 		return (RGB_BEIGE);
 	if (c == '1')
 		return (RGB_RED);
-	if (c == 'D')
-		return (RGB_GRN);
 	return (RGG_BLCK);
 }

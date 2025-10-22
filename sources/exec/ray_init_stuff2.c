@@ -3,43 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ray_init_stuff2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 22:04:14 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/23 01:05:27 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-void	init_sp_txtr(t_cub *cub)
-{
-	size_t	i;
-	t_key	sp_idx;
-	int		width;
-	int		height;
-
-	i = 0;
-	sp_idx = s0;
-	while (i < 10)
-	{
-		cub->sp_txtr[i].mlx_img = mlx_xpm_file_to_image(cub->mlx_pointer,
-				cub->elem.path[sp_idx], &width, &height);
-		if (!cub->sp_txtr[i].mlx_img)
-			cleanup_mlx(cub, MLX_TXTR_ERR, cub->elem.path[sp_idx]);
-		cub->sp_txtr[i].width = width;
-		cub->sp_txtr[i].height = height;
-		cub->sp_txtr[i].pxl = (t_coord){0, 0};
-		cub->sp_txtr[i].addr = mlx_get_data_addr(cub->sp_txtr[i].mlx_img,
-				&cub->sp_txtr[i].bpp,
-				&cub->sp_txtr[i].line_len,
-				&cub->sp_txtr[i].endian);
-		sp_idx++;
-		i++;
-	}
-	if (cub->game_init)
-		print_sp_txtr_struct(cub->sp_txtr);
-}
 
 void	init_image(t_cub *cub)
 {
@@ -61,7 +32,7 @@ void	init_textures(t_cub *cub)
 	int		height;
 
 	i = 0;
-	while (i < 5)
+	while (i < 4)
 	{
 		cub->txtr[i].mlx_img = mlx_xpm_file_to_image(cub->mlx_pointer,
 				cub->elem.path[i],

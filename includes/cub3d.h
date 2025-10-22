@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/23 00:44:52 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 01:24:07 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,15 @@ void		cleanup_mlx(t_cub *cub, char *mlx_err, char *item);
 
 // render_stuff
 void		render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x);
-void		render_2dray(t_cub *cub, t_player *player);
 void		raycasting_loop(t_cub *cub, t_player *player, t_ray *ray);
-void		render_map(t_cub *cub);
 void		render(t_cub *cub);
 
 // game_stuff
 int			key_press_hook(int keysym, t_cub *cub);
 int			key_release_hook(int keysym, t_cub *cub);
 void		handle_move(t_cub *cub, t_player *player);
-void		turn_right(t_cub *cub, t_player *player, bool mouse);
-void		turn_left(t_cub *cub, t_player *player, bool mouse);
+void		turn_right(t_cub *cub, t_player *player);
+void		turn_left(t_cub *cub, t_player *player);
 bool		is_valid_move(t_cub *cub, double x, double y);
 
 // utils
@@ -109,46 +107,8 @@ int			render_rect(t_img *img, t_rect rect);
 
 // render textures
 void		render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x);
-t_key		get_texture_index(t_cub *cub, t_ray *ray);
+t_key		get_texture_index(t_ray *ray);
 void		compute_wall_bounds(t_ray *ray);
-
-/* ========================================================================== */
-/*                               BONUS_FUNCTIONS                              */
-/* ========================================================================== */
-
-// mouse bonus
-void		toggle_cursor_bonus(t_cub *cub);
-void		mouse_mlx_hook_bonus(t_cub *cub);
-
-// minimap bonus
-void		draw_pixel_if_valid(t_cub *cub, int x, int y, int color);
-void		get_map_center(t_cub *cub, t_vec *map_center);
-double		get_map_scale(t_cub *cub);
-t_vec		compute_2dray_impact(t_ray_buffer *buff, t_player *player);
-void		draw_ray_line(t_cub *cub, t_coord start, t_coord end);
-
-// door bonus
-void		init_doors(t_cub *cub);
-void		print_single_door(t_door *door);
-bool		is_door_closed(t_cub *cub, int x, int y);
-int			minimap_door_color(t_cub *cub, int x, int y);
-void		door_interaction(t_cub *cub);
-t_door		*which_door(t_cub *cub, int x, int y);
-void		update_doors(t_cub *cub);
-bool		should_ray_hit_door(t_cub *cub, t_ray *ray, t_door *door);
-
-// sprites bonus
-void		init_sprites(t_cub *cub);
-void		init_sp_txtr(t_cub *cub);
-void		update_all_sprites(t_cub *cub);
-void		render_all_sprites(t_cub *cub);
-void		render_single_sprite(t_cub *cub, t_sprite *sprite, int sp_idx);
-
-// utils
-int			add_fog(double distance, int pxl_color);
-void		update_bonus(t_cub *cub);
-void		render_bonus(t_cub *cub);
-void		save_ray_buffer(t_cub *cub, t_ray *ray, int x);
 
 /* ========================================================================== */
 /*                               UTILS_FUNCTIONS                              */
@@ -158,11 +118,8 @@ void		save_ray_buffer(t_cub *cub, t_ray *ray, int x);
 void		print_map(t_map *map);
 void		print_elem(t_elem *elem);
 void		print_cub_data(t_cub *cub);
-void		print_sprites(t_cub *cub);
-void		print_doors(t_cub *cub);
 
 // print_ray_debug
-void		print_sp_txtr_struct(t_txtr *sp_txtr);
 void		print_txtr_struct(t_txtr *txtr);
 void		print_ray_info(t_ray *ray, int x);
 void		print_updated_pos(t_cub *cub, t_player *player, char *key);

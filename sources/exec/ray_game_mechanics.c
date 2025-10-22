@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 19:10:39 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 15:15:44 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 01:10:25 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	handle_move(t_cub *cub, t_player *player)
 	if (player->kbrd.key_a)
 		strafe_left(cub, player, new_pos);
 	if (player->kbrd.key_left)
-		turn_left(cub, player, false);
+		turn_left(cub, player);
 	if (player->kbrd.key_right)
-		turn_right(cub, player, false);
+		turn_right(cub, player);
 	cub->print_debug_cub = true;
 }
