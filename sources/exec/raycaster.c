@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:41:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 15:47:00 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 23:05:41 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static bool	dda_ray_hit(t_cub *cub, t_ray *ray)
 		return (true);
 	if (cub->map.grid[ray->map.y][ray->map.x] == '1')
 		return (true);
-	if (cub->map.grid[ray->map.y][ray->map.x] == 'D')
+	if (BONUS && cub->map.grid[ray->map.y][ray->map.x] == 'D')
 	{
 		door = which_door(cub, ray->map.x, ray->map.y);
 		if (door && should_ray_hit_door(cub, ray, door))

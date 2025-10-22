@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_colors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:29 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 21:02:49 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 23:08:31 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static void	color_conversion(t_cub *cub)
 {
 	if (cub->elem.f_values[0] != -1)
 	{
-	cub->elem.f_color = (((cub->elem.f_values[0] & 0xFF) << 16)
+		cub->elem.f_color = (((cub->elem.f_values[0] & 0xFF) << 16)
 				| ((cub->elem.f_values[1] & 0xFF) << 8)
 				| (cub->elem.f_values[2] & 0xFF));
 	}
 	if (cub->elem.c_values[0] != -1)
 	{
-	cub->elem.c_color = (((cub->elem.c_values[0] & 0xFF) << 16)
+		cub->elem.c_color = (((cub->elem.c_values[0] & 0xFF) << 16)
 				| ((cub->elem.c_values[1] & 0xFF) << 8)
 				| (cub->elem.c_values[2] & 0xFF));
 	}
@@ -46,7 +46,7 @@ static void	check_value(t_cub *cub, int color_value)
 // Function for moving the pointer, checking conformity, and transmitting
 // information.
 // Works by sequence: a sequence = value + the separator after it.
-// Example: 
+// Example:
 // line[F 1, 22, t333] -> sequence 1 [1, ]; sequence 2 [22, t]; sequence 3 [333]
 // Steps for each sequence:
 // 1. Count the number of digits.
@@ -78,7 +78,7 @@ static int	between_value(t_cub *cub, int nb_colors, char **line)
 		exit_door(cub, PSG_RGB_FT_ERR, *line);
 	tmp_end = i;
 	while ((*line)[i] && !ft_isdigit((*line)[i]))
-	{	
+	{
 		if (((*line)[i] != ',' && (*line)[i] != ' ' && (*line)[i] != '\n')
 			|| (nb_colors > 1 && (*line)[i] != ' ' && (*line)[i] != '\n'))
 			exit_door(cub, PSG_RGB_FT_ERR, *line);

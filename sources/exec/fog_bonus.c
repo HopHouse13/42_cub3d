@@ -6,13 +6,11 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 18:35:29 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 23:26:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 23:04:54 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-#if BONUS && FOG
 
 // Extract fog RGB components
 // Blend: (1 - fog_factor) * pxl_color + fog_factor * fog
@@ -23,6 +21,8 @@ int	add_fog(double distance, int pxl_color)
 	t_rgb	fog;
 	double	fog_factor;
 
+	if (!BONUS || !FOG)
+		return (pxl_color);
 	fog_factor = distance / FOG_DISTANCE;
 	if (fog_factor > 1.0)
 		fog_factor = 1.0;
@@ -40,5 +40,3 @@ int	add_fog(double distance, int pxl_color)
 	pxl_color = (pxl.r << 16) | (pxl.g << 8) | pxl.b;
 	return (pxl_color);
 }
-
-#endif
