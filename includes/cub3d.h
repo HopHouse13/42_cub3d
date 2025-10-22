@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 23:14:28 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 23:44:12 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define MAP_MODE 1
 # define COLLISION 1
 # define PRINT_DEBUG 0
-# define BONUS 0
+# define BONUS 1
 # define FOG 1
 
 # define TILE_SIZE 64
