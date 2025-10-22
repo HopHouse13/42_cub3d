@@ -1,0 +1,23 @@
+NO ./textures/basic_txtr/street1_256.xpm
+SO ./textures/basic_txtr/street2_256.xpm
+WE ./textures/basic_txtr/street3_256.xpm
+EA ./textures/banksy_txtr/judge.xpm
+
+DO ./textures/door_txtr/bataclan_door.xpm
+
+s0 ./textures/spinning_coin/coin0.xpm
+s1 ./textures/spinning_coin/coin1.xpm
+s2 ./textures/spinning_coin/coin2.xpm
+s3 ./textures/spinning_coin/coin3.xpm
+s4 ./textures/spinning_coin/coin4.xpm
+s5 ./textures/spinning_coin/coin5.xpm
+s6 ./textures/spinning_coin/coin6.xpm
+s7 ./textures/spinning_coin/coin7.xpm
+s8 ./textures/spinning_coin/coin8.xpm
+s9 ./textures/spinning_coin/coin9.xpm
+
+F 0,0,0
+C 0,0,0
+
+
+

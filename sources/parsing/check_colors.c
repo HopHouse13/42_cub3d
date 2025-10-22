@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:29 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 18:58:19 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 21:02:49 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ static void	color_conversion(t_cub *cub)
 // A value in RGB format must be between 0 and 255 (1 byte).
 static void	check_value(t_cub *cub, int color_value)
 {
-	if (color_value > 255 || color_value < 0)
-		exit_door(cub, PSG_RGB_FT_ERR, ft_itoa(color_value));
+	if (color_value < 0)
+		exit_door(cub, PSG_OVERFLOW_ERR, NULL);
+	if (color_value > 255)
+		exit_door(cub, PSG_RGB_FT_ERR, NULL);
 }
 
 // Function for moving the pointer, checking conformity, and transmitting
@@ -103,14 +105,14 @@ static int	between_value(t_cub *cub, int nb_colors, char **line)
 
 static void	get_color(t_cub *cub, int *loc_value, char **line, int idx)
 {
-	int		value_color;
+	int		color_value;
 	int		nb_char_value;
 
 	nb_char_value = between_value(cub, idx, line);
-	value_color = ft_atoi(*line);
-	check_value(cub, value_color);
+	color_value = ft_atoi(*line);
+	check_value(cub, color_value);
 	if (*loc_value == -1)
-		*loc_value = value_color;
+		*loc_value = color_value;
 	else
 		exit_door(cub, PSG_DUP_COLOR_ERR, *line);
 	(*line) += nb_char_value;

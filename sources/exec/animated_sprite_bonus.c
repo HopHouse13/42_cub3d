@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 16:24:59 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 17:56:01 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 20:38:52 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,7 +231,7 @@ void	init_sprites(t_cub *cub)
 		return ;
 	cub->sprites = malloc(sizeof(t_sprite) * cub->elem.sprite_nb);
 	if (!cub->sprites)
-		cleanup_mlx(cub, PSG_ALLOC_ERR, NULL);
+		cleanup_mlx(cub, ALLOC_ERR, NULL);
 
 	i = -1;
 	while (cub->map.grid[++i])

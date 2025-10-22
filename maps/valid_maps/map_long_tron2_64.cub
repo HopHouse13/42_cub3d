@@ -3,8 +3,8 @@ SO textures/black_txtr/blackSquare_neonBlue_horizontalStripe_64.xpm
 WE textures/black_txtr/blackSquare_neonBlue_horizontalStripe_64.xpm
 EA textures/black_txtr/blackSquare_neonBlue_horizontalStripe_64.xpm
 
-F 1,1,1
-C 1,1,1
+F 0,0,0
+C 0,0,0
 
 1111111111111111111111111111111111111111111111111111111111111111
 1000000000000000100000000000000000000010001000100000100000000011

@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/22 19:23:21 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 21:10:35 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	free_map(t_cub *cub)
 	cub->map.grid = NULL;
 }
 
-// Function that frees the 4 textures.
+// Function that frees textures.
 static void	free_elem(t_cub *cub)
 {
 	int	i;
@@ -68,7 +68,7 @@ void	exit_door(t_cub *cub, char *err_id, char *item)
 		printf("Error\n");
 	printf("%s", err_id);
 	if (item != NULL)
-		printf(": %s\n", item);
+		printf(": `%s`\n", item);
 	else
 		printf("\n");
 	free_parsing(cub, err_id);

@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:27:42 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 18:21:41 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 21:12:44 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (printf("Error\ninvalid number of parameters\n"));
 	parsing(&cub, argv[1]);
-	print_cub_data(&cub);
 	exec_launch(&cub);
 	exit_door(&cub, OK, NULL);
 	return (0);

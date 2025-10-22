@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:58 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 18:53:18 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 20:38:52 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	handle_paths(t_cub *cub, char **line, t_key key_id)
 	{
 		cub->elem.path[key_id] = ft_strndup(tmp_line, nb_char_path);
 		if (!cub->elem.path[key_id])
-			exit_door(cub, PSG_ALLOC_ERR, NULL);
+			exit_door(cub, ALLOC_ERR, NULL);
 	}
 	else
 		exit_door(cub, PSG_DUP_PATH_ERR, cub->elem.path[key_id]);
