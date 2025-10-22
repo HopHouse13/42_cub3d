@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:14:18 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 16:15:35 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 20:36:40 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ bool	should_ray_hit_door(t_cub *cub, t_ray *ray, t_door *door)
 	double	door_edge;
 
 	if (ray->side == 0)
-		hit_point = cub->player.pos.y + ray->ray_dir.y
-					* (ray->side_dist.x - ray->delta_dist.x);
+		hit_point = cub->player.pos.y + ray->ray_dir.y * (ray->side_dist.x
+				- ray->delta_dist.x);
 	else
-		hit_point = cub->player.pos.x + ray->ray_dir.x
-					* (ray->side_dist.y - ray->delta_dist.y);
+		hit_point = cub->player.pos.x + ray->ray_dir.x * (ray->side_dist.y
+				- ray->delta_dist.y);
 	hit_point = hit_point - floor(hit_point);
 	door_edge = 1.0 - door->offset;
 	return (hit_point < door_edge);

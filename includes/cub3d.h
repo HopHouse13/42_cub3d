@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 20:31:39 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 20:35:10 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -483,6 +483,7 @@ void		render_single_sprite(t_cub *cub, t_sprite *sprite, int sp_idx);
 
 void		update_bonus(t_cub *cub);
 void		render_bonus(t_cub *cub);
+void		save_ray_buffer(t_cub *cub, t_ray *ray, int x);
 
 
 

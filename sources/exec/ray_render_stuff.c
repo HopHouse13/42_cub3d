@@ -6,24 +6,11 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 20:31:27 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 20:34:40 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-
-void	save_ray_buffer(t_cub *cub, t_ray *ray, int x)
-{
-	cub->buff[x].side = ray->side;
-	cub->buff[x].map.x = ray->map.x;
-	cub->buff[x].map.y = ray->map.y;
-	cub->buff[x].step.x = ray->step.x;
-	cub->buff[x].step.y = ray->step.y;
-	cub->buff[x].ray_dir.x = ray->ray_dir.x;
-	cub->buff[x].ray_dir.y = ray->ray_dir.y;
-	cub->buff[x].perp_wall_dist = ray->perp_wall_dist;
-}
-
 
 static void	render_background(t_cub *cub, int x, int draw_start, int draw_end)
 {
