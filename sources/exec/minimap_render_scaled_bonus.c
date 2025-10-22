@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 22:20:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 18:09:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:15:37 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ double	get_map_scale(t_cub *cub)
 	t_vec	scale;
 	double	scale_res;
 
-	scale.x = (double)MINIMAP_WIDTH / (double)cub->map.max_col;
-	scale.y = (double)MINIMAP_HEIGHT / (double)cub->map.rows;
+	scale.x = (double)MNMAP_W / (double)cub->map.max_col;
+	scale.y = (double)MNMAP_H / (double)cub->map.rows;
 	if (scale.x < scale.y)
 		scale_res = scale.x;
 	else
@@ -69,14 +69,14 @@ void	render_map(t_cub *cub)
 	y = 0;
 	while (y < cub->map.rows && y < WNDW_H)
 	{
-		pxl.start.y = MINIMAP_Y + (int)(y * scale);
-		pxl.end.y = MINIMAP_Y + (int)((y + 1) * scale);
+		pxl.start.y = MNMAP_Y + (int)(y * scale);
+		pxl.end.y = MNMAP_Y + (int)((y + 1) * scale);
 		x = 0;
 		row_len = ft_strlen(cub->map.grid[y]);
 		while (x < row_len && x < WNDW_W)
 		{
-			pxl.start.x = MINIMAP_X + (int)(x * scale);
-			pxl.end.x = MINIMAP_X + (int)((x + 1) * scale);
+			pxl.start.x = MNMAP_X + (int)(x * scale);
+			pxl.end.x = MNMAP_X + (int)((x + 1) * scale);
 			fill_tile_pxl_range(cub, pxl, x, y);
 			x++;
 		}
@@ -100,7 +100,7 @@ void	render_map(t_cub *cub)
 		row_len = ft_strlen(cub->map.grid[y]);
 		while (x < row_len && x < WNDW_W)
 		{
-			render_sqr(&cub->game_img, (t_sqr){10 + x * TILE_SIZE / MAP_RATIO,
+			render_outlined_sqr(&cub->game_img, (t_sqr){10 + x * TILE_SIZE / MAP_RATIO,
 				10 + y * TILE_SIZE / MAP_RATIO, TILE_SIZE / MAP_RATIO,
 				char_to_tile_rgb(cub->map.grid[y][x])});
 			x++;

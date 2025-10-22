@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 20:25:05 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 16:44:34 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:39:42 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ void	get_map_center(t_cub *cub, t_vec *map_center)
 	int		half_rows;
 	t_vec	offset;
 
-	half_cols = MINIMAP_VISIBLE_COLS / 2;
-	half_rows = MINIMAP_VISIBLE_ROWS / 2;
-	offset.x = clamp_viewport_axis(cub->player.pos.x, MINIMAP_VISIBLE_COLS,
+	half_cols = MNMAP_COLS / 2;
+	half_rows = MNMAP_ROWS / 2;
+	offset.x = clamp_viewport_axis(cub->player.pos.x, MNMAP_COLS,
 			(int)cub->map.max_col);
-	offset.y = clamp_viewport_axis(cub->player.pos.y, MINIMAP_VISIBLE_ROWS,
+	offset.y = clamp_viewport_axis(cub->player.pos.y, MNMAP_ROWS,
 			(int)cub->map.rows);
 	map_center->x = offset.x + half_cols;
 	map_center->y = offset.y + half_rows;
@@ -63,15 +63,15 @@ void	get_map_center(t_cub *cub, t_vec *map_center)
 // 1. Center of the rectangular minimap
 // 2. Convert screen position to relative offset from center
 // 3. Add center position (which may be clamped) to get map coordinates
-static void	screen_to_map_coords(int x, int y, t_vec map_center, t_vec *map_pos)
+static void	screen_to_map_coords(t_cub *cub, t_coord pxl, t_vec map_center, t_vec *map_pos)
 {
 	t_vec	tile_offset;
 	t_coord	minimap_center;
 
-	minimap_center.x = MINIMAP_MARGIN + MINIMAP_WIDTH / 2;
-	minimap_center.y = MINIMAP_MARGIN + MINIMAP_HEIGHT / 2;
-	tile_offset.x = (x - minimap_center.x) / (float)MINIMAP_TILE_SIZE;
-	tile_offset.y = (y - minimap_center.y) / (float)MINIMAP_TILE_SIZE;
+	minimap_center.x = MNMAP_MARGIN + cub->minimap_width/ 2;
+	minimap_center.y = MNMAP_MARGIN + cub->minimap_height / 2;
+	tile_offset.x = (pxl.x - minimap_center.x) / (float)MNMAP_TILE_SIZE;
+	tile_offset.y = (pxl.y - minimap_center.y) / (float)MNMAP_TILE_SIZE;
 	map_pos->x = map_center.x + tile_offset.x;
 	map_pos->y = map_center.y + tile_offset.y;
 }
@@ -88,7 +88,7 @@ static void	draw_minimap_pixel(t_cub *cub, int x, int y, t_vec map_center)
 	t_coord	tile_pxl;
 	int		color;
 
-	screen_to_map_coords(x, y, map_center, &map_pos);
+	screen_to_map_coords(cub, (t_coord){x, y}, map_center, &map_pos);
 	map_tile.x = (int)floor(map_pos.x);
 	map_tile.y = (int)floor(map_pos.y);
 	if (map_tile.y < 0 || map_tile.y >= (int)cub->map.rows)
@@ -100,11 +100,11 @@ static void	draw_minimap_pixel(t_cub *cub, int x, int y, t_vec map_center)
 		color = minimap_door_color(cub, map_tile.x, map_tile.y);
 	else
 		color = char_to_tile_rgb(cub->map.grid[map_tile.y][map_tile.x]);
-	tile_pxl.x = (int)((map_pos.x - floor(map_pos.x)) * MINIMAP_TILE_SIZE);
-	tile_pxl.y = (int)((map_pos.y - floor(map_pos.y)) * MINIMAP_TILE_SIZE);
-	if (MINIMAP_TILE_SIZE >= 8
-		&& (tile_pxl.x == 0 || tile_pxl.x == MINIMAP_TILE_SIZE - 1
-			|| tile_pxl.y == 0 || tile_pxl.y == MINIMAP_TILE_SIZE - 1))
+	tile_pxl.x = (int)((map_pos.x - floor(map_pos.x)) * MNMAP_TILE_SIZE);
+	tile_pxl.y = (int)((map_pos.y - floor(map_pos.y)) * MNMAP_TILE_SIZE);
+	if (MNMAP_TILE_SIZE >= 8
+		&& (tile_pxl.x == 0 || tile_pxl.x == MNMAP_TILE_SIZE - 1
+			|| tile_pxl.y == 0 || tile_pxl.y == MNMAP_TILE_SIZE - 1))
 		color = DARK_GREY;
 	img_pxl_put(&cub->game_img, x, y, color);
 }
@@ -116,11 +116,11 @@ void	render_map(t_cub *cub)
 	int		y;
 
 	get_map_center(cub, &map_center);
-	y = MINIMAP_Y;
-	while (y < MINIMAP_Y + MINIMAP_HEIGHT)
+	y = MNMAP_Y;
+	while (y < MNMAP_Y + cub->minimap_height)
 	{
-		x = MINIMAP_MARGIN;
-		while (x < MINIMAP_MARGIN + MINIMAP_WIDTH)
+		x = MNMAP_MARGIN;
+		while (x < MNMAP_MARGIN + cub->minimap_width)
 		{
 			draw_minimap_pixel(cub, x, y, map_center);
 			x++;

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 19:47:43 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 16:20:09 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 16:33:46 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	init_doors(t_cub *cub)
 		return ;
 	cub->doors = malloc(sizeof(t_door) * cub->elem.doors_nb);
 	if (!cub->doors)
-		cleanup_mlx(cub, MLX_OTHER_ERR);
+		cleanup_mlx(cub, PSG_ALLOC_ERR);
 	i = -1;
 	while (cub->map.grid[++i])
 	{

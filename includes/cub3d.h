@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 16:18:42 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:36:12 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,44 +47,43 @@
 # define WNDW_H 1080
 
 // Common minimap settings
-# define MINIMAP_MARGIN 10
+# define MNMAP_MARGIN 10
 
 
 // CIRCLE mode settings
 # if MAP_MODE == MAP_CIRCLE
-#  define MINIMAP_RADIUS 128
-#  define MINIMAP_CENTER_X (MINIMAP_MARGIN + MINIMAP_RADIUS)
-#  define MINIMAP_CENTER_Y (MINIMAP_MARGIN + MINIMAP_RADIUS)
-#  define MINIMAP_SCALE 16  // Pixels per tile in circle mode
-#  define MINIMAP_WIDTH (MINIMAP_RADIUS * 2)
-#  define MINIMAP_HEIGHT (MINIMAP_RADIUS * 2)
-#  define MINIMAP_X (MINIMAP_MARGIN)
-#  define MINIMAP_Y (MINIMAP_MARGIN)
+#  define MNMAP_RADIUS 128
+#  define MNMAP_CENTER_X (MNMAP_MARGIN + MNMAP_RADIUS)
+#  define MNMAP_CENTER_Y (MNMAP_MARGIN + MNMAP_RADIUS)
+#  define MNMAP_SCALE 16  // Pixels per tile in circle mode
+#  define MNMAP_W (MNMAP_RADIUS * 2)
+#  define MNMAP_H (MNMAP_RADIUS * 2)
+#  define MNMAP_X (MNMAP_MARGIN)
+#  define MNMAP_Y (MNMAP_MARGIN)
 
 // VIEWPORT mode settings
 # elif MAP_MODE == MAP_VIEWPORT
-#  define MINIMAP_TILE_SIZE 16  // Fixed pixel size per tile
-#  define MINIMAP_VISIBLE_COLS 32  // How many tiles wide
-#  define MINIMAP_VISIBLE_ROWS 16  // How many tiles tall
-#  define MINIMAP_WIDTH (MINIMAP_VISIBLE_COLS * MINIMAP_TILE_SIZE)
-#  define MINIMAP_HEIGHT (MINIMAP_VISIBLE_ROWS * MINIMAP_TILE_SIZE)
-#  define MINIMAP_X MINIMAP_MARGIN
-#  define MINIMAP_Y MINIMAP_MARGIN
+#  define MNMAP_TILE_SIZE 16  // Fixed pixel size per tile
+#  define MNMAP_COLS 32  // How many tiles wide
+#  define MNMAP_ROWS 16  // How many tiles tall
+
+#  define MNMAP_X MNMAP_MARGIN
+#  define MNMAP_Y MNMAP_MARGIN
 
 // SCALED mode settings
 # elif MAP_MODE == MAP_SCALED
-#  define MINIMAP_WIDTH 640
-#  define MINIMAP_HEIGHT 240
-#  define MINIMAP_X MINIMAP_MARGIN
-#  define MINIMAP_Y MINIMAP_MARGIN
+#  define MNMAP_W 640
+#  define MNMAP_H 240
+#  define MNMAP_X MNMAP_MARGIN
+#  define MNMAP_Y MNMAP_MARGIN
 
 // Fallback for no mode selected
 # else
 #  define MAP_RATIO 3.5
-#  define MINIMAP_WIDTH (WNDW_W / 5)
-#  define MINIMAP_HEIGHT (WNDW_H / 5)
-#  define MINIMAP_X MINIMAP_MARGIN
-#  define MINIMAP_Y MINIMAP_MARGIN
+#  define MNMAP_W (WNDW_W / 5)
+#  define MNMAP_H (WNDW_H / 5)
+#  define MNMAP_X MNMAP_MARGIN
+#  define MNMAP_Y MNMAP_MARGIN
 # endif
 
 
@@ -336,6 +335,8 @@ typedef struct	s_cub
 
 	int			window_height;
 	int			window_width;
+	int			minimap_height;
+	int			minimap_width;
 
 	t_map		map;
 	t_elem		elem;
@@ -371,6 +372,13 @@ typedef struct	s_ray
 	int			draw_start;
 	int			draw_end;
 }				t_ray;
+
+typedef struct s_minimap
+{
+	t_vec	map_center;
+	t_coord	center;
+
+}			t_minimap;
 
 
 
@@ -463,7 +471,7 @@ void		print_txtr_struct(t_txtr *txtr);
 void		img_pxl_put(t_img *img, int x, int y, int color);
 
 int			render_empty_sqr(t_img *img, t_sqr sqr);
-int			render_sqr(t_img *img, t_sqr sqr);
+int			render_outlined_sqr(t_img *img, t_sqr sqr);
 int			render_rect(t_img *img, t_rect rect);
 
 // render textures
@@ -480,7 +488,7 @@ void		toggle_cursor_bonus(t_cub *cub);
 void		mouse_mlx_hook_bonus(t_cub *cub);
 
 
-void		draw_pixel_if_valid(t_img *img, int x, int y, int color);
+void		draw_pixel_if_valid(t_cub *cub, int x, int y, int color);
 void		get_map_center(t_cub *cub, t_vec *map_center);
 double		get_map_scale(t_cub *cub);
 bool		is_in_minimap_circle(int x, int y);

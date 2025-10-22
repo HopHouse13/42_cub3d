@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 18:04:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 17:49:55 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:12:16 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ bool	is_in_minimap_circle(int x, int y)
 	int	dy;
 	int	distance_sq;
 
-	dx = x - MINIMAP_CENTER_X;
-	dy = y - MINIMAP_CENTER_Y;
+	dx = x - MNMAP_CENTER_X;
+	dy = y - MNMAP_CENTER_Y;
 	distance_sq = dx * dx + dy * dy;
-	return (distance_sq <= MINIMAP_RADIUS * MINIMAP_RADIUS);
+	return (distance_sq <= MNMAP_RADIUS * MNMAP_RADIUS);
 }
 
 /* Convert screen pixel to map coordinates relative to player */
@@ -35,8 +35,8 @@ static void	screen_to_map_coords(int screen_x, int screen_y, t_player *player,
 	float	rel_x;
 	float	rel_y;
 
-	rel_x = (screen_x - MINIMAP_CENTER_X) / (float)MINIMAP_SCALE;
-	rel_y = (screen_y - MINIMAP_CENTER_Y) / (float)MINIMAP_SCALE;
+	rel_x = (screen_x - MNMAP_CENTER_X) / (float)MNMAP_SCALE;
+	rel_y = (screen_y - MNMAP_CENTER_Y) / (float)MNMAP_SCALE;
 	map_coords->x = player->pos.x + rel_x;
 	map_coords->y = player->pos.y + rel_y;
 }
@@ -59,8 +59,8 @@ static void	draw_minimap_pixel(t_cub *cub, int x, int y)
 			char_to_tile_rgb(cub->map.grid[map_y][map_x]));
 	else
 		img_pxl_put(&cub->game_img, x, y, 0x111111);
-	if (sqrt(pow(x - MINIMAP_CENTER_X, 2) + pow(y - MINIMAP_CENTER_Y, 2))
-		>= MINIMAP_RADIUS - 2)
+	if (sqrt(pow(x - MNMAP_CENTER_X, 2) + pow(y - MNMAP_CENTER_Y, 2))
+		>= MNMAP_RADIUS - 2)
 		img_pxl_put(&cub->game_img, x, y, 0xFFFFFF);
 }
 
@@ -69,11 +69,11 @@ void	render_map(t_cub *cub)
 	int	x;
 	int	y;
 
-	y = MINIMAP_CENTER_Y - MINIMAP_RADIUS;
-	while (y <= MINIMAP_CENTER_Y + MINIMAP_RADIUS)
+	y = MNMAP_CENTER_Y - MNMAP_RADIUS;
+	while (y <= MNMAP_CENTER_Y + MNMAP_RADIUS)
 	{
-		x = MINIMAP_CENTER_X - MINIMAP_RADIUS;
-		while (x <= MINIMAP_CENTER_X + MINIMAP_RADIUS)
+		x = MNMAP_CENTER_X - MNMAP_RADIUS;
+		while (x <= MNMAP_CENTER_X + MNMAP_RADIUS)
 		{
 			if (is_in_minimap_circle(x, y))
 				draw_minimap_pixel(cub, x, y);
