@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_ray_debug.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 17:30:37 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 15:25:22 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 21:00:57 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ void	print_sp_txtr_struct(t_txtr *sp_txtr)
 	{
 		printf("	sp_txtr[%d].mlx_img = %p, .addr = %p, .bpp = %d, .line_end = \
 %d, .endian = %d, .width = %d, .height = %d\n",
-			i, sp_txtr[i].mlx_img, (void *)sp_txtr[i].addr, sp_txtr[i].bpp, sp_txtr[i].\
-line_len, sp_txtr[i].endian, sp_txtr[i].width, sp_txtr[i].height);
+			i, sp_txtr[i].mlx_img, (void *)sp_txtr[i].addr, sp_txtr[i].bpp,
+			sp_txtr[i].line_len, sp_txtr[i].endian, sp_txtr[i].width,
+			sp_txtr[i].height);
 		i++;
 	}
 	printf("/* -----------------------------------------------------\
@@ -101,6 +102,7 @@ static void	print_updated_pos2(t_cub *cub, t_player *player)
 
 void	print_updated_pos(t_cub *cub, t_player *player, char *key)
 {
+	return ;
 	if (!PRINT_DEBUG)
 		return ;
 	if (cub->game_init)
@@ -119,31 +121,4 @@ void	print_updated_pos(t_cub *cub, t_player *player, char *key)
 	printf ("player->dir.x=		%.4f		player->dir.y=		%.4f\n",
 		player->dir.x, player->dir.y);
 	print_updated_pos2(cub, player);
-}
-
-void	print_doors(t_cub *cub)
-{
-	int	i;
-
-	if (!PRINT_DEBUG)
-		return ;
-	i = 0;
-	if (cub->game_init)
-		printf("\
-		+------+       +------+\n\
-		|      |       |      |\n\
-		|      |-DOORS-|      |\n\
-		|      |       |      |\n\
-		+------+       +------+\n");
-	while (i < cub->elem.doors_nb)
-	{
-		if (cub->game_init || cub->doors[i].action)
-			printf("		Door[%d] coord{%d, %d} state[%d]\n",
-				i, cub->doors[i].pos.x, cub->doors[i].pos.y,
-				 cub->doors[i].state);
-		cub->doors[i].action = false;
-		i++;
-	}
-	if (cub->game_init)
-		printf("\n");
 }

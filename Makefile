@@ -6,7 +6,7 @@
 #    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/22 18:20:41 by pbret            ###   ########.fr        #
+#    Updated: 2025/10/22 22:07:02 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,13 +46,17 @@ SRCS_EXEC = exec/ray_game_mechanics.c \
 	exec/ray_txtr_render.c \
 	exec/mouse_mvmt_bonus.c \
 	exec/minimap_render_2drays_bonus.c \
-	exec/minimap_render_circle_bonus.c \
 	exec/minimap_render_scaled_bonus.c \
 	exec/minimap_render_viewport_bonus.c \
 	exec/exec_launch.c \
 	exec/doors_bonus.c \
+	exec/doors_helper_bonus.c \
 	exec/fog_bonus.c \
 	exec/animated_sprite_bonus.c \
+	exec/animated_sprite_init_bonus.c \
+	exec/animated_sprite_render_bonus.c \
+	exec/helper_bonus.c \
+
 
 
 SRCS_FILES	= main.c $(SRCS_PARSING) $(SRCS_EXEC) $(SRC_UTILS)

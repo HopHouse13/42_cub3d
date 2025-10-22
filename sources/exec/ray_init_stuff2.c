@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:11:46 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 17:57:37 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 22:04:14 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ void	init_sp_txtr(t_cub *cub)
 	while (i < 10)
 	{
 		cub->sp_txtr[i].mlx_img = mlx_xpm_file_to_image(cub->mlx_pointer,
-				cub->elem.path[sp_idx],
-				&width,
-				&height);
+				cub->elem.path[sp_idx], &width, &height);
 		if (!cub->sp_txtr[i].mlx_img)
 			cleanup_mlx(cub, MLX_TXTR_ERR, cub->elem.path[sp_idx]);
 		cub->sp_txtr[i].width = width;

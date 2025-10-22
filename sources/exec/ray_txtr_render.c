@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:37:47 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 23:27:13 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 15:47:58 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x)
 	int		color;
 	double	step;
 	double	txtr_y_coord;
-	// double	door_offset;
 
 	txtr->pxl.x = (int)(ray->wall_x * (double)(txtr->width));
 	check_txtr_pxl_bound(ray, txtr);
@@ -60,7 +59,8 @@ void	render_texture(t_cub *cub, t_ray *ray, t_txtr *txtr, int x)
 t_key	get_texture_index(t_cub *cub, t_ray *ray)
 {
 	if (ray->map.y >= 0 && ray->map.y < (int)cub->map.rows
-		&& ray->map.x >= 0 && ray->map.x < (int)ft_strlen(cub->map.grid[ray->map.y]))
+		&& ray->map.x >= 0
+		&& ray->map.x < (int)ft_strlen(cub->map.grid[ray->map.y]))
 	{
 		if (cub->map.grid[ray->map.y][ray->map.x] == 'D')
 			return (DO);

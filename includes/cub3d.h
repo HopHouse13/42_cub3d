@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 21:11:59 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 22:01:36 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@
 
 // OPTIONS
 
-# define MAP_CIRCLE 1
-# define MAP_VIEWPORT 2
-# define MAP_SCALED 3
-# define MAP_MODE 2
+# define MAP_VIEWPORT 1
+# define MAP_SCALED 2
+
+# define MAP_MODE 1
 # define COLLISION 1
 # define PRINT_DEBUG 1
 # define BONUS 1
@@ -46,45 +46,11 @@
 # define WNDW_H 1080
 
 // Common minimap settings
-# define MINIMAP_MARGIN 10
+# define MNMAP_MARGIN 10
+#  define MNMAP_TILE_SIZE 16  // Fixed pixel size per tile
+#  define MNMAP_COLS 32  // How many tiles wide
+#  define MNMAP_ROWS 16  // How many tiles tall
 
-
-// CIRCLE mode settings
-# if MAP_MODE == MAP_CIRCLE
-#  define MINIMAP_RADIUS 128
-#  define MINIMAP_CENTER_X (MINIMAP_MARGIN + MINIMAP_RADIUS)
-#  define MINIMAP_CENTER_Y (MINIMAP_MARGIN + MINIMAP_RADIUS)
-#  define MINIMAP_SCALE 16  // Pixels per tile in circle mode
-#  define MINIMAP_WIDTH (MINIMAP_RADIUS * 2)
-#  define MINIMAP_HEIGHT (MINIMAP_RADIUS * 2)
-#  define MINIMAP_X (MINIMAP_MARGIN)
-#  define MINIMAP_Y (MINIMAP_MARGIN)
-
-// VIEWPORT mode settings
-# elif MAP_MODE == MAP_VIEWPORT
-#  define MINIMAP_TILE_SIZE 16  // Fixed pixel size per tile
-#  define MINIMAP_VISIBLE_COLS 32  // How many tiles wide
-#  define MINIMAP_VISIBLE_ROWS 16  // How many tiles tall
-#  define MINIMAP_WIDTH (MINIMAP_VISIBLE_COLS * MINIMAP_TILE_SIZE)
-#  define MINIMAP_HEIGHT (MINIMAP_VISIBLE_ROWS * MINIMAP_TILE_SIZE)
-#  define MINIMAP_X MINIMAP_MARGIN
-#  define MINIMAP_Y MINIMAP_MARGIN
-
-// SCALED mode settings
-# elif MAP_MODE == MAP_SCALED
-#  define MINIMAP_WIDTH 640
-#  define MINIMAP_HEIGHT 240
-#  define MINIMAP_X MINIMAP_MARGIN
-#  define MINIMAP_Y MINIMAP_MARGIN
-
-// Fallback for no mode selected
-# else
-#  define MAP_RATIO 3.5
-#  define MINIMAP_WIDTH (WNDW_W / 5)
-#  define MINIMAP_HEIGHT (WNDW_H / 5)
-#  define MINIMAP_X MINIMAP_MARGIN
-#  define MINIMAP_Y MINIMAP_MARGIN
-# endif
 
 
 # define RGB_WHT 0xFFFFFF
@@ -111,52 +77,10 @@
 # define FOG_COLOR RGG_BLCK
 # define DOOR_ANIM_MS 60
 # define DOOR_ANIM_STEP 8
-# define DOOR_INTERACT 1.5
+# define DOOR_INTERACT 1.2
 # define MAX_SPRITES 100
+# define SP_FRAMES 10
 
-# define FOV 66
-// #  if FOV <= 0 || FOV >= 180
-// #   error "FOV must be between 0 and 180 degrees (exclusive)"
-// #  endif
-
-# define FOV_RAD (FOV * M_PI / 180.0)
-# define PLANE_MAG (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0)
-
-# define MAP_RATIO 3.5
-// #  if MAP_RATIO <= 0 || MAP_RATIO >= 10
-// #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
-// #  endif
-
-/* *************************************** ERRORS MESSAGE ************************************ */
-
-# define OK						"Cub3D executed successfully"
-# define PSG_FILENAME_ERR		"Invalid file name"
-# define PSG_OPEN_FILE_ERR		"Unable to open the .cub file"
-# define PSG_READ_FILE_ERR		"Unable to read the .cub file"
-# define PSG_MISS_PARAM_ERR		"Missing parameters"
-# define PSG_NO_KEY_ERR			"Missing map elements"
-# define PSG_LINE_FT_ERR		"Invalid line format"
-# define PSG_DUP_PATH_ERR		"Duplicate texture path definition"
-# define PSG_DUP_COLOR_ERR		"Duplicate color definition"
-# define PSG_PATH_ERR			"Unable to open texture file"
-# define PSG_READ_PATH_ERR		"Unable to read texture file"
-# define PSG_OVERFLOW_ERR 		"Integer value exceeds the allowed range"
-# define PSG_RGB_FT_ERR			"Invalid RGB format"
-# define PSG_EMPTY_MAP_ERR		"Map is empty"
-# define PSG_INV_CHAR_MAP_ERR	"Invalid character found in map"
-# define PSG_DUP_PLAYER_ERR		"Multiple player start positions found"
-# define PSG_EMPTY_LINE_ERR		"Empty line inside map"
-# define PSG_OPEN_MAP_ERR		"Map is not enclosed"
-# define PSG_NO_PLAYER_ERR		"No player on the map"
-# define PSG_DOOR_ERR			"Invalid door on the map"
-# define PSG_SP_MAX_ERR			"Too many sprites"
-# define MLX_TXTR_ERR			"Unable to initialize the textures"
-# define MLX_IMG_ERR			"Unable to initialize the images"
-# define MLX_PTR_ERR			"MLX initialization failed"
-# define MLX_WDW_ERR			"Window creation failed"
-# define ALLOC_ERR				"Memory allocation failed"
-# define MLX_OTHER_ERR			"PLACEHOLDER"             // pour le debug
-# define UNKNOWN_ERR			"Unknown error occurred"
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
 
@@ -167,17 +91,6 @@ typedef enum	e_door_state
 	OPENING,
 	OPEN,
 }				t_door_state;
-
-typedef enum	e_tile
-{
-				TILE_FLOOR,
-				TILE_WALL,
-				TILE_EP,
-				TILE_SP,
-				TILE_WP,
-				TILE_NP,
-				TILE_EXTRA
-}				t_tile;
 
 typedef struct	s_img
 {
@@ -334,28 +247,39 @@ typedef struct s_door
 {
 	t_coord			pos;
 	t_door_state	state;
-	bool			action;
+	bool			print_debug;
 	double			offset;
-	double			anim_speed;
 }				t_door;
 
-typedef struct s_sprite_render
+typedef struct s_sp_sort
 {
 	int		sprite_idx;
 	double	distance;
-}			t_sp_render;
+}			t_sp_sort;
+
+typedef struct s_sp_render
+{
+	t_vec		rel_pos;
+	t_vec		transform;
+	double		inv_det;
+	int			screen_x;
+	int			height;
+	int			width;
+	t_coord		txtr;
+	t_pxl_range	draw;
+	t_coord		pxl;
+}				t_sp_render;
 
 typedef struct s_sprite
 {
 	t_vec		pos;
 	bool		active;
-	int			frame_count; // le nonbre de textures a charger
 	int			current_frame;
 	double		frame_duration;
 	double		elapsed_time;
 	double		distance;
 	bool		loop;
-	bool		action;
+	bool		print_debug;
 }				t_sprite;
 
 typedef struct s_ray_buffer
@@ -377,8 +301,8 @@ typedef struct	s_cub
 	t_txtr		sp_txtr[10];
 
 
-	int			window_height;
-	int			window_width;
+	int			minimap_height;
+	int			minimap_width;
 
 	t_map		map;
 	t_elem		elem;
@@ -412,8 +336,8 @@ typedef struct	s_ray
 	int			line_height;
 	int			draw_start;
 	int			draw_end;
-
 }				t_ray;
+
 
 
 
@@ -458,6 +382,8 @@ void		init_exec_data(t_cub *cub);
 void		init_player(t_cub *cub, t_player *player);
 void		init_image(t_cub *cub);
 void		init_ray_data(t_ray *ray);
+void		init_player_time(t_cub *cub, t_player *player);
+
 
 // mlx_stuff
 void		cleanup_mlx(t_cub *cub, char *mlx_err, char *item);
@@ -465,7 +391,7 @@ void		cleanup_mlx(t_cub *cub, char *mlx_err, char *item);
 // render_stuff
 void		render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x);
 void		render_2dray(t_cub *cub, t_player *player);
-void		raycasting_loop(t_cub *cub, t_player *player, t_ray *ray, bool render_map);
+void		raycasting_loop(t_cub *cub, t_player *player, t_ray *ray);
 void		render_map(t_cub *cub);
 void		render(t_cub *cub);
 
@@ -490,7 +416,6 @@ bool		is_valid_move(t_cub *cub, double x, double y);
 
 
 // utils
-t_tile		char_to_tile(char c);
 uint32_t	char_to_tile_rgb(char c);
 void		print_map_ray(t_map *map);
 double		date_in_s(t_cub *cub);
@@ -502,7 +427,7 @@ void		print_txtr_struct(t_txtr *txtr);
 void		img_pxl_put(t_img *img, int x, int y, int color);
 
 int			render_empty_sqr(t_img *img, t_sqr sqr);
-int			render_sqr(t_img *img, t_sqr sqr);
+int			render_outlined_sqr(t_img *img, t_sqr sqr);
 int			render_rect(t_img *img, t_rect rect);
 
 // render textures
@@ -519,15 +444,20 @@ void		toggle_cursor_bonus(t_cub *cub);
 void		mouse_mlx_hook_bonus(t_cub *cub);
 
 
-void		draw_pixel_if_valid(t_img *img, int x, int y, int color);
+void		draw_pixel_if_valid(t_cub *cub, int x, int y, int color);
 void		get_map_center(t_cub *cub, t_vec *map_center);
 double		get_map_scale(t_cub *cub);
 bool		is_in_minimap_circle(int x, int y);
 bool		ray_outside_minimap(t_cub *cub, t_ray *ray);
+t_vec		compute_2dray_impact(t_ray_buffer *buff, t_player *player);
+void		draw_ray_line(t_cub *cub, t_coord start, t_coord end);
+
+
 
 int			add_fog(double distance, int pxl_color);
 void		init_doors(t_cub *cub);
 void		print_doors(t_cub *cub);
+void		print_single_door(t_door *door);
 bool		is_door_closed(t_cub *cub, int x, int y);
 int			minimap_door_color(t_cub *cub, int x, int y);
 void		door_interaction(t_cub *cub);
@@ -542,8 +472,12 @@ void		print_sprites(t_cub *cub);
 void		init_sp_txtr(t_cub *cub);
 void		print_sp_txtr_struct(t_txtr *txtr);
 void		update_all_sprites(t_cub *cub);
-// void		render_sprite(t_cub *cub, t_ray *ray, int x);;
 void		render_all_sprites(t_cub *cub);
+void		render_single_sprite(t_cub *cub, t_sprite *sprite, int sp_idx);
+
+void		update_bonus(t_cub *cub);
+void		render_bonus(t_cub *cub);
+void		save_ray_buffer(t_cub *cub, t_ray *ray, int x);
 
 
 

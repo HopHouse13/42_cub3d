@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:39:16 by pab               #+#    #+#             */
-/*   Updated: 2025/10/22 21:28:56 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 22:06:51 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,42 @@ void	print_sprites(t_cub *cub)
 		printf("		----------  SPRITES  ----------\n");
 	while (i < cub->elem.sprite_nb)
 	{
-		if (cub->game_init || cub->sprites[i].action)
-			printf("		Sprite[%d] coord{%.2f, %.2f} active[%d] frame_count[%d] current_frame[%d] frame_duration[%.2f] elapsed_time[%.2f] loop[%d] action[%d]\n",
+		if (cub->game_init
+			|| (!cub->sprites[i].active && cub->sprites[i].print_debug))
+			printf("		Sprite[%d] coord{%.2f, %.2f} active[%d] \
+current_frame[%d] frame_duration[%.2f] elapsed_time[%.2f] distance[%.2f] \
+loop[%d]\n",
 				i, cub->sprites[i].pos.x, cub->sprites[i].pos.y,
-				 cub->sprites[i].active, cub->sprites[i].frame_count, cub->sprites[i].current_frame, cub->sprites[i].frame_duration, cub->sprites[i].elapsed_time, cub->sprites[i].loop, cub->sprites[i].action);
-		cub->sprites[i].action = false;
+				cub->sprites[i].active, cub->sprites[i].current_frame,
+				cub->sprites[i].frame_duration, cub->sprites[i].elapsed_time,
+				cub->sprites[i].distance, cub->sprites[i].loop);
+		i++;
+	}
+	if (cub->game_init)
+		printf("\n");
+}
+
+void	print_doors(t_cub *cub)
+{
+	int	i;
+
+	if (!PRINT_DEBUG)
+		return ;
+	i = 0;
+	if (cub->game_init)
+		printf("\
+		+------+       +------+\n\
+		|      |       |      |\n\
+		|      |-DOORS-|      |\n\
+		|      |       |      |\n\
+		+------+       +------+\n");
+	while (i < cub->elem.doors_nb)
+	{
+		if (cub->game_init || cub->doors[i].print_debug)
+			printf("		Door[%d] coord{%d, %d} state[%d]\n",
+				i, cub->doors[i].pos.x, cub->doors[i].pos.y,
+				cub->doors[i].state);
+		cub->doors[i].print_debug = false;
 		i++;
 	}
 	if (cub->game_init)

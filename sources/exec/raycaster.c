@@ -6,35 +6,36 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:41:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 14:52:41 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 15:47:00 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-static bool	outofbounds_dda_ray(t_cub *cub, t_ray *ray)
+// first check is the removed outofbounds_dda_ray() helper function
+static bool	dda_ray_hit(t_cub *cub, t_ray *ray)
 {
-	if (ray->map.y < 0
-		|| ray->map.y >= (int)cub->map.rows)
-	{
-		ray->hit = 1;
+	t_door	*door;
+
+	if (ray->map.y < 0 || ray->map.y >= (int)cub->map.rows)
 		return (true);
-	}
 	if (ray->map.x < 0
 		|| ray->map.x >= (int)ft_strlen(cub->map.grid[ray->map.y]))
-	{
-		ray->hit = 1;
 		return (true);
+	if (cub->map.grid[ray->map.y][ray->map.x] == '1')
+		return (true);
+	if (cub->map.grid[ray->map.y][ray->map.x] == 'D')
+	{
+		door = which_door(cub, ray->map.x, ray->map.y);
+		if (door && should_ray_hit_door(cub, ray, door))
+			return (true);
 	}
 	return (false);
 }
 
 /* 6. Digital Differential Analysis: Casting the ray */
-static void	dda_loop(t_cub *cub, t_ray *ray, bool render_map)
+static void	dda_loop(t_cub *cub, t_ray *ray)
 {
-	t_door *door;
-	(void) render_map;
-
 	ray->hit = 0;
 	while (ray->hit == 0)
 	{
@@ -50,22 +51,8 @@ static void	dda_loop(t_cub *cub, t_ray *ray, bool render_map)
 			ray->map.y += ray->step.y;
 			ray->side = 1;
 		}
-		if (outofbounds_dda_ray(cub, ray))
-			break ;
-		// if (BONUS && (MAP_MODE == MAP_CIRCLE || MAP_MODE == MAP_VIEWPORT)
-		// 	&& render_map && ray_outside_minimap(cub, ray))
-		// 	ray->hit = 1;
-		if (cub->map.grid[ray->map.y][ray->map.x] == '1')
+		if (dda_ray_hit(cub, ray))
 			ray->hit = 1;
-		if (cub->map.grid[ray->map.y][ray->map.x] == 'D')
-		{
-			door = which_door(cub, ray->map.x, ray->map.y);
-			if (door && should_ray_hit_door(cub, ray, door))
-				ray->hit = 1;
-			// if (is_door_closed(cub, ray->map.x, ray->map.y))
-				// ray->hit = 1;
-		}
-
 	}
 }
 
@@ -111,8 +98,7 @@ static double	compute_delta_dist(double ray_dir)
 3. Position in the grid (map)
 4. Initial distances (delta_dist)
  */
-void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray,
-	bool render_map)
+void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray)
 {
 	int		x;
 	double	camera_x;
@@ -128,11 +114,8 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray,
 		ray->delta_dist.x = compute_delta_dist(ray->ray_dir.x);
 		ray->delta_dist.y = compute_delta_dist(ray->ray_dir.y);
 		init_step_and_sidedist(player, ray);
-		dda_loop(cub, ray, render_map);
-		// if (BONUS && render_map)
-		// 	render_2dray(cub, player, ray);
-		// else
-			render_cubes(cub, player, ray, x);
+		dda_loop(cub, ray);
+		render_cubes(cub, player, ray, x);
 		x++;
 	}
 	cub->print_debug_cub = false;

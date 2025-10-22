@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 22:20:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 18:09:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 18:37:02 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ double	get_map_scale(t_cub *cub)
 	t_vec	scale;
 	double	scale_res;
 
-	scale.x = (double)MINIMAP_WIDTH / (double)cub->map.max_col;
-	scale.y = (double)MINIMAP_HEIGHT / (double)cub->map.rows;
+	scale.x = (double)cub->minimap_width / (double)cub->map.max_col;
+	scale.y = (double)cub->minimap_height / (double)cub->map.rows;
 	if (scale.x < scale.y)
 		scale_res = scale.x;
 	else
@@ -37,7 +37,12 @@ double	get_map_scale(t_cub *cub)
 static void	fill_tile_pxl_range(t_cub *cub, t_pxl_range pxl, int x, int y)
 {
 	t_coord	pixel;
+	int		color;
 
+	if (cub->map.grid[y][x] == 'D')
+		color = minimap_door_color(cub, x, y);
+	else
+		color = char_to_tile_rgb(cub->map.grid[y][x]);
 	pixel.y = pxl.start.y;
 	while (pixel.y < pxl.end.y)
 	{
@@ -47,10 +52,9 @@ static void	fill_tile_pxl_range(t_cub *cub, t_pxl_range pxl, int x, int y)
 			if ((pxl.end.x - pxl.start.x) >= 8
 				&& (pixel.y == pxl.start.y || pixel.y == pxl.end.y - 1
 					|| pixel.x == pxl.start.x || pixel.x == pxl.end.x - 1))
-				draw_pixel_if_valid(&cub->game_img, pixel.x, pixel.y, 0x000000);
+				draw_pixel_if_valid(cub, pixel.x, pixel.y, DARK_GREY);
 			else
-				draw_pixel_if_valid(&cub->game_img, pixel.x, pixel.y,
-					char_to_tile_rgb(cub->map.grid[y][x]));
+				draw_pixel_if_valid(cub, pixel.x, pixel.y, color);
 			pixel.x++;
 		}
 		pixel.y++;
@@ -69,44 +73,46 @@ void	render_map(t_cub *cub)
 	y = 0;
 	while (y < cub->map.rows && y < WNDW_H)
 	{
-		pxl.start.y = MINIMAP_Y + (int)(y * scale);
-		pxl.end.y = MINIMAP_Y + (int)((y + 1) * scale);
+		pxl.start.y = MNMAP_MARGIN + (int)(y * scale);
+		pxl.end.y = MNMAP_MARGIN + (int)((y + 1) * scale);
 		x = 0;
 		row_len = ft_strlen(cub->map.grid[y]);
 		while (x < row_len && x < WNDW_W)
 		{
-			pxl.start.x = MINIMAP_X + (int)(x * scale);
-			pxl.end.x = MINIMAP_X + (int)((x + 1) * scale);
+			pxl.start.x = MNMAP_MARGIN + (int)(x * scale);
+			pxl.end.x = MNMAP_MARGIN + (int)((x + 1) * scale);
 			fill_tile_pxl_range(cub, pxl, x, y);
 			x++;
 		}
 		y++;
 	}
 }
-#endif
 
-#if MAP_MODE != MAP_VIEWPORT && MAP_MODE != MAP_CIRCLE && MAP_MODE != MAP_SCALED
-
-void	render_map(t_cub *cub)
+/*
+Boolean arithmetic x = y + (z == 1)
+	is equivalent to
+	x = y
+	if (z == 1)
+		x += 1
+*/
+void	render_2dray(t_cub *cub, t_player *player)
 {
-	size_t	x;
-	size_t	y;
-	size_t	row_len;
+	t_vec	impact;
+	t_coord	start;
+	int		x;
+	double	scale;
 
-	y = 0;
-	while (y < cub->map.rows && y < WNDW_H)
+	scale = get_map_scale(cub);
+	x = 0;
+	while (x < WNDW_W)
 	{
-		x = 0;
-		row_len = ft_strlen(cub->map.grid[y]);
-		while (x < row_len && x < WNDW_W)
-		{
-			render_sqr(&cub->game_img, (t_sqr){10 + x * TILE_SIZE / MAP_RATIO,
-				10 + y * TILE_SIZE / MAP_RATIO, TILE_SIZE / MAP_RATIO,
-				char_to_tile_rgb(cub->map.grid[y][x])});
-			x++;
-		}
-		y++;
+		impact = compute_2dray_impact(&(cub->buff[x]), player);
+		start.x = MNMAP_MARGIN + (int)(player->pos.x * scale);
+		start.y = MNMAP_MARGIN + (int)(player->pos.y * scale);
+		impact.x = MNMAP_MARGIN + (int)(impact.x * scale);
+		impact.y = MNMAP_MARGIN + (int)(impact.y * scale);
+		draw_ray_line(cub, start, (t_coord){(int)impact.x, (int)impact.y});
+		x++;
 	}
 }
-
 #endif

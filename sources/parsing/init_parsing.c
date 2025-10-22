@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 18:40:41 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 22:10:43 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ void	init_parsing_data(t_cub *cub)
 	cub->map.grid = NULL;
 	cub->map.rows = 0;
 	cub->map.max_col = 0;
-	cub->player.pos.x = 0.0;
-	cub->player.pos.y = 0.0;
+	cub->player.pos = (t_vec){0.0, 0.0};
 	i = 0;
 	while (i < 15)
 		cub->elem.path[i++] = NULL;
