@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_mlx_stuff.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:10:50 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 20:43:28 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 18:33:37 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	destroy_images(t_cub *cub)
 	}
 }
 
-void	cleanup_mlx(t_cub *cub, t_error mlx_err)
+void	cleanup_mlx(t_cub *cub, char *mlx_err, char *item)
 {
 	if (cub->doors)
 		free(cub->doors);
@@ -47,6 +47,6 @@ void	cleanup_mlx(t_cub *cub, t_error mlx_err)
 		mlx_destroy_display(cub->mlx_pointer);
 		free(cub->mlx_pointer);
 	}
-	if (mlx_err != OK)
-		exit_door (cub, mlx_err, NULL);
+	if (ft_strcmp(mlx_err, OK))
+		exit_door (cub, mlx_err, item);
 }

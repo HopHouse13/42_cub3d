@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 12:27:42 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 18:21:41 by pbret            ###   ########.fr       */
+/*   Created: 2024/06/10 13:00:00 by tjacquel          #+#    #+#             */
+/*   Updated: 2025/10/22 17:17:14 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	t_cub	cub;
+	size_t	i;
 
-	if (argc != 2)
-		return (printf("Error\ninvalid number of parameters\n"));
-	parsing(&cub, argv[1]);
-	print_cub_data(&cub);
-	exec_launch(&cub);
-	exit_door(&cub, OK, NULL);
-	return (0);
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

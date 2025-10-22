@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 16:24:59 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 15:24:51 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 17:56:01 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,24 +171,6 @@ void	render_all_sprites(t_cub *cub)
 	}
 }
 
-
-//void	count_sprites(t_cub *cub)
-//{
-//	int		i;
-//	int		j;
-
-//	i = -1;
-//	while (cub->map.grid[++i])
-//	{
-//		j = -1;
-//		while (cub->map.grid[i][++j])
-//		{
-//			if (cub->map.grid[i][j] == 'C')
-//				cub->elem.sprite_nb++;
-//		}
-//	}
-//}
-
 void	update_sprite_animation(t_sprite *sprite, double frame_time)
 {
 	sprite->elapsed_time += frame_time;
@@ -237,22 +219,19 @@ void	init_single_sprite(t_sprite *sprite, int x, int y)
 	sprite->action = false;
 }
 
-void		init_sprites(t_cub *cub)
+void	init_sprites(t_cub *cub)
 {
 	int	i;
 	int	j;
 	int	sprite_idx;
 
 	sprite_idx = 0;
-	//count_sprites(cub);
 	printf("count_sprites counted cub->elem.sprite_nb = %d\n", cub->elem.sprite_nb);
 	if (cub->elem.sprite_nb == 0)
 		return ;
-	if (cub->elem.sprite_nb > MAX_SPRITES)
-		cleanup_mlx(cub, MLX_OTHER_ERR);
 	cub->sprites = malloc(sizeof(t_sprite) * cub->elem.sprite_nb);
 	if (!cub->sprites)
-		cleanup_mlx(cub, MLX_OTHER_ERR);
+		cleanup_mlx(cub, PSG_ALLOC_ERR, NULL);
 
 	i = -1;
 	while (cub->map.grid[++i])

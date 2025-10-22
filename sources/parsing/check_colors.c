@@ -6,28 +6,27 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:29 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/17 16:53:48 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 18:58:19 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-// Conversion du format RGB (3 valeurs) en un int avec du bit shifting.
-// Un int est compose de 4 octets, l'octet le plus a gauche visuellement est le 
-// plus significatif.
-// Le 1er n'est pas utliser (peut etre utilise pour la transparence)
-// Le 2eme est utilise pour le RED
-// Le 3eme est utilise pour le GREEN
-// Le 4eme est utilise pour le BLUE
+// Convert RGB format (3 values) into an int using bit shifting.
+// An int is composed of 4 bytes; the leftmost byte is the most significant.
+// The 1st byte is unused (possibly for transparency).
+// The 2nd byte is used for RED.
+// The 3rd byte is used for GREEN.
+// The 4th byte is used for BLUE.
 static void	color_conversion(t_cub *cub)
 {
-	if (cub->elem.f_values[0])
+	if (cub->elem.f_values[0] != -1)
 	{
 	cub->elem.f_color = (((cub->elem.f_values[0] & 0xFF) << 16)
 				| ((cub->elem.f_values[1] & 0xFF) << 8)
 				| (cub->elem.f_values[2] & 0xFF));
 	}
-	if (cub->elem.c_values[0])
+	if (cub->elem.c_values[0] != -1)
 	{
 	cub->elem.c_color = (((cub->elem.c_values[0] & 0xFF) << 16)
 				| ((cub->elem.c_values[1] & 0xFF) << 8)
@@ -35,30 +34,34 @@ static void	color_conversion(t_cub *cub)
 	}
 }
 
-// une valeur dans le format RGB doit etre comprise entre o et 255 (1 octet)
+// A value in RGB format must be between 0 and 255 (1 byte).
 static void	check_value(t_cub *cub, int color_value)
 {
 	if (color_value > 255 || color_value < 0)
 		exit_door(cub, PSG_RGB_FT_ERR, ft_itoa(color_value));
 }
 
-// fonction de deplacement, controle de la conformitee et transmettre les infos
-// Fonctionne par sequence: une sequence = valeur + l'entre deux d'apres
+// Function for moving the pointer, checking conformity, and transmitting
+// information.
+// Works by sequence: a sequence = value + the separator after it.
+// Example: 
 // line[F 1, 22, t333] -> sequence 1 [1, ]; sequence 2 [22, t]; sequence 3 [333]
-// Etape pour chaque sequence: 
-// 1 [comptabiliser nb digits]
-// 2 [stocker la len des digits]
-// 3 [se deplacer jusqu'au prochain digit tout en controlant la conformitee]
-// 4 [placer '\0' a la fin de la serie de digits pour l'atoi]
-// Rappel : aucun pointeur est deplacer ici.
+// Steps for each sequence:
+// 1. Count the number of digits.
+// 2. Store the length of the digits.
+// 3. Move to the next digit while checking conformity.
+// 4. Place '\0' at the end of the digit series for atoi.
+// Note: no pointer is actually moved here.
 // ---
-// * tmp_end prend l'index du char suivant du dermier digit de la valeur pour
-// pourvoir remplacer la vleur de ce pointeur par '\0' pour arrter le ft_atoi.
-// * Les 2 premieres sequences ->  char autorises [,][ ][\n].
-// [nb_colors > 1], on est a la derniere sequence; seul char autorise [ ]
-// * Il faut exatement une virgule entre les sequences; faut ignorer ce controle
-// pour la derniere sequence.
-// return l'indexe du nouveau depart de la porchaine valeur.
+// * tmp_end stores the index of the character following the last digit of
+//   the value, so it can be replaced with '\0' to stop ft_atoi.
+// * The first two sequences: allowed characters are [,][ ][\n].
+// * For [nb_colors > 1], we are at the last sequence;
+//   only allowed character is [ ].
+// * There must be exactly one comma between sequences; ignore this check for
+//   the last sequence.
+// Returns the index of the new starting position for the next value.
+
 static int	between_value(t_cub *cub, int nb_colors, char **line)
 {
 	int		i;
@@ -86,28 +89,25 @@ static int	between_value(t_cub *cub, int nb_colors, char **line)
 	return (i);
 }
 
-// check les espaces entre chaque valeur(between_value)
-// check valeurs(check_value)
-// check doublon(if la fin)
-// 'nb_char_value' qui est indentifiee par 'between_value' est
-// le nombre de char de la valeur.
-// substr pour isoler la valeur pour atoi.
-// free de tmp_char_value.
-// Apres le atoi et le stockage de la valeur, deplacement du pointeur vers
-// le premier char du prochain digit pour recommencer le proccess de la boucle
-// pour chaque valeur.
-// le pointeur line est avance jusqu'a la prochaine value avec nb_char_value
-// check_value puis stockage des valeurs dans deux tableau de int.
+// Check the spaces between each value (between_value).
+// Check the values themselves (check_value).
+// Check for duplicates (at the end).
+// 'nb_char_value', identified by 'between_value', is the number of characters
+//  in the value.
+// Use substr to isolate the value for atoi.
+// Free the temporary string tmp_char_value.
+// After atoi and storing the value, move the pointer to the first character
+// of the next digit to repeat the loop for each value.
+// The line pointer is advanced to the next value using nb_char_value.
+// Check the value again and store the values in two int arrays.
+
 static void	get_color(t_cub *cub, int *loc_value, char **line, int idx)
 {
 	int		value_color;
 	int		nb_char_value;
-	char	*tmp_char_value;
 
 	nb_char_value = between_value(cub, idx, line);
-	tmp_char_value = ft_substr(*line, 0, nb_char_value);
-	value_color = ft_atoi(tmp_char_value);
-	free(tmp_char_value);
+	value_color = ft_atoi(*line);
 	check_value(cub, value_color);
 	if (*loc_value == -1)
 		*loc_value = value_color;
@@ -116,11 +116,11 @@ static void	get_color(t_cub *cub, int *loc_value, char **line, int idx)
 	(*line) += nb_char_value;
 }
 
-// Le pointeur vers le 1er char qui n'est pas un espace.
-// Check si ce char est bien un chiffre.
-// Boucle pour avancer 'idx' qui est l'index des deux tab de int
-// (stockage des valeurs)
-// Sortie de boucle, conversion des couleurs en un int. (bit shifting)
+// Pointer to the first non-space character.
+// Check if this character is a valid digit.
+// Loop to advance 'idx', which is the index of the two int arrays
+// (for storing values).
+// After the loop, convert the colors into an int using bit shifting.
 void	handle_colors(t_cub *cub, char **line, t_key key_id)
 {
 	int		idx;

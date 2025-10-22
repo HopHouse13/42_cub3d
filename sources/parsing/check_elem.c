@@ -12,7 +12,7 @@
 
 #include "../../includes/cub3d.h"
 
-// check si il y a autre chose que des espace apres le path ou la couleur.
+// Check if there is anything other than spaces after the path or color.
 static void	check_rest_of_line(t_cub *cub, char **line)
 {
 	while (**line && **line != '\n')
@@ -23,10 +23,10 @@ static void	check_rest_of_line(t_cub *cub, char **line)
 	}
 }
 
-// Avance jusqu'a 1er char qui n'est pas un espace.
-// dispatch en fonction de la keu trouvee.
-// En de F(4) c'est un path sinon c'est une couleur.
-// voir Enum struct
+// Advance to the first non-space character.
+// Dispatch processing based on the found key.
+// If F(4), it is a path; otherwise, it is a color.
+// See the Enum struct for reference.
 static void	handle_get_elem(t_cub *cub, char **line, t_key key_id)
 {
 	while (**line && **line == ' ')
@@ -37,16 +37,16 @@ static void	handle_get_elem(t_cub *cub, char **line, t_key key_id)
 		handle_colors(cub, line, key_id);
 }
 
-// init un tab avec les 6 key avec leurs valeurs de la struct ENUM
-// on compare la key trouvee avec les 6 key
-// si c'est une key de texture on avant de 3 le pointeur de line
-// si couleur -> avance de 2
-// resturn bool si oui ou non on a trouve une key
+// Initialize an array with all keys and their corresponding enum values.
+// Compare the found key with all keys.
+// If it's a texture key, advance the line pointer by 3.
+// If it's a color key, advance by 2.
+// Return a boolean indicating whether a key was found or not.
 static bool	key_finder(char **line, t_key key_id)
 {
 	static const char	*tab_keys[17] = {"NO ", "EA ", "SO ", "WE ", "DO ",
-										"s0 ", "s1 " ,"s2 ", "s3 ", "s4 ", "s5 ",
-										"s6 ", "s7 ", "s8 ", "s9 ", "F ", "C "};
+		"s0 ", "s1 ", "s2 ", "s3 ", "s4 ", "s5 ",
+		"s6 ", "s7 ", "s8 ", "s9 ", "F ", "C "};
 
 	if ((key_id < F && !ft_strncmp(*line, tab_keys[key_id], 3))
 		|| (key_id > s9 && !ft_strncmp(*line, tab_keys[key_id], 2)))
@@ -60,10 +60,10 @@ static bool	key_finder(char **line, t_key key_id)
 	return (false);
 }
 
-// skip des espaces et la lignes vide
-// initialisation de key_id a la premiere valeur de l'enum (NO)
-// key trouvee avec 'key_finder', on la check et stockavec 'handle_get_elem.
-// Apres check si il y a des char invalid apres tout se processus.
+// Skip spaces and empty lines.
+// Initialize key_id to the first value of the enum (NO).
+// Key is found using 'key_finder', then checked and stored with 'handle_get_elem'.
+// Afterwards, check for any invalid characters remaining after the whole process.
 static void	handle_line(t_cub *cub, char *line)
 {
 	t_key	key_id;
@@ -87,14 +87,14 @@ static void	handle_line(t_cub *cub, char *line)
 	exit_door(cub, PSG_NO_KEY_ERR, NULL);
 }
 
-// ouvre le .cub
-// loop -> lecture continue tant que pas trouve 6 elem (4 patchs + 2 colors)
-// Plusieurs controle sur si l'allocation.
-// Handle_line prend la line stock dans la struct psg.
-// Si on arrive a la fin du file sans avoir avoir trouve els 6 elem -> error
+// Open the .cub file.
+// Loop: read continuously until all elements are found.
+// Multiple checks for memory allocation failures.
+// handle_line processes the current line stored in the parsing struct.
+// If the end of the file is reached without finding all elements -> error.
 void	check_elem(t_cub *cub, char *mapfile)
 {
-	t_error	err_id;
+	char	*err_id;
 
 	err_id = OK;
 	cub->psg.fd_file = open(mapfile, O_RDONLY);
@@ -103,7 +103,7 @@ void	check_elem(t_cub *cub, char *mapfile)
 	while (cub->elem.e_counter < 17)
 	{
 		cub->psg.line = get_next_line(cub->psg.fd_file, &err_id, false);
-		if (err_id == PSG_ALLOC_ERR)
+		if (!ft_strcmp(err_id, PSG_ALLOC_ERR))
 			exit_door(cub, err_id, NULL);
 		if (!cub->psg.line)
 			exit_door(cub, PSG_MISS_PARAM_ERR, NULL);

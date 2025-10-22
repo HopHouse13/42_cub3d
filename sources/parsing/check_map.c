@@ -6,48 +6,17 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/22 14:38:05 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 19:35:35 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-// Parcours du double tab map.
-// found 'D':
-// -> check si les char aux 4 directions existent si non erreur.
-// -> check Si la porte n’est pas entre deux murs verticalement (haut/bas) ou
-// qu’elle n’est pas non plus entre deux murs horizontalement (gauche/droite),
-// alors c’est une erreur.
-void	check_door(t_cub *cub)
-{
-	int		i;
-	int		j;
-	char	**map;
 
-	map = cub->map.grid;
-	i = -1;
-	while (map[++i])
-	{
-		j = -1;
-		while (map[i][++j])
-		{
-			if (map[i][j] == 'D')
-			{
-				if (i -1 < 0 || i +1 >= (int)cub->map.rows || !map[i]
-					|| j -1 < 0 || j +1 >= (int)ft_strlen(map[i]))
-					exit_door(cub, PSG_DOOR_ERR, map[i]);
-				if (!((map[i -1][j] == '1' && map[i +1][j] == '1')
-					|| (map[i][j -1] == '1' && map[i][j +1] == '1')))
-					exit_door(cub, PSG_DOOR_ERR, map[i]);
-			}
-		}
-	}
-}
-
-// Deux possibilites de char invalide.
-// Le 1er if : si le char n'existe pas.
-// Le 2eme if : si le char n'est pas le player, un mur ou un sol.
-bool	open_cell(t_cub *cub, char **map, int i, int j)
+// Two possibilities for invalid characters.
+// First if: the character does not exist.
+// Second if: the character is not a player, wall, or floor.
+static bool	open_cell(t_cub *cub, char **map, int i, int j)
 {
 	if (i < 0 || i >= (int)cub->map.rows || !map[i]
 		|| j < 0 || j >= (int)ft_strlen(map[i]))
@@ -61,11 +30,11 @@ bool	open_cell(t_cub *cub, char **map, int i, int j)
 	return (false);
 }
 
-// Pourcours du double tab char par char.
-// Pour les char '0' ou char 'player', la fonction check le char de charque
-// direction avec la fonction open_cell.
-// Si open_cell renvoie true, la map est ouverte.
-void	valid_outline(t_cub *cub)
+// Traverse the 2D array character by character.
+// For '0' characters or player characters, the function checks each surrounding
+// cell using the 'open_cell' function.
+// If 'open_cell' returns true, the map is considered open.
+static void	valid_outline(t_cub *cub)
 {
 	int		i;
 	int		j;
@@ -92,10 +61,9 @@ void	valid_outline(t_cub *cub)
 	}
 }
 
-// Pourcours du double tab char par char.
-// Si un char de la map est un autre char que ceux dans la condition,
-// la map est invalide.
-void	valid_char(t_cub *cub)
+// Traverse the 2D array character by character.
+// If a map character is not one of the allowed characters, the map is invalid.
+static void	valid_char(t_cub *cub)
 {
 	int		i;
 	int		j;
@@ -115,14 +83,16 @@ void	valid_char(t_cub *cub)
 				cub->elem.doors_nb++;
 			if (c == 'C')
 				cub->elem.sprite_nb++;
+			if (cub->elem.sprite_nb > MAX_SPRITES)
+				exit_door(cub, PSG_SP_MAX_ERR, ft_itoa(MAX_SPRITES));
 		}
 	}
 }
 
-// Pourcours du double tab char par char.
-// Si un char est identifie comme un caractere player et que la varible facing
-// est vide, la fonction stock ce char dans cette variable.
-void	get_player(t_cub *cub)
+// Traverse the 2D array character by character.
+// If a character is identified as a player and the 'facing' variable is empty,
+// the function stores this character in the variable.
+static void	get_player(t_cub *cub)
 {
 	int		i;
 	int		j;
@@ -151,21 +121,14 @@ void	get_player(t_cub *cub)
 		exit_door(cub, PSG_NO_PLAYER_ERR, NULL);
 }
 
-// Parcours le double tab a la recherche d'une line vide.
-// Apres avoir parcouru la line, une line est identifiee comme vide si l'index
-// est egale a zero.
-void	empty_line(t_cub *cub)
+// Function that handles the parsing of the map.
+void	check_map(t_cub *cub, char *mapfile)
 {
-	int	i;
-	int	j;
-
-	i = -1;
-	while (cub->map.grid[++i])
-	{
-		j = 0;
-		while (cub->map.grid[i][j])
-			j++;
-		if (j == 0)
-			exit_door(cub, PSG_EMPTY_LINE_ERR, NULL);
-	}
+	make_copy(cub, mapfile);
+	valid_char(cub);
+	valid_outline(cub);
+	get_player(cub);
+	empty_line(cub);
+	check_door(cub);
 }
+
