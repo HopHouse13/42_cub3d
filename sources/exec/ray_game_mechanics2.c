@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 22:17:36 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 15:44:13 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 18:40:51 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	turn_right(t_cub *cub, t_player *player, bool mouse)
 */
 bool	is_valid_move(t_cub *cub, double x, double y)
 {
-	t_door *door;
+	t_door	*door;
 
 	if (COLLISION)
 	{
