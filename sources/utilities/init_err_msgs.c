@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_err_msgs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 16:56:31 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/17 00:21:06 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 14:16:26 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	init_err_msgs(t_cub *cub)
 	cub->err_msg[PSG_EMPTY_LINE_ERR] = "Empty line inside map";
 	cub->err_msg[PSG_OPEN_MAP_ERR] = "Map is not enclosed";
 	cub->err_msg[PSG_NO_PLAYER_ERR] = "No player on the map";
+	cub->err_msg[PSG_DOOR_ERR] = "Invalid door on the map";
 	cub->err_msg[MLX_TXTR_ERR] = "Unable to initialize the textures";
 	cub->err_msg[MLX_IMG_ERR] = "Unable to initialize the images";
 	cub->err_msg[MLX_PTR_ERR] = "MLX initialization failed";

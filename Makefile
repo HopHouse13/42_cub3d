@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
+#    By: pbret <pbret@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/21 16:26:03 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/10/22 15:16:43 by pbret            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,6 @@ SRCS_FILES	= main.c $(SRCS_PARSING) $(SRCS_EXEC) $(SRC_UTILS)
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_FILES))
 
 OBJS		= $(SRCS:$(SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
-OBJS		= $(SRCS:$(SRCS_DIR)%.c=$(OBJ_DIR)/%.o)
 CC			= cc
 RM			= rm -rf
 CFLAGS		= -Wall -Werror -Wextra
@@ -76,40 +75,13 @@ MLX_DIR = ./minilibx-linux
 MLX_LIB = $(MLX_DIR)/libmlx.a
 MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lXfixes
 
-
-# Pattern rule for object files
-$(OBJ_DIR)/%.o : $(SRCS_DIR)%.c
-CFLAGS		= -Wall -Werror -Wextra
-
-LIBFT_DIR = ./lib/libft
-LIBFT = $(LIBFT_DIR)/libft.a
-
-INCLUDES = -I./includes -I$(LIBFT_DIR) -I$(MLX_DIR)
-
-# MinilibX settings
-MLX_DIR = ./minilibx-linux
-MLX_LIB = $(MLX_DIR)/libmlx.a
-MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lXfixes
-
-
 # Pattern rule for object files
 $(OBJ_DIR)/%.o : $(SRCS_DIR)%.c
 			@mkdir -p $(@D)
 			@$(CC) -g $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-			@$(CC) -g $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-
 all:		$(NAME)
 
-$(LIBFT):
-			@make -sC $(LIBFT_DIR)
-
-$(MLX_LIB):
-			@make -sC $(MLX_DIR)
-
-$(NAME):	$(LIBFT) $(MLX_LIB) $(OBJS)
-			@ $(CC) $(OBJS) $(LIBFT) $(MLX_LIB) $(MLX_FLAGS) -o $(NAME) -g
 $(LIBFT):
 			@make -sC $(LIBFT_DIR)
 

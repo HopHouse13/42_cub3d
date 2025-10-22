@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:01:41 by pab               #+#    #+#             */
-/*   Updated: 2025/10/17 16:59:25 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 14:13:59 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,4 +132,5 @@ void	check_map(t_cub *cub, char *mapfile)
 	valid_outline(cub);
 	get_player(cub);
 	empty_line(cub);
+	check_door(cub);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   animated_sprite_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 16:24:59 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 14:47:48 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 15:24:51 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,22 +172,22 @@ void	render_all_sprites(t_cub *cub)
 }
 
 
-void	count_sprites(t_cub *cub)
-{
-	int		i;
-	int		j;
+//void	count_sprites(t_cub *cub)
+//{
+//	int		i;
+//	int		j;
 
-	i = -1;
-	while (cub->map.grid[++i])
-	{
-		j = -1;
-		while (cub->map.grid[i][++j])
-		{
-			if (cub->map.grid[i][j] == 'C')
-				cub->elem.sprite_nb++;
-		}
-	}
-}
+//	i = -1;
+//	while (cub->map.grid[++i])
+//	{
+//		j = -1;
+//		while (cub->map.grid[i][++j])
+//		{
+//			if (cub->map.grid[i][j] == 'C')
+//				cub->elem.sprite_nb++;
+//		}
+//	}
+//}
 
 void	update_sprite_animation(t_sprite *sprite, double frame_time)
 {
@@ -244,7 +244,7 @@ void		init_sprites(t_cub *cub)
 	int	sprite_idx;
 
 	sprite_idx = 0;
-	count_sprites(cub);
+	//count_sprites(cub);
 	printf("count_sprites counted cub->elem.sprite_nb = %d\n", cub->elem.sprite_nb);
 	if (cub->elem.sprite_nb == 0)
 		return ;

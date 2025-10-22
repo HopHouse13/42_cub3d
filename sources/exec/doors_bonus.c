@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doors_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 19:47:43 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 13:48:21 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 14:40:11 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,22 +185,22 @@ void		door_interaction(t_cub *cub)
 	}
 }
 
-void	count_doors(t_cub *cub)
-{
-	int		i;
-	int		j;
+//void	count_doors(t_cub *cub)
+//{
+//	int		i;
+//	int		j;
 
-	i = -1;
-	while (cub->map.grid[++i])
-	{
-		j = -1;
-		while (cub->map.grid[i][++j])
-		{
-			if (cub->map.grid[i][j] == 'D')
-				cub->elem.doors_nb++;
-		}
-	}
-}
+//	i = -1;
+//	while (cub->map.grid[++i])
+//	{
+//		j = -1;
+//		while (cub->map.grid[i][++j])
+//		{
+//			if (cub->map.grid[i][j] == 'D')
+//				cub->elem.doors_nb++;
+//		}
+//	}
+//}
 
 void	init_doors(t_cub *cub)
 {
@@ -209,7 +209,7 @@ void	init_doors(t_cub *cub)
 	int		door_idx;
 
 	door_idx = 0;
-	count_doors(cub);
+	//count_doors(cub);
 	if (cub->elem.doors_nb == 0)
 		return ;
 	cub->doors = malloc(sizeof(t_door) * cub->elem.doors_nb);

@@ -3,14 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 04:24:10 by pab               #+#    #+#             */
-/*   Updated: 2025/10/21 18:58:42 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 14:38:05 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+
+// Parcours du double tab map.
+// found 'D':
+// -> check si les char aux 4 directions existent si non erreur.
+// -> check Si la porte n’est pas entre deux murs verticalement (haut/bas) ou
+// qu’elle n’est pas non plus entre deux murs horizontalement (gauche/droite),
+// alors c’est une erreur.
+void	check_door(t_cub *cub)
+{
+	int		i;
+	int		j;
+	char	**map;
+
+	map = cub->map.grid;
+	i = -1;
+	while (map[++i])
+	{
+		j = -1;
+		while (map[i][++j])
+		{
+			if (map[i][j] == 'D')
+			{
+				if (i -1 < 0 || i +1 >= (int)cub->map.rows || !map[i]
+					|| j -1 < 0 || j +1 >= (int)ft_strlen(map[i]))
+					exit_door(cub, PSG_DOOR_ERR, map[i]);
+				if (!((map[i -1][j] == '1' && map[i +1][j] == '1')
+					|| (map[i][j -1] == '1' && map[i][j +1] == '1')))
+					exit_door(cub, PSG_DOOR_ERR, map[i]);
+			}
+		}
+	}
+}
 
 // Deux possibilites de char invalide.
 // Le 1er if : si le char n'existe pas.
@@ -79,6 +111,10 @@ void	valid_char(t_cub *cub)
 			if (c != '1' && c != '0' && c != 'N' && c != 'S'
 				&& c != 'E' && c != 'W' && c != ' ' && c != 'D' && c != 'C')
 				exit_door(cub, PSG_INV_CHAR_MAP_ERR, cub->map.grid[i]);
+			if (c == 'D')
+				cub->elem.doors_nb++;
+			if (c == 'C')
+				cub->elem.sprite_nb++;
 		}
 	}
 }

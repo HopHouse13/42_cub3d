@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 15:12:56 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 15:24:39 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -407,6 +407,7 @@ void	valid_outline(t_cub *cub);
 void	valid_char(t_cub *cub);
 void	get_player(t_cub *cub);
 void	empty_line(t_cub *cub);
+void	check_door(t_cub *cub);
 
 /// UTILITIES ///
 void	exit_door(t_cub *cub, t_error err_id, char *item);
