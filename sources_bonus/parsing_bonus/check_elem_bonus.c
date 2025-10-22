@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "../../includes_bonus/cub3d_bonus.h"
 
 // Check if there is anything other than spaces after the path or color.
 static void	check_rest_of_line(t_cub *cub, char **line)
@@ -62,9 +62,9 @@ static bool	key_finder(char **line, t_key key_id)
 
 // Skip spaces and empty lines.
 // Initialize key_id to the first value of the enum (NO).
-// Key is found using 'key_finder', 
+// Key is found using 'key_finder',
 //	then checked and stored with 'handle_get_elem'.
-// Afterwards, check for any invalid characters remaining 
+// Afterwards, check for any invalid characters remaining
 //	after the whole process.
 static void	handle_line(t_cub *cub, char *line)
 {

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_exit.c                                      :+:      :+:    :+:   */
+/*   handle_exit_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/22 22:41:34 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/23 00:46:29 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "../../includes_bonus/cub3d_bonus.h"
 
 // Function that frees the 2D map array.
 static void	free_map(t_cub *cub)
@@ -42,8 +42,8 @@ static void	free_elem(t_cub *cub)
 	}
 }
 
-// Function that closes the file descriptor, frees the 'stash' variable in GNL 
-// using the input flag set to true, 
+// Function that closes the file descriptor, frees the 'stash' variable in GNL
+// using the input flag set to true,
 // which calls the two memory cleanup functions for elements and the map.
 // If err_id is OK -> return to exit the program normally.
 // Otherwise -> exit with code 2.

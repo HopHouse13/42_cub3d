@@ -6,11 +6,11 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 21:21:34 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 23:14:00 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 00:46:29 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "../../includes_bonus/cub3d_bonus.h"
 
 static int	handle_mouse(int x, int y, t_cub *cub)
 {

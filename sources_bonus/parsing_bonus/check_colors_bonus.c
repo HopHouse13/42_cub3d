@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_colors.c                                     :+:      :+:    :+:   */
+/*   check_colors_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:29 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 23:08:31 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 00:46:29 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "../../includes_bonus/cub3d_bonus.h"
 
 // Convert RGB format (3 values) into an int using bit shifting.
 // An int is composed of 4 bytes; the leftmost byte is the most significant.

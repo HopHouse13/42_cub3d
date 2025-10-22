@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_map_1.c                                      :+:      :+:    :+:   */
+/*   check_map_1_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:07:47 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 22:51:27 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/23 00:46:29 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "../../includes_bonus/cub3d_bonus.h"
 
 // Traverse the 2D array looking for an empty line.
 // After scanning a line, it is considered empty if the index equals zero.
@@ -33,7 +33,7 @@ void	empty_line(t_cub *cub)
 // Traverse the 2D map array.
 // When a 'D' (door) is found:
 // -> Check if characters in all 4 directions exist; if not, error.
-// -> Check if the door is not between two vertical walls (top/bottom) 
+// -> Check if the door is not between two vertical walls (top/bottom)
 //    or not between two horizontal walls (left/right); otherwise, error.
 void	check_door(t_cub *cub)
 {

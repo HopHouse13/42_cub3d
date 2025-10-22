@@ -6,11 +6,11 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:14:18 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 20:36:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 00:46:29 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "../../includes_bonus/cub3d_bonus.h"
 
 // Calculate hit position within tile (0.0 to 1.0)
 // When offset = 0: door covers full tile [0, 1]

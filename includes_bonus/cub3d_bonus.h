@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/23 00:44:52 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 00:52:13 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
 /* ========================================================================== */
 /*                                  LIBRARIES                                 */
@@ -30,9 +30,9 @@
 # include <X11/keysym.h>
 # include "mlx.h"
 # include "../lib/libft/libft.h"
-# include "error.h"
-# include "macros.h"
-# include "structs.h"
+# include "error_bonus.h"
+# include "macros_bonus.h"
+# include "structs_bonus.h"
 
 /* ========================================================================== */
 /*                             PARSING_FUNCTIONS                              */

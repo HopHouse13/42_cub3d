@@ -6,7 +6,7 @@
 #    By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/05 17:10:30 by pbret             #+#    #+#              #
-#    Updated: 2025/10/22 23:48:21 by tjacquel         ###   ########.fr        #
+#    Updated: 2025/10/23 00:53:36 by tjacquel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,6 +106,7 @@ SRCS_BONUS_UTILS = \
 	utilities_bonus/print_ray_debug_bonus.c \
 
 SRCS_BONUS_EXEC = \
+	exec_bonus/ray_game_mechanics_bonus.c \
 	exec_bonus/ray_game_mechanics2_bonus.c \
 	exec_bonus/ray_init_stuff_bonus.c \
 	exec_bonus/ray_init_stuff2_bonus.c \
@@ -141,7 +142,6 @@ RM			= rm -rf
 CFLAGS		= -Wall -Werror -Wextra
 INCLUDES	= -I./includes -I$(LIBFT_DIR) -I$(MLX_DIR)
 MLX_FLAGS	= -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lXfixes
-
 
 # ============================================================================ #
 #                                   RULES                                      #

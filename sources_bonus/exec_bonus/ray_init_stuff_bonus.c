@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_init_stuff.c                                   :+:      :+:    :+:   */
+/*   ray_init_stuff_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 22:39:47 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/23 00:46:45 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "../../includes_bonus/cub3d_bonus.h"
 
 static void	which_starting_direction(t_player *player, char facing)
 {
@@ -75,7 +75,6 @@ void	init_exec_data(t_cub *cub)
 	init_ptr_to_null(cub);
 	cub->print_debug_cub = true;
 	cub->game_init = true;
-	cub->no_collision = false;
 	cub->minimap_height = MNMAP_ROWS * MNMAP_TILE_SIZE;
 	cub->minimap_width = MNMAP_COLS * MNMAP_TILE_SIZE;
 }
