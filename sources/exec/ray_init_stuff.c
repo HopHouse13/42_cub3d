@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 17:46:01 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 20:27:32 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,23 @@ static void	init_ptr_to_null(t_cub *cub)
 void	init_exec_data(t_cub *cub)
 {
 	init_ptr_to_null(cub);
-	// cub->window_width = (cub->map).max_col * TILE_SIZE / MMAP_RATIO;
-	// cub->window_height = (cub->map).rows * TILE_SIZE / MMAP_RATIO;
 	cub->map.display_map = true;
 	cub->print_debug_cub = true;
 	cub->game_init = true;
 	cub->no_collision = false;
 	cub->minimap_height = MNMAP_ROWS * MNMAP_TILE_SIZE;
 	cub->minimap_width = MNMAP_COLS * MNMAP_TILE_SIZE;
+}
 
+void	init_player_time(t_cub *cub, t_player *player)
+{
+	player->old_time = player->time;
+	player->time = date_in_ms(cub) - player->start_time;
+	player->frame_time = (player->time - player->old_time) / 1000.0;
+	player->move_speed = player->frame_time * 5.0;
+	if (player->move_speed > 0.5)
+		player->move_speed = 0.49;
+	player->rot_speed = player->frame_time * 3.0;
+	if (player->rot_speed > 0.5)
+		player->rot_speed = 0.49;
 }

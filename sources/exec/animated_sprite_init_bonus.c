@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   animated_sprite_helper_bonus.c                     :+:      :+:    :+:   */
+/*   animated_sprite_init_bonus.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 18:42:19 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 18:45:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 20:13:14 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	init_single_sprite(t_sprite *sprite, int x, int y)
 {
 	sprite->pos = (t_vec){x + 0.5, y + 0.5};
 	sprite->active = true;
-	sprite->frame_count = 10;
 	sprite->current_frame = 0;
 	sprite->frame_duration = 0.2;
 	sprite->elapsed_time = 0.0;
@@ -25,7 +24,7 @@ static void	init_single_sprite(t_sprite *sprite, int x, int y)
 	sprite->action = false;
 }
 
-void		init_sprites(t_cub *cub)
+void	init_sprites(t_cub *cub)
 {
 	int	i;
 	int	j;

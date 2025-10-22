@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:39:16 by pab               #+#    #+#             */
-/*   Updated: 2025/10/21 21:02:44 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 19:02:40 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ void	print_sprites(t_cub *cub)
 	while (i < cub->elem.sprite_nb)
 	{
 		if (cub->game_init || cub->sprites[i].action)
-			printf("		Sprite[%d] coord{%.2f, %.2f} active[%d] frame_count[%d] current_frame[%d] frame_duration[%.2f] elapsed_time[%.2f] loop[%d] action[%d]\n",
+			printf("		Sprite[%d] coord{%.2f, %.2f} active[%d] current_frame[%d] frame_duration[%.2f] elapsed_time[%.2f] loop[%d]\n",
 				i, cub->sprites[i].pos.x, cub->sprites[i].pos.y,
-				 cub->sprites[i].active, cub->sprites[i].frame_count, cub->sprites[i].current_frame, cub->sprites[i].frame_duration, cub->sprites[i].elapsed_time, cub->sprites[i].loop, cub->sprites[i].action);
+				 cub->sprites[i].active, cub->sprites[i].current_frame, cub->sprites[i].frame_duration, cub->sprites[i].elapsed_time, cub->sprites[i].loop);
 		cub->sprites[i].action = false;
 		i++;
 	}

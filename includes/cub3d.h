@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 18:46:59 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 20:31:39 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@
 # define DOOR_ANIM_STEP 8
 # define DOOR_INTERACT 1.2
 # define MAX_SPRITES 100
+# define SP_FRAMES 10
 
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
@@ -250,11 +251,24 @@ typedef struct s_door
 	double			offset;
 }				t_door;
 
-typedef struct s_sprite_render
+typedef struct s_sp_sort
 {
 	int		sprite_idx;
 	double	distance;
-}			t_sp_render;
+}			t_sp_sort;
+
+typedef struct s_sp_render
+{
+	t_vec		rel_pos;
+	t_vec		transform;
+	double		inv_det;
+	int			screen_x;
+	int			height;
+	int			width;
+	t_coord		txtr;
+	t_pxl_range	draw;
+	t_coord		pxl;
+}				t_sp_render;
 
 typedef struct s_sprite
 {
@@ -375,6 +389,8 @@ void		init_exec_data(t_cub *cub);
 void		init_player(t_cub *cub, t_player *player);
 void		init_image(t_cub *cub);
 void		init_ray_data(t_ray *ray);
+void		init_player_time(t_cub *cub, t_player *player);
+
 
 // mlx_stuff
 void		cleanup_mlx(t_cub *cub, t_error mlx_err);
@@ -463,6 +479,10 @@ void		init_sp_txtr(t_cub *cub);
 void		print_sp_txtr_struct(t_txtr *txtr);
 void		update_all_sprites(t_cub *cub);
 void		render_all_sprites(t_cub *cub);
+void		render_single_sprite(t_cub *cub, t_sprite *sprite, int sp_idx);
+
+void		update_bonus(t_cub *cub);
+void		render_bonus(t_cub *cub);
 
 
 

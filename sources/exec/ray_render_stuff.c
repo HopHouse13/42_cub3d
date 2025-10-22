@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 15:42:31 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 20:31:27 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x)
 		ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
 	if (ray->perp_wall_dist < 0.0001)
 		ray->perp_wall_dist = 0.0001;
-	// cub->z_buffer[x] = ray->perp_wall_dist;
 	compute_wall_bounds(ray);
 	if (ray->side)
 		ray->wall_x = player->pos.x + ray->perp_wall_dist * ray->ray_dir.x;
@@ -87,28 +86,13 @@ int	render_loop(t_cub *cub)
 	t_ray	ray;
 
 	init_ray_data(&ray);
-	cub->player.old_time = cub->player.time;
-	cub->player.time = date_in_ms(cub) - cub->player.start_time;
-	cub->player.frame_time = (cub->player.time - cub->player.old_time) / 1000.0;
-	cub->player.move_speed = cub->player.frame_time * 5.0;
-	if (cub->player.move_speed > 0.5)
-		cub->player.move_speed = 0.49;
-	cub->player.rot_speed = cub->player.frame_time * 3.0;
-	if (cub->player.rot_speed > 0.5)
-		cub->player.rot_speed = 0.49;
-	update_doors(cub);
-	update_all_sprites(cub);
+	init_player_time(cub, &(cub->player));
+	update_bonus(cub);
 	if (cub->game_init)
 		print_updated_pos(cub, &(cub->player), NULL);
 	handle_move(cub, &(cub->player));
 	raycasting_loop(cub, &(cub->player), &ray);
-	if (BONUS)
-		render_all_sprites(cub);
-	if (BONUS && cub->player.kbrd.key_m == true)
-	{
-		render_map(cub);
-		render_2dray(cub, &(cub->player));
-	}
+	render_bonus(cub);
 	mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,
 		cub->game_img.mlx_img, 0, 0);
 	cub->game_init = false;
