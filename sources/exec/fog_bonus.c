@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 18:35:29 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 19:36:50 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 23:26:40 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 // Extract fog RGB components
 // Blend: (1 - fog_factor) * pxl_color + fog_factor * fog
 // Recombine into single pxl_color value
-int	add_fog(t_ray *ray, int pxl_color)
+int	add_fog(double distance, int pxl_color)
 {
 	t_rgb	pxl;
 	t_rgb	fog;
 	double	fog_factor;
 
-	fog_factor = ray->perp_wall_dist / FOG_DISTANCE;
+	fog_factor = distance / FOG_DISTANCE;
 	if (fog_factor > 1.0)
 		fog_factor = 1.0;
 	if (fog_factor < 0.0)

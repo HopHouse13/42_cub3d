@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/21 02:38:00 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:56:40 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,20 @@
 
 
 # define RGB_WHT 0xFFFFFF
+# define DARK_GREY 0x222222
 # define RGG_BLCK 0x000000
 # define RGB_RED 0xdb4437
 # define RGB_BLUE 0x4285f4
 # define RGB_YLW 0xf4b400
 # define RGB_GRN 0x0f9d58
-# define RGB_ORG 0xFF4500
-# define RGB_FLOOR 0x0000067
+# define RGB_ORG 0xEC973D
+# define DARK_BLUE 0x000067
+# define RGB_FLOOR 0xC9C9C9
 # define RGB_RAY_YLW 0xFFFF00
+# define RGB_LIGHT_GREY 0xC9C9C9
+# define LIGHT_GRN 0x98E48B
+# define LIGHT_BLUE 0xAEEEEE
+# define RGB_BEIGE 0xD2B48C
 
 # define MOVE_SPEED 0.075
 # define ROT_SPEED 0.035
@@ -120,9 +126,6 @@
 // #  if MAP_RATIO <= 0 || MAP_RATIO >= 10
 // #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
 // #  endif
-
-
-
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
 
@@ -191,6 +194,16 @@ typedef enum	e_key
 				SO,
 				WE,
 				DO,
+				s0,
+				s1,
+				s2,
+				s3,
+				s4,
+				s5,
+				s6,
+				s7,
+				s8,
+				s9,
 				F,
 				C,
 }				t_key;
@@ -219,7 +232,6 @@ typedef struct s_rgb
 	int			g;
 	int			b;
 }				t_rgb;
-
 
 typedef struct	s_player
 {
@@ -256,7 +268,7 @@ typedef struct	s_map
 
 typedef struct	s_elements
 {
-	char		*path[5]; // 0 NO, 1 EA, 2 SO, 3 WE, 4 DO
+	char		*path[15]; // 0 NO, 1 EA, 2 SO, 3 WE, 4 DO, 5=s0, 6=s1, 7=s2, 8=s3, 9=s4, 10=s5, 11=s6, 12=s7, 13=s8, 14=s9
 	int			f_values[3];
 	int			c_values[3];
 	int			f_color;
@@ -265,6 +277,7 @@ typedef struct	s_elements
 	bool		start_line;
 	int			e_counter;
 	int			doors_nb;
+	int			sprite_nb;
 }				t_elem;
 
 typedef struct	s_txtr
@@ -294,11 +307,33 @@ typedef struct s_door
 	double			anim_speed;
 }				t_door;
 
+typedef struct s_sprite_render
+{
+	int		sprite_idx;
+	double	distance;
+}			t_sp_render;
+
+typedef struct s_sprite
+{
+	t_vec		pos;
+	bool		active;
+	int			frame_count; // le nonbre de textures a charger
+	int			current_frame;
+	double		frame_duration;
+	double		elapsed_time;
+	double		distance;
+	bool		loop;
+	bool		action;
+}				t_sprite;
+
+
 typedef struct	s_cub
 {
 	void		*mlx_pointer;
 	void		*mlx_window;
 	t_txtr		txtr[5];
+	t_txtr		sp_txtr[10];
+
 
 	int			window_height;
 	int			window_width;
@@ -310,6 +345,8 @@ typedef struct	s_cub
 	t_img		game_img;
 
 	t_door		*doors;
+	t_sprite	*sprites;
+	double		z_buffer[WNDW_W];
 
 	t_psg		psg;
 	char		*err_msg[UNKNOWN_ERR + 1];
@@ -335,6 +372,7 @@ typedef struct	s_ray
 	int			draw_end;
 
 }				t_ray;
+
 
 
 
@@ -449,7 +487,7 @@ double		get_map_scale(t_cub *cub);
 bool		is_in_minimap_circle(int x, int y);
 bool		ray_outside_minimap(t_cub *cub, t_ray *ray);
 
-int			add_fog(t_ray *ray, int pxl_color);
+int			add_fog(double distance, int pxl_color);
 void		init_doors(t_cub *cub);
 void		print_doors(t_cub *cub);
 bool		is_door_closed(t_cub *cub, int x, int y);
@@ -459,6 +497,15 @@ t_door		*which_door(t_cub *cub, int x, int y);
 void		update_doors(t_cub *cub);
 bool		should_ray_hit_door(t_cub *cub, t_ray *ray, t_door *door);
 
+void		init_sprites(t_cub *cub);
+void		count_sprites(t_cub *cub);
+
+void		print_sprites(t_cub *cub);
+void		init_sp_txtr(t_cub *cub);
+void		print_sp_txtr_struct(t_txtr *txtr);
+void		update_all_sprites(t_cub *cub);
+// void		render_sprite(t_cub *cub, t_ray *ray, int x);;
+void		render_all_sprites(t_cub *cub);
 
 
 

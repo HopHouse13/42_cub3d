@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/20 21:13:07 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 18:44:32 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	free_elem(t_cub *cub)
 	int	i;
 
 	i = -1;
-	while (++i < 5)
+	while (++i < 15)
 	{
 		if (cub->elem.path[i])
 			free(cub->elem.path[i]);

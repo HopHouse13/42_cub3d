@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 00:47:06 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/21 21:53:06 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x)
 		ray->perp_wall_dist = ray->side_dist.y - ray->delta_dist.y;
 	if (ray->perp_wall_dist < 0.0001)
 		ray->perp_wall_dist = 0.0001;
+	cub->z_buffer[x] = ray->perp_wall_dist;
 	compute_wall_bounds(ray);
 	if (ray->side)
 		ray->wall_x = player->pos.x + ray->perp_wall_dist * ray->ray_dir.x;
@@ -78,10 +79,13 @@ int	render_loop(t_cub *cub)
 	cub->player.move_speed = cub->player.frame_time * 5.0;
 	cub->player.rot_speed = cub->player.frame_time * 3.0;
 	update_doors(cub);
+	update_all_sprites(cub);
 	if (cub->game_init)
 		print_updated_pos(cub, &(cub->player), NULL);
 	handle_move(cub, &(cub->player));
 	raycasting_loop(cub, &(cub->player), &ray, false);
+	if (BONUS)
+		render_all_sprites(cub);
 	if (BONUS && cub->player.kbrd.key_m == true)
 	{
 		render_map(cub);
@@ -104,6 +108,8 @@ void	render(t_cub *cub)
 		cleanup_mlx(cub, MLX_WDW_ERR);
 	init_image(cub);
 	init_textures(cub);
+	if (BONUS)
+		init_sp_txtr(cub);
 	mlx_loop_hook(cub->mlx_pointer, &render_loop, cub);
 	mlx_hook(cub->mlx_window, KeyPress, KeyPressMask, &key_press_hook, cub);
 	mlx_hook(cub->mlx_window, KeyRelease, KeyReleaseMask, &key_release_hook,
