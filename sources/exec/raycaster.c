@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:41:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 01:18:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 14:52:41 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static bool	outofbounds_dda_ray(t_cub *cub, t_ray *ray)
 static void	dda_loop(t_cub *cub, t_ray *ray, bool render_map)
 {
 	t_door *door;
+	(void) render_map;
 
 	ray->hit = 0;
 	while (ray->hit == 0)
@@ -51,9 +52,9 @@ static void	dda_loop(t_cub *cub, t_ray *ray, bool render_map)
 		}
 		if (outofbounds_dda_ray(cub, ray))
 			break ;
-		if (BONUS && (MAP_MODE == MAP_CIRCLE || MAP_MODE == MAP_VIEWPORT)
-			&& render_map && ray_outside_minimap(cub, ray))
-			ray->hit = 1;
+		// if (BONUS && (MAP_MODE == MAP_CIRCLE || MAP_MODE == MAP_VIEWPORT)
+		// 	&& render_map && ray_outside_minimap(cub, ray))
+		// 	ray->hit = 1;
 		if (cub->map.grid[ray->map.y][ray->map.x] == '1')
 			ray->hit = 1;
 		if (cub->map.grid[ray->map.y][ray->map.x] == 'D')
@@ -128,9 +129,9 @@ void	raycasting_loop(t_cub *cub, t_player *player, t_ray *ray,
 		ray->delta_dist.y = compute_delta_dist(ray->ray_dir.y);
 		init_step_and_sidedist(player, ray);
 		dda_loop(cub, ray, render_map);
-		if (BONUS && render_map)
-			render_2dray(cub, player, ray);
-		else
+		// if (BONUS && render_map)
+		// 	render_2dray(cub, player, ray);
+		// else
 			render_cubes(cub, player, ray, x);
 		x++;
 	}

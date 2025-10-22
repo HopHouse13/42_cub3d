@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 16:24:59 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 23:34:46 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 14:47:48 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void render_single_sprite(t_cub *cub, t_sprite *sprite, int sp_idx)
 					* current_frame->width / sprite_width;
 
 		// ZBuffer check: only render if sprite is in front of wall
-		if (transform.y > 0 && transform.y < cub->z_buffer[stripe])
+		if (transform.y > 0 && transform.y < cub->buff[stripe].perp_wall_dist)
 		{
 			int y = draw_start.y;
 			while (y < draw_end.y)
@@ -140,7 +140,7 @@ int	count_active_sprites(t_cub *cub)
 
 void	render_all_sprites(t_cub *cub)
 {
-	t_sp_render	sp_order[cub->elem.sprite_nb];
+	t_sp_render	sp_order[MAX_SPRITES];
 	int			i;
 	t_vec		delta;
 	int			active_sprites;
@@ -248,6 +248,8 @@ void		init_sprites(t_cub *cub)
 	printf("count_sprites counted cub->elem.sprite_nb = %d\n", cub->elem.sprite_nb);
 	if (cub->elem.sprite_nb == 0)
 		return ;
+	if (cub->elem.sprite_nb > MAX_SPRITES)
+		cleanup_mlx(cub, MLX_OTHER_ERR);
 	cub->sprites = malloc(sizeof(t_sprite) * cub->elem.sprite_nb);
 	if (!cub->sprites)
 		cleanup_mlx(cub, MLX_OTHER_ERR);

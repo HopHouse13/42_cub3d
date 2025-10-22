@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 22:23:29 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/20 18:36:10 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 14:56:47 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ Boolean arithmetic x = y + (z == 1)
 	if (z == 1)
 		x += 1
 */
-void	render_2dray(t_cub *cub, t_player *player, t_ray *ray)
+/* void	render_2dray(t_cub *cub, t_player *player, t_ray *ray)
 {
 	t_vec	impact;
 	t_coord	start;
@@ -182,4 +182,77 @@ void	render_2dray(t_cub *cub, t_player *player, t_ray *ray)
 	# endif
 
 	draw_ray_line(cub, start, (t_coord){(int)impact.x, (int)impact.y});
+} */
+
+void	render_2dray(t_cub *cub, t_player *player)
+{
+	t_vec	impact;
+	t_coord	start;
+	int		x;
+	#if MAP_MODE == MAP_VIEWPORT
+	// t_coord viewport_offset;
+	// viewport_offset = (t_coord){0, 0};
+	t_vec	map_center;
+	t_coord	minimap_center;
+	#endif
+
+	#if MAP_MODE == MAP_SCALED
+	double	scale;
+	scale = get_map_scale(cub);
+	#endif
+
+	x = 0;
+	while (x < WNDW_W)
+{
+	if (cub->buff[x].side == 0)
+	{
+		impact.x = cub->buff[x].map.x + (cub->buff[x].step.x == -1);
+		impact.y = player->pos.y + (impact.x - player->pos.x) * cub->buff[x].ray_dir.y
+			/ cub->buff[x].ray_dir.x;
+	}
+	else
+	{
+		impact.y = cub->buff[x].map.y + (cub->buff[x].step.y == -1);;
+		impact.x = player->pos.x + (impact.y - player->pos.y) * cub->buff[x].ray_dir.x
+			/ cub->buff[x].ray_dir.y;
+	}
+
+	# if MAP_MODE == MAP_CIRCLE
+	start.x = MINIMAP_CENTER_X;
+	start.y = MINIMAP_CENTER_Y;
+	impact.x = MINIMAP_CENTER_X + (int)((impact.x - player->pos.x) * MINIMAP_SCALE);
+	impact.y = MINIMAP_CENTER_Y + (int)((impact.y - player->pos.y) * MINIMAP_SCALE);
+
+	# else
+		#if MAP_MODE == MAP_VIEWPORT
+
+		// Get the same clamped center as render_map uses
+		get_map_center(cub, &map_center);
+		minimap_center.x = MINIMAP_MARGIN + MINIMAP_WIDTH / 2;
+		minimap_center.y = MINIMAP_MARGIN + MINIMAP_HEIGHT / 2;
+
+		// Transform player position relative to map_center
+		start.x = minimap_center.x + (int)((player->pos.x - map_center.x) * MINIMAP_TILE_SIZE);
+		start.y = minimap_center.y + (int)((player->pos.y - map_center.y) * MINIMAP_TILE_SIZE);
+
+		// Transform impact point relative to map_center
+		impact.x = minimap_center.x + (int)((impact.x - map_center.x) * MINIMAP_TILE_SIZE);
+		impact.y = minimap_center.y + (int)((impact.y - map_center.y) * MINIMAP_TILE_SIZE);
+
+		#elif MAP_MODE == MAP_SCALED
+		start.x = MINIMAP_X + (int)(player->pos.x * scale);
+		start.y = MINIMAP_Y + (int)(player->pos.y * scale);
+		impact.x = MINIMAP_X + (int)(impact.x * scale);
+		impact.y = MINIMAP_Y + (int)(impact.y * scale);
+		#else
+		start.x = 10 + (int)((player->pos.x * TILE_SIZE) / MAP_RATIO);
+		start.y = 10 + (int)((player->pos.y * TILE_SIZE) / MAP_RATIO);
+		impact.x = 10 + ((impact.x * TILE_SIZE) / MAP_RATIO);
+		impact.y = 10 + ((impact.y * TILE_SIZE) / MAP_RATIO);
+		#endif
+	# endif
+
+	draw_ray_line(cub, start, (t_coord){(int)impact.x, (int)impact.y});
+	x++;
+}
 }

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 17:30:37 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 20:47:19 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 15:03:50 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ static void	print_updated_pos2(t_cub *cub, t_player *player)
 
 void	print_updated_pos(t_cub *cub, t_player *player, char *key)
 {
-	return ;
 	if (!PRINT_DEBUG)
 		return ;
 	if (cub->game_init)

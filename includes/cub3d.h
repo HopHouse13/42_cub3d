@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 13:56:40 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 15:12:56 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@
 # define DOOR_ANIM_MS 60
 # define DOOR_ANIM_STEP 8
 # define DOOR_INTERACT 1.5
+# define MAX_SPRITES 100
 
 # define FOV 66
 // #  if FOV <= 0 || FOV >= 180
@@ -326,6 +327,16 @@ typedef struct s_sprite
 	bool		action;
 }				t_sprite;
 
+typedef struct s_ray_buffer
+{
+	t_coord		map;
+	t_vec		ray_dir;
+	t_coord		step;
+	int			side;
+	double		perp_wall_dist;
+}				t_ray_buffer;
+
+
 
 typedef struct	s_cub
 {
@@ -346,7 +357,8 @@ typedef struct	s_cub
 
 	t_door		*doors;
 	t_sprite	*sprites;
-	double		z_buffer[WNDW_W];
+	// double		z_buffer[WNDW_W];
+	t_ray_buffer	buff[WNDW_W];
 
 	t_psg		psg;
 	char		*err_msg[UNKNOWN_ERR + 1];
@@ -426,7 +438,7 @@ void		cleanup_mlx(t_cub *cub, t_error mlx_err);
 
 // render_stuff
 void		render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x);
-void		render_2dray(t_cub *cub, t_player *player, t_ray *ray);
+void		render_2dray(t_cub *cub, t_player *player);
 void		raycasting_loop(t_cub *cub, t_player *player, t_ray *ray, bool render_map);
 void		render_map(t_cub *cub);
 void		render(t_cub *cub);
