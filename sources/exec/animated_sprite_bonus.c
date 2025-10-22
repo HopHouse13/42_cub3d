@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   animated_sprite_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 16:24:59 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 15:24:51 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 16:31:52 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,12 @@ void render_single_sprite(t_cub *cub, t_sprite *sprite, int sp_idx)
 				// Color key transparency (skip if black/magenta)
 				if ((color & 0x00FFFFFF) != 0x000000)   // Not black
 				{
-					// color = add_fog(cub->sprites[sp_idx].distance, color);
+					if (FOG)
+					{
+						double distance;
+						distance = sqrt(cub->sprites[sp_idx].distance);
+						color = add_fog(distance, color);
+					}
 					img_pxl_put(&cub->game_img, stripe, y, color);
 				}
 
