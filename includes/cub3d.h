@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 15:42:04 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 16:18:42 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,6 @@ typedef struct s_door
 	t_door_state	state;
 	bool			action;
 	double			offset;
-	double			anim_speed;
 }				t_door;
 
 typedef struct s_sprite_render
@@ -371,7 +370,6 @@ typedef struct	s_ray
 	int			line_height;
 	int			draw_start;
 	int			draw_end;
-
 }				t_ray;
 
 
