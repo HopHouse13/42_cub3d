@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:13:25 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 15:18:19 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 15:42:31 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,12 @@ int	render_loop(t_cub *cub)
 	if (cub->game_init)
 		print_updated_pos(cub, &(cub->player), NULL);
 	handle_move(cub, &(cub->player));
-	raycasting_loop(cub, &(cub->player), &ray, false);
+	raycasting_loop(cub, &(cub->player), &ray);
 	if (BONUS)
 		render_all_sprites(cub);
 	if (BONUS && cub->player.kbrd.key_m == true)
 	{
 		render_map(cub);
-		// raycasting_loop(cub, &(cub->player), &ray, true);
 		render_2dray(cub, &(cub->player));
 	}
 	mlx_put_image_to_window(cub->mlx_pointer, cub->mlx_window,

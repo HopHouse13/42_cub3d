@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 22:17:36 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 01:15:42 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 15:44:13 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,31 +72,3 @@ bool	is_valid_move(t_cub *cub, double x, double y)
 		&& y < cub->map.rows
 		&& x < ft_strlen(cub->map.grid[(int)y]));
 }
-
-/* bool	is_valid_move_x(t_cub *cub, t_player *player, double new_x)
-{
-	if (COLLISION)
-		return (new_x > 1 && new_x < cub->map.max_col - 1
-			&& player->pos.y > 1
-			&& player->pos.y < cub->map.rows - 1
-			&& new_x < ft_strlen(cub->map.grid[(int)player->pos.y]) - 1
-			&& cub->map.grid[(int)player->pos.y][(int)new_x] != '1');
-	return (new_x >= 0 && new_x < cub->map.max_col
-		&& player->pos.y >= 0
-		&& player->pos.y < cub->map.rows
-		&& new_x < ft_strlen(cub->map.grid[(int)player->pos.y]));
-}
-
-bool	is_valid_move_y(t_cub *cub, t_player *player, double new_y)
-{
-	if (COLLISION)
-		return (player->pos.x > 1
-			&& new_y > 1
-			&& new_y < cub->map.rows - 1
-			&& player->pos.x < ft_strlen(cub->map.grid[(int)new_y]) - 1
-			&& cub->map.grid[(int)new_y][(int)player->pos.x] != '1');
-	return (player->pos.x >= 0
-		&& new_y >= 0
-		&& new_y < cub->map.rows
-		&& player->pos.x < ft_strlen(cub->map.grid[(int)new_y]));
-} */

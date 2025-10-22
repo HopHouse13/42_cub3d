@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 15:24:39 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 15:42:04 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,17 +137,6 @@ typedef enum	e_door_state
 	OPENING,
 	OPEN,
 }				t_door_state;
-
-typedef enum	e_tile
-{
-				TILE_FLOOR,
-				TILE_WALL,
-				TILE_EP,
-				TILE_SP,
-				TILE_WP,
-				TILE_NP,
-				TILE_EXTRA
-}				t_tile;
 
 typedef struct	s_img
 {
@@ -440,7 +429,7 @@ void		cleanup_mlx(t_cub *cub, t_error mlx_err);
 // render_stuff
 void		render_cubes(t_cub *cub, t_player *player, t_ray *ray, int x);
 void		render_2dray(t_cub *cub, t_player *player);
-void		raycasting_loop(t_cub *cub, t_player *player, t_ray *ray, bool render_map);
+void		raycasting_loop(t_cub *cub, t_player *player, t_ray *ray);
 void		render_map(t_cub *cub);
 void		render(t_cub *cub);
 
@@ -465,7 +454,6 @@ bool		is_valid_move(t_cub *cub, double x, double y);
 
 
 // utils
-t_tile		char_to_tile(char c);
 uint32_t	char_to_tile_rgb(char c);
 void		print_map_ray(t_map *map);
 double		date_in_s(t_cub *cub);

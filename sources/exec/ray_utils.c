@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:12:04 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/21 16:44:54 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 15:34:44 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,35 +36,14 @@ double	date_in_ms(t_cub *cub)
 	return (time);
 }
 
-t_tile	char_to_tile(char c)
-{
-	if (c == '0')
-		return (TILE_FLOOR);
-	if (c == '1')
-		return (TILE_WALL);
-	if (c == 'E')
-		return (TILE_EP);
-	if (c == 'S')
-		return (TILE_SP);
-	if (c == 'W')
-		return (TILE_WP);
-	if (c == 'N')
-		return (TILE_NP);
-	if (c == 'C')
-		return (TILE_EXTRA);
-	return (TILE_FLOOR);
-}
-
 uint32_t	char_to_tile_rgb(char c)
 {
-	if (c == '0' || c == 'S' || c == 'E' || c == 'N' || c == 'W')
+	if (c == '0' || c == 'S' || c == 'E' || c == 'N' || c == 'W' || c == 'C')
 		return (RGB_BEIGE);
 	if (c == '1')
 		return (RGB_RED);
 	if (c == 'D')
 		return (RGB_GRN);
-	if (c == 'C')
-		return(RGB_BLUE);
 	return (RGG_BLCK);
 }
 
