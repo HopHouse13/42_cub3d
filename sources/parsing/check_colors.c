@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 14:31:29 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/17 16:53:48 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 15:43:13 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 // Le 4eme est utilise pour le BLUE
 static void	color_conversion(t_cub *cub)
 {
-	if (cub->elem.f_values[0])
+	if (cub->elem.f_values[0] != -1)
 	{
 	cub->elem.f_color = (((cub->elem.f_values[0] & 0xFF) << 16)
 				| ((cub->elem.f_values[1] & 0xFF) << 8)
 				| (cub->elem.f_values[2] & 0xFF));
 	}
-	if (cub->elem.c_values[0])
+	if (cub->elem.c_values[0] != -1)
 	{
 	cub->elem.c_color = (((cub->elem.c_values[0] & 0xFF) << 16)
 				| ((cub->elem.c_values[1] & 0xFF) << 8)
@@ -102,12 +102,9 @@ static void	get_color(t_cub *cub, int *loc_value, char **line, int idx)
 {
 	int		value_color;
 	int		nb_char_value;
-	char	*tmp_char_value;
 
 	nb_char_value = between_value(cub, idx, line);
-	tmp_char_value = ft_substr(*line, 0, nb_char_value);
-	value_color = ft_atoi(tmp_char_value);
-	free(tmp_char_value);
+	value_color = ft_atoi(*line);
 	check_value(cub, value_color);
 	if (*loc_value == -1)
 		*loc_value = value_color;
