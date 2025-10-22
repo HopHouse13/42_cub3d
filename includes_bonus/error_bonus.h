@@ -6,12 +6,12 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 23:53:06 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 00:45:21 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 01:38:08 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_H
-# define ERROR_H
+#ifndef ERROR_BONUS_H
+# define ERROR_BONUS_H
 
 # include "cub3d_bonus.h"
 

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 00:11:05 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 01:22:13 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 01:37:51 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,6 @@ typedef struct s_key_inpt
 	bool			key_d;
 	bool			key_left;
 	bool			key_right;
-	bool			key_m;
-
 }					t_key_inpt;
 
 typedef struct s_player
@@ -151,7 +149,6 @@ typedef struct s_psg
 	int				fd_file;
 	char			*line;
 }					t_psg;
-
 
 typedef struct s_cub
 {

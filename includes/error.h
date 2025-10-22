@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 23:53:06 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 00:22:07 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 01:35:35 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@
 # define PSG_EMPTY_LINE_ERR		"Empty line inside map"
 # define PSG_OPEN_MAP_ERR		"Map is not enclosed"
 # define PSG_NO_PLAYER_ERR		"No player on the map"
-# define PSG_DOOR_ERR			"Invalid door on the map"
-# define PSG_SP_MAX_ERR			"Too many sprites"
 # define MLX_TXTR_ERR			"Unable to initialize the textures"
 # define MLX_IMG_ERR			"Unable to initialize the images"
 # define MLX_PTR_ERR			"MLX initialization failed"

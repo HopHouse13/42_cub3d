@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/23 01:24:07 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 01:34:47 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void		handle_colors(t_cub *cub, char **line, t_key key_id);
 void		make_copy(t_cub *cub, char *mapfile);
 void		check_map(t_cub *cub, char *mapfile);
 void		empty_line(t_cub *cub);
-void		check_door(t_cub *cub);
 
 /// UTILITIES ///
 void		exit_door(t_cub *cub, char *err_id, char *item);

@@ -6,12 +6,12 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 00:04:22 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 01:02:05 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 01:38:17 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MACROS_H
-# define MACROS_H
+#ifndef MACROS_BONUS_H
+# define MACROS_BONUS_H
 
 # include "cub3d_bonus.h"
 

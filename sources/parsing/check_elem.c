@@ -45,7 +45,7 @@ static void	handle_get_elem(t_cub *cub, char **line, t_key key_id)
 static bool	key_finder(char **line, t_key key_id)
 {
 	static const char	*tab_keys[17] = {"NO ", "EA ", "SO ", "WE ",
-							"F ", "C "};
+		"F ", "C "};
 
 	if ((key_id < F && !ft_strncmp(*line, tab_keys[key_id], 3))
 		|| (key_id > WE && !ft_strncmp(*line, tab_keys[key_id], 2)))

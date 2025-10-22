@@ -6,12 +6,12 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 00:11:05 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 00:45:21 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 01:38:50 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTS_H
-# define STRUCTS_H
+#ifndef STRUCTS_BONUS_H
+# define STRUCTS_BONUS_H
 
 # include "cub3d_bonus.h"
 
