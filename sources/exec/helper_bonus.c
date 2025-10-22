@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 20:29:20 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 20:36:02 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 21:41:21 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,12 @@ void	save_ray_buffer(t_cub *cub, t_ray *ray, int x)
 	cub->buff[x].ray_dir.x = ray->ray_dir.x;
 	cub->buff[x].ray_dir.y = ray->ray_dir.y;
 	cub->buff[x].perp_wall_dist = ray->perp_wall_dist;
+}
+
+void	print_single_door(t_door *door)
+{
+	if (!PRINT_DEBUG)
+		return ;
+	printf("		Door coord{%d, %d} state[%d]\n",
+		door->pos.x, door->pos.y, door->state);
 }

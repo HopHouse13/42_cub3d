@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 16:24:59 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 20:22:42 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 21:22:48 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,11 @@ void	update_all_sprites(t_cub *cub)
 			update_sprite_animation(&cub->sprites[i], cub->player.frame_time);
 		if (fabs(cub->player.pos.x - cub->sprites[i].pos.x) < 0.5
 			&& fabs(cub->player.pos.y - cub->sprites[i].pos.y) < 0.5)
+		{
 			cub->sprites[i].active = false;
+			print_sprites(cub);
+			cub->sprites[i].print_debug = false;
+		}
 		i++;
 	}
 }

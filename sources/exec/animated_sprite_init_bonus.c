@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 18:42:19 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 20:36:51 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 21:08:22 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	init_single_sprite(t_sprite *sprite, int x, int y)
 	sprite->elapsed_time = 0.0;
 	sprite->distance = 0.0;
 	sprite->loop = true;
-	sprite->action = false;
+	sprite->print_debug = true;
 }
 
 void	init_sprites(t_cub *cub)

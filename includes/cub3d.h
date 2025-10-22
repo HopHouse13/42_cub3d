@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 20:35:10 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 21:38:10 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define MAP_VIEWPORT 1
 # define MAP_SCALED 2
 
-# define MAP_MODE 2
+# define MAP_MODE 1
 # define COLLISION 1
 # define PRINT_DEBUG 1
 # define BONUS 1
@@ -247,7 +247,7 @@ typedef struct s_door
 {
 	t_coord			pos;
 	t_door_state	state;
-	bool			action;
+	bool			print_debug;
 	double			offset;
 }				t_door;
 
@@ -274,13 +274,12 @@ typedef struct s_sprite
 {
 	t_vec		pos;
 	bool		active;
-	int			frame_count; // le nonbre de textures a charger
 	int			current_frame;
 	double		frame_duration;
 	double		elapsed_time;
 	double		distance;
 	bool		loop;
-	bool		action;
+	bool		print_debug;
 }				t_sprite;
 
 typedef struct s_ray_buffer
@@ -464,6 +463,7 @@ void		draw_ray_line(t_cub *cub, t_coord start, t_coord end);
 int			add_fog(double distance, int pxl_color);
 void		init_doors(t_cub *cub);
 void		print_doors(t_cub *cub);
+void		print_single_door(t_door *door);
 bool		is_door_closed(t_cub *cub, int x, int y);
 int			minimap_door_color(t_cub *cub, int x, int y);
 void		door_interaction(t_cub *cub);

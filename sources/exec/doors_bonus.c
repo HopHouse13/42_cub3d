@@ -6,13 +6,13 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 19:47:43 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 16:33:46 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 21:37:20 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void	update_door_state(t_door *door)
+void	update_door_state(t_cub *cub, t_door *door)
 {
 	if (door->state == OPENING)
 	{
@@ -21,6 +21,8 @@ void	update_door_state(t_door *door)
 		{
 			door->offset = 1.0;
 			door->state = OPEN;
+			door->print_debug = true;
+			print_doors(cub);
 		}
 	}
 	else if (door->state == CLOSING)
@@ -30,6 +32,8 @@ void	update_door_state(t_door *door)
 		{
 			door->offset = 0.0;
 			door->state = CLOSED;
+			door->print_debug = true;
+			print_doors(cub);
 		}
 	}
 }
@@ -47,7 +51,7 @@ void	update_doors(t_cub *cub)
 	i = 0;
 	while (i < cub->elem.doors_nb)
 	{
-		update_door_state(&(cub->doors[i]));
+		update_door_state(cub, &(cub->doors[i]));
 		i++;
 	}
 }
@@ -74,7 +78,7 @@ void	door_interaction(t_cub *cub)
 				door->state = CLOSING;
 			else if (door->state == CLOSING)
 				door->state = OPENING;
-			door->action = true;
+			door->print_debug = true;
 			print_doors(cub);
 		}
 	}
