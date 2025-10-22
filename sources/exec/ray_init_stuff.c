@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 17:31:52 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:46:01 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ static void	init_ptr_to_null(t_cub *cub)
 void	init_exec_data(t_cub *cub)
 {
 	init_ptr_to_null(cub);
-	// cub->window_width = (cub->map).max_col * TILE_SIZE / MAP_RATIO;
-	// cub->window_height = (cub->map).rows * TILE_SIZE / MAP_RATIO;
+	// cub->window_width = (cub->map).max_col * TILE_SIZE / MMAP_RATIO;
+	// cub->window_height = (cub->map).rows * TILE_SIZE / MMAP_RATIO;
 	cub->map.display_map = true;
 	cub->print_debug_cub = true;
 	cub->game_init = true;

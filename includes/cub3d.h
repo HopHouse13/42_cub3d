@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 17:36:12 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 18:38:34 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@
 
 // OPTIONS
 
-# define MAP_CIRCLE 1
-# define MAP_VIEWPORT 2
-# define MAP_SCALED 3
+# define MAP_VIEWPORT 1
+# define MAP_SCALED 2
+
 # define MAP_MODE 2
 # define COLLISION 1
 # define PRINT_DEBUG 1
@@ -48,43 +48,10 @@
 
 // Common minimap settings
 # define MNMAP_MARGIN 10
-
-
-// CIRCLE mode settings
-# if MAP_MODE == MAP_CIRCLE
-#  define MNMAP_RADIUS 128
-#  define MNMAP_CENTER_X (MNMAP_MARGIN + MNMAP_RADIUS)
-#  define MNMAP_CENTER_Y (MNMAP_MARGIN + MNMAP_RADIUS)
-#  define MNMAP_SCALE 16  // Pixels per tile in circle mode
-#  define MNMAP_W (MNMAP_RADIUS * 2)
-#  define MNMAP_H (MNMAP_RADIUS * 2)
-#  define MNMAP_X (MNMAP_MARGIN)
-#  define MNMAP_Y (MNMAP_MARGIN)
-
-// VIEWPORT mode settings
-# elif MAP_MODE == MAP_VIEWPORT
 #  define MNMAP_TILE_SIZE 16  // Fixed pixel size per tile
 #  define MNMAP_COLS 32  // How many tiles wide
 #  define MNMAP_ROWS 16  // How many tiles tall
 
-#  define MNMAP_X MNMAP_MARGIN
-#  define MNMAP_Y MNMAP_MARGIN
-
-// SCALED mode settings
-# elif MAP_MODE == MAP_SCALED
-#  define MNMAP_W 640
-#  define MNMAP_H 240
-#  define MNMAP_X MNMAP_MARGIN
-#  define MNMAP_Y MNMAP_MARGIN
-
-// Fallback for no mode selected
-# else
-#  define MAP_RATIO 3.5
-#  define MNMAP_W (WNDW_W / 5)
-#  define MNMAP_H (WNDW_H / 5)
-#  define MNMAP_X MNMAP_MARGIN
-#  define MNMAP_Y MNMAP_MARGIN
-# endif
 
 
 # define RGB_WHT 0xFFFFFF
@@ -111,21 +78,9 @@
 # define FOG_COLOR RGG_BLCK
 # define DOOR_ANIM_MS 60
 # define DOOR_ANIM_STEP 8
-# define DOOR_INTERACT 1.5
+# define DOOR_INTERACT 1.2
 # define MAX_SPRITES 100
 
-# define FOV 66
-// #  if FOV <= 0 || FOV >= 180
-// #   error "FOV must be between 0 and 180 degrees (exclusive)"
-// #  endif
-
-# define FOV_RAD (FOV * M_PI / 180.0)
-# define PLANE_MAG (round(tan(FOV_RAD / 2.0) * 100.0) / 100.0)
-
-# define MAP_RATIO 3.5
-// #  if MAP_RATIO <= 0 || MAP_RATIO >= 10
-// #  error "MAP_RATIO must be between 0 and 10 (exclusive)"
-// #  endif
 
 /* ************************************** RAYCASTER STRUCTS ********************************** */
 
@@ -333,8 +288,6 @@ typedef struct	s_cub
 	t_txtr		sp_txtr[10];
 
 
-	int			window_height;
-	int			window_width;
 	int			minimap_height;
 	int			minimap_width;
 
@@ -493,6 +446,10 @@ void		get_map_center(t_cub *cub, t_vec *map_center);
 double		get_map_scale(t_cub *cub);
 bool		is_in_minimap_circle(int x, int y);
 bool		ray_outside_minimap(t_cub *cub, t_ray *ray);
+t_vec		compute_2dray_impact(t_ray_buffer *buff, t_player *player);
+void		draw_ray_line(t_cub *cub, t_coord start, t_coord end);
+
+
 
 int			add_fog(double distance, int pxl_color);
 void		init_doors(t_cub *cub);
@@ -511,7 +468,6 @@ void		print_sprites(t_cub *cub);
 void		init_sp_txtr(t_cub *cub);
 void		print_sp_txtr_struct(t_txtr *txtr);
 void		update_all_sprites(t_cub *cub);
-// void		render_sprite(t_cub *cub, t_ray *ray, int x);;
 void		render_all_sprites(t_cub *cub);
 
 

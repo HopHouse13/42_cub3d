@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 20:25:05 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 17:39:42 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 18:18:17 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,13 @@ void	get_map_center(t_cub *cub, t_vec *map_center)
 // 1. Center of the rectangular minimap
 // 2. Convert screen position to relative offset from center
 // 3. Add center position (which may be clamped) to get map coordinates
-static void	screen_to_map_coords(t_cub *cub, t_coord pxl, t_vec map_center, t_vec *map_pos)
+static void	screen_to_map_coords(t_cub *cub, t_coord pxl, t_vec map_center,
+	t_vec *map_pos)
 {
 	t_vec	tile_offset;
 	t_coord	minimap_center;
 
-	minimap_center.x = MNMAP_MARGIN + cub->minimap_width/ 2;
+	minimap_center.x = MNMAP_MARGIN + cub->minimap_width / 2;
 	minimap_center.y = MNMAP_MARGIN + cub->minimap_height / 2;
 	tile_offset.x = (pxl.x - minimap_center.x) / (float)MNMAP_TILE_SIZE;
 	tile_offset.y = (pxl.y - minimap_center.y) / (float)MNMAP_TILE_SIZE;
@@ -116,8 +117,8 @@ void	render_map(t_cub *cub)
 	int		y;
 
 	get_map_center(cub, &map_center);
-	y = MNMAP_Y;
-	while (y < MNMAP_Y + cub->minimap_height)
+	y = MNMAP_MARGIN;
+	while (y < MNMAP_MARGIN + cub->minimap_height)
 	{
 		x = MNMAP_MARGIN;
 		while (x < MNMAP_MARGIN + cub->minimap_width)
