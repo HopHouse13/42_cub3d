@@ -6,27 +6,16 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:41:15 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 15:41:44 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 15:47:00 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-// static bool	outofbounds_dda_ray(t_cub *cub, t_ray *ray)
-// {
-// 	if (ray->map.y < 0
-// 		|| ray->map.y >= (int)cub->map.rows)
-// 		return (true);
-// 	if (ray->map.x < 0
-// 		|| ray->map.x >= (int)ft_strlen(cub->map.grid[ray->map.y]))
-// 		return (true);
-// 	return (false);
-// }
-
-// first check is removed outofbounds_dda_ray() helper function
+// first check is the removed outofbounds_dda_ray() helper function
 static bool	dda_ray_hit(t_cub *cub, t_ray *ray)
 {
-	t_door *door;
+	t_door	*door;
 
 	if (ray->map.y < 0 || ray->map.y >= (int)cub->map.rows)
 		return (true);
@@ -34,7 +23,7 @@ static bool	dda_ray_hit(t_cub *cub, t_ray *ray)
 		|| ray->map.x >= (int)ft_strlen(cub->map.grid[ray->map.y]))
 		return (true);
 	if (cub->map.grid[ray->map.y][ray->map.x] == '1')
-		return (true) ;
+		return (true);
 	if (cub->map.grid[ray->map.y][ray->map.x] == 'D')
 	{
 		door = which_door(cub, ray->map.x, ray->map.y);
@@ -43,7 +32,6 @@ static bool	dda_ray_hit(t_cub *cub, t_ray *ray)
 	}
 	return (false);
 }
-
 
 /* 6. Digital Differential Analysis: Casting the ray */
 static void	dda_loop(t_cub *cub, t_ray *ray)
@@ -63,8 +51,8 @@ static void	dda_loop(t_cub *cub, t_ray *ray)
 			ray->map.y += ray->step.y;
 			ray->side = 1;
 		}
-			if (dda_ray_hit(cub, ray))
-				ray->hit = 1;
+		if (dda_ray_hit(cub, ray))
+			ray->hit = 1;
 	}
 }
 

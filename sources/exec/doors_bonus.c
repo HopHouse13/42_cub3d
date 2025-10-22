@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doors_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
+/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 19:47:43 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 14:40:11 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 15:56:52 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,108 +15,64 @@
 #define SMOOTH 0
 #define CHUNKY 1
 
-
+// Calculate hit position within tile (0.0 to 1.0)
+// When offset = 0: door covers full tile [0, 1]
+// When offset = 1: door covers nothing
+// Ray hits if it's in the covered portion
 bool	should_ray_hit_door(t_cub *cub, t_ray *ray, t_door *door)
 {
 	double	hit_point;
 	double	door_edge;
 
-	(void)cub;
-
-	// Calculate hit position within tile (0.0 to 1.0)
 	if (ray->side == 0)
 		hit_point = cub->player.pos.y + ray->ray_dir.y
 					* (ray->side_dist.x - ray->delta_dist.x);
 	else
 		hit_point = cub->player.pos.x + ray->ray_dir.x
 					* (ray->side_dist.y - ray->delta_dist.y);
-
 	hit_point = hit_point - floor(hit_point);
-
-	// Door always slides to the RIGHT/BOTTOM
-	// When offset = 0: door covers full tile [0, 1]
-	// When offset = 1: door covers nothing
 	door_edge = 1.0 - door->offset;
-
-	// Ray hits if it's in the covered portion
 	return (hit_point < door_edge);
 }
-
-#if SMOOTH
-void	update_doors(t_cub *cub)
+void	update_door_state(t_door *door)
 {
-	int	i;
-
-	i = 0;
-	while (i < cub->elem.doors_nb)
+	if (door->state == OPENING)
 	{
-		if (cub->doors[i].state == OPENING)
+		door->offset += 1.0 / DOOR_ANIM_STEP;
+		if (door->offset >= 1.0)
 		{
-			cub->doors[i].offset += cub->doors[i].anim_speed
-									* cub->player.frame_time;
-			if (cub->doors[i].offset >= 1.0)
-			{
-				cub->doors[i].offset = 1.0;
-				cub->doors[i].state = OPEN;
-				cub->doors[i].action = true;
-			}
+			door->offset = 1.0;
+			door->state = OPEN;
 		}
-		else if (cub->doors[i].state == CLOSING)
+	}
+	else if (door->state == CLOSING)
+	{
+		door->offset -= 1.0 / DOOR_ANIM_STEP;
+		if (door->offset <= 0.0)
 		{
-			cub->doors[i].offset -= cub->doors[i].anim_speed
-									* cub->player.frame_time;
-			if (cub->doors[i].offset <= 0.0)
-			{
-				cub->doors[i].offset = 0.0;
-				cub->doors[i].state = CLOSED;
-				cub->doors[i].action = true;
-			}
-			print_doors(cub);
+			door->offset = 0.0;
+			door->state = CLOSED;
 		}
-		i++;
 	}
 }
 
-#elif CHUNKY
 void	update_doors(t_cub *cub)
 {
-	int			i;
-	static long	last_update = 0;
-	long		current_time;
+	int				i;
+	static double	last_update = 0;
+	double			current_time;
 
-	current_time = cub->player.time;  // Already in milliseconds
-
-	if (current_time - last_update < DOOR_ANIM_MS)  // Update every 80ms = ~12 FPS
+	current_time = cub->player.time;
+	if (current_time - last_update < DOOR_ANIM_MS)
 		return;
-
 	last_update = current_time;
-
 	i = 0;
 	while (i < cub->elem.doors_nb)
 	{
-		if (cub->doors[i].state == OPENING)
-		{
-			cub->doors[i].offset += 1.0 / DOOR_ANIM_STEP;  // 8 steps total
-			if (cub->doors[i].offset >= 1.0)
-			{
-				cub->doors[i].offset = 1.0;
-				cub->doors[i].state = OPEN;
-			}
-		}
-		else if (cub->doors[i].state == CLOSING)
-		{
-			cub->doors[i].offset -= 1.0 / DOOR_ANIM_STEP;
-			if (cub->doors[i].offset <= 0.0)
-			{
-				cub->doors[i].offset = 0.0;
-				cub->doors[i].state = CLOSED;
-			}
-		}
+		update_door_state(&(cub->doors[i]));
 		i++;
 	}
 }
-
-#endif
 
 t_door	*which_door(t_cub *cub, int x, int y)
 {
