@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:28:01 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 18:38:34 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 18:46:59 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,12 +326,6 @@ typedef struct	s_ray
 	int			draw_end;
 }				t_ray;
 
-typedef struct s_minimap
-{
-	t_vec	map_center;
-	t_coord	center;
-
-}			t_minimap;
 
 
 

@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 16:24:59 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/22 16:38:26 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/22 18:55:00 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,28 +127,11 @@ void	sort_sprites(t_sp_render *sprites, int sprite_nb)
 	}
 }
 
-int	count_active_sprites(t_cub *cub)
+int	fill_sorted_sprite_order(t_cub *cub, t_sp_render *sp_order)
 {
-	int	i;
-	int	active_count;
-
-	i = 0;
-	active_count = 0;
-	while (i < cub->elem.sprite_nb)
-	{
-		if (cub->sprites[i].active)
-			active_count++;
-		i++;
-	}
-	return (active_count);
-}
-
-void	render_all_sprites(t_cub *cub)
-{
-	t_sp_render	sp_order[MAX_SPRITES];
 	int			i;
-	t_vec		delta;
 	int			active_sprites;
+	t_vec		delta;
 
 	active_sprites = 0;
 	i = 0;
@@ -166,33 +149,25 @@ void	render_all_sprites(t_cub *cub)
 		i++;
 	}
 	sort_sprites(sp_order, active_sprites);
+	return (active_sprites);
+}
 
+void	render_all_sprites(t_cub *cub)
+{
+	t_sp_render	sp_order[MAX_SPRITES];
+	int			i;
+	int			active_sprites;
+
+	active_sprites = fill_sorted_sprite_order(cub, sp_order);
 	i = 0;
 	while (i < active_sprites)
 	{
 		if (cub->sprites[sp_order[i].sprite_idx].active)
-			render_single_sprite(cub, &cub->sprites[sp_order[i].sprite_idx], sp_order[i].sprite_idx);
+			render_single_sprite(cub, &cub->sprites[sp_order[i].sprite_idx],
+				sp_order[i].sprite_idx);
 		i++;
 	}
 }
-
-
-//void	count_sprites(t_cub *cub)
-//{
-//	int		i;
-//	int		j;
-
-//	i = -1;
-//	while (cub->map.grid[++i])
-//	{
-//		j = -1;
-//		while (cub->map.grid[i][++j])
-//		{
-//			if (cub->map.grid[i][j] == 'C')
-//				cub->elem.sprite_nb++;
-//		}
-//	}
-//}
 
 void	update_sprite_animation(t_sprite *sprite, double frame_time)
 {
@@ -220,8 +195,6 @@ void	update_all_sprites(t_cub *cub)
 	{
 		if (cub->sprites[i].active)
 			update_sprite_animation(&cub->sprites[i], cub->player.frame_time);
-		// if (cub->sprites[i].distance < 0.5)
-		// 	cub->sprites[i].active = false;
 		if (fabs(cub->player.pos.x - cub->sprites[i].pos.x) < 0.5
 			&& fabs(cub->player.pos.y - cub->sprites[i].pos.y) < 0.5)
 			cub->sprites[i].active = false;
@@ -229,48 +202,3 @@ void	update_all_sprites(t_cub *cub)
 	}
 }
 
-void	init_single_sprite(t_sprite *sprite, int x, int y)
-{
-	sprite->pos = (t_vec){x + 0.5, y + 0.5};
-	sprite->active = true;
-	sprite->frame_count = 10;
-	sprite->current_frame = 0;
-	sprite->frame_duration = 0.2;
-	sprite->elapsed_time = 0.0;
-	sprite->distance = 0.0;
-	sprite->loop = true;
-	sprite->action = false;
-}
-
-void		init_sprites(t_cub *cub)
-{
-	int	i;
-	int	j;
-	int	sprite_idx;
-
-	sprite_idx = 0;
-	//count_sprites(cub);
-	printf("count_sprites counted cub->elem.sprite_nb = %d\n", cub->elem.sprite_nb);
-	if (cub->elem.sprite_nb == 0)
-		return ;
-	if (cub->elem.sprite_nb > MAX_SPRITES)
-		cleanup_mlx(cub, MLX_OTHER_ERR);
-	cub->sprites = malloc(sizeof(t_sprite) * cub->elem.sprite_nb);
-	if (!cub->sprites)
-		cleanup_mlx(cub, MLX_OTHER_ERR);
-
-	i = -1;
-	while (cub->map.grid[++i])
-	{
-		j = -1;
-		while (cub->map.grid[i][++j])
-		{
-			if (cub->map.grid[i][j] == 'C')
-			{
-				init_single_sprite(&cub->sprites[sprite_idx], j, i);
-				sprite_idx++;
-			}
-		}
-	}
-	print_sprites(cub);
-}
