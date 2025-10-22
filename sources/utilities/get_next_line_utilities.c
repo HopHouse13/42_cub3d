@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:01:54 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/22 18:10:29 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/22 20:38:52 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*gnl_strdup(const char *s, char **err_id)
 	dup = malloc(sizeof(char) * (s_len + 1));
 	if (dup == NULL)
 	{
-		*err_id = PSG_ALLOC_ERR;
+		*err_id = ALLOC_ERR;
 		return (NULL);
 	}
 	i = 0;
@@ -48,7 +48,7 @@ char	*gnl_strjoin(const char *s1, const char *s2, char **err_id)
 	dest = malloc(sizeof(char) * (dest_len + 1));
 	if (dest == NULL)
 	{
-		*err_id = PSG_ALLOC_ERR;
+		*err_id = ALLOC_ERR;
 		return (NULL);
 	}
 	i = -1;

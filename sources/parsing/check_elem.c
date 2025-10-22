@@ -103,7 +103,7 @@ void	check_elem(t_cub *cub, char *mapfile)
 	while (cub->elem.e_counter < 17)
 	{
 		cub->psg.line = get_next_line(cub->psg.fd_file, &err_id, false);
-		if (!ft_strcmp(err_id, PSG_ALLOC_ERR))
+		if (!ft_strcmp(err_id, ALLOC_ERR))
 			exit_door(cub, err_id, NULL);
 		if (!cub->psg.line)
 			exit_door(cub, PSG_MISS_PARAM_ERR, NULL);
