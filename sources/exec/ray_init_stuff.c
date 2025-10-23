@@ -6,7 +6,7 @@
 /*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 01:10:53 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 01:40:03 by tjacquel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	init_player(t_cub *cub, t_player *player)
 	player->frame_time = 0;
 	player->rot_speed = 0;
 	player->move_speed = 0;
-	player->kbrd = (t_key_inpt){0, 0, 0, 0, 0, 0, 1};
+	player->kbrd = (t_key_inpt){0, 0, 0, 0, 0, 0};
 	player->moves = 0;
 }
 

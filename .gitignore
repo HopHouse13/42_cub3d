@@ -4,3 +4,6 @@
 cub3D
 cub3D_bonus
 output.txt
+valgrind_mandatory.log
+valgrind_bonus.log
+*tmp
