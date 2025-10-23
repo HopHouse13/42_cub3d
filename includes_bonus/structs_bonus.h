@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 00:11:05 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 01:38:50 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 14:53:09 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef enum e_door_state
 	CLOSING,
 	OPENING,
 	OPEN,
-}					t_door_state;
+}			t_door_state;
 
 typedef enum e_key
 {
@@ -46,7 +46,7 @@ typedef enum e_key
 	s9,
 	F,
 	C,
-}					t_key;
+}			t_key;
 
 /* ========================================================================== */
 /*                                HELPER_STRUCTS                              */

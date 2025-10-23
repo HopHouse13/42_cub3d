@@ -1,6 +1,6 @@
 NO ./textures/heavy_txtr/pbret_256.xpm
-SO ./textures/heavy_txtr/tjacquel_26.xpm
-WE ./textures/heavy_txtr/pbret_512.xpm
+SO ./textures/heavy_txtr/tjacquel_512.xpm
+WE ./textures/heavy_txtr/pbret_256.xpm
 EA ./textures/heavy_txtr/tjacquel_512.xpm
 
 F 192,135,134
