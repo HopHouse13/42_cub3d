@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 23:53:06 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 01:38:08 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/23 15:10:30 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define PSG_OPEN_FILE_ERR		"Unable to open the .cub file"
 # define PSG_READ_FILE_ERR		"Unable to read the .cub file"
 # define PSG_MISS_PARAM_ERR		"Missing parameters"
-# define PSG_NO_KEY_ERR			"Missing map elements"
+# define PSG_NO_KEY_ERR			"Map elements error"
 # define PSG_LINE_FT_ERR		"Invalid line format"
 # define PSG_DUP_PATH_ERR		"Duplicate texture path definition"
 # define PSG_DUP_COLOR_ERR		"Duplicate color definition"
