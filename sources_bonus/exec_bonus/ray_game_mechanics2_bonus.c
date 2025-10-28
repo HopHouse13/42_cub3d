@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_game_mechanics2_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 22:17:36 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 00:46:29 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:13:58 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_vec	rotation_matrix(t_vec vec, double angle, bool mouse)
 	t_vec	rotated;
 
 	if (mouse)
-		angle /= 1.5;
+		angle /= MOUSE_SENSIVITY_RATIO;
 	rotated.x = vec.x * cos(angle) - vec.y * sin(angle);
 	rotated.y = vec.x * sin(angle) + vec.y * cos(angle);
 	return (rotated);

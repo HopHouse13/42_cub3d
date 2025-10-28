@@ -6,7 +6,7 @@
 /*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 00:11:05 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 14:53:09 by pbret            ###   ########.fr       */
+/*   Updated: 2025/10/28 18:12:46 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,8 @@ typedef struct s_txtr
 
 typedef struct s_psg
 {
+	int				tmp_fd;
+	int				tmp_read;
 	int				fd_file;
 	char			*line;
 }					t_psg;

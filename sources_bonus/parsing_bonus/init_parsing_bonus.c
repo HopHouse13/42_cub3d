@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_parsing_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 19:34:06 by pbret             #+#    #+#             */
-/*   Updated: 2025/10/23 00:46:29 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/28 18:13:26 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	init_parsing_data(t_cub *cub)
 {
 	int	i;
 
+	cub->psg.tmp_fd = -1;
+	cub->psg.tmp_read = -1;
 	cub->psg.fd_file = -1;
 	cub->psg.line = NULL;
 	cub->map.grid = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_exit_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 20:37:49 by pab               #+#    #+#             */
-/*   Updated: 2025/10/23 00:46:29 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/28 18:11:50 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ static void	free_elem(t_cub *cub)
 // Otherwise -> exit with code 2.
 static void	free_parsing(t_cub *cub, char *err_id)
 {
+	if (cub->psg.tmp_fd != -1)
+		close(cub->psg.tmp_fd);
+	if (cub->psg.tmp_read != -1)
+		close(cub->psg.tmp_read);
 	if (cub->psg.fd_file >= 0)
 		close(cub->psg.fd_file);
 	if (cub->psg.line)

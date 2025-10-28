@@ -6,7 +6,7 @@ EA ./textures/basic_txtr/street4_256.xpm
 DO ./textures/door_txtr/bataclan_door.xpm
 
 F 220,100,55
-C 225,80,-6
+C 225,80,6
 
 
 s0 ./textures/spinning_coin/coin0.xpm

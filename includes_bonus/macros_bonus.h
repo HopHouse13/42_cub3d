@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   macros_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 00:04:22 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 01:38:17 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:11:34 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@
 
 # define WNDW_W 1920
 # define WNDW_H 1080
-# define TILE_SIZE 64
-# define PLAYER_SIZE 8
 # define MNMAP_MARGIN 10
 # define MNMAP_TILE_SIZE 16
 # define MNMAP_COLS 32
@@ -55,6 +53,8 @@
 # define DOOR_INTERACT 1.2
 # define MAX_SPRITES 100
 # define SP_FRAMES 10
+# define SP_INTERACT 0.5
+# define MOUSE_SENSIVITY_RATIO 3.5
 
 /* ========================================================================== */
 /*                                RGB_VALUES                                  */

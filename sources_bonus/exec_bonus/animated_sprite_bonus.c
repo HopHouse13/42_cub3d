@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   animated_sprite_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 16:24:59 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 00:46:29 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:10:06 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ void	update_all_sprites(t_cub *cub)
 	{
 		if (cub->sprites[i].active)
 			update_sprite_animation(&cub->sprites[i], cub->player.frame_time);
-		if (fabs(cub->player.pos.x - cub->sprites[i].pos.x) < 0.5
-			&& fabs(cub->player.pos.y - cub->sprites[i].pos.y) < 0.5)
+		if (fabs(cub->player.pos.x - cub->sprites[i].pos.x) < SP_INTERACT
+			&& fabs(cub->player.pos.y - cub->sprites[i].pos.y) < SP_INTERACT)
 		{
 			cub->sprites[i].active = false;
 			print_sprites(cub);

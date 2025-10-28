@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_init_stuff_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjacquel <tjacquel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbret <pbret@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 15:01:42 by tjacquel          #+#    #+#             */
-/*   Updated: 2025/10/23 00:46:45 by tjacquel         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:18:00 by pbret            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ void	init_player_time(t_cub *cub, t_player *player)
 	player->old_time = player->time;
 	player->time = date_in_ms(cub) - player->start_time;
 	player->frame_time = (player->time - player->old_time) / 1000.0;
-	player->move_speed = player->frame_time * 5.0;
+	player->move_speed = player->frame_time * MOVE_SPPED_MULT;
 	if (player->move_speed > 0.5)
 		player->move_speed = 0.49;
-	player->rot_speed = player->frame_time * 3.0;
+	player->rot_speed = player->frame_time * ROT_SPEED_MULT;
 	if (player->rot_speed > 0.5)
 		player->rot_speed = 0.49;
 }
